@@ -1,0 +1,28 @@
+<div class="login-reg-panel pt-12" style="margin-top:300px">
+
+
+  <div class="register-info-box animated jackInTheBox" [ngClass]="{'show-log-panel': isLogin}">
+    <h2>Don't have an account?</h2>
+    <p>Join Here</p>
+    <label id="label-login" for="log-login-show" *ngIf="isLogin" (click)="isRegister($event)">Register</label>
+    <label id="label-register" for="log-reg-show" *ngIf="!isLogin" (click)="isLog_in($event)">Login</label>
+    <input type="radio" name="active-log-panel" id="log-login-show">
+  </div>
+
+  <div class="white-panel">
+    <div class="login-show animated jackInTheBox" [ngClass]="{'show-log-panel': isLogin}">
+      <h2>LOGIN</h2>
+      <input #userid class="animated" [ngClass]="{'shake': islog}" type="text" placeholder="user id">
+      <input #password class="animated" [ngClass]="{'shake': islog}" type="password" placeholder="Password">
+      <input type="button" (click)="login($event,userid,password)" value="Login">
+      <a href="">Forgot password?</a><br />
+    </div>
+    <div class="register-show  animated jackInTheBox" [ngClass]="{'show-log-panel': !isLogin}">
+      <h2>REGISTER</h2>
+      <input #token type="text" class="animated" [ngClass]="{'shake': isRegis}" placeholder="Token">
+      <!-- <input type="password" class="animated" [ngClass]="{'shake': isRegis}" placeholder="Password">
+            <input type="password" class="animated" [ngClass]="{'shake': isRegis}" placeholder="Confirm Password"> -->
+      <input (click)="register(token)" type="button" value="Validate">
+    </div>
+  </div>
+</div>

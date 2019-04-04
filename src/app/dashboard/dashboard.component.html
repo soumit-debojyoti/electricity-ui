@@ -1,0 +1,141 @@
+<div class="w3-row">
+  <!-- Left Column -->
+  <div class="w3-col m3">
+    <!-- Profile -->
+    <app-profile></app-profile>
+    <br>
+
+    <!-- Accordion -->
+    <div class="w3-card w3-round animated slideInUp">
+      <app-report></app-report>
+    </div>
+    <br>
+
+    <!-- Interests -->
+    <div class="w3-card w3-round w3-white w3-hide-small animated slideInUp">
+      <app-rank-achiever-list></app-rank-achiever-list>
+    </div>
+    <br>
+
+    <div class="w3-card w3-round w3-white w3-hide-small animated slideInUp">
+      <app-permission></app-permission>
+    </div>
+    <br>
+
+
+    <div class="w3-card w3-round animated slideInUp">
+      <app-tds-charge></app-tds-charge>
+    </div>
+    <br>
+
+
+    <!-- Alert Box -->
+    <app-notification></app-notification>
+
+    <!-- End Left Column -->
+  </div>
+
+  <!-- Middle Column -->
+  <div class="w3-col m7">
+
+    <div class="w3-row-padding animated slideInUp">
+      <div class="w3-col m12">
+        <div class="w3-card w3-round w3-white">
+          <app-post></app-post>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="w3-row-padding">
+      <div class="w3-half w3-margin-bottom animated slideInUp">
+        <div class="w3-card w3-round w3-white">
+          <app-balance-request></app-balance-request>
+        </div>
+      </div>
+      <div class="w3-half w3-margin-bottom animated slideInUp">
+        <div class="w3-card w3-round w3-white">
+          <app-add-operator></app-add-operator>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="w3-row-padding animated slideInUp">
+      <div class="w3-half w3-margin-bottom">
+        <div class="w3-card w3-round w3-white">
+          <app-add-api></app-add-api>
+        </div>
+      </div>
+      <div class="w3-half w3-margin-bottom animated slideInUp">
+        <div class="w3-card w3-round w3-white">
+          <app-commission-setting></app-commission-setting>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="w3-row-padding animated slideInUp">
+      <div class="w3-half w3-margin-bottom">
+        <div class="w3-card w3-round w3-white">
+          <app-widthdrawal-request></app-widthdrawal-request>
+        </div>
+      </div>
+      <div class="w3-half w3-margin-bottom animated slideInUp">
+        <div class="w3-card w3-round w3-white">
+          <app-add-employee></app-add-employee>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="w3-row-padding animated slideInUp">
+      <div class="w3-half w3-margin-bottom">
+        <div class="w3-card w3-round w3-white">
+          <app-admin-profile></app-admin-profile>
+        </div>
+      </div>
+      <div class="w3-half w3-margin-bottom animated slideInUp">
+        <div class="w3-card w3-round w3-white">
+          <app-api-balance></app-api-balance>
+        </div>
+      </div>
+    </div>
+    <app-content></app-content>
+
+    <!-- End Middle Column -->
+  </div>
+
+  <!-- Right Column -->
+  <div class="w3-col m2">
+    <div class="w3-card w3-round w3-white w3-center animated flipInX">
+      <app-news-update></app-news-update>
+    </div>
+    <br>
+
+    <div *ngIf="isAdmin" class="w3-card w3-round w3-white w3-center animated flipInX">
+      <app-generate-token></app-generate-token>
+    </div>
+    <br>
+
+    <div class="w3-card w3-round w3-white w3-padding-16 w3-center animated flipInX">
+      <app-add-wallet-balance></app-add-wallet-balance>
+    </div>
+    <br>
+
+    <div class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX">
+      <app-add-wallet-balance-admin></app-add-wallet-balance-admin>
+    </div>
+    <br>
+
+    <div class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX">
+      <app-deduct-wallet-balance></app-deduct-wallet-balance>
+    </div>
+
+    <br>
+
+    <div class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX">
+      <app-wallet-balance-report></app-wallet-balance-report>
+    </div>
+
+    <!-- End Right Column -->
+  </div>
+
+  <!-- End Grid -->
+</div>

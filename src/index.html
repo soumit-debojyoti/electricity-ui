@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<title>Soumit</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/propeller.min.js"></script>
+<script src="assets/js/moment.js"></script>
+<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" href="assets/css/pmd-datetimepicker.css">
+<link rel="stylesheet" href="assets/fonts/icon.css">
+<link rel="stylesheet" href="assets/css/w3.css">
+<link rel="stylesheet" href="assets/css/w3-theme-blue-grey.css">
+<link rel='stylesheet' href='assets/css/css.css'>
+<link rel="stylesheet" href="assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/animate.css">
+<style>
+  html,
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: "Open Sans", sans-serif
+  }
+</style>
+
+<head>
+  <script>
+    // Date picker only
+    $('#datepicker').datetimepicker({
+      format: 'DD-MM-YYYY'
+    });
+  </script>
+  <base href="/">
+</head>
+
+<body class="w3-theme-l5" style="background-color:#e9ecef !important;">
+  <!-- Navbar -->
+
+  <app-root></app-root>
+
+
+
+  <!-- Footer -->
+  <footer class="w3-container w3-theme-d3 w3-padding-16">
+    <h5>Footer</h5>
+  </footer>
+
+  <footer class="w3-container w3-theme-d5">
+    <p>Powered by <a href="#" target="_blank">Soumit</a></p>
+  </footer>
+
+  <script>
+    // Accordion
+    function myFunction(id) {
+      var x = document.getElementById(id);
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+        x.previousElementSibling.className += " w3-theme-d1";
+      } else {
+        x.className = x.className.replace("w3-show", "");
+        x.previousElementSibling.className =
+          x.previousElementSibling.className.replace(" w3-theme-d1", "");
+      }
+    }
+
+    // Used to toggle the menu on smaller screens when clicking on the menu button
+    function openNav() {
+      var x = document.getElementById("navDemo");
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else {
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
+  </script>
+
+
+</body>
+
+</html>
