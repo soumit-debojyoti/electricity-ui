@@ -103,6 +103,9 @@ export class RegisterComponent implements OnInit {
         debugger;
         alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
         this.router.navigate(['/login']);
+      },()=>{
+        alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
+        this.router.navigate(['/login']);
       });
 
 
