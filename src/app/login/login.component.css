@@ -147,6 +147,12 @@ a{
   text-decoration:none;
   color:#2c7715;
 }
+
+.login-error{
+    color: chocolate;
+    position: relative;
+    top: 34px;
+}
     
     
     

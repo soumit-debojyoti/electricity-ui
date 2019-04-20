@@ -16,6 +16,8 @@
       <input #password class="animated" [ngClass]="{'shake': islog}" type="password" placeholder="Password">
       <input type="button" (click)="login($event,userid,password)" value="Login">
       <a href="">Forgot password?</a><br />
+      <span class="login-error animated jackInTheBox" *ngIf="!isLoginSuccess">Username or password is
+        invalid....</span><br />
     </div>
     <div class="register-show  animated jackInTheBox" [ngClass]="{'show-log-panel': !isLogin}">
       <h2>REGISTER</h2>
@@ -23,6 +25,7 @@
       <!-- <input type="password" class="animated" [ngClass]="{'shake': isRegis}" placeholder="Password">
             <input type="password" class="animated" [ngClass]="{'shake': isRegis}" placeholder="Confirm Password"> -->
       <input (click)="register(token)" type="button" value="Validate">
+      <span class="login-error animated jackInTheBox" *ngIf="!isRegisterSuccess">Please provide a token</span><br />
     </div>
   </div>
 </div>

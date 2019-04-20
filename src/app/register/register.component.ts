@@ -7,6 +7,8 @@ import { IdProof } from '../models/idproof.model';
 import { HttpEventType } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service/user.service';
+import { State } from '../models/state.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -19,6 +21,7 @@ export class RegisterComponent implements OnInit {
   introducer_code: string;
   public genders: any;
   public idProofs: Array<IdProof> = [];
+  public states: Array<State> = [];
   public addressProofs: Array<AddressProof> = [];
   public selectedIdProof: IdProof;
   public selectedAddressProof: AddressProof;
@@ -29,7 +32,9 @@ export class RegisterComponent implements OnInit {
   public messageAddressProof: string;
   public messagePhoto: string;
 
-  constructor(private common: CommonService, private userService: UserService, private formBuilder: FormBuilder, @Inject(LOCAL_STORAGE) private storage: WebStorageService) { }
+  constructor(private common: CommonService,
+    private userService: UserService, private formBuilder: FormBuilder,
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router) { }
 
   ngOnInit() {
 
@@ -46,6 +51,7 @@ export class RegisterComponent implements OnInit {
     this.registerForm.controls['uploaddocumentaddress'].disable();
     this.getAddressProof();
     this.getIdProof();
+    this.getStates();
   }
 
   // convenience getter for easy access to form fields
@@ -95,11 +101,13 @@ export class RegisterComponent implements OnInit {
     this.userService.registerUser(formDataregister)
       .subscribe((response) => {
         debugger;
+        alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
+        this.router.navigate(['/login']);
       });
 
 
 
-    alert('SUCCESS!! :-)')
+
   }
 
 
@@ -190,6 +198,15 @@ export class RegisterComponent implements OnInit {
       .subscribe((response: Array<IdProof>) => {
         debugger;
         this.idProofs = response;
+      });
+  }
+
+  public getStates(): void {
+    debugger;
+    this.common.getState()
+      .subscribe((response: Array<State>) => {
+        debugger;
+        this.states = response;
       });
   }
 

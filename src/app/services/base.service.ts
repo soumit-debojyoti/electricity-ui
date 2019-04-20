@@ -7,6 +7,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { map } from 'rxjs/operators/map';
 import { environment } from '../../environments/environment';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -44,24 +45,37 @@ export class BaseService {
 
   }
 
-  post(url: string, urlParamObject: any, queryparam: any, formBody: any, bypassInterceptor: boolean = false): Observable<any> {
+  post(url: string, formBody: any, bypassInterceptor: boolean = false): Observable<any> {
     debugger;
-    if (queryparam.updates != null) {
-      this.queryParam = { params: queryparam };
-    }
-    else {
-      this.queryParam = {};
-    }
 
     if (bypassInterceptor) {
+      let headers = new HttpHeaders();
+      headers.append("Content-Type", "application/json");
+      headers.append("access-control-allow-origin", "*");
       this.httpClient = new HttpClient(this.handler);
-      return this.httpClient.post(this.rootURL + url, formBody, this.queryParam)
-        .catch(this.errorHandler);
+      return this.httpClient.post(url, formBody, { headers: headers })
+        .pipe(
+          catchError(this.errorHandler));
     }
     else {
-      return this.http.post(this.rootURL + url, formBody, this.queryParam)
+      return this.http.post<any>(url, formBody, this.queryParam)
         .catch(this.errorHandler);
     }
+
+
+  }
+
+  post1(url: string, formBody: any): Observable<any> {
+    debugger;
+
+
+
+    let headers = new HttpHeaders();
+    headers.set('content-type', 'application/json');
+    //headers.append("access-control-allow-origin", "*");
+    this.httpClient = new HttpClient(this.handler);
+    return this.httpClient.post(url, formBody, { headers })
+      .catch(this.errorHandler);
 
 
   }

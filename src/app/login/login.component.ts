@@ -11,6 +11,8 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  public isLoginSuccess: boolean = true;
+  public isRegisterSuccess: boolean = true;
   public isLogin: boolean = true;
   public islog: boolean = false;
   public isRegis: boolean = false;
@@ -20,17 +22,25 @@ export class LoginComponent implements OnInit {
   constructor(private auth: AuthService, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router) { }
 
   ngOnInit() {
+    this.isLoginSuccess = true;
+    this.isRegisterSuccess = true;
   }
 
   public isRegister(): void {
+    this.isLoginSuccess = true;
+    this.isRegisterSuccess = true;
     this.isLogin = false;
     this.islog = false;
     this.isRegis = true;
+
   }
   public isLog_in(): void {
+    this.isLoginSuccess = true;
+    this.isRegisterSuccess = true;
     this.isLogin = true;
     this.islog = true;
     this.isRegis = false;
+
   }
 
 
@@ -40,13 +50,14 @@ export class LoginComponent implements OnInit {
     this.auth.login(username.value, password.value)
       .subscribe((res) => {
         debugger;
-
+        this.isLoginSuccess = true;
 
         this.storage.set("access_token", res.access_token);
         //alert("Login success....");
         this.router.navigate(['/dashboard']);
       },
         error => {
+          this.isLoginSuccess = false;
           debugger;
           this.errorMsg = error;
           console.log("We got error", error.message);
@@ -63,6 +74,7 @@ export class LoginComponent implements OnInit {
     this.auth.register(token.value)
       .subscribe((response: boolean) => {
         debugger;
+        this.isRegisterSuccess = true;
         if (response) {
           this.storage.set("introducer_code", this.introducer_code);
           this.router.navigateByUrl('/register');
@@ -70,6 +82,8 @@ export class LoginComponent implements OnInit {
         else {
           alert("Token is not valid........");
         }
+      }, () => {
+        this.isRegisterSuccess = false;
       });
 
 

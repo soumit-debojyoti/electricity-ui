@@ -8,20 +8,31 @@ import 'rxjs/add/observable/throw';
 import { map } from 'rxjs/operators/map';
 import { Router } from "@angular/router";
 import { BaseService } from '../base.service';
+import { ApiUrlService } from '../api.url.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private http: HttpClient, private baseService: BaseService) { }
+  constructor(private router: Router,
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService,
+    private http: HttpClient,
+    private baseService: BaseService, private apiUrlService: ApiUrlService) { }
 
 
-  public registerUser(formdata: FormData) {
-    var url: string = `user/registeruser`;
-    let params = new HttpParams();
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.baseService.post(url, {}, options, JSON.stringify(formdata), true);
+  public registerUser(formdata: FormData): Observable<any> {
+    debugger;
+    const urlStringObject = {
+
+    };
+
+
+    const mainURL = this.apiUrlService.getFullURL('REGISTER_USER', urlStringObject);
+    debugger;
+    return this.baseService.post(mainURL, formdata, true)
+      .pipe(map((response: any) => {
+        return response;
+      }));
   }
 }
