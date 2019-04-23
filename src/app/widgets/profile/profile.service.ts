@@ -2,18 +2,22 @@ import { Injectable } from '@angular/core';
 import { BaseService } from '../../services/base.service';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
+import { ApiUrlService } from 'src/app/services/api.url.service';
 
 @Injectable()
 export class ProfileService {
 
-  constructor(private baseService: BaseService) { }
+  constructor(private baseService: BaseService, private apiUrlService: ApiUrlService) { }
 
   public GetUser(user_name: string): Observable<any> {
-    debugger;
-    var url: string = `user/users/${user_name}`;
+    //var url: string = `user/users/${user_name}`;
     let params = new HttpParams();
     params = params.append('text', 'tytytyt');
     params = params.append('text1', 'bocachoda');
-    return this.baseService.get(url, {}, params);
+    const urlStringObject = {
+      user_name: user_name
+    };
+    const mainURL = this.apiUrlService.getFullURL('USER_DATA', urlStringObject);
+    return this.baseService.get(mainURL, {}, params);
   }
 }

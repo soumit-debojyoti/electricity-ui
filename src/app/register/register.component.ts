@@ -9,6 +9,7 @@ import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service/user.service';
 import { State } from '../models/state.model';
 import { Router } from '@angular/router';
+import { RegisterUserResponse } from '../models/registeruser.model';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +19,10 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
-  introducer_code: string;
+  public introducer_code: string;
+  public is_employee_value: string;
+  public isEmployee: boolean;
+  public introducer_name: string;
   public genders: any;
   public idProofs: Array<IdProof> = [];
   public states: Array<State> = [];
@@ -45,7 +49,12 @@ export class RegisterComponent implements OnInit {
       { 'id': 3, 'name': 'Trans' },
       { 'id': 4, 'name': 'NA' }
     ];
+    this.is_employee_value = this.storage.get("is_employee");
+    if (this.is_employee_value == 'true') {
+      this.isEmployee = true;
+    }
     this.introducer_code = this.storage.get("introducer_code");
+    this.introducer_name = this.storage.get("introducer_name");
     this.initiateRegitrationForm();;
     this.registerForm.controls['uploaddocumentid'].disable();
     this.registerForm.controls['uploaddocumentaddress'].disable();
@@ -63,8 +72,13 @@ export class RegisterComponent implements OnInit {
     // stop here if form is invalid
 
     let formDataregister: FormData = new FormData();
-    formDataregister.append('introcode', this.registerForm.get('introcode').value);
-    formDataregister.append('introname', this.registerForm.get('introname').value);
+    if (!this.isEmployee) {
+      formDataregister.append('introcode', this.registerForm.get('introcode').value);
+      formDataregister.append('introname', this.registerForm.get('introname').value);
+
+    }
+    formDataregister.append('isEmployee', this.isEmployee ? 'true' : 'false');
+
     formDataregister.append('username', this.registerForm.get('username').value);
     formDataregister.append('password', this.registerForm.get('password').value);
     formDataregister.append('firstName', this.registerForm.get('firstName').value);
@@ -99,13 +113,16 @@ export class RegisterComponent implements OnInit {
     formDataregister.append('payonline', this.registerForm.get('payonline').value);
 
     this.userService.registerUser(formDataregister)
-      .subscribe((response) => {
+      .subscribe((response: RegisterUserResponse) => {
         debugger;
-        alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
-        this.router.navigate(['/login']);
-      },()=>{
-        alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
-        this.router.navigate(['/login']);
+        if (response.message == 'Registered') {
+          alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
+          this.router.navigate(['/login']);
+        }
+
+      }, () => {
+        // alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
+        // this.router.navigate(['/login']);
       });
 
 
@@ -115,42 +132,83 @@ export class RegisterComponent implements OnInit {
 
 
   private initiateRegitrationForm() {
-    this.registerForm = this.formBuilder.group({
-      introcode: new FormControl({ value: this.introducer_code, disabled: true }, Validators.required),
-      introname: ['', Validators.required],
-      username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      cpassword: ['', [Validators.required, Validators.minLength(6)]],
-      firstName: ['', Validators.required],
-      middleName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      fathername: ['', Validators.required],
-      gender: ['0'],
-      dob: ['', Validators.required],
-      mobile: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      pancard: ['', Validators.required],
-      aadharcard: ['', Validators.required],
-      address: ['', Validators.required],
-      po: ['', Validators.required],
-      ps: ['', Validators.required],
-      district: ['', Validators.required],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      pincode: ['', Validators.required],
-      bankname: ['', Validators.required],
-      accholdername: ['', Validators.required],
-      accnumber: ['', Validators.required],
-      ifsc: ['', Validators.required],
-      branch: ['', Validators.required],
-      idproof: ['0', Validators.required],
-      uploaddocumentid: ['', Validators.required],
-      photo: ['', Validators.required],
-      addressproof: ['0', Validators.required],
-      uploaddocumentaddress: ['', Validators.required],
-      bankdetails: ['', Validators.required],
-      payonline: ['', Validators.required]
-    });
+    if (this.isEmployee) {
+      this.registerForm = this.formBuilder.group({
+        //introcode: new FormControl({ value: this.introducer_code, disabled: true }, Validators.required),
+        //introname: new FormControl({ value: this.introducer_name, disabled: true }, Validators.required),
+        username: ['', Validators.required],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        cpassword: ['', [Validators.required, Validators.minLength(6)]],
+        firstName: ['', Validators.required],
+        middleName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        fathername: ['', Validators.required],
+        gender: ['0'],
+        dob: ['', Validators.required],
+        mobile: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        pancard: ['', Validators.required],
+        aadharcard: ['', Validators.required],
+        address: ['', Validators.required],
+        po: ['', Validators.required],
+        ps: ['', Validators.required],
+        district: ['', Validators.required],
+        city: ['', Validators.required],
+        state: ['', Validators.required],
+        pincode: ['', Validators.required],
+        bankname: ['', Validators.required],
+        accholdername: ['', Validators.required],
+        accnumber: ['', Validators.required],
+        ifsc: ['', Validators.required],
+        branch: ['', Validators.required],
+        idproof: ['0', Validators.required],
+        uploaddocumentid: ['', Validators.required],
+        photo: ['', Validators.required],
+        addressproof: ['0', Validators.required],
+        uploaddocumentaddress: ['', Validators.required],
+        bankdetails: ['', Validators.required],
+        payonline: ['', Validators.required]
+      });
+    }
+    else {
+      this.registerForm = this.formBuilder.group({
+        introcode: new FormControl({ value: this.introducer_code, disabled: true }, Validators.required),
+        introname: new FormControl({ value: this.introducer_name, disabled: true }, Validators.required),
+        username: ['', Validators.required],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        cpassword: ['', [Validators.required, Validators.minLength(6)]],
+        firstName: ['', Validators.required],
+        middleName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        fathername: ['', Validators.required],
+        gender: ['0'],
+        dob: ['', Validators.required],
+        mobile: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        pancard: ['', Validators.required],
+        aadharcard: ['', Validators.required],
+        address: ['', Validators.required],
+        po: ['', Validators.required],
+        ps: ['', Validators.required],
+        district: ['', Validators.required],
+        city: ['', Validators.required],
+        state: ['', Validators.required],
+        pincode: ['', Validators.required],
+        bankname: ['', Validators.required],
+        accholdername: ['', Validators.required],
+        accnumber: ['', Validators.required],
+        ifsc: ['', Validators.required],
+        branch: ['', Validators.required],
+        idproof: ['0', Validators.required],
+        uploaddocumentid: ['', Validators.required],
+        photo: ['', Validators.required],
+        addressproof: ['0', Validators.required],
+        uploaddocumentaddress: ['', Validators.required],
+        bankdetails: ['', Validators.required],
+        payonline: ['', Validators.required]
+      });
+    }
+
   }
   private clearUploadVariables() {
     this.idProofUploadpath = '';

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ApiBalanceComponent } from './api-balance.component';
+import { PermissionComponent } from './permission.component';
 
-describe('ApiBalanceComponent', () => {
-  let component: ApiBalanceComponent;
-  let fixture: ComponentFixture<ApiBalanceComponent>;
+describe('PermissionComponent', () => {
+  let component: PermissionComponent;
+  let fixture: ComponentFixture<PermissionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ApiBalanceComponent]
+      declarations: [ PermissionComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ApiBalanceComponent);
+    fixture = TestBed.createComponent(PermissionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

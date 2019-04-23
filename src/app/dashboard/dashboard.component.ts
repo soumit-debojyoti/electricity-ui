@@ -11,19 +11,17 @@ import { User } from '../models/user.model';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  public isAdmin: boolean = false;
+  public isEmployee: boolean = false;
   constructor(private data: DataService) {
-    debugger;
   }
 
   ngOnInit() {
     this.data.currentMessage.subscribe(message => {
-      debugger;
-      if (message == 'admin') {
-        this.isAdmin = true;
+      if (message == 'employee') {
+        this.isEmployee = true;
       }
       else {
-        this.isAdmin = false;
+        this.isEmployee = false;
       }
     });
   }

@@ -9,13 +9,19 @@ export class ApiUrlService extends BaseURLService {
   constructor() {
     super();
     this.serviceURL = {
+      PAGE_PERMISSION: `common/pagepermission/role/{roleId}`,
       REGISTER_USER: `User/registeruser`,
       FILE_UPLOAD: `common/upload/{fileType}`,
+      REFERAL_TOKEN: `user/referaltoken/{userId}`,
+      VALIDATE_TOKEN: `user/validatetoken/{token}`,
+      ADDRESSPROOF_DATA: `common/addressproofs`,
+      IDPROOF_DATA: `common/idproofs`,
+      STATES_DATA: `common/states`,
+      USER_DATA: `user/users/{user_name}`
     }
   }
 
   public getFullURL(key: string, urlVariables?: Object): string {
-    debugger;
     return super.getUrl(this.serviceURL[key], urlVariables);
   }
 }

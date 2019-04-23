@@ -27,11 +27,9 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
     this.name = this.storage.get('login_user');
     this.profileService.GetUser(this.name)
       .subscribe((response: User) => {
-        debugger;
         this.first_name = response.first_name;
         this.last_name = response.last_name;
         this.full_name = this.first_name + " " + this.last_name;

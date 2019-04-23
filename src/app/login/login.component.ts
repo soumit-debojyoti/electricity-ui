@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 //import { TokenParams } from '../Classes/TokenParam';
 import { AuthService } from '../services/auth.service/auth.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
+import { ValidateReferalTokenResponse } from '../models/validatereferaltokenresponse.model';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.isLoginSuccess = true;
     this.isRegisterSuccess = true;
+    this.auth.logout();
   }
 
   public isRegister(): void {
@@ -45,11 +47,9 @@ export class LoginComponent implements OnInit {
 
 
   public login($event, username: any, password: any): void {
-    debugger;
     this.islog = true;
     this.auth.login(username.value, password.value)
       .subscribe((res) => {
-        debugger;
         this.isLoginSuccess = true;
 
         this.storage.set("access_token", res.access_token);
@@ -58,7 +58,6 @@ export class LoginComponent implements OnInit {
       },
         error => {
           this.isLoginSuccess = false;
-          debugger;
           this.errorMsg = error;
           console.log("We got error", error.message);
           console.log("Error type", error.stack);
@@ -69,14 +68,15 @@ export class LoginComponent implements OnInit {
   }
 
   public register(token: any): void {
-    debugger;
     this.introducer_code = token.value;
     this.auth.register(token.value)
-      .subscribe((response: boolean) => {
-        debugger;
+      .subscribe((response: ValidateReferalTokenResponse) => {
         this.isRegisterSuccess = true;
-        if (response) {
+        if (response.is_valid) {
+          this.storage.remove('is_employee');
           this.storage.set("introducer_code", this.introducer_code);
+          this.storage.set("introducer_name", response.introducer_name);
+          this.storage.set("security_token", token.value);
           this.router.navigateByUrl('/register');
         }
         else {

@@ -1,10 +1,10 @@
 <div class="w3-white">
-  <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
+  <button *ngIf="!isEmployee" onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
       class="fa fa-google-wallet fa-fw w3-margin-right"></i> Wallet Balance Report</button>
   <div id="Demo1" class="w3-hide w3-container">
     <p>Go to report..</p>
   </div>
-  <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
+  <button *ngIf="!isEmployee" onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
       class="fa fa-credit-card fa-fw w3-margin-right"></i> Recharge Report</button>
   <div id="Demo2" class="w3-hide w3-container">
     <p>Go to report..</p>

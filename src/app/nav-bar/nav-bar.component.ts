@@ -14,7 +14,6 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit() {
     this.data.currentMessage.subscribe(message => {
-      debugger;
       if (this.storage.get('login_user') != undefined) {
         this.isLogin = true;
       }

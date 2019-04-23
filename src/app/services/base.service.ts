@@ -20,7 +20,6 @@ export class BaseService {
   constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private http: HttpClient, private handler: HttpBackend) { }
 
   get(url: string, urlParamObject: any, queryparam: any, bypassInterceptor: boolean = false): Observable<any> {
-    debugger;
     if (queryparam.updates != null) {
       this.queryParam = { params: queryparam };
     }
@@ -30,11 +29,11 @@ export class BaseService {
 
     if (bypassInterceptor) {
       this.httpClient = new HttpClient(this.handler);
-      return this.httpClient.get(this.rootURL + url, this.queryParam)
+      return this.httpClient.get(url, this.queryParam)
         .catch(this.errorHandler);
     }
     else {
-      return this.http.get(this.rootURL + url, this.queryParam)
+      return this.http.get(url, this.queryParam)
         .catch(this.errorHandler);
     }
 
@@ -46,7 +45,6 @@ export class BaseService {
   }
 
   post(url: string, formBody: any, bypassInterceptor: boolean = false): Observable<any> {
-    debugger;
 
     if (bypassInterceptor) {
       let headers = new HttpHeaders();
@@ -66,7 +64,6 @@ export class BaseService {
   }
 
   post1(url: string, formBody: any): Observable<any> {
-    debugger;
 
 
 

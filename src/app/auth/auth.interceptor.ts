@@ -12,12 +12,10 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        debugger;
         if (req.headers.get('Basic-Auth') == "True")
             return next.handle(req.clone());
 
         if (this.storage.get('access_token') != null) {
-            debugger;
             const clonedreq = req.clone({
                 headers: req.headers.append("Authorization", "Bearer " + this.storage.get('access_token')).append("Content-Type", "application/x-www-form-urlencoded")
             });
@@ -32,7 +30,6 @@ export class AuthInterceptor implements HttpInterceptor {
         }
         else {
             if (this.router.url == "/book") {
-                debugger;
                 //this.router.navigateByUrl('/book');
                 return next.handle(req);
             }

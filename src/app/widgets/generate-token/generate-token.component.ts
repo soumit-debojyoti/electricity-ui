@@ -16,11 +16,21 @@ export class GenerateTokenComponent implements OnInit {
   }
 
   generateToken() {
-    debugger;
     this.generateTokenService.GetToken(this.name)
-      .subscribe((response) => {
-        debugger;
-        alert(`Your token is ${response}`);
+      .subscribe((response: any) => {
+        if (response) {
+          if (response == 'suspend') {
+            alert(`Your wallet is suspended.`);
+          }
+          else {
+            alert(`Your token is ${response}`);
+          }
+
+        }
+        else {
+          alert(`You dont have sufficient balance to generate token.`);
+        }
+      }, () => {
       })
   }
 

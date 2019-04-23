@@ -22,14 +22,12 @@ export class UserService {
 
 
   public registerUser(formdata: FormData): Observable<any> {
-    debugger;
     const urlStringObject = {
 
     };
 
 
     const mainURL = this.apiUrlService.getFullURL('REGISTER_USER', urlStringObject);
-    debugger;
     return this.baseService.post(mainURL, formdata, true)
       .pipe(map((response: any) => {
         return response;

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-permission',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PermissionComponent implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router) { }
 
   ngOnInit() {
+  }
+
+
+
+  public settingClick() {
+    this.router.navigateByUrl('/permission');
   }
 
 }
