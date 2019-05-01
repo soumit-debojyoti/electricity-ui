@@ -17,7 +17,9 @@ export class ApiUrlService extends BaseURLService {
       ADDRESSPROOF_DATA: `common/addressproofs`,
       IDPROOF_DATA: `common/idproofs`,
       STATES_DATA: `common/states`,
-      USER_DATA: `user/users/{user_name}`
+      USER_DATA: `user/users/{user_name}`,
+      ADD_WALLET: `common/wallet/{user_security_stamp}`,
+      RANK_ACHIEVER_LIST: `user/rank/user/{userId}`
     }
   }
 

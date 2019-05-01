@@ -12,6 +12,7 @@ import { DataService } from "../../services/data.service/data.service";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  public user_id: number;
   public first_name: string;
   public last_name: string;
   public full_name: string;
@@ -21,7 +22,8 @@ export class ProfileComponent implements OnInit {
   public sex: string;
   public role: string;
   public name: string;
-  constructor(private profileService: ProfileService, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService) {
+  constructor(private profileService: ProfileService,
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService) {
     this.name = ''
     this.full_name = '';
   }
@@ -30,6 +32,7 @@ export class ProfileComponent implements OnInit {
     this.name = this.storage.get('login_user');
     this.profileService.GetUser(this.name)
       .subscribe((response: User) => {
+        this.user_id = response.user_id;
         this.first_name = response.first_name;
         this.last_name = response.last_name;
         this.full_name = this.first_name + " " + this.last_name;
@@ -39,8 +42,9 @@ export class ProfileComponent implements OnInit {
         this.sex = response.sex;
         this.role = response.role_name;
         this.storage.set('role', this.role);
+        this.storage.set('user_id', this.user_id);
         const message: User = response;
-
+        this.data.changeMessage(this.user_id.toString());
         this.data.changeMessage(this.role);
         // this.storeService.SetData(message, ChannelNameEnum.profile_to_dashboard.toString());
       });

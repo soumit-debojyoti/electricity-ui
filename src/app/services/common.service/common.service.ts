@@ -62,6 +62,7 @@ export class CommonService {
   public clearAllSession() {
     this.storage.remove('login_user');
     this.storage.remove('role');
+    this.storage.remove('user_id');
     this.storage.remove('access_token');
     this.storage.remove('introducer_code');
     this.storage.remove('introducer_name');
@@ -78,6 +79,17 @@ export class CommonService {
     let params = new HttpParams();
     const mainURL = this.apiUrlService.getFullURL('PAGE_PERMISSION', urlStringObject);
     return this.baseService.get(mainURL, {}, params);
+  }
+
+  public addWallet(user_security_stamp: string): Observable<any> {
+    const urlStringObject = {
+      user_security_stamp: user_security_stamp
+    };
+    const mainURL = this.apiUrlService.getFullURL('ADD_WALLET', urlStringObject);
+    return this.baseService.post(mainURL, {}, true)
+      .pipe(map((response: any) => {
+        return response;
+      }));
   }
 
 }

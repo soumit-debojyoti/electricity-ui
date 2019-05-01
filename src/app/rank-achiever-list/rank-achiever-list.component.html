@@ -1,0 +1,133 @@
+<h2>
+  Rank
+</h2>
+<p>Self Information</p>
+<table class="border">
+  <tr>
+    <th class="border">USER NAME</th>
+    <th class="border">FIRST NAME</th>
+    <th class="border">MIDDLE NAME</th>
+    <th class="border">LAST NAME</th>
+    <th class="border">MOBILE NUMBER</th>
+    <th class="border">GENDER</th>
+    <th class="border">ROLE NAME</th>
+    <th class="border">FATHER NAME</th>
+    <th class="border">EMAIL</th>
+    <th class="border">DOB</th>
+  </tr>
+  <tr *ngIf="self; else notShowself">
+    <td class="border">{{self.user_name}}</td>
+    <td class="border">{{self.first_name}}</td>
+    <td class="border">{{self.middle_name}}</td>
+    <td class="border">{{self.last_name}}</td>
+    <td class="border">{{self.mobile_number}}</td>
+    <td class="border">{{self.sex}}</td>
+    <td class="border">{{self.role_name}}</td>
+    <td class="border">{{self.father_name}}</td>
+    <td class="border">{{self.email}}</td>
+    <td class="border">{{self.dob | date: 'dd/MM/yyyy'}}</td>
+  </tr>
+  <ng-template #notShowself>
+    <tr>
+      <td class="border" colspan="10">No data found</td>
+    </tr>
+  </ng-template>
+
+</table>
+<hr>
+<p>Parent Information</p>
+<table class="border">
+  <tr>
+    <th class="border">USER NAME</th>
+    <th class="border">FIRST NAME</th>
+    <th class="border">MIDDLE NAME</th>
+    <th class="border">LAST NAME</th>
+    <th class="border">MOBILE NUMBER</th>
+    <th class="border">GENDER</th>
+    <th class="border">ROLE NAME</th>
+    <th class="border">FATHER NAME</th>
+    <th class="border">EMAIL</th>
+    <th class="border">DOB</th>
+  </tr>
+  <tr *ngIf="parent; else notShowparent">
+    <td class="border">{{parent.user_name}}</td>
+    <td class="border">{{parent.first_name}}</td>
+    <td class="border">{{parent.middle_name}}</td>
+    <td class="border">{{parent.last_name}}</td>
+    <td class="border">{{parent.mobile_number}}</td>
+    <td class="border">{{parent.sex}}</td>
+    <td class="border">{{parent.role_name}}</td>
+    <td class="border">{{parent.father_name}}</td>
+    <td class="border">{{parent.email}}</td>
+    <td class="border">{{parent.dob | date: 'dd/MM/yyyy'}}</td>
+  </tr>
+  <ng-template #notShowparent>
+    <tr>
+      <td class="border" colspan="10">No data found</td>
+    </tr>
+  </ng-template>
+
+</table>
+
+<hr>
+<p>Children Information</p>
+<table class="border">
+  <tr>
+    <th class="border">USER NAME</th>
+    <th class="border">FIRST NAME</th>
+    <th class="border">MIDDLE NAME</th>
+    <th class="border">LAST NAME</th>
+    <th class="border">MOBILE NUMBER</th>
+    <th class="border">GENDER</th>
+    <th class="border">ROLE NAME</th>
+    <th class="border">FATHER NAME</th>
+    <th class="border">EMAIL</th>
+    <th class="border">DOB</th>
+  </tr>
+  <ng-container *ngIf="children">
+    <tr *ngFor='let child of children'>
+      <td class="border">{{child.user_name}}</td>
+      <td class="border">{{child.first_name}}</td>
+      <td class="border">{{child.middle_name}}</td>
+      <td class="border">{{child.last_name}}</td>
+      <td class="border">{{child.mobile_number}}</td>
+      <td class="border">{{child.sex}}</td>
+      <td class="border">{{child.role_name}}</td>
+      <td class="border">{{child.father_name}}</td>
+      <td class="border">{{child.email}}</td>
+      <td class="border">{{child.dob | date: 'dd/MM/yyyy'}}</td>
+    </tr>
+  </ng-container>
+</table>
+
+<hr>
+<p>Siblings Information</p>
+<table class="border">
+  <tr>
+    <th class="border">USER NAME</th>
+    <th class="border">FIRST NAME</th>
+    <th class="border">MIDDLE NAME</th>
+    <th class="border">LAST NAME</th>
+    <th class="border">MOBILE NUMBER</th>
+    <th class="border">GENDER</th>
+    <th class="border">ROLE NAME</th>
+    <th class="border">FATHER NAME</th>
+    <th class="border">EMAIL</th>
+    <th class="border">DOB</th>
+  </tr>
+  <ng-container *ngIf="siblings">
+    <tr *ngFor='let brother of siblings'>
+      <td class="border">{{brother.user_name}}</td>
+      <td class="border">{{brother.first_name}}</td>
+      <td class="border">{{brother.middle_name}}</td>
+      <td class="border">{{brother.last_name}}</td>
+      <td class="border">{{brother.mobile_number}}</td>
+      <td class="border">{{brother.sex}}</td>
+      <td class="border">{{brother.role_name}}</td>
+      <td class="border">{{brother.father_name}}</td>
+      <td class="border">{{brother.email}}</td>
+      <td class="border">{{brother.dob | date: 'dd/MM/yyyy'}}</td>
+    </tr>
+  </ng-container>
+</table>
+<br>

@@ -1,3 +1,4 @@
 export interface RegisterUserResponse {
-    message: string
+    message: string,
+    user_security_stamp: string
 }

@@ -12,8 +12,6 @@ export class ProfileService {
   public GetUser(user_name: string): Observable<any> {
     //var url: string = `user/users/${user_name}`;
     let params = new HttpParams();
-    params = params.append('text', 'tytytyt');
-    params = params.append('text1', 'bocachoda');
     const urlStringObject = {
       user_name: user_name
     };

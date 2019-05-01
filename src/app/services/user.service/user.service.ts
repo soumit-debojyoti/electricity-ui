@@ -33,4 +33,17 @@ export class UserService {
         return response;
       }));
   }
+
+  public getRankAchieverList(user_id: number): Observable<any> {
+    debugger;
+    let params = new HttpParams();
+    const urlStringObject = {
+      userId: user_id
+    };
+    const mainURL = this.apiUrlService.getFullURL('RANK_ACHIEVER_LIST', urlStringObject);
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map(response => {
+        return response;
+      }));
+  }
 }

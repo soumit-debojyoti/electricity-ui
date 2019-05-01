@@ -15,13 +15,10 @@ export class GenerateTokenService {
 
 
   public GetToken(userId: string): Observable<any> {
-    // var url: string = `user/referaltoken/${userId}`;
     let params = new HttpParams();
     const urlStringObject = {
       userId: userId
     };
-    //var url: string = `common/upload/${fileType}`;
-    //let params = new HttpParams();
     const mainURL = this.apiUrlService.getFullURL('REFERAL_TOKEN', urlStringObject);
     return this.baseService.get(mainURL, {}, params)
       .pipe(map(response => {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-commission-setting',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommissionSettingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  public gotoConfiguration() {
+    this.router.navigate(['/configuration']);
   }
 
 }

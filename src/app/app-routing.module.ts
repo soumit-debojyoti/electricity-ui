@@ -13,6 +13,16 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'configuration',
+    loadChildren: './configuration/configuration.module#ConfigurationModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'rank-achiever-list',
+    loadChildren: './rank-achiever-list/rank-achiever-list.module#RankAchieverListModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'dashboard',
     loadChildren: './dashboard/dashboard.module#DashboardModule',
     canActivate: [AuthGuard]

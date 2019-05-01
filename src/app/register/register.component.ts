@@ -115,9 +115,8 @@ export class RegisterComponent implements OnInit {
     this.userService.registerUser(formDataregister)
       .subscribe((response: RegisterUserResponse) => {
         debugger;
-        if (response.message == 'Registered') {
-          alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
-          this.router.navigate(['/login']);
+        if (response.message == 'Registered.') {
+          this.addWallet(response);
         }
 
       }, () => {
@@ -128,6 +127,18 @@ export class RegisterComponent implements OnInit {
 
 
 
+  }
+
+  private addWallet(register: RegisterUserResponse): void {
+    this.common.addWallet(register.user_security_stamp)
+      .subscribe((event: any) => {
+        debugger;
+        if (event != undefined)
+          if (event.message == 'success' && register.message == 'Registered.') {
+            alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
+            this.router.navigate(['/login']);
+          }
+      });
   }
 
 
