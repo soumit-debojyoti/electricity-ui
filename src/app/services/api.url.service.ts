@@ -12,6 +12,7 @@ export class ApiUrlService extends BaseURLService {
       PAGE_PERMISSION: `common/pagepermission/role/{roleId}`,
       REGISTER_USER: `User/registeruser`,
       FILE_UPLOAD: `common/upload/{fileType}`,
+      PHOTO_UPLOAD: `common/uploadphoto/{fileType}/{fileName}`,
       REFERAL_TOKEN: `user/referaltoken/{userId}`,
       VALIDATE_TOKEN: `user/validatetoken/{token}`,
       ADDRESSPROOF_DATA: `common/addressproofs`,

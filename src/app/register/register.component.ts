@@ -345,10 +345,12 @@ export class RegisterComponent implements OnInit {
       return;
 
     const formData = new FormData();
+    for (let file of files) {
+      //file.name = this.user_name + '.png';
+      formData.append(this.user_name, file);
+    }
 
-    for (let file of files)
-      formData.append(file.name, file);
-    this.common.upload('photo', formData)
+    this.common.uploadPhoto('photo', this.user_name, formData)
       .subscribe((event: any) => {
         debugger;
         if (event != undefined) {

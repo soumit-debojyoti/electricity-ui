@@ -5,7 +5,7 @@ import { User } from 'src/app/models/user.model';
 import { DataService } from "../../services/data.service/data.service";
 // import { StoreService } from 'src/app/store/store.service';
 // import { ChannelNameEnum, Message } from 'src/app/store/models/message.model';
-
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -22,6 +22,8 @@ export class ProfileComponent implements OnInit {
   public sex: string;
   public role: string;
   public name: string;
+  public photo: string;
+  private rootURL = environment.baseUrl;
   constructor(private profileService: ProfileService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService) {
     this.name = ''
@@ -30,8 +32,10 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.name = this.storage.get('login_user');
+
     this.profileService.GetUser(this.name)
       .subscribe((response: User) => {
+        debugger;
         this.user_id = response.user_id;
         this.first_name = response.first_name;
         this.last_name = response.last_name;
@@ -41,6 +45,8 @@ export class ProfileComponent implements OnInit {
         this.dob = response.dob;
         this.sex = response.sex;
         this.role = response.role_name;
+        this.photo = response.photo;
+        this.photo = this.rootURL + this.photo;
         this.storage.set('role', this.role);
         this.storage.set('user_id', this.user_id);
         const message: User = response;

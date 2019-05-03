@@ -60,6 +60,17 @@ export class CommonService {
     return this.baseService.post(mainURL, formdata, true);
   }
 
+  uploadPhoto(fileType: string, fileName: string, formdata: FormData) {
+    const urlStringObject = {
+      fileType: fileType,
+      fileName: fileName
+    };
+    //var url: string = `common/upload/${fileType}`;
+    //let params = new HttpParams();
+    const mainURL = this.apiUrlService.getFullURL('PHOTO_UPLOAD', urlStringObject);
+    return this.baseService.post(mainURL, formdata, true);
+  }
+
   public clearAllSession() {
     this.storage.remove('login_user');
     this.storage.remove('role');

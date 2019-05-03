@@ -19,4 +19,5 @@ export interface User {
     state_name: string
     pin: string
     sex: string
+    photo: string
 }
