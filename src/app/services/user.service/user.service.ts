@@ -35,7 +35,6 @@ export class UserService {
   }
 
   public getRankAchieverList(user_id: number): Observable<any> {
-    debugger;
     let params = new HttpParams();
     const urlStringObject = {
       userId: user_id
@@ -46,4 +45,32 @@ export class UserService {
         return response;
       }));
   }
+
+  public getRankAchieverCount(user_id: number): Observable<any> {
+    let params = new HttpParams();
+    const urlStringObject = {
+      userId: user_id
+    };
+    const mainURL = this.apiUrlService.getFullURL('RANK_ACHIEVER_COUNT', urlStringObject);
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map(response => {
+        return response;
+      }));
+  }
+  public findUserExist(user_name: string): Observable<any> {
+    let params = new HttpParams();
+    const urlStringObject = {
+      userName: user_name
+    };
+    const mainURL = this.apiUrlService.getFullURL('FIND_USER', urlStringObject);
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map(response => {
+        return response;
+      }));
+  }
+
+
+
+
+
 }

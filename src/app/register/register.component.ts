@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { CommonService } from '../services/common.service/common.service';
 import { AddressProof } from '../models/addressproof.model';
@@ -23,6 +23,7 @@ export class RegisterComponent implements OnInit {
   public is_employee_value: string;
   public isEmployee: boolean;
   public introducer_name: string;
+  public user_name: string;
   public genders: any;
   public idProofs: Array<IdProof> = [];
   public states: Array<State> = [];
@@ -69,6 +70,10 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     debugger;
     this.submitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    }
+
     // stop here if form is invalid
 
     let formDataregister: FormData = new FormData();
@@ -142,12 +147,23 @@ export class RegisterComponent implements OnInit {
   }
 
 
+
+  public dateChange() {
+    debugger;
+    var date = this.registerForm.controls['dob'].value;
+    var fname = this.registerForm.controls['firstName'].value.toLowerCase().substring(0, 3);
+    var lname = this.registerForm.controls['lastName'].value.toLowerCase().substring(0, 3);
+    this.user_name = fname + '-' + lname + '-' + Math.floor(Math.random() * (999999 - 100000)) + 100000;
+    this.registerForm.controls['username'].setValue(this.user_name);// = this.user_name;
+  }
+
+
   private initiateRegitrationForm() {
     if (this.isEmployee) {
       this.registerForm = this.formBuilder.group({
         //introcode: new FormControl({ value: this.introducer_code, disabled: true }, Validators.required),
         //introname: new FormControl({ value: this.introducer_name, disabled: true }, Validators.required),
-        username: ['', Validators.required],
+        username: new FormControl({ value: this.user_name, disabled: true }, Validators.required),
         password: ['', [Validators.required, Validators.minLength(6)]],
         cpassword: ['', [Validators.required, Validators.minLength(6)]],
         firstName: ['', Validators.required],
@@ -178,14 +194,16 @@ export class RegisterComponent implements OnInit {
         addressproof: ['0', Validators.required],
         uploaddocumentaddress: ['', Validators.required],
         bankdetails: ['', Validators.required],
-        payonline: ['', Validators.required]
-      });
+        payonline: ['']
+      }, {
+          validator: mustMatch('password', 'cpassword')
+        });
     }
     else {
       this.registerForm = this.formBuilder.group({
         introcode: new FormControl({ value: this.introducer_code, disabled: true }, Validators.required),
         introname: new FormControl({ value: this.introducer_name, disabled: true }, Validators.required),
-        username: ['', Validators.required],
+        username: new FormControl({ value: this.user_name, disabled: true }, Validators.required),
         password: ['', [Validators.required, Validators.minLength(6)]],
         cpassword: ['', [Validators.required, Validators.minLength(6)]],
         firstName: ['', Validators.required],
@@ -216,11 +234,14 @@ export class RegisterComponent implements OnInit {
         addressproof: ['0', Validators.required],
         uploaddocumentaddress: ['', Validators.required],
         bankdetails: ['', Validators.required],
-        payonline: ['', Validators.required]
-      });
+        payonline: ['']
+      }, {
+          validator: mustMatch('password', 'cpassword')
+        });
     }
 
   }
+
   private clearUploadVariables() {
     this.idProofUploadpath = '';
     this.addressProofUploadpath = '';
@@ -345,4 +366,24 @@ export class RegisterComponent implements OnInit {
 
 
 
+}
+
+// custom validator to check that two fields match
+export function mustMatch(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+
+    if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+      // return if another validator has already found an error on the matchingControl
+      return;
+    }
+
+    // set error on matchingControl if validation fails
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ mustMatch: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  }
 }

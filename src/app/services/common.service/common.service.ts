@@ -10,6 +10,7 @@ import { Router } from "@angular/router";
 import { BaseService } from '../base.service';
 import { environment } from '../../../environments/environment';
 import { ApiUrlService } from '../api.url.service';
+import { ConfigurationModel } from '../../models/configuration.model';
 
 @Injectable({
   providedIn: 'root'
@@ -87,6 +88,24 @@ export class CommonService {
     };
     const mainURL = this.apiUrlService.getFullURL('ADD_WALLET', urlStringObject);
     return this.baseService.post(mainURL, {}, true)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public getConfiguration(): Observable<any> {
+    const urlStringObject = {
+    };
+    let params = new HttpParams();
+    const mainURL = this.apiUrlService.getFullURL('GET_CONFIGURATION', urlStringObject);
+    return this.baseService.get(mainURL, {}, params);
+  }
+
+  public setConfiguration(configuration: ConfigurationModel): Observable<any> {
+    const urlStringObject = {
+    };
+    const mainURL = this.apiUrlService.getFullURL('SET_CONFIGURATION', urlStringObject);
+    return this.baseService.put(mainURL, configuration, true)
       .pipe(map((response: any) => {
         return response;
       }));

@@ -5,3 +5,7 @@
     background: transparent;
     padding-left: -11px;
 }
+.font-red{
+    color:red;
+    font-weight: bold;
+}

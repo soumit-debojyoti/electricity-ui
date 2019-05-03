@@ -1,5 +1,5 @@
 <h2>
-  Rank
+  Rank Hierarchy
 </h2>
 <p>Self Information</p>
 <table class="border">
@@ -25,7 +25,7 @@
     <td class="border">{{self.role_name}}</td>
     <td class="border">{{self.father_name}}</td>
     <td class="border">{{self.email}}</td>
-    <td class="border">{{self.dob | date: 'dd/MM/yyyy'}}</td>
+    <td class="border">{{self.dob | date: 'dd-MMM-yyyy'}}</td>
   </tr>
   <ng-template #notShowself>
     <tr>
@@ -59,7 +59,7 @@
     <td class="border">{{parent.role_name}}</td>
     <td class="border">{{parent.father_name}}</td>
     <td class="border">{{parent.email}}</td>
-    <td class="border">{{parent.dob | date: 'dd/MM/yyyy'}}</td>
+    <td class="border">{{parent.dob | date: 'dd-MMM-yyyy'}}</td>
   </tr>
   <ng-template #notShowparent>
     <tr>
@@ -95,7 +95,7 @@
       <td class="border">{{child.role_name}}</td>
       <td class="border">{{child.father_name}}</td>
       <td class="border">{{child.email}}</td>
-      <td class="border">{{child.dob | date: 'dd/MM/yyyy'}}</td>
+      <td class="border">{{child.dob | date: 'dd-MMM-yyyy'}}</td>
     </tr>
   </ng-container>
 </table>
@@ -126,7 +126,7 @@
       <td class="border">{{brother.role_name}}</td>
       <td class="border">{{brother.father_name}}</td>
       <td class="border">{{brother.email}}</td>
-      <td class="border">{{brother.dob | date: 'dd/MM/yyyy'}}</td>
+      <td class="border">{{brother.dob | date: 'dd-MMM-yyyy'}}</td>
     </tr>
   </ng-container>
 </table>

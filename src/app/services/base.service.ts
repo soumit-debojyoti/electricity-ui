@@ -45,7 +45,6 @@ export class BaseService {
   }
 
   post(url: string, formBody: any, bypassInterceptor: boolean = false): Observable<any> {
-
     if (bypassInterceptor) {
       let headers = new HttpHeaders();
       headers.append("Content-Type", "application/json");
@@ -59,22 +58,33 @@ export class BaseService {
       return this.http.post<any>(url, formBody, this.queryParam)
         .catch(this.errorHandler);
     }
-
-
   }
 
-  post1(url: string, formBody: any): Observable<any> {
+  // post1(url: string, formBody: any): Observable<any> {
+  //   let headers = new HttpHeaders();
+  //   headers.set('content-type', 'application/json');
+  //   //headers.append("access-control-allow-origin", "*");
+  //   this.httpClient = new HttpClient(this.handler);
+  //   return this.httpClient.post(url, formBody, { headers })
+  //     .catch(this.errorHandler);
 
 
+  // }
 
-    let headers = new HttpHeaders();
-    headers.set('content-type', 'application/json');
-    //headers.append("access-control-allow-origin", "*");
-    this.httpClient = new HttpClient(this.handler);
-    return this.httpClient.post(url, formBody, { headers })
-      .catch(this.errorHandler);
-
-
+  put(url: string, formBody: any, bypassInterceptor: boolean = false): Observable<any> {
+    if (bypassInterceptor) {
+      let headers = new HttpHeaders();
+      headers.append("Content-Type", "application/json");
+      headers.append("access-control-allow-origin", "*");
+      this.httpClient = new HttpClient(this.handler);
+      return this.httpClient.put(url, formBody, { headers: headers })
+        .pipe(
+          catchError(this.errorHandler));
+    }
+    else {
+      return this.http.put<any>(url, formBody, this.queryParam)
+        .catch(this.errorHandler);
+    }
   }
 
 }

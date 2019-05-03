@@ -30,58 +30,83 @@
   }
 </style>
 
-<head>
-  <script>
-    // Date picker only
-    $('#datepicker').datetimepicker({
-      format: 'DD-MM-YYYY'
-    });
-  </script>
-  <base href="/">
-</head>
 
-<body class="w3-theme-l5" style="background-color:#e9ecef !important;">
-  <!-- Navbar -->
+<div id="container">
+  <div id="header">
 
-  <app-root></app-root>
+    <head>
+      <script>
+        // Date picker only
+        $('#datepicker').datetimepicker({
+          format: 'DD-MM-YYYY'
+        });
+      </script>
+      <base href="/">
+    </head>
+  </div>
+  <div id="body">
 
+    <body class="w3-theme-l5" style="background-color:#e9ecef !important;">
+      <!-- Navbar -->
 
-
-  <!-- Footer -->
-  <footer class="w3-container w3-theme-d3 w3-padding-16">
-    <h5>Footer</h5>
-  </footer>
-
-  <footer class="w3-container w3-theme-d5">
-    <p>Powered by <a href="#" target="_blank">Soumit</a></p>
-  </footer>
-
-  <script>
-    // Accordion
-    function myFunction(id) {
-      var x = document.getElementById(id);
-      if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-        x.previousElementSibling.className += " w3-theme-d1";
-      } else {
-        x.className = x.className.replace("w3-show", "");
-        x.previousElementSibling.className =
-          x.previousElementSibling.className.replace(" w3-theme-d1", "");
-      }
-    }
-
-    // Used to toggle the menu on smaller screens when clicking on the menu button
-    function openNav() {
-      var x = document.getElementById("navDemo");
-      if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-      } else {
-        x.className = x.className.replace(" w3-show", "");
-      }
-    }
-  </script>
+      <app-root></app-root>
 
 
-</body>
+
+      <!-- Footer -->
+
+      <script>
+        // Accordion
+        function myFunction(id) {
+          var x = document.getElementById(id);
+          if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+            x.previousElementSibling.className += " w3-theme-d1";
+          } else {
+            x.className = x.className.replace("w3-show", "");
+            x.previousElementSibling.className =
+              x.previousElementSibling.className.replace(" w3-theme-d1", "");
+          }
+        }
+
+        // Used to toggle the menu on smaller screens when clicking on the menu button
+        function openNav() {
+          var x = document.getElementById("navDemo");
+          if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+          } else {
+            x.className = x.className.replace(" w3-show", "");
+          }
+        }
+      </script>
+
+
+    </body>
+  </div>
+  <div id="footer">
+    <div class="footer">
+      <footer class="w3-container w3-theme-d3 w3-padding-16 ">
+        <h5>Footer</h5>
+      </footer>
+
+      <footer class="w3-container w3-theme-d5">
+        <p>Powered by <a href="#" target="_blank">Soumit</a></p>
+      </footer>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </html>

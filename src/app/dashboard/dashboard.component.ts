@@ -12,6 +12,7 @@ import { User } from '../models/user.model';
 })
 export class DashboardComponent implements OnInit {
   public isEmployee: boolean = false;
+  public isSuperAdmin: boolean = false;
   constructor(private data: DataService) {
   }
 
@@ -21,7 +22,14 @@ export class DashboardComponent implements OnInit {
         this.isEmployee = true;
       }
       else {
-        this.isEmployee = false;
+        if (message == 'super admin') {
+          this.isSuperAdmin = true;
+        }
+        else {
+          this.isSuperAdmin = false;
+          this.isEmployee = false;
+        }
+
       }
     });
   }

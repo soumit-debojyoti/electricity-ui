@@ -37,6 +37,8 @@
             <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
               <div *ngIf="f.username.errors.required">User Name is required</div>
             </div>
+            * This field will be auto generated. Once you will provide your DOB the field will be
+            auto generated. <span class="font-red">This will be your login id.</span>
           </div>
         </div>
       </div>
@@ -60,9 +62,12 @@
             <div *ngIf="submitted && f.cpassword.errors" class="invalid-feedback">
               <div *ngIf="f.cpassword.errors.required">Confirm password is required</div>
               <div *ngIf="f.cpassword.errors.minlength">Confirm password must be at least 6 characters</div>
+              <div *ngIf="f.cpassword.errors.mustMatch">Passwords must match</div>
             </div>
           </div>
+
         </div>
+
       </div>
       <div class="row">
         <div class="col-md-2 float-right"><label>First Name</label></div>
@@ -100,7 +105,7 @@
         </div>
         <div class="col-md-2 float-right"><label>DOB</label></div>
         <div class="col-md-4 float-left">
-          <input type="date" formControlName="dob" class="form-control"
+          <input type="date" formControlName="dob" class="form-control" (change)="dateChange()"
             [ngClass]="{ 'is-invalid': submitted && f.dob.errors }" />
           <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
             <div *ngIf="f.dob.errors.required">D O B is required</div>

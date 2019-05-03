@@ -5,6 +5,11 @@ export interface RankAchieverModel {
     siblings: Array<SiblingModel>
 }
 
+export interface RankAchieverCountModel {
+    childrenCount: number
+    siblingsCount: number
+}
+
 export interface OwnModel {
     user_name: string
     email: string

@@ -19,7 +19,11 @@ export class ApiUrlService extends BaseURLService {
       STATES_DATA: `common/states`,
       USER_DATA: `user/users/{user_name}`,
       ADD_WALLET: `common/wallet/{user_security_stamp}`,
-      RANK_ACHIEVER_LIST: `user/rank/user/{userId}`
+      RANK_ACHIEVER_LIST: `user/rank/user/{userId}`,
+      RANK_ACHIEVER_COUNT: `user/rank/user/count/{userId}`,
+      FIND_USER: `user/exist/{userName}`,
+      GET_CONFIGURATION: `common/configuration`,
+      SET_CONFIGURATION: `common/configuration`,
     }
   }
 

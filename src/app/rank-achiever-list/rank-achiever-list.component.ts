@@ -25,10 +25,8 @@ export class RankAchieverListComponent implements OnInit {
     }
   }
   private getRankAchieverList(user_id: number): void {
-    debugger;
     this.userService.getRankAchieverList(user_id)
       .subscribe((response: RankAchieverModel) => {
-        debugger;
         this.self = response.self;
         this.parent = response.parent;
         this.children = response.children;
