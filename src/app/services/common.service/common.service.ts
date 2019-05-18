@@ -104,6 +104,19 @@ export class CommonService {
       }));
   }
 
+  public addWalletTransaction(amount: number, userId: number, message: string): Observable<any> {
+    const urlStringObject = {
+      amount: amount,
+      userId: userId,
+      message: message
+    };
+    const mainURL = this.apiUrlService.getFullURL('ADD_WALLET_TRANSACTION', urlStringObject);
+    return this.baseService.post(mainURL, {}, true)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
   public getConfiguration(): Observable<any> {
     const urlStringObject = {
     };

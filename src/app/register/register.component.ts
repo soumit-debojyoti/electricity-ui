@@ -140,6 +140,20 @@ export class RegisterComponent implements OnInit {
         debugger;
         if (event != undefined)
           if (event.message == 'success' && register.message == 'Registered.') {
+            debugger;
+            this.addWalletTransaction(event.amount_wallet_for_registration, event.user_id, 'Amount added to open a wallet with initial amount.');
+            // alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
+            // this.router.navigate(['/login']);
+          }
+      });
+  }
+
+  private addWalletTransaction(amount: number, userId: number, message: string): void {
+    this.common.addWalletTransaction(amount, userId, message)
+      .subscribe((event: any) => {
+        debugger;
+        if (event != undefined)
+          if (event.message == 'success') {
             alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
             this.router.navigate(['/login']);
           }

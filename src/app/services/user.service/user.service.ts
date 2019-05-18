@@ -22,6 +22,7 @@ export class UserService {
 
 
   public registerUser(formdata: FormData): Observable<any> {
+    debugger;
     const urlStringObject = {
 
     };
