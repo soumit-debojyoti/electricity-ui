@@ -15,6 +15,7 @@ export class RankAchieverListComponent implements OnInit {
   public user_id: number;
   public childrenCount: number;
   public siblingsCount: number;
+  public userRank: number = 0;
   constructor(private userService: UserService, private formBuilder: FormBuilder,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router, private data: DataService) { }
 
@@ -23,10 +24,13 @@ export class RankAchieverListComponent implements OnInit {
     this.siblingsCount = 0;
     this.data.currentMessage.subscribe(message => {
       if (this.storage.get('user_id') != undefined) {
+        debugger;
         this.user_id = this.storage.get('user_id');
         this.getRankAchieverCount(this.user_id);
+        this.fetchUserRank(this.user_id);
       }
     });
+
 
   }
 
@@ -40,5 +44,14 @@ export class RankAchieverListComponent implements OnInit {
 
   public details() {
     this.router.navigate(['/rank-achiever-list']);
+  }
+
+  private fetchUserRank(user_id: number): void {
+    this.userService.fetchUserRank(user_id).subscribe(
+      response => {
+        debugger;
+        this.userRank = response;
+      }
+    )
   }
 }

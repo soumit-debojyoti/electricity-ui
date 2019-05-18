@@ -1,5 +1,11 @@
 <div class="w3-container">
-  <p>Rank Achiever List</p>
+    <p>Rank Achiever List</p>
+    <div class="row">
+        <div class="col-sm-4"><i class="fa fa-signal"></i></div>
+        <div class="col-sm-4">User Level: </div>
+        <div class="col-sm-4"><span class="pl-5" *ngIf="childrenCount" style="color:crimson">{{userRank}}</span></div>
+      </div>
+  
   <div class="row">
     <div class="col-sm-4"><i class="fa fa-child w3-large"></i></div>
     <div class="col-sm-4">Children</div>
@@ -11,7 +17,7 @@
     <div class="col-sm-4"><span class="pl-5" *ngIf="siblingsCount">{{siblingsCount}}</span></div>
   </div>
   <div class="row">
-    <div class="col-sm-6">&nbsp;</div>
-    <div class="col-sm-6 hand" (click)="details()"><u>details....</u></div>
+    <!-- <div class="col-sm-6">&nbsp;</div> -->
+    <div class="col-sm-6 hand details" (click)="details()"><u>details....</u></div>
   </div>
 </div>

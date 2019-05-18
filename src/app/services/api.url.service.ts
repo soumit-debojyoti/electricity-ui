@@ -26,6 +26,7 @@ export class ApiUrlService extends BaseURLService {
       FIND_USER: `user/exist/{userName}`,
       GET_CONFIGURATION: `common/configuration`,
       SET_CONFIGURATION: `common/configuration`,
+      GET_USER_RANK: `user/{userID}/userrank`,
     }
   }
 

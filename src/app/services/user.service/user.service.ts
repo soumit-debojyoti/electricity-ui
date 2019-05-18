@@ -70,6 +70,17 @@ export class UserService {
       }));
   }
 
+  public fetchUserRank(userID: number): Observable<any> {
+    const urlConfig = {
+      userID: userID
+    };
+    const mainURL = this.apiUrlService.getFullURL('GET_USER_RANK', urlConfig);
+    return this.http.get(mainURL)
+      .pipe(map(response => {
+        return response;
+      }));
+  }
+
 
 
 
