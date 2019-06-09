@@ -68,7 +68,6 @@ export class RegisterComponent implements OnInit {
   get f() { return this.registerForm.controls; }
 
   onSubmit() {
-    debugger;
     this.submitted = true;
     if (this.registerForm.invalid) {
       return;
@@ -119,7 +118,6 @@ export class RegisterComponent implements OnInit {
 
     this.userService.registerUser(formDataregister)
       .subscribe((response: RegisterUserResponse) => {
-        debugger;
         if (response.message == 'Registered.') {
           this.addWallet(response);
         }
@@ -137,21 +135,18 @@ export class RegisterComponent implements OnInit {
   private addWallet(register: RegisterUserResponse): void {
     this.common.addWallet(register.user_security_stamp)
       .subscribe((event: any) => {
-        debugger;
         if (event != undefined)
           if (event.message == 'success' && register.message == 'Registered.') {
-            debugger;
-            this.addWalletTransaction(event.amount_wallet_for_registration, event.user_id, 'Amount added to open a wallet with initial amount.');
+            this.addWalletTransaction(event.amount_wallet_for_registration, event.user_id, 'Amount added to open a wallet with initial amount.', 'debit');
             // alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
             // this.router.navigate(['/login']);
           }
       });
   }
 
-  private addWalletTransaction(amount: number, userId: number, message: string): void {
-    this.common.addWalletTransaction(amount, userId, message)
+  private addWalletTransaction(amount: number, userId: number, message: string, transactionMode: string): void {
+    this.common.addWalletTransaction(amount, userId, message, transactionMode)
       .subscribe((event: any) => {
-        debugger;
         if (event != undefined)
           if (event.message == 'success') {
             alert('Registration SUCCESS!!. Please click ok to go to login page. Please note that you will able to login with your username and password.')
@@ -163,7 +158,6 @@ export class RegisterComponent implements OnInit {
 
 
   public dateChange() {
-    debugger;
     var date = this.registerForm.controls['dob'].value;
     var fname = this.registerForm.controls['firstName'].value.toLowerCase().substring(0, 3);
     var lname = this.registerForm.controls['lastName'].value.toLowerCase().substring(0, 3);
@@ -172,7 +166,7 @@ export class RegisterComponent implements OnInit {
   }
 
 
-  
+
   private initiateRegitrationForm() {
     if (this.isEmployee) {
       this.registerForm = this.formBuilder.group({
@@ -187,28 +181,28 @@ export class RegisterComponent implements OnInit {
         fathername: ['', Validators.required],
         gender: ['0'],
         dob: ['', Validators.required],
-        mobile: ['', ],
-        email: ['', ],
-        pancard: ['', ],
-        aadharcard: ['', ],
-        address: ['', ],
-        po: ['', ],
-        ps: ['', ],
-        district: ['', ],
-        city: ['', ],
-        state: ['', ],
-        pincode: ['', ],
-        bankname: ['', ],
-        accholdername: ['', ],
-        accnumber: ['', ],
-        ifsc: ['', ],
-        branch: ['', ],
-        idproof: ['0', ],
-        uploaddocumentid: ['', ],
-        photo: ['', ],
-        addressproof: ['0', ],
-        uploaddocumentaddress: ['', ],
-        bankdetails: ['', ],
+        mobile: ['',],
+        email: ['',],
+        pancard: ['',],
+        aadharcard: ['',],
+        address: ['',],
+        po: ['',],
+        ps: ['',],
+        district: ['',],
+        city: ['',],
+        state: ['',],
+        pincode: ['',],
+        bankname: ['',],
+        accholdername: ['',],
+        accnumber: ['',],
+        ifsc: ['',],
+        branch: ['',],
+        idproof: ['0',],
+        uploaddocumentid: ['',],
+        photo: ['',],
+        addressproof: ['0',],
+        uploaddocumentaddress: ['',],
+        bankdetails: ['',],
         payonline: ['']
       }, {
           validator: mustMatch('password', 'cpassword')
@@ -227,28 +221,28 @@ export class RegisterComponent implements OnInit {
         fathername: ['', Validators.required],
         gender: ['0'],
         dob: ['', Validators.required],
-        mobile: ['', ],
-        email: ['', ],
+        mobile: ['',],
+        email: ['',],
         pancard: ['',],
-        aadharcard: ['', ],
-        address: ['', ],
-        po: ['', ],
-        ps: ['', ],
-        district: ['', ],
-        city: ['', ],
-        state: ['', ],
-        pincode: ['', ],
-        bankname: ['', ],
-        accholdername: ['', ],
-        accnumber: ['', ],
-        ifsc: ['', ],
-        branch: ['', ],
+        aadharcard: ['',],
+        address: ['',],
+        po: ['',],
+        ps: ['',],
+        district: ['',],
+        city: ['',],
+        state: ['',],
+        pincode: ['',],
+        bankname: ['',],
+        accholdername: ['',],
+        accnumber: ['',],
+        ifsc: ['',],
+        branch: ['',],
         idproof: ['0',],
-        uploaddocumentid: ['', ],
-        photo: ['', ],
-        addressproof: ['0', ],
-        uploaddocumentaddress: ['', ],
-        bankdetails: ['', ],
+        uploaddocumentid: ['',],
+        photo: ['',],
+        addressproof: ['0',],
+        uploaddocumentaddress: ['',],
+        bankdetails: ['',],
         payonline: ['']
       }, {
           validator: mustMatch('password', 'cpassword')
@@ -267,7 +261,6 @@ export class RegisterComponent implements OnInit {
   }
 
   public onIdProofChanged(event: any) {
-    debugger;
     if (event.target.value != '0') {
       this.selectedIdProof = this.idProofs.find(n => n.id_proof_id == event.target.value);
       this.registerForm.controls['uploaddocumentid'].enable();
@@ -280,7 +273,6 @@ export class RegisterComponent implements OnInit {
   }
 
   public onAddressProofChanged(event: any) {
-    debugger;
     if (event.target.value != '0') {
       this.selectedAddressProof = this.addressProofs.find(n => n.address_proof_id == event.target.value);
       this.registerForm.controls['uploaddocumentaddress'].enable();
@@ -292,34 +284,27 @@ export class RegisterComponent implements OnInit {
   }
 
   public getAddressProof(): void {
-    debugger;
     this.common.getAddressProof()
       .subscribe((response: Array<AddressProof>) => {
-        debugger;
         this.addressProofs = response;
       });
   }
 
   public getIdProof(): void {
-    debugger;
     this.common.getIdProof()
       .subscribe((response: Array<IdProof>) => {
-        debugger;
         this.idProofs = response;
       });
   }
 
   public getStates(): void {
-    debugger;
     this.common.getState()
       .subscribe((response: Array<State>) => {
-        debugger;
         this.states = response;
       });
   }
 
   uploadIdProof(files) {
-    debugger;
     if (files.length === 0)
       return;
 
@@ -329,7 +314,6 @@ export class RegisterComponent implements OnInit {
       formData.append(file.name, file);
     this.common.upload('idProof', formData)
       .subscribe((event: any) => {
-        debugger;
         if (event != undefined)
           this.idProofUploadpath = event.toString();
         this.messageIdProof = 'Upload successful';
@@ -337,7 +321,6 @@ export class RegisterComponent implements OnInit {
   }
 
   uploadAddressProof(files) {
-    debugger;
     if (files.length === 0)
       return;
 
@@ -347,7 +330,6 @@ export class RegisterComponent implements OnInit {
       formData.append(file.name, file);
     this.common.upload('addressProof', formData)
       .subscribe((event: any) => {
-        debugger;
         if (event != undefined)
           this.addressProofUploadpath = event.toString();
         this.messageAddressProof = 'Upload successful';
@@ -355,7 +337,6 @@ export class RegisterComponent implements OnInit {
   }
 
   uploadPhoto(files) {
-    debugger;
     if (files.length === 0)
       return;
 
@@ -367,7 +348,6 @@ export class RegisterComponent implements OnInit {
 
     this.common.uploadPhoto('photo', this.user_name, formData)
       .subscribe((event: any) => {
-        debugger;
         if (event != undefined) {
           //this.photoUploadPath = environment.baseUrl + event.toString();
 

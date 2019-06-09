@@ -13,6 +13,21 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'wallet',
+    loadChildren: './wallet/wallet.module#WalletModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'wallet-approval',
+    loadChildren: './wallet-withdrawal-approval/wallet-approval.module#WalletApprovalModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'wallet-add',
+    loadChildren: './wallet-add-approval/wallet-add-approval.module#WalletAddApprovalModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'configuration',
     loadChildren: './configuration/configuration.module#ConfigurationModule',
     canActivate: [AuthGuard]

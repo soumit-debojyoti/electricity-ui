@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service/auth.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { ValidateReferalTokenResponse } from '../models/validatereferaltokenresponse.model';
+import { FindUserResponse } from '../models/find-user-response.model';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ import { ValidateReferalTokenResponse } from '../models/validatereferaltokenresp
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  public errorMessage: string = '';
   public isLoginSuccess: boolean = true;
   public isRegisterSuccess: boolean = true;
   public isLogin: boolean = true;
@@ -23,6 +25,7 @@ export class LoginComponent implements OnInit {
   constructor(private auth: AuthService, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router) { }
 
   ngOnInit() {
+    this.errorMessage = '';
     this.isLoginSuccess = true;
     this.isRegisterSuccess = true;
     this.auth.logout();
@@ -49,16 +52,25 @@ export class LoginComponent implements OnInit {
   public login($event, username: any, password: any): void {
     this.islog = true;
     this.auth.login(username.value, password.value)
-      .subscribe((res) => {
-        this.isLoginSuccess = true;
+      .subscribe((res: any) => {
+        if (res.isLoginSuccess === true) {
+          this.isLoginSuccess = true;
 
-        this.storage.set("access_token", res.access_token);
-        //alert("Login success....");
-        this.router.navigate(['/dashboard']);
+          this.storage.set("access_token", res.access_token);
+          if (res.message != '') {
+            alert(res.message);
+          }
+
+          this.router.navigate(['/dashboard']);
+        }
+        else {
+          this.isLoginSuccess = false;
+          this.errorMessage = res.message;
+        }
       },
         error => {
           this.isLoginSuccess = false;
-          this.errorMsg = error;
+          this.errorMessage = 'Username or password are invalid....';
           console.log("We got error", error.message);
           console.log("Error type", error.stack);
 

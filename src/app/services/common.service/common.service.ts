@@ -11,6 +11,7 @@ import { BaseService } from '../base.service';
 import { environment } from '../../../environments/environment';
 import { ApiUrlService } from '../api.url.service';
 import { ConfigurationModel } from '../../models/configuration.model';
+import { WithdrawalWallet } from 'src/app/models/admin-approval-notification-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -104,14 +105,102 @@ export class CommonService {
       }));
   }
 
-  public addWalletTransaction(amount: number, userId: number, message: string): Observable<any> {
+  public addWalletTransaction(amount: number, userId: number, message: string, transactionMode: string): Observable<any> {
+    let formDataregister: FormData = new FormData();
+    formDataregister.append('amount', amount.toString());
+    formDataregister.append('userId', userId.toString());
+    formDataregister.append('message', message.toString());
+    formDataregister.append('transactionMode', transactionMode.toString());
     const urlStringObject = {
-      amount: amount,
-      userId: userId,
-      message: message
+
     };
     const mainURL = this.apiUrlService.getFullURL('ADD_WALLET_TRANSACTION', urlStringObject);
-    return this.baseService.post(mainURL, {}, true)
+    return this.baseService.post(mainURL, formDataregister, true)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public addWalletWithdrawalRequest(userId: number, comment: string): Observable<any> {
+    const urlStringObject = {
+      requestInitiatorId: userId,
+      comment: comment
+    };
+    const mainURL = this.apiUrlService.getFullURL('ADD_WALLET_WITHDRAWAL_REQUEST', urlStringObject);
+    return this.baseService.post(mainURL, {}, false)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public requestBalance(userId: number, amount: number, comment: string): Observable<any> {
+    debugger;
+    const urlStringObject = {
+      requestInitiatorId: userId,
+      amount: amount,
+      comment: comment
+    };
+    const mainURL = this.apiUrlService.getFullURL('ADD_BALANCE_REQUEST', urlStringObject);
+    return this.baseService.post(mainURL, {}, false)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public adminWalletApproval(withdrawalWalleta: any): Observable<any> {
+    debugger;
+    const urlStringObject = {
+    };
+    const mainURL = this.apiUrlService.getFullURL('ADMIN_WALLET_APPROVAL', urlStringObject);
+    return this.baseService.post(mainURL, withdrawalWalleta, true)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public adminWalletAddApproval(withdrawalWalleta: any): Observable<any> {
+    debugger;
+    const urlStringObject = {
+    };
+    const mainURL = this.apiUrlService.getFullURL('ADMIN_ADD_WALLET_APPROVAL', urlStringObject);
+    return this.baseService.post(mainURL, withdrawalWalleta, true)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+
+  public adminWalletWithdrawalApprovalNotification(userId: number): Observable<any> {
+    const urlStringObject = {
+      userId: userId
+    };
+    const mainURL = this.apiUrlService.getFullURL('ADMIN_WALLET_WITHDRAWAL_APPROVAL_NOTIFICATION', urlStringObject);
+    let params = new HttpParams();
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public adminWalletAddApprovalNotification(userId: number): Observable<any> {
+    const urlStringObject = {
+      userId: userId
+    };
+    const mainURL = this.apiUrlService.getFullURL('ADMIN_WALLET_ADD_APPROVAL_NOTIFICATION', urlStringObject);
+    let params = new HttpParams();
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public getWithdrawalRequestFinder(userId: number): Observable<any> {
+    const urlStringObject = {
+      userId: userId
+    };
+    const mainURL = this.apiUrlService.getFullURL('WITHDRAWAL_REQUEST_FINDER', urlStringObject);
+    let params = new HttpParams();
+    return this.baseService.get(mainURL, {}, params)
       .pipe(map((response: any) => {
         return response;
       }));

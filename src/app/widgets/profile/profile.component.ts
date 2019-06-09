@@ -35,7 +35,6 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.GetUser(this.name)
       .subscribe((response: User) => {
-        debugger;
         this.user_id = response.user_id;
         this.first_name = response.first_name;
         this.last_name = response.last_name;
@@ -50,9 +49,9 @@ export class ProfileComponent implements OnInit {
         this.storage.set('role', this.role);
         this.storage.set('user_id', this.user_id);
         const message: User = response;
-        this.data.changeMessage(this.user_id.toString());
+        //this.data.changeMessage(this.user_id.toString());
+        //this.data.changeMessage(this.role);
         this.data.changeMessage(this.role);
-        // this.storeService.SetData(message, ChannelNameEnum.profile_to_dashboard.toString());
       });
   }
 

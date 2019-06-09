@@ -1,13 +1,13 @@
 <div class="w3-card w3-round w3-white animated flipInX">
   <div class="w3-container">
-    <h4 class="w3-center">{{full_name}}</h4>
-    <p class="w3-center">
+    <h4 class="w3-center pointer">{{full_name}}</h4>
+    <p class="w3-center pointer">
       <img *ngIf="sex=='Male'" [src]="photo" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
 
       <img *ngIf="sex!='Male'" [src]="photo" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
     <hr>
-    <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> {{role | titlecase}}</p>
-    <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> {{city}}, {{state_name}}</p>
-    <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> {{dob}}</p>
+    <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme pointer"></i> {{role | titlecase}}</p>
+    <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme pointer"></i> {{city}}, {{state_name}}</p>
+    <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme pointer"></i> {{dob}}</p>
   </div>
 </div>

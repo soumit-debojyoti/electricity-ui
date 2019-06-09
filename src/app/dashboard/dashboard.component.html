@@ -46,10 +46,10 @@
       </div>
     </div>
     <br />
-    <div *ngIf="!isEmployee" class="w3-row-padding">
+    <div class="w3-row-padding animated slideInUp">
       <div class="w3-half w3-margin-bottom animated slideInUp">
         <div class="w3-card w3-round w3-white">
-          <app-balance-request></app-balance-request>
+          <app-api-balance></app-api-balance>
         </div>
       </div>
       <div class="w3-half w3-margin-bottom animated slideInUp">
@@ -67,30 +67,15 @@
       </div>
       <div class="w3-half w3-margin-bottom animated slideInUp">
         <div class="w3-card w3-round w3-white">
-          <app-api-balance></app-api-balance>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="!isEmployee" class="w3-row-padding animated slideInUp">
-      <div class="w3-half w3-margin-bottom">
-        <div class="w3-card w3-round w3-white">
-          <app-widthdrawal-request></app-widthdrawal-request>
-        </div>
-      </div>
-      <div *ngIf="!isEmployee" class="w3-half w3-margin-bottom animated slideInUp">
-        <div class="w3-card w3-round w3-white">
-          <app-wallet-balance-report></app-wallet-balance-report>
-        </div>
-      </div>
-    </div>
-
-    <div class="w3-row-padding animated slideInUp">
-      <div class="w3-half w3-margin-bottom">
-        <div class="w3-card w3-round w3-white">
           <app-admin-profile></app-admin-profile>
         </div>
       </div>
+    </div>
+
+
+
+    <div class="w3-row-padding animated slideInUp">
+
       <div *ngIf="isSuperAdmin" class="w3-half w3-margin-bottom animated slideInUp">
         <div class="w3-card w3-round w3-white">
           <app-commission-setting></app-commission-setting>
@@ -119,6 +104,9 @@
       <app-generate-token></app-generate-token>
     </div>
 
+    <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-16 w3-center animated flipInX mb-4">
+      <app-balance-request></app-balance-request>
+    </div>
 
     <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-16 w3-center animated flipInX mb-4">
       <app-add-wallet-balance></app-add-wallet-balance>
@@ -132,6 +120,14 @@
 
     <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
       <app-deduct-wallet-balance></app-deduct-wallet-balance>
+    </div>
+
+    <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
+      <app-wallet-balance-report></app-wallet-balance-report>
+    </div>
+
+    <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
+      <app-widthdrawal-request></app-widthdrawal-request>
     </div>
 
 

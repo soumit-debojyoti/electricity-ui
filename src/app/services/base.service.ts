@@ -49,13 +49,18 @@ export class BaseService {
       let headers = new HttpHeaders();
       headers.append("Content-Type", "application/json");
       headers.append("access-control-allow-origin", "*");
+
+
       this.httpClient = new HttpClient(this.handler);
       return this.httpClient.post(url, formBody, { headers: headers })
         .pipe(
           catchError(this.errorHandler));
     }
     else {
-      return this.http.post<any>(url, formBody, this.queryParam)
+      let headers = new HttpHeaders();
+      headers.append("Content-Type", "application/json");
+      headers.append("access-control-allow-origin", "*");
+      return this.http.post<any>(url, formBody, { headers: headers })
         .catch(this.errorHandler);
     }
   }

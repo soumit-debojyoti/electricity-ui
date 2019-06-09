@@ -24,7 +24,6 @@ export class RankAchieverListComponent implements OnInit {
     this.siblingsCount = 0;
     this.data.currentMessage.subscribe(message => {
       if (this.storage.get('user_id') != undefined) {
-        debugger;
         this.user_id = this.storage.get('user_id');
         this.getRankAchieverCount(this.user_id);
         this.fetchUserRank(this.user_id);
@@ -49,7 +48,6 @@ export class RankAchieverListComponent implements OnInit {
   private fetchUserRank(user_id: number): void {
     this.userService.fetchUserRank(user_id).subscribe(
       response => {
-        debugger;
         this.userRank = response;
       }
     )

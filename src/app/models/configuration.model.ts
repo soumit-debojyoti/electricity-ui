@@ -4,4 +4,5 @@ export interface ConfigurationModel {
     down_side_direct_of_joinee_point: number
     point_unit_price: number
     first_registration_wallet_balance: number
+    wallet_approver_role: number
 }

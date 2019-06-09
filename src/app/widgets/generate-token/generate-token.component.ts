@@ -22,10 +22,11 @@ export class GenerateTokenComponent implements OnInit {
           if (response == 'suspend') {
             alert(`Your wallet is suspended.`);
           }
-          else {
+          else if (response == 'insufficient_balance') {
+            alert(`You dont have sufficient balance to generate token.`);
+          } else {
             alert(`Your token is ${response}`);
           }
-
         }
         else {
           alert(`You dont have sufficient balance to generate token.`);

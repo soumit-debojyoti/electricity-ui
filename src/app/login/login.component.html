@@ -16,8 +16,7 @@
       <input #password class="animated" [ngClass]="{'shake': islog}" type="password" placeholder="Password">
       <input type="button" (click)="login($event,userid,password)" value="Login">
       <a href="">Forgot password?</a><br />
-      <span class="login-error animated jackInTheBox" *ngIf="!isLoginSuccess">Username or password is
-        invalid....</span><br />
+      <span class="login-error animated jackInTheBox" *ngIf="!isLoginSuccess">{{errorMessage}}</span><br />
     </div>
     <div class="register-show  animated jackInTheBox" [ngClass]="{'show-log-panel': !isLogin}">
       <h2>REGISTER</h2>
