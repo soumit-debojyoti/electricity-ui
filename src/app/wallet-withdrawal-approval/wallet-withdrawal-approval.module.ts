@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { WalletApprovalRoutingModule } from './wallet-approval-routing.module';
-import { WalletApprovalComponent } from './wallet-approval.component';
+import { WalletWithdrawalApprovalRoutingModule } from './wallet-withdrawal-approval-routing.module';
+import { WalletWithdrawalApprovalComponent } from './wallet-withdrawal-approval.component';
 import { MatSlideToggleModule, MatButtonModule, MatCheckboxModule } from '@angular/material';
 
 @NgModule({
-    declarations: [WalletApprovalComponent],
+    declarations: [WalletWithdrawalApprovalComponent],
     imports: [
         CommonModule,
-        WalletApprovalRoutingModule,
+        WalletWithdrawalApprovalRoutingModule,
         FormsModule,
         ReactiveFormsModule,
         MatSlideToggleModule, MatCheckboxModule,
@@ -17,4 +17,4 @@ import { MatSlideToggleModule, MatButtonModule, MatCheckboxModule } from '@angul
     ],
     exports: [MatButtonModule, MatSlideToggleModule, MatCheckboxModule],
 })
-export class WalletApprovalModule { }
+export class WalletWithdrawalApprovalModule { }

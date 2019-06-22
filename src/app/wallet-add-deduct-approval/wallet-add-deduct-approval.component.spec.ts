@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WalletApprovalComponent } from './wallet-approval.component';
+import { WalletAddDeductApprovalComponent } from './wallet-add-deduct-approval.component';
 
 describe('WalletApprovalComponent', () => {
-  let component: WalletApprovalComponent;
-  let fixture: ComponentFixture<WalletApprovalComponent>;
+  let component: WalletAddDeductApprovalComponent;
+  let fixture: ComponentFixture<WalletAddDeductApprovalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WalletApprovalComponent ]
+      declarations: [WalletAddDeductApprovalComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WalletApprovalComponent);
+    fixture = TestBed.createComponent(WalletAddDeductApprovalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

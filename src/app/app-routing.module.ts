@@ -18,13 +18,13 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'wallet-approval',
-    loadChildren: './wallet-withdrawal-approval/wallet-approval.module#WalletApprovalModule',
+    path: 'wallet-withdrawal-approval',
+    loadChildren: './wallet-withdrawal-approval/wallet-withdrawal-approval.module#WalletWithdrawalApprovalModule',
     canActivate: [AuthGuard]
   },
   {
-    path: 'wallet-add',
-    loadChildren: './wallet-add-approval/wallet-add-approval.module#WalletAddApprovalModule',
+    path: 'wallet-add-deduct-approval',
+    loadChildren: './wallet-add-deduct-approval/wallet-add-deduct-approval.module#WalletAddDeductApprovalModule',
     canActivate: [AuthGuard]
   },
   {

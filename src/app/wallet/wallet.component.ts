@@ -15,6 +15,7 @@ export class WalletComponent implements OnInit {
   public walletType: any = '';
   public isWithdrawalWallet: boolean = false;
   public isBalanceRequest: boolean = false;
+  public isDeductWallet: boolean = false;
   constructor(private common: CommonService, private route: ActivatedRoute, private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService) { }
 
   ngOnInit() {
@@ -23,6 +24,7 @@ export class WalletComponent implements OnInit {
     // #endregion
     // #region Balance request
     this.isBalanceRequest = false;
+    this.isDeductWallet = false;
     // #endregion
     this.walletType = '';
     this.userId = this.storage.get("user_id");
@@ -37,6 +39,9 @@ export class WalletComponent implements OnInit {
       if (this.walletType === 'balance') {
         this.isBalanceRequest = true;
       }
+      if (this.walletType === 'deduct') {
+        this.isDeductWallet = true;
+      }
       // #endregion
     });
   }
@@ -45,6 +50,12 @@ export class WalletComponent implements OnInit {
   public widthdraw(comment: any): void {
     var commentFinal = comment.value;
     this.addWalletWithdrawalRequest(this.userId, commentFinal);
+  }
+
+  public deduct(comment: any, amount: any): void {
+    var commentFinal = comment.value;
+    var amountDeduct = amount.value;
+    this.walletDeductRequest(this.userId, commentFinal, amountDeduct);
   }
 
   private addWalletWithdrawalRequest(userId: number, comment: string): void {
@@ -62,6 +73,40 @@ export class WalletComponent implements OnInit {
 
             }
             this.addWalletTransaction(response.amount_wallet_widthdraw, userId, message, 'credit', 'Withdrawal');
+          } else {
+            alert(response.message);
+          }
+      });
+  }
+
+  private walletDeductRequest(userId: number, comment: string, amountDeduct: string): void {
+    this.common.walletDeductRequest(userId, comment, +amountDeduct)
+      .subscribe((response: WalletWidthdrawalResponse) => {
+        debugger;
+        if (response != undefined)
+
+          if (response.message == 'success') {
+            var message: string = '';
+            if (comment == '') {
+              if (response.amount_wallet_widthdraw != undefined) {
+                message = `A request has been send to super admin to grant an amount of ${response.amount_wallet_widthdraw} to be deduct. Waiting for the confirmation. `;
+                this.addWalletTransaction(response.amount_wallet_widthdraw, userId, message, 'credit', 'Deduct');
+              } else {
+                message = `A request has been send to super admin to grant an amount of ${response.amount_requested} to be deduct. Waiting for the confirmation. `;
+                this.addWalletTransaction(response.amount_requested, userId, message, 'credit', 'Deduct');
+              }
+
+            } else {
+              if (response.amount_wallet_widthdraw != undefined) {
+                message = `A request has been send to super admin to grant an amount of ${response.amount_wallet_widthdraw} to be deduct. Waiting for the confirmation. The justification for the deduction is as '${comment}'`;
+                this.addWalletTransaction(response.amount_wallet_widthdraw, userId, message, 'credit', 'Deduct');
+              } else {
+                message = `A request has been send to super admin to grant an amount of ${response.amount_requested} to be deduct. Waiting for the confirmation. The justification for the deduction is as '${comment}'`;
+                this.addWalletTransaction(response.amount_requested, userId, message, 'credit', 'Deduct');
+              }
+
+            }
+
           } else {
             alert(response.message);
           }

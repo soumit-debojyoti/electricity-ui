@@ -8,10 +8,10 @@ import { AuthService } from '../services/auth.service/auth.service';
 
 @Component({
   selector: 'app-wallet-approval',
-  templateUrl: './wallet-approval.component.html',
-  styleUrls: ['./wallet-approval.component.css']
+  templateUrl: './wallet-withdrawal-approval.component.html',
+  styleUrls: ['./wallet-withdrawal-approval.component.css']
 })
-export class WalletApprovalComponent implements OnInit {
+export class WalletWithdrawalApprovalComponent implements OnInit {
   public notificationcount: number = 0;
   public detail_messages: Array<WithdrawalWallet> = [];
   constructor(private router: Router, private common: CommonService, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService, private auth: AuthService) { }
@@ -87,7 +87,7 @@ export class WalletApprovalComponent implements OnInit {
       .subscribe((event: Array<WithdrawalWallet>) => {
         debugger;
         alert('Widthdrawal approver request has been successfully placed.');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/dashboard']);
         // data.forEach((item: WithdrawalWallet) => {
         //   debugger;
         //   if (item.approved == true) {

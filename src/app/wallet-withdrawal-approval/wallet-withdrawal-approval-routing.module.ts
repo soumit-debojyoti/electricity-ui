@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { WalletAddApprovalComponent } from './wallet-add-approval.component';
+import { WalletWithdrawalApprovalComponent } from './wallet-withdrawal-approval.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: WalletAddApprovalComponent
+        component: WalletWithdrawalApprovalComponent
     }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class WalletAddApprovalRoutingModule { }
+export class WalletWithdrawalApprovalRoutingModule { }

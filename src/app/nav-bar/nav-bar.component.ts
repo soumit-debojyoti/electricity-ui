@@ -5,7 +5,7 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { CommonService } from '../services/common.service/common.service';
 import { AdminApprovalNotificationResponse, WithdrawalWallet } from '../models/admin-approval-notification-response.model';
 import { Router } from '@angular/router';
-import { AdminWalletAddApprovalNotificationResponse, AddWallet } from '../models/admin-wallet-add-notification.model';
+import { AdminWalletAddDeductApprovalNotificationResponse, addDeductWalletModel } from '../models/admin-wallet-add-notification.model';
 
 @Component({
   selector: 'app-nav-bar',
@@ -17,7 +17,7 @@ export class NavBarComponent implements OnInit {
   public withdrawalnotificationcount: number = 0;
   public addwalletnotificationcount: number = 0;
   public withdrawal_detail_messages: Array<WithdrawalWallet> = [];
-  public add_wallet_detail_messages: Array<AddWallet> = [];
+  public add_wallet_detail_messages: Array<addDeductWalletModel> = [];
   constructor(private router: Router, private common: CommonService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService, private auth: AuthService) { }
 
@@ -26,7 +26,7 @@ export class NavBarComponent implements OnInit {
       if (this.storage.get('login_user') != undefined) {
         this.isLogin = true;
         this.getWithdrawalNotification(this.storage.get('user_id'));
-        this.getAddWalletNotification(this.storage.get('user_id'));
+        this.getAddDeductWalletNotification(this.storage.get('user_id'));
       }
       else {
         this.isLogin = false;
@@ -51,23 +51,23 @@ export class NavBarComponent implements OnInit {
       });
   }
 
-  private getAddWalletNotification(userId: number): void {
-    this.common.adminWalletAddApprovalNotification(userId)
-      .subscribe((event: AdminWalletAddApprovalNotificationResponse) => {
+  private getAddDeductWalletNotification(userId: number): void {
+    this.common.adminWalletAddDeductApprovalNotification(userId)
+      .subscribe((event: AdminWalletAddDeductApprovalNotificationResponse) => {
         if (event != undefined)
           if (event.message == 'success') {
             this.addwalletnotificationcount = event.addRequestCount;
-            this.add_wallet_detail_messages = event.addWalletModels;
+            this.add_wallet_detail_messages = event.addDeductWalletModels;
           }
       });
   }
 
   public gotoWalletApproval(): void {
-    this.router.navigate(['/wallet-approval']);
+    this.router.navigate(['/wallet-withdrawal-approval']);
   }
 
-  public gotoWalletAdd(): void {
-    this.router.navigate(['/wallet-add']);
+  public gotoWalletAddDeduct(): void {
+    this.router.navigate(['/wallet-add-deduct-approval']);
   }
 
 }

@@ -1,10 +1,10 @@
-export interface AdminWalletAddApprovalNotificationResponse {
+export interface AdminWalletAddDeductApprovalNotificationResponse {
     addRequestCount: number
-    addWalletModels: Array<AddWallet>
+    addDeductWalletModels: Array<addDeductWalletModel>
     message: string
 }
 
-export interface AddWallet {
+export interface addDeductWalletModel {
     addwalletid: string
     firstname: string
     middlename: string
@@ -15,4 +15,5 @@ export interface AddWallet {
     admin_comment: string
     request_initiator_id: number
     wallet_balance: number
+    balance_request_type: string
 }

@@ -10,6 +10,17 @@
     </div>
   </div>
 </div>
+<div *ngIf="isDeductWallet">
+  <div class="row">
+    <div class="col-sm-8">
+      <p class="color-crimson">How much amount you need to deduct?</p>
+      <input type="number" #amount>
+      <p class="color-crimson">Why you want to deduct the balance?</p>
+      <textarea rows="4" cols="110" #comment></textarea><br>
+      <input type="submit" class="button button-submit float-right" (click)="deduct(comment,amount)">
+    </div>
+  </div>
+</div>
 <div *ngIf="isBalanceRequest">
   <div class="row">
     <div class="col-sm-8">

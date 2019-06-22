@@ -14,7 +14,9 @@ import { ProfileService } from '../widgets/profile/profile.service';
 })
 export class DashboardComponent implements OnInit {
   public isEmployee: boolean = false;
+  public isAdmin: boolean = false;
   public isSuperAdmin: boolean = false;
+  public isUser: boolean = false;
   public user_id: number;
   public first_name: string;
   public last_name: string;
@@ -30,6 +32,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isEmployee = false;
+    this.isAdmin = false;
+    this.isSuperAdmin = false;
+    this.isUser = false;
     this.GetUserRoleInformaion();
 
     // this.data.currentMessage.subscribe(message => {
@@ -50,10 +56,16 @@ export class DashboardComponent implements OnInit {
         else {
           if (this.role == 'super admin') {
             this.isSuperAdmin = true;
+          } else if (this.role == 'admin') {
+            this.isAdmin = true;
+          } else if (this.role == 'user') {
+            this.isUser = true;
           }
           else {
             this.isSuperAdmin = false;
             this.isEmployee = false;
+            this.isAdmin = false;
+            this.isUser = false;
           }
         }
 

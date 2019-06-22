@@ -133,6 +133,20 @@ export class CommonService {
       }));
   }
 
+  public walletDeductRequest(userId: number, comment: string, amountDeduct: number): Observable<any> {
+    const urlStringObject = {
+      requestInitiatorId: userId,
+      amount: amountDeduct,
+      comment: comment,
+
+    };
+    const mainURL = this.apiUrlService.getFullURL('DEDUCT_BALANCE_REQUEST', urlStringObject);
+    return this.baseService.post(mainURL, {}, false)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
   public requestBalance(userId: number, amount: number, comment: string): Observable<any> {
     debugger;
     const urlStringObject = {
@@ -158,11 +172,11 @@ export class CommonService {
       }));
   }
 
-  public adminWalletAddApproval(withdrawalWalleta: any): Observable<any> {
+  public adminWalletAddDeductApproval(withdrawalWalleta: any): Observable<any> {
     debugger;
     const urlStringObject = {
     };
-    const mainURL = this.apiUrlService.getFullURL('ADMIN_ADD_WALLET_APPROVAL', urlStringObject);
+    const mainURL = this.apiUrlService.getFullURL('ADMIN_ADD_DEDUCT_WALLET_APPROVAL', urlStringObject);
     return this.baseService.post(mainURL, withdrawalWalleta, true)
       .pipe(map((response: any) => {
         return response;
@@ -182,11 +196,11 @@ export class CommonService {
       }));
   }
 
-  public adminWalletAddApprovalNotification(userId: number): Observable<any> {
+  public adminWalletAddDeductApprovalNotification(userId: number): Observable<any> {
     const urlStringObject = {
       userId: userId
     };
-    const mainURL = this.apiUrlService.getFullURL('ADMIN_WALLET_ADD_APPROVAL_NOTIFICATION', urlStringObject);
+    const mainURL = this.apiUrlService.getFullURL('ADMIN_WALLET_ADD_DEDUCT_APPROVAL_NOTIFICATION', urlStringObject);
     let params = new HttpParams();
     return this.baseService.get(mainURL, {}, params)
       .pipe(map((response: any) => {

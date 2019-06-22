@@ -1,19 +1,19 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { AddWallet, AdminWalletAddApprovalNotificationResponse } from '../models/admin-wallet-add-notification.model';
+import { addDeductWalletModel, AdminWalletAddDeductApprovalNotificationResponse } from '../models/admin-wallet-add-notification.model';
 import { Router } from '@angular/router';
 import { CommonService } from '../services/common.service/common.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { DataService } from '../services/data.service/data.service';
 import { AuthService } from '../services/auth.service/auth.service';
-
+import Swal from 'sweetalert2';
 @Component({
-  selector: 'app-wallet-add-approval',
-  templateUrl: './wallet-add-approval.component.html',
-  styleUrls: ['./wallet-add-approval.component.css']
+  selector: 'app-wallet-add-deduct-approval',
+  templateUrl: './wallet-add-deduct-approval.component.html',
+  styleUrls: ['./wallet-add-deduct-approval.component.css']
 })
-export class WalletAddApprovalComponent implements OnInit {
+export class WalletAddDeductApprovalComponent implements OnInit {
   public notificationcount: number = 0;
-  public detail_messages: Array<AddWallet> = [];
+  public detail_messages: Array<addDeductWalletModel> = [];
   constructor(private router: Router, private common: CommonService, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService, private auth: AuthService) { }
 
 
@@ -23,13 +23,13 @@ export class WalletAddApprovalComponent implements OnInit {
 
   private getNotification(userId: number): void {
     debugger;
-    this.common.adminWalletAddApprovalNotification(userId)
-      .subscribe((event: AdminWalletAddApprovalNotificationResponse) => {
+    this.common.adminWalletAddDeductApprovalNotification(userId)
+      .subscribe((event: AdminWalletAddDeductApprovalNotificationResponse) => {
         debugger;
         if (event != undefined)
           if (event.message == 'success') {
             this.notificationcount = event.addRequestCount;
-            this.detail_messages = event.addWalletModels;
+            this.detail_messages = event.addDeductWalletModels;
             this.detail_messages.map(item => {
               item.approved = false;
             });
@@ -37,7 +37,7 @@ export class WalletAddApprovalComponent implements OnInit {
       });
   }
 
-  public onChange(detail_message: AddWallet): void {
+  public onChange(detail_message: addDeductWalletModel): void {
     debugger;
 
     detail_message.approved = !detail_message.approved;
@@ -48,7 +48,7 @@ export class WalletAddApprovalComponent implements OnInit {
     }
   }
 
-  public onChangeReject(detail_message: AddWallet): void {
+  public onChangeReject(detail_message: addDeductWalletModel): void {
     debugger;
 
     detail_message.rejected = !detail_message.rejected;
@@ -63,10 +63,60 @@ export class WalletAddApprovalComponent implements OnInit {
 
   public submit(): void {
     debugger;
-    var data: AddWallet[] = [];
 
-    this.detail_messages.forEach((item: AddWallet) => {
-      var itemObject: AddWallet = {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: true,
+    })
+
+    swalWithBootstrapButtons.fire({
+      title: 'Are you sure to approve?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, approve it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.Approve();
+        swalWithBootstrapButtons.fire(
+          'Approved!',
+          'Your changes has been submitted.',
+          'success'
+        )
+      } else if (
+        // Read more about handling dismissals
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Cancelled',
+          'Your changes will not update :)',
+          'error'
+        )
+      }
+    })
+
+
+  }
+
+  public IsDisabled(item: addDeductWalletModel): boolean {
+    if (item.approved) {
+      return false;
+    } else if (item.rejected) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  private Approve(): void {
+    var data: addDeductWalletModel[] = [];
+    this.detail_messages.forEach((item: addDeductWalletModel) => {
+      var itemObject: addDeductWalletModel = {
         addwalletid: item.addwalletid,
         firstname: item.firstname,
         middlename: item.middlename,
@@ -76,7 +126,8 @@ export class WalletAddApprovalComponent implements OnInit {
         rejected: item.rejected,
         admin_comment: (!item.admin_comment) ? '' : item.admin_comment,
         request_initiator_id: item.request_initiator_id,
-        wallet_balance: item.wallet_balance
+        wallet_balance: item.wallet_balance,
+        balance_request_type: item.balance_request_type
       };
       if (item.approved || item.rejected) {
         data.push(itemObject);
@@ -84,11 +135,11 @@ export class WalletAddApprovalComponent implements OnInit {
 
     });
 
-    this.common.adminWalletAddApproval(data)
-      .subscribe((event: Array<AddWallet>) => {
+    this.common.adminWalletAddDeductApproval(data)
+      .subscribe((event: Array<addDeductWalletModel>) => {
         debugger;
-        alert('Add wallet approver request has been successfully placed.');
-        this.router.navigate(['/login']);
+        Swal.fire('Add wallet approver request has been successfully placed.')
+        this.router.navigate(['/dashboard']);
         // data.forEach((item: WithdrawalWallet) => {
         //   debugger;
         //   if (item.approved == true) {
@@ -107,17 +158,5 @@ export class WalletAddApprovalComponent implements OnInit {
         //   }
       });
     //});
-
-  }
-
-  public IsDisabled(item: AddWallet): boolean {
-    if (item.approved) {
-      return false;
-    } else if (item.rejected) {
-      return false;
-    } else {
-      return true;
-    }
-
   }
 }
