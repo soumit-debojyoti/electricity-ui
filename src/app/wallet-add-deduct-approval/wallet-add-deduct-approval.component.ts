@@ -138,25 +138,8 @@ export class WalletAddDeductApprovalComponent implements OnInit {
     this.common.adminWalletAddDeductApproval(data)
       .subscribe((event: Array<addDeductWalletModel>) => {
         debugger;
-        Swal.fire('Add wallet approver request has been successfully placed.')
+        Swal.fire('Add deduct wallet approver request has been successfully placed.')
         this.router.navigate(['/dashboard']);
-        // data.forEach((item: WithdrawalWallet) => {
-        //   debugger;
-        //   if (item.approved == true) {
-        //     this.common.addWalletTransaction(item.wallet_balance, item.request_initiator_id, `${item.wallet_balance} amount withdrawal approved.`, 'credit');
-        //   }
-
-        // });
-        // if (event != undefined)
-        //   if (event.message == 'success') {
-        //     this.notificationcount = event.withdrawalRequestCount;
-        //     this.detail_messages = event.withdrawalWalletModels;
-        //     this.detail_messages.map(item => {
-        //       item.approved = false;
-        //       //item.admin_comment = '';
-        //     });
-        //   }
       });
-    //});
   }
 }

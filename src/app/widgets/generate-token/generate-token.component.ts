@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { GenerateTokenService } from './generate-token.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-generate-token',
   templateUrl: './generate-token.component.html',
@@ -20,19 +20,44 @@ export class GenerateTokenComponent implements OnInit {
       .subscribe((response: any) => {
         if (response) {
           if (response == 'suspend') {
-            alert(`Your wallet is suspended.`);
+            this.ErrorSuspend();
           }
           else if (response == 'insufficient_balance') {
-            alert(`You dont have sufficient balance to generate token.`);
+            this.ErrorGenerateToken();
           } else {
-            alert(`Your token is ${response}`);
+            this.Success(response);
+            //alert(`Your token is ${response}`);
           }
         }
         else {
-          alert(`You dont have sufficient balance to generate token.`);
+          this.ErrorGenerateToken();
         }
       }, () => {
       })
+  }
+
+  private ErrorGenerateToken() {
+    Swal.fire({
+      type: 'error',
+      title: 'Oops...',
+      text: 'You dont have sufficient balance to generate token!',
+      footer: 'Please add balance to generate token.'
+    })
+  }
+
+  private ErrorSuspend() {
+    Swal.fire({
+      type: 'error',
+      title: 'Oops...',
+      text: 'Your wallet is suspended.!'
+    })
+  }
+  private Success(token: string) {
+    Swal.fire({
+      type: 'success',
+      title: 'Token',
+      text: `Your token is ${token}`
+    })
   }
 
 }

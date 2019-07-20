@@ -172,12 +172,13 @@ export class CommonService {
       }));
   }
 
-  public adminWalletAddDeductApproval(withdrawalWalleta: any): Observable<any> {
+  public adminWalletAddDeductApproval(withdrawalWallet: any): Observable<any> {
     debugger;
     const urlStringObject = {
+
     };
     const mainURL = this.apiUrlService.getFullURL('ADMIN_ADD_DEDUCT_WALLET_APPROVAL', urlStringObject);
-    return this.baseService.post(mainURL, withdrawalWalleta, true)
+    return this.baseService.post(mainURL, withdrawalWallet, true)
       .pipe(map((response: any) => {
         return response;
       }));

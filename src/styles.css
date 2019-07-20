@@ -20,10 +20,14 @@ body {
    padding-bottom:60px;   /* Height of the footer */
 }
 #footer {
-   position: fixed;;
+   position: fixed;
    bottom:0;
    width:100%;
    height:75px;   /* Height of the footer */
    background:#6cf;
 }
+.footer-p{
+    text-align: center;
+    margin-top: 11px;
+ }
 .pointer {cursor: pointer;}
