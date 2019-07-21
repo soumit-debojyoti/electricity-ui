@@ -11,7 +11,8 @@ export class AlertService {
 
   public confirmationMessage(title: string, text: string,
     type: SweetAlertType, showCloseButton: boolean = true,
-    showCancelButton: boolean = true, confirmButtonText: string = 'OK', cancelButtonText: string = 'Cancel'): void {
+    showCancelButton: boolean = true, confirmButtonText: string = 'OK',
+    cancelButtonText: string = 'Cancel', footerText: string = ''): void {
     Swal.fire({
       type: type,
       title: title,
@@ -19,8 +20,9 @@ export class AlertService {
       showCloseButton: showCloseButton,
       showCancelButton: showCancelButton,
       confirmButtonText: confirmButtonText,
-      cancelButtonText: cancelButtonText
-    })
+      cancelButtonText: cancelButtonText,
+      footer: footerText
+    });
   }
 
   public confirmationPromissMessage(title: string, text: string,
@@ -32,7 +34,7 @@ export class AlertService {
         cancelButton: 'btn btn-danger'
       },
       buttonsStyling: true,
-    })
+    });
 
     return swalWithBootstrapButtons.fire({
       title: title,

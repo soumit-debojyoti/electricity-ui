@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-//import { TokenParams } from '../Classes/TokenParam';
+// import { TokenParams } from '../Classes/TokenParam';
 import { AuthService } from '../services/auth.service/auth.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { ValidateReferalTokenResponse } from '../models/validatereferaltokenresponse.model';
 import { FindUserResponse } from '../models/find-user-response.model';
+import { AlertService } from '../services/common.service/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -13,18 +14,22 @@ import { FindUserResponse } from '../models/find-user-response.model';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  public errorMessage: string = '';
-  public isLoginSuccess: boolean = true;
-  public isRegisterSuccess: boolean = true;
-  public isLogin: boolean = true;
-  public islog: boolean = false;
-  public isRegis: boolean = false;
+  public errorMessage: string;
+  public isLoginSuccess: boolean;
+  public isRegisterSuccess: boolean;
+  public isLogin: boolean;
+  public islog: boolean;
+  public isRegis: boolean;
   public errorMsg;
   public isLoggedIn: boolean;
   public introducer_code: string;
-  constructor(private auth: AuthService, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router) { }
+  constructor(private auth: AuthService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
+    private router: Router, private alertService: AlertService) { }
 
   ngOnInit() {
+    this.isLogin = true;
+    this.islog = false;
+    this.isRegis = false;
     this.errorMessage = '';
     this.isLoginSuccess = true;
     this.isRegisterSuccess = true;
@@ -56,14 +61,14 @@ export class LoginComponent implements OnInit {
         if (res.isLoginSuccess === true) {
           this.isLoginSuccess = true;
 
-          this.storage.set("access_token", res.access_token);
-          if (res.message != '') {
-            alert(res.message);
+          this.storage.set('access_token', res.access_token);
+          if (res.message !== '') {
+            this.alertService.confirmationMessage('',
+              res.message, 'success', true, false);
           }
 
           this.router.navigate(['/dashboard']);
-        }
-        else {
+        } else {
           this.isLoginSuccess = false;
           this.errorMessage = res.message;
         }
@@ -71,8 +76,8 @@ export class LoginComponent implements OnInit {
         error => {
           this.isLoginSuccess = false;
           this.errorMessage = 'Username or password are invalid....';
-          console.log("We got error", error.message);
-          console.log("Error type", error.stack);
+          console.log('We got error', error.message);
+          console.log('Error type', error.stack);
 
         }, _ => {
 
@@ -86,13 +91,13 @@ export class LoginComponent implements OnInit {
         this.isRegisterSuccess = true;
         if (response.is_valid) {
           this.storage.remove('is_employee');
-          this.storage.set("introducer_code", this.introducer_code);
-          this.storage.set("introducer_name", response.introducer_name);
-          this.storage.set("security_token", token.value);
+          this.storage.set('introducer_code', this.introducer_code);
+          this.storage.set('introducer_name', response.introducer_name);
+          this.storage.set('security_token', token.value);
           this.router.navigateByUrl('/register');
-        }
-        else {
-          alert("Token is not valid........");
+        } else {
+          this.alertService.confirmationMessage('',
+            'Token is not valid........', 'success', true, false);
         }
       }, () => {
         this.isRegisterSuccess = false;

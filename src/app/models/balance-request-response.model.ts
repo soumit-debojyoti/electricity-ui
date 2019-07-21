@@ -1,4 +1,4 @@
 export interface BalanceRequestResponse {
-    amount_requested: number
-    message: string
+    amount_requested: number;
+    message: string;
 }

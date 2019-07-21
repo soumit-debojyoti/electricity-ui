@@ -1,4 +1,4 @@
 export interface ValidateReferalTokenResponse {
-    is_valid: boolean
-    introducer_name: string
+    is_valid: boolean;
+    introducer_name: string;
 }

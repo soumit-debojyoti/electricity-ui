@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { addDeductWalletModel, AdminWalletAddDeductApprovalNotificationResponse } from '../models/admin-wallet-add-notification.model';
+import { AddDeductWalletModel, AdminWalletAddDeductApprovalNotificationResponse } from '../models/admin-wallet-add-notification.model';
 import { Router } from '@angular/router';
 import { CommonService } from '../services/common.service/common.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
@@ -14,33 +14,34 @@ import Swal from 'sweetalert2';
   styleUrls: ['./wallet-add-deduct-approval.component.css']
 })
 export class WalletAddDeductApprovalComponent implements OnInit {
-  public notificationcount: number = 0;
-  public detail_messages: Array<addDeductWalletModel> = [];
+  public notificationcount: number;
+  public detail_messages: Array<AddDeductWalletModel> = [];
   constructor(private router: Router, private common: CommonService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private data: DataService, private auth: AuthService, private alertService: AlertService) { }
 
 
   ngOnInit() {
+    this.notificationcount = 0;
     this.getNotification(this.storage.get('user_id'));
   }
 
   private getNotification(userId: number): void {
-    debugger;
     this.common.adminWalletAddDeductApprovalNotification(userId)
       .subscribe((event: AdminWalletAddDeductApprovalNotificationResponse) => {
-        if (event != undefined)
-          if (event.message == 'success') {
+        if (event !== undefined) {
+          if (event.message === 'success') {
             this.notificationcount = event.addRequestCount;
             this.detail_messages = event.addDeductWalletModels;
             this.detail_messages.map(item => {
               item.approved = false;
             });
           }
+        }
       });
   }
 
-  public onChange(detail_message: addDeductWalletModel): void {
+  public onChange(detail_message: AddDeductWalletModel): void {
     detail_message.approved = !detail_message.approved;
     if (!detail_message.approved) {
       detail_message.admin_comment = '';
@@ -49,7 +50,7 @@ export class WalletAddDeductApprovalComponent implements OnInit {
     }
   }
 
-  public onChangeReject(detail_message: addDeductWalletModel): void {
+  public onChangeReject(detail_message: AddDeductWalletModel): void {
     detail_message.rejected = !detail_message.rejected;
     if (!detail_message.rejected) {
 
@@ -74,7 +75,7 @@ export class WalletAddDeductApprovalComponent implements OnInit {
       });
   }
 
-  public IsDisabled(item: addDeductWalletModel): boolean {
+  public IsDisabled(item: AddDeductWalletModel): boolean {
     if (item.approved) {
       return false;
     } else if (item.rejected) {
@@ -85,9 +86,9 @@ export class WalletAddDeductApprovalComponent implements OnInit {
   }
 
   private Approve(): void {
-    var data: addDeductWalletModel[] = [];
-    this.detail_messages.forEach((item: addDeductWalletModel) => {
-      var itemObject: addDeductWalletModel = {
+    var data: AddDeductWalletModel[] = [];
+    this.detail_messages.forEach((item: AddDeductWalletModel) => {
+      var itemObject: AddDeductWalletModel = {
         addwalletid: item.addwalletid,
         firstname: item.firstname,
         middlename: item.middlename,
@@ -107,9 +108,9 @@ export class WalletAddDeductApprovalComponent implements OnInit {
     });
 
     this.common.adminWalletAddDeductApproval(data)
-      .subscribe((event: Array<addDeductWalletModel>) => {
-        debugger;
-        Swal.fire('Add deduct wallet approver request has been successfully placed.')
+      .subscribe((event: Array<AddDeductWalletModel>) => {
+        this.alertService.confirmationMessage('', 'Add deduct wallet approver request has been successfully placed.'
+          , 'success', false, false);
         this.router.navigate(['/dashboard']);
       });
   }
