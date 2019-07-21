@@ -5,7 +5,9 @@ import { CommonService } from '../services/common.service/common.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { DataService } from '../services/data.service/data.service';
 import { AuthService } from '../services/auth.service/auth.service';
+import { AlertService } from '../services/common.service/alert.service';
 import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-wallet-add-deduct-approval',
   templateUrl: './wallet-add-deduct-approval.component.html',
@@ -14,7 +16,9 @@ import Swal from 'sweetalert2';
 export class WalletAddDeductApprovalComponent implements OnInit {
   public notificationcount: number = 0;
   public detail_messages: Array<addDeductWalletModel> = [];
-  constructor(private router: Router, private common: CommonService, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService, private auth: AuthService) { }
+  constructor(private router: Router, private common: CommonService,
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService,
+    private data: DataService, private auth: AuthService, private alertService: AlertService) { }
 
 
   ngOnInit() {
@@ -25,7 +29,6 @@ export class WalletAddDeductApprovalComponent implements OnInit {
     debugger;
     this.common.adminWalletAddDeductApprovalNotification(userId)
       .subscribe((event: AdminWalletAddDeductApprovalNotificationResponse) => {
-        debugger;
         if (event != undefined)
           if (event.message == 'success') {
             this.notificationcount = event.addRequestCount;
@@ -38,8 +41,6 @@ export class WalletAddDeductApprovalComponent implements OnInit {
   }
 
   public onChange(detail_message: addDeductWalletModel): void {
-    debugger;
-
     detail_message.approved = !detail_message.approved;
     if (!detail_message.approved) {
       detail_message.admin_comment = '';
@@ -49,11 +50,8 @@ export class WalletAddDeductApprovalComponent implements OnInit {
   }
 
   public onChangeReject(detail_message: addDeductWalletModel): void {
-    debugger;
-
     detail_message.rejected = !detail_message.rejected;
     if (!detail_message.rejected) {
-
 
     } else {
       detail_message.approved = false;
@@ -62,45 +60,18 @@ export class WalletAddDeductApprovalComponent implements OnInit {
   }
 
   public submit(): void {
-    debugger;
-
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: true,
-    })
-
-    swalWithBootstrapButtons.fire({
-      title: 'Are you sure to approve?',
-      text: "You won't be able to revert this!",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, approve it!',
-      cancelButtonText: 'No, cancel!',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        this.Approve();
-        swalWithBootstrapButtons.fire(
-          'Approved!',
-          'Your changes has been submitted.',
-          'success'
-        )
-      } else if (
-        // Read more about handling dismissals
-        result.dismiss === Swal.DismissReason.cancel
-      ) {
-        swalWithBootstrapButtons.fire(
-          'Cancelled',
-          'Your changes will not update :)',
-          'error'
-        )
-      }
-    })
-
-
+    this.alertService.confirmationPromissMessage('Are you sure to approve?', `You won't be able to revert this!`,
+      'warning', true, true, 'Yes, approve it!', 'No, cancel!').then((result) => {
+        if (result.value) {
+          this.Approve();
+          this.alertService.confirmationMessage('Approved!', 'Your changes has been submitted.', 'success', false, false);
+        } else if (
+          // Read more about handling dismissals
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          this.alertService.confirmationMessage('Cancelled', 'Your changes will not update :', 'error', false, false);
+        }
+      });
   }
 
   public IsDisabled(item: addDeductWalletModel): boolean {

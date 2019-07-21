@@ -1,5 +1,5 @@
 <p>
-  wallet works! This page is called from {{walletType}}
+  {{header}}
 </p>
 <div *ngIf="isWithdrawalWallet">
   <div class="row">
@@ -21,7 +21,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="isBalanceRequest">
+<div *ngIf="isAddBalanceRequest">
   <div class="row">
     <div class="col-sm-8">
       <p class="color-crimson">How much amount you need?</p>
@@ -35,4 +35,7 @@
       <input type="submit" class="button button-submit float-right" (click)="balanceRequest(amount,comment)">
     </div>
   </div>
+</div>
+<div *ngIf="isBalanceRequest">
+
 </div>

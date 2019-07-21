@@ -19,7 +19,7 @@
       <button class="w3-button " title="Wallet Withdrawal"><i class="fa fa-bell"></i><span
           class="w3-badge w3-right w3-small w3-green">{{withdrawalnotificationcount}}</span></button>
       <div class="w3-dropdown-content w3-card-4 w3-bar-block font-size-12" style="width:600px">
-        <a *ngFor="let detail_message of withdrawal_detail_messages" href="#"
+        <a *ngFor="let detail_message of withdrawal_detail_messages"
           class="w3-bar-item w3-button"><b>{{detail_message.firstname}}</b>&nbsp;<b>{{detail_message.lastname}}</b>
           {{detail_message.comment}}</a>
       </div>
@@ -28,7 +28,7 @@
       <button class="w3-button " title="Add Balance"><i class="fa fa-bell"></i><span
           class="w3-badge w3-right w3-small w3-green">{{addwalletnotificationcount}}</span></button>
       <div class="w3-dropdown-content w3-card-4 w3-bar-block font-size-12" style="width:600px">
-        <a *ngFor="let detail_message of add_wallet_detail_messages" href="#"
+        <a *ngFor="let detail_message of add_wallet_detail_messages"
           class="w3-bar-item w3-button"><b>{{detail_message.firstname}}</b>&nbsp;<b>{{detail_message.lastname}}</b>
           {{detail_message.comment}}</a>
       </div>

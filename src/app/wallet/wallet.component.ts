@@ -11,36 +11,42 @@ import { BalanceRequestResponse } from '../models/balance-request-response.model
   styleUrls: ['./wallet.component.css']
 })
 export class WalletComponent implements OnInit {
+  public header: string;
   public userId: number = 0;
   public walletType: any = '';
   public isWithdrawalWallet: boolean = false;
   public isBalanceRequest: boolean = false;
   public isDeductWallet: boolean = false;
+  public isAddBalanceRequest: boolean = false;
   constructor(private common: CommonService, private route: ActivatedRoute, private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService) { }
 
   ngOnInit() {
-    // #region withdrawal
-    this.isWithdrawalWallet = false;
-    // #endregion
-    // #region Balance request
-    this.isBalanceRequest = false;
-    this.isDeductWallet = false;
-    // #endregion
-    this.walletType = '';
+    this.initializeOption();
     this.userId = this.storage.get("user_id");
     this.route.paramMap.subscribe(params => {
       this.walletType = params.get("type");
       // #region withdrawal
       if (this.walletType === 'withdrawal') {
+        this.initializeOption();
         this.isWithdrawalWallet = true;
+        this.header = 'Wallet Witdrawal!'
+      }
+      if (this.walletType === 'balance') {
+        this.initializeOption();
+        this.isBalanceRequest = true;
+        this.header = 'Balance Request!'
       }
       // #endregion
       // #region Balance request
-      if (this.walletType === 'balance') {
-        this.isBalanceRequest = true;
+      if (this.walletType === 'add_wallet') {
+        this.initializeOption();
+        this.isAddBalanceRequest = true;
+        this.header = 'Wallet Add!'
       }
       if (this.walletType === 'deduct') {
+        this.initializeOption();
         this.isDeductWallet = true;
+        this.header = 'Wallet Deduct!'
       }
       // #endregion
     });
@@ -159,5 +165,15 @@ export class WalletComponent implements OnInit {
             this.router.navigate(['/login']);
           }
       });
+  }
+
+  private initializeOption(): void {
+    this.header = '';
+    this.walletType = '';
+    this.isWithdrawalWallet = false;
+
+    this.isBalanceRequest = false;
+    this.isAddBalanceRequest = false;
+    this.isDeductWallet = false;
   }
 }
