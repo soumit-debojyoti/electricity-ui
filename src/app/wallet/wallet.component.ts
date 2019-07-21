@@ -19,6 +19,7 @@ export class WalletComponent implements OnInit {
   public isBalanceRequest: boolean;
   public isDeductWallet: boolean;
   public isAddBalanceRequest: boolean;
+  public wallet_balance: string;
   constructor(private common: CommonService,
     private route: ActivatedRoute, private router: Router,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService) { }
@@ -39,6 +40,7 @@ export class WalletComponent implements OnInit {
         this.initializeOption();
         this.isBalanceRequest = true;
         this.header = 'Balance Request!';
+
       }
       // #endregion
       // #region Balance request
@@ -131,7 +133,6 @@ export class WalletComponent implements OnInit {
       });
   }
 
-
   // #endregion
 
   // #region Balance request
@@ -184,6 +185,7 @@ export class WalletComponent implements OnInit {
   }
 
   private initializeOption(): void {
+    this.wallet_balance = '';
     this.header = '';
     this.walletType = '';
     this.isWithdrawalWallet = false;

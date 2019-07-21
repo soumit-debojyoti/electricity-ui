@@ -15,7 +15,7 @@ export class GenerateTokenService {
 
 
   public GetToken(userId: string): Observable<any> {
-    let params = new HttpParams();
+    const params = new HttpParams();
     const urlStringObject = {
       userId: userId
     };

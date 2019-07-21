@@ -25,6 +25,22 @@ export class AlertService {
     });
   }
 
+  public confirmationMessageHTML(title: string, html: string,
+    type: SweetAlertType, showCloseButton: boolean = true,
+    showCancelButton: boolean = true, confirmButtonText: string = 'OK',
+    cancelButtonText: string = 'Cancel', footerText: string = ''): void {
+    Swal.fire({
+      type: type,
+      title: title,
+      html: html,
+      showCloseButton: showCloseButton,
+      showCancelButton: showCancelButton,
+      confirmButtonText: confirmButtonText,
+      cancelButtonText: cancelButtonText,
+      footer: footerText
+    });
+  }
+
   public confirmationPromissMessage(title: string, text: string,
     type: SweetAlertType, showCloseButton: boolean = true,
     showCancelButton: boolean = true, confirmButtonText: string = 'OK', cancelButtonText: string = 'Cancel'): any {

@@ -15,6 +15,7 @@ export class ApiUrlService extends BaseURLService {
       PHOTO_UPLOAD: `common/uploadphoto/{fileType}/{fileName}`,
       REFERAL_TOKEN: `user/referaltoken/{userId}`,
       VALIDATE_TOKEN: `user/validatetoken/{token}`,
+      WALLET_BALANCE: `user/walletbalance/user/{userId}`,
       ADDRESSPROOF_DATA: `common/addressproofs`,
       IDPROOF_DATA: `common/idproofs`,
       STATES_DATA: `common/states`,
@@ -35,7 +36,7 @@ export class ApiUrlService extends BaseURLService {
       GET_CONFIGURATION: `common/configuration`,
       SET_CONFIGURATION: `common/configuration`,
       GET_USER_RANK: `user/{userID}/userrank`,
-    }
+    };
   }
 
   public getFullURL(key: string, urlVariables?: Object): string {

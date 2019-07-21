@@ -6,7 +6,7 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { map } from 'rxjs/operators/map';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { BaseService } from '../base.service';
 import { environment } from '../../../environments/environment';
 import { ApiUrlService } from '../api.url.service';
@@ -17,8 +17,8 @@ import { CommonService } from '../common.service/common.service';
 })
 export class AuthService {
 
-  AccessToken: string = "";
-  private rootURL = environment.apiUrl + "auth";
+  public AccessToken: string;
+  private rootURL = environment.apiUrl + 'auth';
   private username: string;
   constructor(private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private http: HttpClient, private commonService: CommonService,
@@ -26,7 +26,10 @@ export class AuthService {
 
   login(userName: string, password: string): any {
     this.username = userName;
-    var reqHeader = new HttpHeaders({ 'Content-Type': 'application/json', 'Basic-Auth': 'True', 'responseType': 'json', 'Authorization': 'Basic ' + btoa(userName + ":" + password) });
+    const reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Basic-Auth': 'True', 'responseType': 'json', 'Authorization': 'Basic ' + btoa(userName + ':' + password)
+    });
     return this.http.post(this.rootURL + '/token', {}, { headers: reqHeader }).pipe(map((response: any) => {
       this.storage.set('login_user', this.username);
       this.storage.set('role_id', response.role_id);
@@ -41,7 +44,7 @@ export class AuthService {
   }
 
   register(token: string): Observable<any> {
-    let params = new HttpParams();
+    const params = new HttpParams();
     const urlStringObject = {
       token: token
     };
@@ -53,7 +56,7 @@ export class AuthService {
 
 
   private errorHandler(error: HttpErrorResponse) {
-    return Observable.throw(error.message || "Server Error....");
+    return Observable.throw(error.message || 'Server Error....');
 
   }
 

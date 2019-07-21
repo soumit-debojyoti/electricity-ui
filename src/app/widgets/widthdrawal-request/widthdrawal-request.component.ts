@@ -33,13 +33,13 @@ export class WidthdrawalRequestComponent implements OnInit {
   private getWithdrawalRequestFinder(userId: number): void {
     this.common.getWithdrawalRequestFinder(userId)
       .subscribe((event: any) => {
-        debugger;
-        if (event != undefined)
-          if (event == true) {
+        if (event !== undefined) {
+          if (event === true) {
             this.isWithdrawalRequestSend = true;
           } else {
             this.isWithdrawalRequestSend = false;
           }
+        }
       });
   }
 

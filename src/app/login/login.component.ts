@@ -63,8 +63,7 @@ export class LoginComponent implements OnInit {
 
           this.storage.set('access_token', res.access_token);
           if (res.message !== '') {
-            this.alertService.confirmationMessage('',
-              res.message, 'success', true, false);
+            this.alertService.confirmationMessage('', res.message, 'success', true, false);
           }
 
           this.router.navigate(['/dashboard']);
@@ -96,21 +95,12 @@ export class LoginComponent implements OnInit {
           this.storage.set('security_token', token.value);
           this.router.navigateByUrl('/register');
         } else {
-          this.alertService.confirmationMessage('',
-            'Token is not valid........', 'success', true, false);
+          this.alertService.confirmationMessage('', 'Token is not valid........', 'success', true, false);
         }
       }, () => {
         this.isRegisterSuccess = false;
       });
-
-
-
   }
-
-
-
-
-
 }
 
 

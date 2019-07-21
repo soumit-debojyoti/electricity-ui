@@ -37,15 +37,15 @@ export class GenerateTokenComponent implements OnInit {
 
   private ErrorGenerateToken() {
     this.alertService.confirmationMessage('', 'You dont have sufficient balance to generate token!',
-      'error', true, false, '', '', 'Please add balance to generate token.');
+      'error', true, false, 'Ok', '', 'Please add balance to generate token.');
   }
 
   private ErrorSuspend() {
     this.alertService.confirmationMessage('', 'Your wallet is suspended.!',
-      'error', true, false, '', '', '');
+      'error', true, false, 'Ok', '', '');
   }
   private Success(token: string) {
     this.alertService.confirmationMessage('Token', `Your token is ${token}`,
-      'success', true, false, '', '', '');
+      'success', true, false, 'Ok', '', '');
   }
 }

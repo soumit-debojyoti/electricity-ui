@@ -6,7 +6,7 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { map } from 'rxjs/operators/map';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { BaseService } from '../base.service';
 import { environment } from '../../../environments/environment';
 import { ApiUrlService } from '../api.url.service';
@@ -17,25 +17,25 @@ import { WithdrawalWallet } from 'src/app/models/admin-approval-notification-res
   providedIn: 'root'
 })
 export class CommonService {
-  AccessToken: string = "";
-  private rootURL = environment.apiUrl + "auth";
+  AccessToken: string;
+  private rootURL = environment.apiUrl + 'auth';
   private username: string;
   constructor(private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private http: HttpClient, private baseService: BaseService,
     private apiUrlService: ApiUrlService) { }
 
   getAddressProof(): Observable<any> {
-    //var url: string = `common/addressproofs`;
+    // var url: string = `common/addressproofs`;
     const urlStringObject = {
     };
-    let params = new HttpParams();
+    const params = new HttpParams();
     const mainURL = this.apiUrlService.getFullURL('ADDRESSPROOF_DATA', urlStringObject);
     return this.baseService.get(mainURL, {}, params, true);
   }
 
   getIdProof(): Observable<any> {
-    //var url: string = `common/idproofs`;
-    let params = new HttpParams();
+    // var url: string = `common/idproofs`;
+    const params = new HttpParams();
     const urlStringObject = {
     };
     const mainURL = this.apiUrlService.getFullURL('IDPROOF_DATA', urlStringObject);
@@ -43,8 +43,8 @@ export class CommonService {
   }
 
   getState(): Observable<any> {
-    //var url: string = `common/states`;
-    let params = new HttpParams();
+    // var url: string = `common/states`;
+    const params = new HttpParams();
     const urlStringObject = {
     };
     const mainURL = this.apiUrlService.getFullURL('STATES_DATA', urlStringObject);
@@ -55,8 +55,8 @@ export class CommonService {
     const urlStringObject = {
       fileType: fileType
     };
-    //var url: string = `common/upload/${fileType}`;
-    //let params = new HttpParams();
+    // var url: string = `common/upload/${fileType}`;
+    // let params = new HttpParams();
     const mainURL = this.apiUrlService.getFullURL('FILE_UPLOAD', urlStringObject);
     return this.baseService.post(mainURL, formdata, true);
   }
@@ -66,8 +66,8 @@ export class CommonService {
       fileType: fileType,
       fileName: fileName
     };
-    //var url: string = `common/upload/${fileType}`;
-    //let params = new HttpParams();
+    // var url: string = `common/upload/${fileType}`;
+    // let params = new HttpParams();
     const mainURL = this.apiUrlService.getFullURL('PHOTO_UPLOAD', urlStringObject);
     return this.baseService.post(mainURL, formdata, true);
   }
@@ -88,8 +88,8 @@ export class CommonService {
     const urlStringObject = {
       roleId: role_id
     };
-    //var url: string = `common/upload/${fileType}`;
-    let params = new HttpParams();
+    // var url: string = `common/upload/${fileType}`;
+    const params = new HttpParams();
     const mainURL = this.apiUrlService.getFullURL('PAGE_PERMISSION', urlStringObject);
     return this.baseService.get(mainURL, {}, params);
   }
@@ -106,7 +106,7 @@ export class CommonService {
   }
 
   public addWalletTransaction(amount: number, userId: number, message: string, transactionMode: string): Observable<any> {
-    let formDataregister: FormData = new FormData();
+    const formDataregister: FormData = new FormData();
     formDataregister.append('amount', amount.toString());
     formDataregister.append('userId', userId.toString());
     formDataregister.append('message', message.toString());
@@ -147,8 +147,19 @@ export class CommonService {
       }));
   }
 
+  public getWalletBalance(userId: number): Observable<any> {
+    const urlStringObject = {
+      userId: userId
+    };
+    const params = new HttpParams();
+    const mainURL = this.apiUrlService.getFullURL('WALLET_BALANCE', urlStringObject);
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
   public requestBalance(userId: number, amount: number, comment: string): Observable<any> {
-    debugger;
     const urlStringObject = {
       requestInitiatorId: userId,
       amount: amount,
@@ -162,7 +173,6 @@ export class CommonService {
   }
 
   public adminWalletApproval(withdrawalWalleta: any): Observable<any> {
-    debugger;
     const urlStringObject = {
     };
     const mainURL = this.apiUrlService.getFullURL('ADMIN_WALLET_APPROVAL', urlStringObject);
@@ -173,9 +183,7 @@ export class CommonService {
   }
 
   public adminWalletAddDeductApproval(withdrawalWallet: any): Observable<any> {
-    debugger;
     const urlStringObject = {
-
     };
     const mainURL = this.apiUrlService.getFullURL('ADMIN_ADD_DEDUCT_WALLET_APPROVAL', urlStringObject);
     return this.baseService.post(mainURL, withdrawalWallet, true)
@@ -190,7 +198,7 @@ export class CommonService {
       userId: userId
     };
     const mainURL = this.apiUrlService.getFullURL('ADMIN_WALLET_WITHDRAWAL_APPROVAL_NOTIFICATION', urlStringObject);
-    let params = new HttpParams();
+    const params = new HttpParams();
     return this.baseService.get(mainURL, {}, params)
       .pipe(map((response: any) => {
         return response;
@@ -202,7 +210,7 @@ export class CommonService {
       userId: userId
     };
     const mainURL = this.apiUrlService.getFullURL('ADMIN_WALLET_ADD_DEDUCT_APPROVAL_NOTIFICATION', urlStringObject);
-    let params = new HttpParams();
+    const params = new HttpParams();
     return this.baseService.get(mainURL, {}, params)
       .pipe(map((response: any) => {
         return response;
@@ -214,7 +222,7 @@ export class CommonService {
       userId: userId
     };
     const mainURL = this.apiUrlService.getFullURL('WITHDRAWAL_REQUEST_FINDER', urlStringObject);
-    let params = new HttpParams();
+    const params = new HttpParams();
     return this.baseService.get(mainURL, {}, params)
       .pipe(map((response: any) => {
         return response;
@@ -224,7 +232,7 @@ export class CommonService {
   public getConfiguration(): Observable<any> {
     const urlStringObject = {
     };
-    let params = new HttpParams();
+    const params = new HttpParams();
     const mainURL = this.apiUrlService.getFullURL('GET_CONFIGURATION', urlStringObject);
     return this.baseService.get(mainURL, {}, params);
   }
