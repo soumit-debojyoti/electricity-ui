@@ -13,8 +13,12 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { DataService } from './services/data.service/data.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
-
+import { NgxSpinnerModule } from 'ngx-spinner';
+import {
+  NbThemeModule,
+  NbLayoutModule,
+  NbButtonModule
+} from '@nebular/theme';
 // import { StoreService } from './store/store.service';
 // import { StoreModule } from '@ngrx/store';
 // import { createReducer } from './store/reducers/message.reducer';
@@ -22,7 +26,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
-    NavBarComponent,
+    NavBarComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +37,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxSpinnerModule,
+    NbThemeModule.forRoot(),
+    NbLayoutModule,
+    NbButtonModule
     // StoreModule.forRoot(createReducer())
   ],
   providers: [AuthGuard

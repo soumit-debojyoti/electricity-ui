@@ -13,14 +13,14 @@ import { WalletReportResponse, UserLog, WalletLog, DateLog } from '../models/wal
   templateUrl: './wallet.component.html',
   styleUrls: ['./wallet.component.css']
 })
-export class WalletComponent implements OnInit, ViewChild, AfterViewInit {
-  descendants: boolean;
-  first: boolean;
-  read: any;
-  isViewQuery: boolean;
-  selector: any;
-  @ViewChild('device') device: ElementRef;
+export class WalletComponent implements OnInit, AfterViewInit {
+  public descendants: boolean;
+  public first: boolean;
+  public read: any;
+  public isViewQuery: boolean;
+  public selector: any;
   public selectedIndex: number;
+  @ViewChild('device', { static: false }) device: ElementRef;
   public initialLoad: boolean;
   public userChange: boolean;
   public header: string;
