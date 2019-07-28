@@ -7,6 +7,7 @@ import { DataService } from '../services/data.service/data.service';
 import { AuthService } from '../services/auth.service/auth.service';
 import { AlertService } from '../services/common.service/alert.service';
 import Swal from 'sweetalert2';
+import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 
 @Component({
   selector: 'app-wallet-add-deduct-approval',
@@ -18,7 +19,8 @@ export class WalletAddDeductApprovalComponent implements OnInit {
   public detail_messages: Array<AddDeductWalletModel> = [];
   constructor(private router: Router, private common: CommonService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService,
-    private data: DataService, private auth: AuthService, private alertService: AlertService) { }
+    private data: DataService, private auth: AuthService, private alertService: AlertService,
+    private loadingScreenService: LoadingScreenService) { }
 
 
   ngOnInit() {
@@ -27,8 +29,10 @@ export class WalletAddDeductApprovalComponent implements OnInit {
   }
 
   private getNotification(userId: number): void {
+    this.loadingScreenService.startLoading();
     this.common.adminWalletAddDeductApprovalNotification(userId)
       .subscribe((event: AdminWalletAddDeductApprovalNotificationResponse) => {
+        this.loadingScreenService.stopLoading();
         if (event !== undefined) {
           if (event.message === 'success') {
             this.notificationcount = event.addRequestCount;
@@ -38,6 +42,8 @@ export class WalletAddDeductApprovalComponent implements OnInit {
             });
           }
         }
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
@@ -106,12 +112,15 @@ export class WalletAddDeductApprovalComponent implements OnInit {
       }
 
     });
-
+    this.loadingScreenService.startLoading();
     this.common.adminWalletAddDeductApproval(data)
       .subscribe((event: Array<AddDeductWalletModel>) => {
+        this.loadingScreenService.stopLoading();
         this.alertService.confirmationMessage('', 'Add deduct wallet approver request has been successfully placed.'
           , 'success', false, false);
         this.router.navigate(['/dashboard']);
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 }

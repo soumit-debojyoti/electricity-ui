@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { ProfileService } from '../widgets/profile/profile.service';
+import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,7 +30,8 @@ export class DashboardComponent implements OnInit {
   public name: string;
   public photo: string;
   constructor(private profileService: ProfileService,
-    private data: DataService, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
+    private data: DataService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
+    private loadingScreenService: LoadingScreenService) {
   }
 
   ngOnInit() {
@@ -46,9 +48,10 @@ export class DashboardComponent implements OnInit {
 
   private GetUserRoleInformaion(): void {
     this.name = this.storage.get('login_user');
-
+    this.loadingScreenService.startLoading();
     this.profileService.GetUser(this.name)
       .subscribe((response: User) => {
+        this.loadingScreenService.stopLoading();
         this.role = response.role_name;
         if (this.role === 'employee') {
           this.isEmployee = true;
@@ -66,7 +69,8 @@ export class DashboardComponent implements OnInit {
             this.isUser = false;
           }
         }
-
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 

@@ -6,6 +6,7 @@ import { UserWalletBalanceResponse } from 'src/app/models/user-wallet-balance-re
 import { AlertService } from 'src/app/services/common.service/alert.service';
 import { CommonService } from 'src/app/services/common.service/common.service';
 import { UserService } from 'src/app/services/user.service/user.service';
+import { LoadingScreenService } from 'src/app/services/loading-screen/loading-screen.service';
 
 @Component({
   selector: 'app-balance-request',
@@ -17,7 +18,8 @@ export class BalanceRequestComponent implements OnInit {
   constructor(private common: CommonService, private auth: AuthService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private userService: UserService,
     private router: Router,
-    private alertService: AlertService) { }
+    private alertService: AlertService,
+    private loadingScreenService: LoadingScreenService) { }
 
 
 
@@ -35,8 +37,10 @@ export class BalanceRequestComponent implements OnInit {
   }
 
   private getWalletBalance(): void {
+    this.loadingScreenService.startLoading();
     this.userService.getWalletBalance(this.userId)
       .subscribe((response: UserWalletBalanceResponse) => {
+        this.loadingScreenService.stopLoading();
         if (response !== undefined) {
           let html = '';
           if (response.walletBalance > 100) {
@@ -48,6 +52,8 @@ export class BalanceRequestComponent implements OnInit {
           }
           this.alertService.confirmationMessageHTML('', html, 'success', true, false);
         }
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 

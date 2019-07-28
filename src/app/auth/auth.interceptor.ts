@@ -6,20 +6,14 @@ import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { finalize } from 'rxjs/operators';
-import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
+
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    activeRequests: number;
-    constructor(private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
-        private loadingScreenService: LoadingScreenService) {
-        this.activeRequests = 0;
+    constructor(private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (this.activeRequests === 0) {
-            this.loadingScreenService.startLoading();
-        }
         if (req.headers.get('Basic-Auth') === 'True') {
             return next.handle(req.clone());
         }
@@ -39,9 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
                             this.router.navigateByUrl('/login');
                         }
                     },
-                    () => {
-                        this.loadingScreenService.stopLoading();
-                    }
+                    () => { }
                 );
         } else {
             if (this.router.url === '/book') {

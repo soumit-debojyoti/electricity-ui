@@ -6,6 +6,7 @@ import { AdminApprovalNotificationResponse, WithdrawalWallet } from '../models/a
 import { DataService } from '../services/data.service/data.service';
 import { AuthService } from '../services/auth.service/auth.service';
 import { AlertService } from '../services/common.service/alert.service';
+import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 
 @Component({
   selector: 'app-wallet-approval',
@@ -17,7 +18,8 @@ export class WalletWithdrawalApprovalComponent implements OnInit {
   public detail_messages: Array<WithdrawalWallet> = [];
   constructor(private router: Router, private common: CommonService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService,
-    private auth: AuthService, private alertService: AlertService) { }
+    private auth: AuthService, private alertService: AlertService,
+    private loadingScreenService: LoadingScreenService) { }
 
 
   ngOnInit() {
@@ -26,8 +28,10 @@ export class WalletWithdrawalApprovalComponent implements OnInit {
   }
 
   private getNotification(userId: number): void {
+    this.loadingScreenService.startLoading();
     this.common.adminWalletWithdrawalApprovalNotification(userId)
       .subscribe((event: AdminApprovalNotificationResponse) => {
+        this.loadingScreenService.stopLoading();
         if (event !== undefined) {
           if (event.message === 'success') {
             this.notificationcount = event.withdrawalRequestCount;
@@ -37,6 +41,8 @@ export class WalletWithdrawalApprovalComponent implements OnInit {
             });
           }
         }
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
@@ -83,30 +89,16 @@ export class WalletWithdrawalApprovalComponent implements OnInit {
       }
 
     });
-
+    this.loadingScreenService.startLoading();
     this.common.adminWalletApproval(data)
       .subscribe((event: Array<WithdrawalWallet>) => {
+        this.loadingScreenService.stopLoading();
         this.alertService.confirmationMessage('',
           `Widthdrawal approver request has been successfully placed.`,
           'success', true, false);
         this.router.navigate(['/dashboard']);
-        // data.forEach((item: WithdrawalWallet) => {
-        //   debugger;
-        //   if (item.approved == true) {
-        //     this.common.addWalletTransaction(item.wallet_balance,
-        // item.request_initiator_id, `${item.wallet_balance} amount withdrawal approved.`, 'credit');
-        //   }
-
-        // });
-        // if (event != undefined)
-        //   if (event.message == 'success') {
-        //     this.notificationcount = event.withdrawalRequestCount;
-        //     this.detail_messages = event.withdrawalWalletModels;
-        //     this.detail_messages.map(item => {
-        //       item.approved = false;
-        //       //item.admin_comment = '';
-        //     });
-        //   }
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
     // });
 

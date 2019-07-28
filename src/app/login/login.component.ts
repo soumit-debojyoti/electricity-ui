@@ -7,6 +7,8 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { ValidateReferalTokenResponse } from '../models/validatereferaltokenresponse.model';
 import { FindUserResponse } from '../models/find-user-response.model';
 import { AlertService } from '../services/common.service/alert.service';
+import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
+
 
 @Component({
   selector: 'app-login',
@@ -24,7 +26,8 @@ export class LoginComponent implements OnInit {
   public isLoggedIn: boolean;
   public introducer_code: string;
   constructor(private auth: AuthService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
-    private router: Router, private alertService: AlertService) { }
+    private router: Router, private alertService: AlertService,
+    private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
     this.isLogin = true;
@@ -56,8 +59,10 @@ export class LoginComponent implements OnInit {
 
   public login($event, username: any, password: any): void {
     this.islog = true;
+    this.loadingScreenService.startLoading();
     this.auth.login(username.value, password.value)
       .subscribe((res: any) => {
+        this.loadingScreenService.stopLoading();
         if (res.isLoginSuccess === true) {
           this.isLoginSuccess = true;
 
@@ -73,6 +78,7 @@ export class LoginComponent implements OnInit {
         }
       },
         error => {
+          this.loadingScreenService.stopLoading();
           this.isLoginSuccess = false;
           this.errorMessage = 'Username or password are invalid....';
           console.log('We got error', error.message);
@@ -85,8 +91,10 @@ export class LoginComponent implements OnInit {
 
   public register(token: any): void {
     this.introducer_code = token.value;
+    this.loadingScreenService.startLoading();
     this.auth.register(token.value)
       .subscribe((response: ValidateReferalTokenResponse) => {
+        this.loadingScreenService.stopLoading();
         this.isRegisterSuccess = true;
         if (response.is_valid) {
           this.storage.remove('is_employee');
@@ -99,6 +107,7 @@ export class LoginComponent implements OnInit {
         }
       }, () => {
         this.isRegisterSuccess = false;
+        this.loadingScreenService.stopLoading();
       });
   }
 }

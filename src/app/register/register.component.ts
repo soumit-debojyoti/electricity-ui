@@ -11,6 +11,7 @@ import { State } from '../models/state.model';
 import { Router } from '@angular/router';
 import { RegisterUserResponse } from '../models/registeruser.model';
 import { AlertService } from '../services/common.service/alert.service';
+import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 
 @Component({
   selector: 'app-register',
@@ -40,7 +41,9 @@ export class RegisterComponent implements OnInit {
 
   constructor(private common: CommonService,
     private userService: UserService, private formBuilder: FormBuilder,
-    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router, private alertService: AlertService) { }
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService,
+    private router: Router, private alertService: AlertService,
+    private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
 
@@ -116,31 +119,39 @@ export class RegisterComponent implements OnInit {
 
     formDataregister.append('bankdetails', this.registerForm.get('bankdetails').value);
     formDataregister.append('payonline', this.registerForm.get('payonline').value);
-
+    this.loadingScreenService.startLoading();
     this.userService.registerUser(formDataregister)
       .subscribe((response: RegisterUserResponse) => {
+        this.loadingScreenService.stopLoading();
         if (response.message === 'Registered.') {
           this.addWallet(response);
         }
       }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
   private addWallet(register: RegisterUserResponse): void {
+    this.loadingScreenService.startLoading();
     this.common.addWallet(register.user_security_stamp)
       .subscribe((event: any) => {
+        this.loadingScreenService.stopLoading();
         if (event !== undefined) {
           if (event.message === 'success' && register.message === 'Registered.') {
             this.addWalletTransaction(event.amount_wallet_for_registration, event.user_id,
               'Amount added to open a wallet with initial amount.', 'debit');
           }
         }
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
   private addWalletTransaction(amount: number, userId: number, message: string, transactionMode: string): void {
+    this.loadingScreenService.startLoading();
     this.common.addWalletTransaction(amount, userId, message, transactionMode)
       .subscribe((event: any) => {
+        this.loadingScreenService.stopLoading();
         if (event !== undefined) {
           if (event.message === 'success') {
             this.alertService.confirmationMessage('',
@@ -150,6 +161,8 @@ export class RegisterComponent implements OnInit {
             this.router.navigate(['/login']);
           }
         }
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
@@ -279,23 +292,35 @@ export class RegisterComponent implements OnInit {
   }
 
   public getAddressProof(): void {
+    this.loadingScreenService.startLoading();
     this.common.getAddressProof()
       .subscribe((response: Array<AddressProof>) => {
+        this.loadingScreenService.stopLoading();
         this.addressProofs = response;
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
   public getIdProof(): void {
+    this.loadingScreenService.startLoading();
     this.common.getIdProof()
       .subscribe((response: Array<IdProof>) => {
+        this.loadingScreenService.stopLoading();
         this.idProofs = response;
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
   public getStates(): void {
+    this.loadingScreenService.startLoading();
     this.common.getState()
       .subscribe((response: Array<State>) => {
+        this.loadingScreenService.stopLoading();
         this.states = response;
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
@@ -309,12 +334,17 @@ export class RegisterComponent implements OnInit {
     for (const file of files) {
       formData.append(file.name, file);
     }
+
+    this.loadingScreenService.startLoading();
     this.common.upload('idProof', formData)
       .subscribe((event: any) => {
+        this.loadingScreenService.stopLoading();
         if (event !== undefined) {
           this.idProofUploadpath = event.toString();
         }
         this.messageIdProof = 'Upload successful';
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
@@ -328,12 +358,17 @@ export class RegisterComponent implements OnInit {
     for (const file of files) {
       formData.append(file.name, file);
     }
+
+    this.loadingScreenService.startLoading();
     this.common.upload('addressProof', formData)
       .subscribe((event: any) => {
+        this.loadingScreenService.stopLoading();
         if (event !== undefined) {
           this.addressProofUploadpath = event.toString();
         }
         this.messageAddressProof = 'Upload successful';
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
@@ -346,16 +381,19 @@ export class RegisterComponent implements OnInit {
       formData.append(this.user_name, file);
     }
 
+
+    this.loadingScreenService.startLoading();
     this.common.uploadPhoto('photo', this.user_name, formData)
       .subscribe((event: any) => {
+        this.loadingScreenService.stopLoading();
         if (event !== undefined) {
           // this.photoUploadPath = environment.baseUrl + event.toString();
           this.photoUploadPath = event.toString();
           // this.download('photo', this.photoUploadPath);
           this.messagePhoto = 'Upload successful';
         }
-
-
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 

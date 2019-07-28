@@ -5,6 +5,7 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { Router } from '@angular/router';
 import { RankAchieverModel, ParentModel, ChildModel, SiblingModel, RankAchieverCountModel } from '../../models/rank-chiever.model';
 import { DataService } from '../../services/data.service/data.service';
+import { LoadingScreenService } from 'src/app/services/loading-screen/loading-screen.service';
 
 @Component({
   selector: 'app-rank-achiever-list',
@@ -17,27 +18,36 @@ export class RankAchieverListComponent implements OnInit {
   public siblingsCount: number;
   public userRank: number = 0;
   constructor(private userService: UserService, private formBuilder: FormBuilder,
-    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router, private data: DataService) { }
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router, private data: DataService,
+    private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
     this.childrenCount = 0;
     this.siblingsCount = 0;
+    this.loadingScreenService.startLoading();
     this.data.currentMessage.subscribe(message => {
-      if (this.storage.get('user_id') != undefined) {
+      this.loadingScreenService.stopLoading();
+      if (this.storage.get('user_id') !== undefined) {
         this.user_id = this.storage.get('user_id');
         this.getRankAchieverCount(this.user_id);
         this.fetchUserRank(this.user_id);
       }
+    }, () => {
+      this.loadingScreenService.stopLoading();
     });
 
 
   }
 
   private getRankAchieverCount(user_id: number): void {
+    this.loadingScreenService.startLoading();
     this.userService.getRankAchieverCount(user_id)
       .subscribe((response: RankAchieverCountModel) => {
+        this.loadingScreenService.stopLoading();
         this.childrenCount = response.childrenCount;
         this.siblingsCount = response.siblingsCount;
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
@@ -46,10 +56,14 @@ export class RankAchieverListComponent implements OnInit {
   }
 
   private fetchUserRank(user_id: number): void {
+    this.loadingScreenService.startLoading();
     this.userService.fetchUserRank(user_id).subscribe(
       response => {
+        this.loadingScreenService.stopLoading();
         this.userRank = response;
+      }, () => {
+        this.loadingScreenService.stopLoading();
       }
-    )
+    );
   }
 }

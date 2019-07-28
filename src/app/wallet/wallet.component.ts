@@ -7,6 +7,7 @@ import { BalanceRequestResponse } from '../models/balance-request-response.model
 import { AlertService } from '../services/common.service/alert.service';
 import { UserService } from '../services/user.service/user.service';
 import { WalletReportResponse, UserLog, WalletLog, DateLog } from '../models/wallet-balance-report.model';
+import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 
 @Component({
   selector: 'app-wallet',
@@ -39,7 +40,8 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public datelogs: Array<DateLog>;
   constructor(private common: CommonService, private userService: UserService,
     private route: ActivatedRoute, private router: Router,
-    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService) { }
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService,
+    private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
     this.selectedIndex = 0;
@@ -49,7 +51,9 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.userId = 0;
     this.initializeOption();
     this.userId = this.storage.get('user_id');
+    this.loadingScreenService.startLoading();
     this.route.paramMap.subscribe(params => {
+      this.loadingScreenService.stopLoading();
       this.walletType = params.get('type');
       // #region withdrawal
       if (this.walletType === 'withdrawal') {
@@ -88,6 +92,8 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
         this.getWalletBalanceReport(this.userId, 0, 0);
       }
+    }, () => {
+      this.loadingScreenService.stopLoading();
     });
   }
 
@@ -96,8 +102,10 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   private getWalletBalanceReport(userId: number, monthNumber: number, yearNumber: number): void {
+    this.loadingScreenService.startLoading();
     this.userService.getWalletBalanceReport(userId, monthNumber, yearNumber)
       .subscribe((response: WalletReportResponse) => {
+        this.loadingScreenService.stopLoading();
         if (response !== undefined) {
           if (response.user_logs.length > 0) {
             this.users = response.user_logs;
@@ -109,6 +117,8 @@ export class WalletComponent implements OnInit, AfterViewInit {
             this.selectedIndex = 0; // this.datelogs.length - 1;
           }
         }
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
@@ -147,8 +157,10 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   private addWalletWithdrawalRequest(userId: number, comment: string): void {
+    this.loadingScreenService.startLoading();
     this.common.addWalletWithdrawalRequest(userId, comment)
       .subscribe((response: WalletWidthdrawalResponse) => {
+        this.loadingScreenService.stopLoading();
         if (response !== undefined) {
           if (response.message === 'success') {
             let message = '';
@@ -169,12 +181,16 @@ export class WalletComponent implements OnInit, AfterViewInit {
         }
 
 
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
   private walletDeductRequest(userId: number, comment: string, amountDeduct: string): void {
+    this.loadingScreenService.startLoading();
     this.userService.walletDeductRequest(userId, comment, +amountDeduct)
       .subscribe((response: WalletWidthdrawalResponse) => {
+        this.loadingScreenService.stopLoading();
         if (response !== undefined) {
           if (response.message === 'success') {
             let message = '';
@@ -206,6 +222,8 @@ export class WalletComponent implements OnInit, AfterViewInit {
             this.alertService.confirmationMessage('', response.message, 'success', true, false);
           }
         }
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
@@ -217,8 +235,10 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   private requestBalance(userId: number, amount: number, comment: string): void {
+    this.loadingScreenService.startLoading();
     this.userService.requestBalance(userId, +amount, comment)
       .subscribe((response: BalanceRequestResponse) => {
+        this.loadingScreenService.stopLoading();
         if (response !== undefined) {
           if (response.message === 'success') {
             let message = '';
@@ -238,6 +258,8 @@ export class WalletComponent implements OnInit, AfterViewInit {
             this.alertService.confirmationMessage('', response.message, 'error', true, false);
           }
         }
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
@@ -247,8 +269,10 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
 
   private addWalletTransaction(amount: number, userId: number, message: string, transactionMode: string, requestType: string): void {
+    this.loadingScreenService.startLoading();
     this.common.addWalletTransaction(amount, userId, message, transactionMode)
       .subscribe((event: any) => {
+        this.loadingScreenService.stopLoading();
         if (event !== undefined) {
           if (event.message === 'success') {
             this.alertService.confirmationMessage('',
@@ -257,6 +281,8 @@ export class WalletComponent implements OnInit, AfterViewInit {
             this.router.navigate(['/dashboard']);
           }
         }
+      }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 

@@ -3,6 +3,7 @@ import { GenerateTokenService } from './generate-token.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import Swal from 'sweetalert2';
 import { AlertService } from 'src/app/services/common.service/alert.service';
+import { LoadingScreenService } from 'src/app/services/loading-screen/loading-screen.service';
 @Component({
   selector: 'app-generate-token',
   templateUrl: './generate-token.component.html',
@@ -11,15 +12,18 @@ import { AlertService } from 'src/app/services/common.service/alert.service';
 export class GenerateTokenComponent implements OnInit {
   public name: string;
   constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService,
-    private generateTokenService: GenerateTokenService, private alertService: AlertService) { }
+    private generateTokenService: GenerateTokenService, private alertService: AlertService,
+    private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
     this.name = this.storage.get('login_user');
   }
 
   generateToken() {
+    this.loadingScreenService.startLoading();
     this.generateTokenService.GetToken(this.name)
       .subscribe((response: any) => {
+        this.loadingScreenService.stopLoading();
         if (response) {
           if (response === 'suspend') {
             this.ErrorSuspend();
@@ -32,6 +36,7 @@ export class GenerateTokenComponent implements OnInit {
           this.ErrorGenerateToken();
         }
       }, () => {
+        this.loadingScreenService.stopLoading();
       });
   }
 
