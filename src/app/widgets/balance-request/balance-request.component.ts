@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserWalletBalanceResponse } from 'src/app/models/user-wallet-balance-response.model';
 import { AlertService } from 'src/app/services/common.service/alert.service';
 import { CommonService } from 'src/app/services/common.service/common.service';
+import { UserService } from 'src/app/services/user.service/user.service';
 
 @Component({
   selector: 'app-balance-request',
@@ -14,7 +15,7 @@ import { CommonService } from 'src/app/services/common.service/common.service';
 export class BalanceRequestComponent implements OnInit {
   public userId: number;
   constructor(private common: CommonService, private auth: AuthService,
-    @Inject(LOCAL_STORAGE) private storage: WebStorageService,
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private userService: UserService,
     private router: Router,
     private alertService: AlertService) { }
 
@@ -34,7 +35,7 @@ export class BalanceRequestComponent implements OnInit {
   }
 
   private getWalletBalance(): void {
-    this.common.getWalletBalance(this.userId)
+    this.userService.getWalletBalance(this.userId)
       .subscribe((response: UserWalletBalanceResponse) => {
         if (response !== undefined) {
           let html = '';

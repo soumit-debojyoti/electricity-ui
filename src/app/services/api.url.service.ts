@@ -16,6 +16,7 @@ export class ApiUrlService extends BaseURLService {
       REFERAL_TOKEN: `user/referaltoken/{userId}`,
       VALIDATE_TOKEN: `user/validatetoken/{token}`,
       WALLET_BALANCE: `user/walletbalance/user/{userId}`,
+      WALLET_BALANCE_REPORT: `user/walletbalancereport/user/{userId}/month/{monthNumber}/year/{yearNumber}`,
       ADDRESSPROOF_DATA: `common/addressproofs`,
       IDPROOF_DATA: `common/idproofs`,
       STATES_DATA: `common/states`,

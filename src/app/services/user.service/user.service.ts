@@ -32,8 +32,61 @@ export class UserService {
       }));
   }
 
+  public walletDeductRequest(userId: number, comment: string, amountDeduct: number): Observable<any> {
+    const urlStringObject = {
+      requestInitiatorId: userId,
+      amount: amountDeduct,
+      comment: comment,
+
+    };
+    const mainURL = this.apiUrlService.getFullURL('DEDUCT_BALANCE_REQUEST', urlStringObject);
+    return this.baseService.post(mainURL, {}, false)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public getWalletBalance(userId: number): Observable<any> {
+    const urlStringObject = {
+      userId: userId
+    };
+    const params = new HttpParams();
+    const mainURL = this.apiUrlService.getFullURL('WALLET_BALANCE', urlStringObject);
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public requestBalance(userId: number, amount: number, comment: string): Observable<any> {
+    const urlStringObject = {
+      requestInitiatorId: userId,
+      amount: amount,
+      comment: comment
+    };
+    const mainURL = this.apiUrlService.getFullURL('ADD_BALANCE_REQUEST', urlStringObject);
+    return this.baseService.post(mainURL, {}, false)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public getWalletBalanceReport(userId: number, monthNumber: number, yearNumber: number): Observable<any> {
+    const urlStringObject = {
+      userId: userId,
+      monthNumber: monthNumber,
+      yearNumber: yearNumber
+    };
+    const params = new HttpParams();
+    const mainURL = this.apiUrlService.getFullURL('WALLET_BALANCE_REPORT', urlStringObject);
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
   public getRankAchieverList(user_id: number): Observable<any> {
-    let params = new HttpParams();
+    const params = new HttpParams();
     const urlStringObject = {
       userId: user_id
     };
@@ -45,7 +98,7 @@ export class UserService {
   }
 
   public getRankAchieverCount(user_id: number): Observable<any> {
-    let params = new HttpParams();
+    const params = new HttpParams();
     const urlStringObject = {
       userId: user_id
     };

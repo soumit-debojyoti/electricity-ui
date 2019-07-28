@@ -1,30 +1,51 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { CommonService } from '../services/common.service/common.service';
 import { WalletWidthdrawalResponse } from '../models/wallet-widthdrawal-response.model';
 import { BalanceRequestResponse } from '../models/balance-request-response.model';
 import { AlertService } from '../services/common.service/alert.service';
+import { UserService } from '../services/user.service/user.service';
+import { WalletReportResponse, UserLog, WalletLog, DateLog } from '../models/wallet-balance-report.model';
 
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
   styleUrls: ['./wallet.component.css']
 })
-export class WalletComponent implements OnInit {
+export class WalletComponent implements OnInit, ViewChild, AfterViewInit {
+  descendants: boolean;
+  first: boolean;
+  read: any;
+  isViewQuery: boolean;
+  selector: any;
+  @ViewChild('device') device: ElementRef;
+  public selectedIndex: number;
+  public initialLoad: boolean;
+  public userChange: boolean;
   public header: string;
   public userId: number;
+  public userName: string;
   public walletType: any = '';
   public isWithdrawalWallet: boolean;
-  public isBalanceRequest: boolean;
   public isDeductWallet: boolean;
   public isAddBalanceRequest: boolean;
+  public isBalanceRequestReport: boolean;
   public wallet_balance: string;
-  constructor(private common: CommonService,
+  public isSuperAdmin: boolean;
+
+  public users: Array<UserLog>;
+  public wallettransactions: Array<WalletLog>;
+  public datelogs: Array<DateLog>;
+  constructor(private common: CommonService, private userService: UserService,
     private route: ActivatedRoute, private router: Router,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService) { }
 
   ngOnInit() {
+    this.selectedIndex = 0;
+    this.initialLoad = false;
+    this.userChange = false;
+    this.isSuperAdmin = false;
     this.userId = 0;
     this.initializeOption();
     this.userId = this.storage.get('user_id');
@@ -35,12 +56,6 @@ export class WalletComponent implements OnInit {
         this.initializeOption();
         this.isWithdrawalWallet = true;
         this.header = 'Wallet Witdrawal!';
-      }
-      if (this.walletType === 'balance') {
-        this.initializeOption();
-        this.isBalanceRequest = true;
-        this.header = 'Balance Request!';
-
       }
       // #endregion
       // #region Balance request
@@ -55,9 +70,70 @@ export class WalletComponent implements OnInit {
         this.header = 'Wallet Deduct!';
       }
       // #endregion
+      if (this.walletType === 'report') {
+        this.initializeOption();
+        this.isBalanceRequestReport = true;
+        this.wallettransactions = [];
+        this.datelogs = [];
+        this.users = [];
+        this.header = 'Wallet Balance Report!';
+        this.initialLoad = true;
+        this.userChange = true;
+        this.userId = this.storage.get('user_id');
+        this.userName = this.storage.get('login_user');
+        const role = this.storage.get('role');
+        if (role === 'super admin') {
+          this.isSuperAdmin = true;
+        }
+
+        this.getWalletBalanceReport(this.userId, 0, 0);
+      }
     });
   }
 
+  ngAfterViewInit() {
+    this.device.nativeElement.value = this.selectedIndex;
+  }
+
+  private getWalletBalanceReport(userId: number, monthNumber: number, yearNumber: number): void {
+    this.userService.getWalletBalanceReport(userId, monthNumber, yearNumber)
+      .subscribe((response: WalletReportResponse) => {
+        if (response !== undefined) {
+          if (response.user_logs.length > 0) {
+            this.users = response.user_logs;
+          }
+
+          this.wallettransactions = response.wallet_logs;
+          if (this.initialLoad || this.userChange) {
+            this.datelogs = response.date_logs;
+            this.selectedIndex = 0; // this.datelogs.length - 1;
+          }
+        }
+      });
+  }
+
+  public changeDate($event, deviceindex): void {
+    if (deviceindex > -1) {
+      this.initialLoad = false;
+      this.userChange = false;
+      const dateLog = this.datelogs[+deviceindex];
+      this.getWalletBalanceReport(this.userId, dateLog.month_number, +dateLog.year_name);
+      // sthis.getWalletBalanceReport(monthNumber);
+    } else {
+      this.wallettransactions = [];
+    }
+  }
+  public changeUser($event, userId): void {
+    if (userId > -1) {
+      this.initialLoad = false;
+      this.userChange = true;
+      this.userId = +userId;
+      this.getWalletBalanceReport(this.userId, 0, 0);
+      // sthis.getWalletBalanceReport(monthNumber);
+    } else {
+      this.wallettransactions = [];
+    }
+  }
   // #region withdrawal
   public widthdraw(comment: any): void {
     const commentFinal = comment.value;
@@ -97,7 +173,7 @@ export class WalletComponent implements OnInit {
   }
 
   private walletDeductRequest(userId: number, comment: string, amountDeduct: string): void {
-    this.common.walletDeductRequest(userId, comment, +amountDeduct)
+    this.userService.walletDeductRequest(userId, comment, +amountDeduct)
       .subscribe((response: WalletWidthdrawalResponse) => {
         if (response !== undefined) {
           if (response.message === 'success') {
@@ -141,7 +217,7 @@ export class WalletComponent implements OnInit {
   }
 
   private requestBalance(userId: number, amount: number, comment: string): void {
-    this.common.requestBalance(userId, +amount, comment)
+    this.userService.requestBalance(userId, +amount, comment)
       .subscribe((response: BalanceRequestResponse) => {
         if (response !== undefined) {
           if (response.message === 'success') {
@@ -190,7 +266,7 @@ export class WalletComponent implements OnInit {
     this.walletType = '';
     this.isWithdrawalWallet = false;
 
-    this.isBalanceRequest = false;
+    this.isBalanceRequestReport = false;
     this.isAddBalanceRequest = false;
     this.isDeductWallet = false;
   }

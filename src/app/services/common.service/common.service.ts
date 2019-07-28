@@ -133,45 +133,6 @@ export class CommonService {
       }));
   }
 
-  public walletDeductRequest(userId: number, comment: string, amountDeduct: number): Observable<any> {
-    const urlStringObject = {
-      requestInitiatorId: userId,
-      amount: amountDeduct,
-      comment: comment,
-
-    };
-    const mainURL = this.apiUrlService.getFullURL('DEDUCT_BALANCE_REQUEST', urlStringObject);
-    return this.baseService.post(mainURL, {}, false)
-      .pipe(map((response: any) => {
-        return response;
-      }));
-  }
-
-  public getWalletBalance(userId: number): Observable<any> {
-    const urlStringObject = {
-      userId: userId
-    };
-    const params = new HttpParams();
-    const mainURL = this.apiUrlService.getFullURL('WALLET_BALANCE', urlStringObject);
-    return this.baseService.get(mainURL, {}, params)
-      .pipe(map((response: any) => {
-        return response;
-      }));
-  }
-
-  public requestBalance(userId: number, amount: number, comment: string): Observable<any> {
-    const urlStringObject = {
-      requestInitiatorId: userId,
-      amount: amount,
-      comment: comment
-    };
-    const mainURL = this.apiUrlService.getFullURL('ADD_BALANCE_REQUEST', urlStringObject);
-    return this.baseService.post(mainURL, {}, false)
-      .pipe(map((response: any) => {
-        return response;
-      }));
-  }
-
   public adminWalletApproval(withdrawalWalleta: any): Observable<any> {
     const urlStringObject = {
     };

@@ -2,3 +2,19 @@
     color:crimson;
     font-weight: bold;
 }
+.m-t-20{
+    margin-top:20px;
+}
+.heading{
+    background-color: #4d636f;
+    color: #fff;
+    font-weight: bold;
+    height: 40px;
+    line-height: 33px;
+}
+.debit{
+color:green;font-weight: bold;
+}
+.credit{
+color:red;font-weight: bold;
+}
