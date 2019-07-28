@@ -40,9 +40,11 @@ export class BalanceRequestComponent implements OnInit {
         if (response !== undefined) {
           let html = '';
           if (response.walletBalance > 100) {
-            html = `Your wallet balance is <span style='font-weight:bold;'><strong>${response.walletBalance}</strong></span>`;
+            html = `Your wallet balance is <span>&#8377;</span>
+            <span style='font-weight:bold;'><strong>${response.walletBalance}</strong></span>`;
           } else {
-            html = `Your wallet balance is <span style='font-weight:bold;color:red;'><strong>${response.walletBalance}</strong></span>`;
+            html = `Your wallet balance is <span>&#8377;</span>
+            <span style='font-weight:bold;color:red;'><strong>${response.walletBalance}</strong></span>`;
           }
           this.alertService.confirmationMessageHTML('', html, 'success', true, false);
         }

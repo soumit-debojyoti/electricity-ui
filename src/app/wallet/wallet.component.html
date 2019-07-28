@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-sm-8">
       <p class="color-crimson">How much amount you need to deduct?</p>
-      <input type="number" #amount>
+      <span>&#8377;</span><input type="number" #amount>
       <p class="color-crimson">Why you want to deduct the balance?</p>
       <textarea rows="4" cols="110" #comment></textarea><br>
       <input type="submit" class="button button-submit float-right" (click)="deduct(comment,amount)">
@@ -25,7 +25,7 @@
   <div class="row">
     <div class="col-sm-8">
       <p class="color-crimson">How much amount you need?</p>
-      <input type="number" #amount>
+      <span>&#8377;</span><input type="number" #amount>
     </div>
   </div>
   <div class="row">
@@ -67,11 +67,15 @@
     <ng-container *ngIf="wallettransactions && wallettransactions.length>0">
       <div class="row" *ngFor="let wallettransaction of wallettransactions">
         <div class="col-sm-2">{{userName}}</div>
-        <div class="col-sm-1">{{wallettransaction.transaction_amount}}</div>
+        <div class="col-sm-1"><span>&#8377;</span>{{wallettransaction.transaction_amount}}</div>
         <div class="col-sm-5">{{wallettransaction.message}}</div>
         <div class="col-sm-2"
           [ngClass]="{'debit': wallettransaction.transaction_mode.trim()=='debit', 'credit':wallettransaction.transaction_mode.trim()=='credit' }">
-          {{wallettransaction.transaction_mode| uppercase}}</div>
+          <i class="em"
+            [ngClass]="{'em-astonished': wallettransaction.transaction_mode.trim()=='debit', 'em-anguished':wallettransaction.transaction_mode.trim()=='credit' }"></i>
+          &nbsp;{{wallettransaction.transaction_mode| uppercase}}
+
+        </div>
         <div class="col-sm-2">{{wallettransaction.created_on | date: 'dd-MM-yyyy'}}</div>
       </div>
     </ng-container>

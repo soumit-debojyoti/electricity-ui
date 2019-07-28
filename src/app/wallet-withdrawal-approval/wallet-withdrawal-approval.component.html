@@ -5,7 +5,8 @@
   <div class="col-sm-1">FIRST NAME</div>
   <div class="col-sm-1">MIDDLE NAME</div>
   <div class="col-sm-1">LAST NAME</div>
-  <div class="col-sm-3">COMMENT</div>
+  <div class="col-sm-2">COMMENT</div>
+  <div class="col-sm-1">AMOUNT</div>
   <div class="col-sm-1">CREATED ON</div>
   <div class="col-sm-1">APPROVE</div>
   <div class="col-sm-1">REJECT</div>
@@ -15,7 +16,8 @@
   <div class="col-sm-1">{{detail_message.firstname}}</div>
   <div class="col-sm-1">{{detail_message.middlename}}</div>
   <div class="col-sm-1">{{detail_message.lastname}}</div>
-  <div class="col-sm-3">{{detail_message.comment}}</div>
+  <div class="col-sm-2">{{detail_message.comment}}</div>
+  <div class="col-sm-1"><span>&#8377;</span>{{detail_message.wallet_balance}}</div>
   <div class="col-sm-1">{{detail_message.createdon | date: 'MMM/dd/yyyy'}}</div>
   <div class="col-sm-1">
     <mat-slide-toggle #approve [checked]="detail_message.approved" (change)="onChange(detail_message)">

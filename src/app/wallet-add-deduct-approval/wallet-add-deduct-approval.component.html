@@ -5,7 +5,8 @@
   <div class="col-sm-1">FIRST NAME</div>
   <div class="col-sm-1">MIDDLE NAME</div>
   <div class="col-sm-1">LAST NAME</div>
-  <div class="col-sm-3">COMMENT</div>
+  <div class="col-sm-2">COMMENT</div>
+  <div class="col-sm-1">AMOUNT</div>
   <div class="col-sm-1">REQUEST TYPE</div>
   <div class="col-sm-1">CREATED ON</div>
   <div class="col-sm-1">APPROVE</div>
@@ -16,7 +17,8 @@
   <div class="col-sm-1">{{detail_message.firstname}}</div>
   <div class="col-sm-1">{{detail_message.middlename}}</div>
   <div class="col-sm-1">{{detail_message.lastname}}</div>
-  <div class="col-sm-3">{{detail_message.comment}}</div>
+  <div class="col-sm-2">{{detail_message.comment}}</div>
+  <div class="col-sm-1"><span>&#8377;</span>{{detail_message.wallet_balance}}</div>
   <div class="col-sm-1" *ngIf="detail_message.balance_request_type=='a'"><span
       style="color:green;font-weight: bold;">ADD</span></div>
   <div class="col-sm-1" *ngIf="detail_message.balance_request_type=='d'"><span

@@ -254,7 +254,7 @@ export class WalletComponent implements OnInit, ViewChild, AfterViewInit {
             this.alertService.confirmationMessage('',
               `${requestType} request has been successfully placed. Please wait for the super admin to confirm the same.`,
               'success', true, false);
-            this.router.navigate(['/login']);
+            this.router.navigate(['/dashboard']);
           }
         }
       });
