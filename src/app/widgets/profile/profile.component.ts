@@ -7,6 +7,8 @@ import { DataService } from "../../services/data.service/data.service";
 // import { ChannelNameEnum, Message } from 'src/app/store/models/message.model';
 import { environment } from '../../../environments/environment';
 import { LoadingScreenService } from 'src/app/services/loading-screen/loading-screen.service';
+import { UserService } from 'src/app/services/user.service/user.service';
+import { UserWalletBalanceResponse } from 'src/app/models/user-wallet-balance-response.model';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -24,11 +26,12 @@ export class ProfileComponent implements OnInit {
   public role: string;
   public name: string;
   public photo: string;
+  public balance: number;
   private rootURL = environment.baseUrl;
   constructor(private profileService: ProfileService,
-    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService,
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService, private userService: UserService,
     private loadingScreenService: LoadingScreenService) {
-    this.name = ''
+    this.name = '';
     this.full_name = '';
   }
 
@@ -52,9 +55,21 @@ export class ProfileComponent implements OnInit {
         this.storage.set('role', this.role);
         this.storage.set('user_id', this.user_id);
         const message: User = response;
-        // this.data.changeMessage(this.user_id.toString());
-        // this.data.changeMessage(this.role);
         this.data.changeMessage(this.role);
+        this.getWalletBalance();
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
+  private getWalletBalance(): void {
+    this.loadingScreenService.startLoading();
+    this.userService.getWalletBalance(this.user_id)
+      .subscribe((response: UserWalletBalanceResponse) => {
+        this.loadingScreenService.stopLoading();
+        if (response !== undefined) {
+          this.balance = response.walletBalance;
+        }
       }, () => {
         this.loadingScreenService.stopLoading();
       });

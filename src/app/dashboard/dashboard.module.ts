@@ -20,7 +20,7 @@ import { WalletBalanceReportComponent } from '../widgets/wallet-balance-report/w
 import { ReportComponent } from '../widgets/report/report.component';
 import { TdsChargeComponent } from '../widgets/tds-charge/tds-charge.component';
 import { PermissionComponent } from '../widgets/permission/permission.component';
-import { BalanceRequestComponent } from '../widgets/balance-request/balance-request.component';
+import { BalanceTransferComponent } from '../widgets/balance-transfer/balance-transfer.component';
 import { AddOperatorComponent } from '../widgets/add-operator/add-operator.component';
 import { AddApiComponent } from '../widgets/add-api/add-api.component';
 import { CommissionSettingComponent } from '../widgets/commission-setting/commission-setting.component';
@@ -54,7 +54,7 @@ import { GenerateTokenService } from '../widgets/generate-token/generate-token.s
         ReportComponent,
         TdsChargeComponent,
         PermissionComponent,
-        BalanceRequestComponent,
+        BalanceTransferComponent,
         AddOperatorComponent,
         AddApiComponent,
         CommissionSettingComponent,

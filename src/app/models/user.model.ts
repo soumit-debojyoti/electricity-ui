@@ -21,3 +21,8 @@ export interface User {
     sex: string;
     photo: string;
 }
+
+export interface TransferAmountModel {
+    is_rejected: boolean;
+    return_message: string;
+}

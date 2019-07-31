@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { UserService } from '../../services/user.service/user.service'
+import { UserService } from '../../services/user.service/user.service';
 import { FormBuilder } from '@angular/forms';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { Router } from '@angular/router';
@@ -16,12 +16,13 @@ export class RankAchieverListComponent implements OnInit {
   public user_id: number;
   public childrenCount: number;
   public siblingsCount: number;
-  public userRank: number = 0;
+  public userRank: number;
   constructor(private userService: UserService, private formBuilder: FormBuilder,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router, private data: DataService,
     private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
+    this.userRank = 0;
     this.childrenCount = 0;
     this.siblingsCount = 0;
     this.loadingScreenService.startLoading();

@@ -92,9 +92,9 @@ export class WalletAddDeductApprovalComponent implements OnInit {
   }
 
   private Approve(): void {
-    var data: AddDeductWalletModel[] = [];
+    const data: AddDeductWalletModel[] = [];
     this.detail_messages.forEach((item: AddDeductWalletModel) => {
-      var itemObject: AddDeductWalletModel = {
+      const itemObject: AddDeductWalletModel = {
         addwalletid: item.addwalletid,
         firstname: item.firstname,
         middlename: item.middlename,

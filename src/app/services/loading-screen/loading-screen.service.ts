@@ -9,12 +9,10 @@ export class LoadingScreenService {
 
   constructor(private spinner: NgxSpinnerService) { }
   startLoading() {
-    debugger;
     this.spinner.show();
   }
 
   stopLoading() {
-    debugger;
     this.spinner.hide();
   }
 }

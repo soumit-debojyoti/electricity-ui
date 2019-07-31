@@ -187,44 +187,48 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   private walletDeductRequest(userId: number, comment: string, amountDeduct: string): void {
-    this.loadingScreenService.startLoading();
-    this.userService.walletDeductRequest(userId, comment, +amountDeduct)
-      .subscribe((response: WalletWidthdrawalResponse) => {
-        this.loadingScreenService.stopLoading();
-        if (response !== undefined) {
-          if (response.message === 'success') {
-            let message = '';
-            if (comment === '') {
-              if (response.amount_wallet_widthdraw !== undefined) {
-                message = `A request has been send to super admin to grant an amount of
+    if (+amountDeduct < 0) {
+      this.alertService.confirmationMessage('', 'You can not add negative number.', 'warning', true, false);
+    } else {
+      this.loadingScreenService.startLoading();
+      this.userService.walletDeductRequest(userId, comment, +amountDeduct)
+        .subscribe((response: WalletWidthdrawalResponse) => {
+          this.loadingScreenService.stopLoading();
+          if (response !== undefined) {
+            if (response.message === 'success') {
+              let message = '';
+              if (comment === '') {
+                if (response.amount_wallet_widthdraw !== undefined) {
+                  message = `A request has been send to super admin to grant an amount of
                 ${response.amount_wallet_widthdraw} to be deduct. Waiting for the confirmation. `;
-                this.addWalletTransaction(response.amount_wallet_widthdraw, userId, message, 'credit', 'Deduct');
-              } else {
-                message = `A request has been send to super admin to grant an amount o
+                  this.addWalletTransaction(response.amount_wallet_widthdraw, userId, message, 'credit', 'Deduct');
+                } else {
+                  message = `A request has been send to super admin to grant an amount o
                  ${response.amount_requested} to be deduct. Waiting for the confirmation. `;
-                this.addWalletTransaction(response.amount_requested, userId, message, 'credit', 'Deduct');
-              }
+                  this.addWalletTransaction(response.amount_requested, userId, message, 'credit', 'Deduct');
+                }
 
-            } else {
-              if (response.amount_wallet_widthdraw !== undefined) {
-                message = `A request has been send to super admin to grant an amount of
+              } else {
+                if (response.amount_wallet_widthdraw !== undefined) {
+                  message = `A request has been send to super admin to grant an amount of
                 ${response.amount_wallet_widthdraw} to be deduct. Waiting for the confirmation.
                 The justification for the deduction is as '${comment}'`;
-                this.addWalletTransaction(response.amount_wallet_widthdraw, userId, message, 'credit', 'Deduct');
-              } else {
-                message = `A request has been send to super admin to grant an amount of
+                  this.addWalletTransaction(response.amount_wallet_widthdraw, userId, message, 'credit', 'Deduct');
+                } else {
+                  message = `A request has been send to super admin to grant an amount of
                 ${response.amount_requested} to be deduct. Waiting for the confirmation.
                 The justification for the deduction is as '${comment}'`;
-                this.addWalletTransaction(response.amount_requested, userId, message, 'credit', 'Deduct');
+                  this.addWalletTransaction(response.amount_requested, userId, message, 'credit', 'Deduct');
+                }
               }
+            } else {
+              this.alertService.confirmationMessage('', response.message, 'success', true, false);
             }
-          } else {
-            this.alertService.confirmationMessage('', response.message, 'success', true, false);
           }
-        }
-      }, () => {
-        this.loadingScreenService.stopLoading();
-      });
+        }, () => {
+          this.loadingScreenService.stopLoading();
+        });
+    }
   }
 
   // #endregion
@@ -235,32 +239,37 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   private requestBalance(userId: number, amount: number, comment: string): void {
-    this.loadingScreenService.startLoading();
-    this.userService.requestBalance(userId, +amount, comment)
-      .subscribe((response: BalanceRequestResponse) => {
-        this.loadingScreenService.stopLoading();
-        if (response !== undefined) {
-          if (response.message === 'success') {
-            let message = '';
-            if (comment === '') {
-              message = `A request has been send to super admin to grant an amount of
+    if (amount < 0) {
+      this.alertService.confirmationMessage('', 'You can not add negative number.', 'warning', true, false);
+    } else {
+      this.loadingScreenService.startLoading();
+      this.userService.requestBalance(userId, +amount, comment)
+        .subscribe((response: BalanceRequestResponse) => {
+          this.loadingScreenService.stopLoading();
+          if (response !== undefined) {
+            if (response.message === 'success') {
+              let message = '';
+              if (comment === '') {
+                message = `A request has been send to super admin to grant an amount of
               ${response.amount_requested} to be added to the wallet. Waiting for the confirmation. `;
 
-            } else {
-              message = `A request has been send to super admin to grant an amount of
+              } else {
+                message = `A request has been send to super admin to grant an amount of
               ${response.amount_requested} to be added to the wallet. Waiting for the confirmation.
               The justification for the widthdrawal is as '${comment}'`;
 
+              }
+              this.addWalletTransaction(response.amount_requested, userId, message, 'debit', 'Add balance');
+              this.alertService.confirmationMessage('', message, 'success', true, false);
+            } else {
+              this.alertService.confirmationMessage('', response.message, 'error', true, false);
             }
-            this.addWalletTransaction(response.amount_requested, userId, message, 'debit', 'Add balance');
-            this.alertService.confirmationMessage('', message, 'success', true, false);
-          } else {
-            this.alertService.confirmationMessage('', response.message, 'error', true, false);
           }
-        }
-      }, () => {
-        this.loadingScreenService.stopLoading();
-      });
+        }, () => {
+          this.loadingScreenService.stopLoading();
+        });
+    }
+
   }
 
 

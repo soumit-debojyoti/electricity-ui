@@ -9,5 +9,8 @@
     <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme pointer"></i> {{role | titlecase}}</p>
     <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme pointer"></i> {{city}}, {{state_name}}</p>
     <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme pointer"></i> {{dob}}</p>
+    <p class="pl-40">Account Balance&nbsp;&nbsp;<span
+        [ngClass]="{'low_balance': balance <= 100, 'high_balance':balance > 100 }"><span>&#8377;</span><strong>{{balance}}</strong></span>
+    </p>
   </div>
 </div>

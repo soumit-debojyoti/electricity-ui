@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-sm-8">
       <p class="color-crimson">How much amount you need to deduct?</p>
-      <span>&#8377;</span><input type="number" #amount>
+      <span>&#8377;</span><input type="number" #amount min="0">
       <p class="color-crimson">Why you want to deduct the balance?</p>
       <textarea rows="4" cols="110" #comment></textarea><br>
       <input type="submit" class="button button-submit float-right" (click)="deduct(comment,amount)">
@@ -25,14 +25,14 @@
   <div class="row">
     <div class="col-sm-8">
       <p class="color-crimson">How much amount you need?</p>
-      <span>&#8377;</span><input type="number" #amount>
+      <span>&#8377;</span><input type="number" #amount min="0">
     </div>
   </div>
   <div class="row">
     <div class="col-sm-8">
       <p class="color-crimson">Comment</p>
       <textarea rows="4" cols="110" #comment></textarea><br>
-      <input type="submit" class="button button-submit float-right" (click)="balanceRequest(amount,comment)">
+      <input type="submit" class="btn btn-primary float-right" (click)="balanceRequest(amount,comment)">
     </div>
   </div>
 </div>

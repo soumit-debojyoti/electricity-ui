@@ -14,16 +14,17 @@ import { catchError } from 'rxjs/operators';
 })
 export class BaseService {
   private queryParam = {};
-  AccessToken: string = "";
+  public AccessToken: string;
   private rootURL = environment.apiUrl;
   private httpClient: HttpClient;
-  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private http: HttpClient, private handler: HttpBackend) { }
+  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private http: HttpClient, private handler: HttpBackend) {
+    this.AccessToken = '';
+  }
 
   get(url: string, urlParamObject: any, queryparam: any, bypassInterceptor: boolean = false): Observable<any> {
     if (queryparam.updates != null) {
       this.queryParam = { params: queryparam };
-    }
-    else {
+    } else {
       this.queryParam = {};
     }
 
@@ -31,8 +32,7 @@ export class BaseService {
       this.httpClient = new HttpClient(this.handler);
       return this.httpClient.get(url, this.queryParam)
         .catch(this.errorHandler);
-    }
-    else {
+    } else {
       return this.http.get(url, this.queryParam)
         .catch(this.errorHandler);
     }
@@ -40,26 +40,25 @@ export class BaseService {
 
   }
   private errorHandler(error: HttpErrorResponse) {
-    return Observable.throw(error.message || "Server Error....");
+    return Observable.throw(error.message || 'Server Error....');
 
   }
 
   post(url: string, formBody: any, bypassInterceptor: boolean = false): Observable<any> {
     if (bypassInterceptor) {
-      let headers = new HttpHeaders();
-      headers.append("Content-Type", "application/json");
-      headers.append("access-control-allow-origin", "*");
+      const headers = new HttpHeaders();
+      headers.append('Content-Type', 'application/json');
+      headers.append('access-control-allow-origin', '*');
 
 
       this.httpClient = new HttpClient(this.handler);
       return this.httpClient.post(url, formBody, { headers: headers })
         .pipe(
           catchError(this.errorHandler));
-    }
-    else {
-      let headers = new HttpHeaders();
-      headers.append("Content-Type", "application/json");
-      headers.append("access-control-allow-origin", "*");
+    } else {
+      const headers = new HttpHeaders();
+      headers.append('Content-Type', 'application/json');
+      headers.append('access-control-allow-origin', '*');
       return this.http.post<any>(url, formBody, { headers: headers })
         .catch(this.errorHandler);
     }
@@ -68,7 +67,7 @@ export class BaseService {
   // post1(url: string, formBody: any): Observable<any> {
   //   let headers = new HttpHeaders();
   //   headers.set('content-type', 'application/json');
-  //   //headers.append("access-control-allow-origin", "*");
+  //   //headers.append('access-control-allow-origin', '*');
   //   this.httpClient = new HttpClient(this.handler);
   //   return this.httpClient.post(url, formBody, { headers })
   //     .catch(this.errorHandler);
@@ -78,15 +77,14 @@ export class BaseService {
 
   put(url: string, formBody: any, bypassInterceptor: boolean = false): Observable<any> {
     if (bypassInterceptor) {
-      let headers = new HttpHeaders();
-      headers.append("Content-Type", "application/json");
-      headers.append("access-control-allow-origin", "*");
+      const headers = new HttpHeaders();
+      headers.append('Content-Type', 'application/json');
+      headers.append('access-control-allow-origin', '*');
       this.httpClient = new HttpClient(this.handler);
       return this.httpClient.put(url, formBody, { headers: headers })
         .pipe(
           catchError(this.errorHandler));
-    }
-    else {
+    } else {
       return this.http.put<any>(url, formBody, this.queryParam)
         .catch(this.errorHandler);
     }

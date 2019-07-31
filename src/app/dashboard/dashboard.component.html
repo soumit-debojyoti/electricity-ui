@@ -105,20 +105,23 @@
     </div>
 
     <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-16 w3-center animated flipInX mb-4">
-      <app-balance-request></app-balance-request>
+      <app-balance-transfer></app-balance-transfer>
     </div>
 
-    <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-16 w3-center animated flipInX mb-4">
+    <div *ngIf="isSuperAdmin || isAdmin"
+      class="w3-card w3-round w3-white w3-padding-16 w3-center animated flipInX mb-4">
       <app-add-wallet-balance></app-add-wallet-balance>
     </div>
 
 
-    <div *ngIf="!isEmployee && !isUser" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
+    <div *ngIf="isSuperAdmin || isAdmin"
+      class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
       <app-add-wallet-balance-admin></app-add-wallet-balance-admin>
     </div>
 
 
-    <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
+    <div *ngIf="isSuperAdmin || isAdmin"
+      class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
       <app-deduct-wallet-balance></app-deduct-wallet-balance>
     </div>
 
@@ -126,7 +129,8 @@
       <app-wallet-balance-report></app-wallet-balance-report>
     </div>
 
-    <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
+    <div *ngIf="isSuperAdmin || isAdmin"
+      class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
       <app-widthdrawal-request></app-widthdrawal-request>
     </div>
 

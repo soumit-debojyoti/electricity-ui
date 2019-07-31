@@ -10,8 +10,8 @@ export class ProfileService {
   constructor(private baseService: BaseService, private apiUrlService: ApiUrlService) { }
 
   public GetUser(user_name: string): Observable<any> {
-    //var url: string = `user/users/${user_name}`;
-    let params = new HttpParams();
+    // var url: string = `user/users/${user_name}`;
+    const params = new HttpParams();
     const urlStringObject = {
       user_name: user_name
     };

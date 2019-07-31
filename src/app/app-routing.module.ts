@@ -33,6 +33,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'transfer-amount',
+    loadChildren: './amount-transfer/amount-transfer.module#AmountTransferModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'rank-achiever-list',
     loadChildren: './rank-achiever-list/rank-achiever-list.module#RankAchieverListModule',
     canActivate: [AuthGuard]

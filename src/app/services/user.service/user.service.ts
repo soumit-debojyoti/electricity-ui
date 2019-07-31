@@ -6,7 +6,7 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { map } from 'rxjs/operators/map';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { BaseService } from '../base.service';
 import { ApiUrlService } from '../api.url.service';
 
@@ -40,6 +40,20 @@ export class UserService {
 
     };
     const mainURL = this.apiUrlService.getFullURL('DEDUCT_BALANCE_REQUEST', urlStringObject);
+    return this.baseService.post(mainURL, {}, false)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public walletTransferRequest(senderId: number, receiverId: number, amount: number, comment: string): Observable<any> {
+    const urlStringObject = {
+      senderId: senderId,
+      receiverId: receiverId,
+      amount: amount,
+      comment: comment
+    };
+    const mainURL = this.apiUrlService.getFullURL('WALLET_BALANCE_TRANSFER', urlStringObject);
     return this.baseService.post(mainURL, {}, false)
       .pipe(map((response: any) => {
         return response;
@@ -109,7 +123,7 @@ export class UserService {
       }));
   }
   public findUserExist(user_name: string): Observable<any> {
-    let params = new HttpParams();
+    const params = new HttpParams();
     const urlStringObject = {
       userName: user_name
     };
@@ -131,7 +145,13 @@ export class UserService {
       }));
   }
 
-
+  public getAllUsers(): Observable<any> {
+    // var url: string = `user/users/${user_name}`;
+    const params = new HttpParams();
+    const urlStringObject = {};
+    const mainURL = this.apiUrlService.getFullURL('GET_USERS', urlStringObject);
+    return this.baseService.get(mainURL, {}, params);
+  }
 
 
 
