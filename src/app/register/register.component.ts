@@ -313,7 +313,7 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  public getStates(): void {
+  private getStates(): void {
     this.loadingScreenService.startLoading();
     this.common.getState()
       .subscribe((response: Array<State>) => {
@@ -324,7 +324,7 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  uploadIdProof(files) {
+  public uploadIdProof(files) {
     if (files.length === 0) {
       return;
     }
@@ -348,7 +348,7 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  uploadAddressProof(files) {
+  public uploadAddressProof(files) {
     if (files.length === 0) {
       return;
     }
@@ -372,7 +372,7 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  uploadPhoto(files) {
+  public uploadPhoto(files) {
     if (files.length === 0) {
       return;
     }
@@ -380,8 +380,6 @@ export class RegisterComponent implements OnInit {
     for (const file of files) {
       formData.append(this.user_name, file);
     }
-
-
     this.loadingScreenService.startLoading();
     this.common.uploadPhoto('photo', this.user_name, formData)
       .subscribe((event: any) => {
@@ -396,10 +394,6 @@ export class RegisterComponent implements OnInit {
         this.loadingScreenService.stopLoading();
       });
   }
-
-
-
-
 }
 
 // custom validator to check that two fields match

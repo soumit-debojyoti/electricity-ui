@@ -11,8 +11,8 @@
         class="fa fa-sign-out"> Logout</i></a>
     <a href="#" class="w3-bar-item w3-button w3-hide-small  w3-hover-white" title="Dashboard" routerLink="/dashboard"
       href="#"><i class="fa fa-desktop"> Dashboard</i></a>
-    <a *ngIf="isLogin" href="#" class="w3-bar-item w3-button w3-hide-small  w3-hover-white" title="Account Settings"><i
-        class="fa fa-user"></i></a>
+    <a *ngIf="isLogin" (click)="gotoProfile()" class="w3-bar-item w3-button w3-hide-small  w3-hover-white"
+      title="Profile"><i class="fa fa-user"></i></a>
     <a *ngIf="isLogin" href="#" class="w3-bar-item w3-button w3-hide-small  w3-hover-white" title="Messages"><i
         class="fa fa-envelope"></i></a>
     <div *ngIf="isLogin" class="w3-dropdown-hover w3-hide-small" (click)="gotoWalletApproval()">

@@ -32,6 +32,7 @@ import { ApiBalanceComponent } from '../widgets/api-balance/api-balance.componen
 
 import { ProfileService } from '../widgets/profile/profile.service';
 import { GenerateTokenService } from '../widgets/generate-token/generate-token.service';
+import { AmountTransferComponent } from '../widgets/amount-transfer/amount-transfer.component';
 
 
 
@@ -61,7 +62,8 @@ import { GenerateTokenService } from '../widgets/generate-token/generate-token.s
         WidthdrawalRequestComponent,
         AddEmployeeComponent,
         AdminProfileComponent,
-        ApiBalanceComponent
+        ApiBalanceComponent,
+        AmountTransferComponent
     ],
     imports: [
         CommonModule,

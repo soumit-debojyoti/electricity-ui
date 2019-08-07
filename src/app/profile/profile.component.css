@@ -1,0 +1,11 @@
+.no-border{
+    border: 0;
+    box-shadow: none;
+    border-left:0 solid transparent;
+    background: transparent;
+    padding-left: -11px;
+}
+.font-red{
+    color:red;
+    font-weight: bold;
+}

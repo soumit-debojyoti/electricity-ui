@@ -1,0 +1,217 @@
+<div class="w3-card w3-round w3-white animated flipInX">
+  <div class="w3-container">
+    <h4 class="w3-center pointer">{{full_name}}</h4>
+    <p class="w3-center pointer">
+      <img *ngIf="sex=='Male'" [src]="photo" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
+
+      <img *ngIf="sex!='Male'" [src]="photo" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+    <input #fileImage type="file" (change)="uploadPhoto(fileImage.files)" class="form-control no-border" />
+    <span style="font-weight:bold;color:green;" *ngIf="messagePhoto">
+      {{messagePhoto}}
+    </span>
+    <hr>
+    <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme pointer"></i> Role : {{role | titlecase}}</p>
+    <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme pointer"></i> City :{{city}}, {{state_name}}</p>
+    <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme pointer"></i> {{dob}}</p>
+    <p class="pl-40">Account Balance&nbsp;&nbsp;<span
+        [ngClass]="{'low_balance': balance <= 100, 'high_balance':balance > 100 }"><span>&#8377;</span><strong>{{balance}}</strong></span>
+    </p>
+  </div>
+</div>
+<div class="jumbotron">
+  <div class="container">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+
+      <h2>Basic Information</h2>
+
+
+      <div class="row">
+        <div class="col-md-2 float-right"><label>User Name</label></div>
+        <div class="col-md-10 float-left">
+          <div class="form-group">
+            <input type="text" formControlName="username" class="form-control" disabled />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 float-right"><label>Password</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <input type="password" formControlName="password" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">Password is required</div>
+              <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 float-right"><label>Confirm Password</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <input type="password" formControlName="cpassword" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.cpassword.errors }" />
+            <div *ngIf="submitted && f.cpassword.errors" class="invalid-feedback">
+              <div *ngIf="f.cpassword.errors.required">Confirm password is required</div>
+              <div *ngIf="f.cpassword.errors.minlength">Confirm password must be at least 6 characters</div>
+              <div *ngIf="f.cpassword.errors.mustMatch">Passwords must match</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-2 float-right"><label>First Name</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <input type="text" formControlName="firstName" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+              <div *ngIf="f.firstName.errors.required">First Name is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 float-right"><label>Middle Name</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <input type="text" formControlName="middleName" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.middleName.errors }" />
+            <div *ngIf="submitted && f.middleName.errors" class="invalid-feedback">
+              <div *ngIf="f.middleName.errors.required">Middle Name is required</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-2 float-right"><label>Last Name</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <input type="text" formControlName="lastName" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+              <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-md-2 float-right"><label>DOB</label></div>
+        <div class="col-md-4 float-left">
+          <input type="date" formControlName="dob" class="form-control" (change)="dateChange()"
+            [ngClass]="{ 'is-invalid': submitted && f.dob.errors }" />
+          <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+            <div *ngIf="f.dob.errors.required">D O B is required</div>
+          </div>
+        </div> -->
+      </div>
+      <div class="row">
+        <div class="col-md-2 float-right"><label>Father Name</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <input type="text" formControlName="fathername" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.fathername.errors }" />
+            <div *ngIf="submitted && f.fathername.errors" class="invalid-feedback">
+              <div *ngIf="f.fathername.errors.required">Father Name is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 float-right"><label>Gender</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <select class="form-control" id="gender" formControlName="gender">
+              <option [value]="0">Select</option>
+              <option *ngFor="let gender of genders" [value]="gender.id">{{gender.name}}</option>
+            </select>
+
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 float-right"><label>Mobile Number</label></div>
+        <div class="col-md-10 float-left">
+          <div class="form-group">
+
+            <input type="text" formControlName="mobile" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" />
+            <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+              <div *ngIf="f.mobile.errors.required">Mobile is required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 float-right"><label>Email</label></div>
+        <div class="col-md-10 float-left" colspan="4">
+          <div class="form-group">
+
+            <input type="text" formControlName="email" class="form-control" />
+
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 float-right"><label>Address</label></div>
+        <div class="col-md-10 float-left">
+          <div class="form-group">
+
+            <input type="text" formControlName="address" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.address.errors }" />
+            <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+              <div *ngIf="f.address.errors.required">Address is required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <td class="col-md-2 float-right"><label>District</label></td>
+        <td class="col-md-4 float-left">
+          <div class="form-group">
+            <input type="text" formControlName="district" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.district.errors }" />
+            <div *ngIf="submitted && f.district.errors" class="invalid-feedback">
+              <div *ngIf="f.district.errors.required">District is required</div>
+            </div>
+          </div>
+        </td>
+        <td class="col-md-2 float-right"><label>City</label></td>
+        <td class="col-md-4 float-left">
+          <div class="form-group">
+            <input type="text" formControlName="city" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.city.errors }" />
+            <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+              <div *ngIf="f.city.errors.required">City is required</div>
+            </div>
+          </div>
+        </td>
+      </div>
+      <div class="row">
+        <div class="col-md-2 float-right"><label>State</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <select class="form-control" id="state" formControlName="state">
+              <option [value]="0">Select</option>
+              <option *ngFor="let state of states" [value]="state.state_id">{{state.state_name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2 float-right"><label>Pincode</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <input type="text" formControlName="pincode" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.pincode.errors }" />
+            <div *ngIf="submitted && f.pincode.errors" class="invalid-feedback">
+              <div *ngIf="f.pincode.errors.required">Pincode is required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10 float-right">
+        <div class="form-group float-right">
+          <!-- <button [disabled]="loading" class="btn btn-primary">Submit</button> -->
+          <button class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

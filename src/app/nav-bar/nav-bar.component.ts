@@ -64,6 +64,10 @@ export class NavBarComponent implements OnInit {
       });
   }
 
+  public gotoProfile() {
+    this.router.navigate(['/profile']);
+  }
+
   private getAddDeductWalletNotification(userId: number): void {
     this.loadingScreenService.startLoading();
     this.common.adminWalletAddDeductApprovalNotification(userId)

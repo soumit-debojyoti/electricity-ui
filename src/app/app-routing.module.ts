@@ -28,13 +28,13 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'configuration',
-    loadChildren: './configuration/configuration.module#ConfigurationModule',
+    path: 'profile',
+    loadChildren: './profile/profile.module#ProfileModule',
     canActivate: [AuthGuard]
   },
   {
-    path: 'transfer-amount',
-    loadChildren: './amount-transfer/amount-transfer.module#AmountTransferModule',
+    path: 'configuration',
+    loadChildren: './configuration/configuration.module#ConfigurationModule',
     canActivate: [AuthGuard]
   },
   {

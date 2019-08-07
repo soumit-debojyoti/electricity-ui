@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ProfileService } from './profile.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { User } from 'src/app/models/user.model';
-import { DataService } from "../../services/data.service/data.service";
+import { DataService } from '../../services/data.service/data.service';
 // import { StoreService } from 'src/app/store/store.service';
 // import { ChannelNameEnum, Message } from 'src/app/store/models/message.model';
 import { environment } from '../../../environments/environment';
@@ -36,6 +36,11 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.data.currentMessage.subscribe(message => {
+      if (message === 'token-generate') {
+        this.getWalletBalance();
+      }
+    });
     this.name = this.storage.get('login_user');
     this.loadingScreenService.startLoading();
     this.profileService.GetUser(this.name)

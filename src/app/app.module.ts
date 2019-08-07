@@ -19,6 +19,7 @@ import {
   NbLayoutModule,
   NbButtonModule
 } from '@nebular/theme';
+
 // import { StoreService } from './store/store.service';
 // import { StoreModule } from '@ngrx/store';
 // import { createReducer } from './store/reducers/message.reducer';
@@ -26,7 +27,8 @@ import {
 @NgModule({
   declarations: [
     AppComponent,
-    NavBarComponent
+    NavBarComponent,
+
   ],
   imports: [
     CommonModule,
