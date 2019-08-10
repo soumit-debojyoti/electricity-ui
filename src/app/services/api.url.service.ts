@@ -15,6 +15,7 @@ export class ApiUrlService extends BaseURLService {
       PHOTO_UPLOAD: `common/uploadphoto/{fileType}/{fileName}`,
       REFERAL_TOKEN: `user/referaltoken/{userId}`,
       GET_USERS: `user/users`,
+      SEARCH_USERS: `user/searchusers/{name}`,
       VALIDATE_TOKEN: `user/validatetoken/{token}`,
       WALLET_BALANCE: `user/walletbalance/user/{userId}`,
       WALLET_BALANCE_REPORT: `user/walletbalancereport/user/{userId}/month/{monthNumber}/year/{yearNumber}`,

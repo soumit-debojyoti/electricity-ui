@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
 import { BaseService } from '../base.service';
 import { ApiUrlService } from '../api.url.service';
+import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 
 @Injectable({
   providedIn: 'root'
@@ -151,6 +152,29 @@ export class UserService {
     const urlStringObject = {};
     const mainURL = this.apiUrlService.getFullURL('GET_USERS', urlStringObject);
     return this.baseService.get(mainURL, {}, params);
+  }
+
+  public getSearchUsers(name: string): Observable<any> {
+    debugger;
+    if (name === '') {
+      name = 'all';
+    }
+
+    // var url: string = `user/users/${user_name}`;
+    const params = new HttpParams();
+    const urlStringObject = {
+      name: name
+    };
+    const mainURL = this.apiUrlService.getFullURL('SEARCH_USERS', urlStringObject);
+    return this.baseService.get(mainURL, {}, params).pipe(
+      debounceTime(500),  // WAIT FOR 500 MILISECONDS ATER EACH KEY STROKE.
+      map(
+        (data: any) => {
+          return (
+            data.length !== 0 ? data as any[] : [{ 'user_name': 'No Record Found', 'user_id': 0 } as any]
+          );
+        }
+      ));
   }
 
 

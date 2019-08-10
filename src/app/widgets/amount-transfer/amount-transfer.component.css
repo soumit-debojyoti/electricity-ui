@@ -1,6 +1,17 @@
+
+
+.container {
+    width: 300px;
+    font: 17px Calibri;
+}
+
+
 .width-365{
     width:365px;
 }
 .font-20{
     font-size: 20px;
+}
+.example-full-width {
+  width: 100%;
 }
