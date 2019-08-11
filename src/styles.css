@@ -49,3 +49,6 @@ body {
 .grid-header{
   background-color:  darkgray;
 }
+.hand{
+    cursor:pointer;
+}

@@ -1,1 +1,98 @@
-<p>reactivate-token works!</p>
+<div class="container">
+    <h2>
+        Unused Token Information
+    </h2>
+    <table class="table table-hover table-striped table-bordered">
+        <thead>
+            <tr class="grid-header">
+                <th>TOKEN</th>
+                <th>CREATED ON</th>
+                <th>HAS EXPIRED</th>
+            </tr>
+        </thead>
+        <ng-container *ngIf="genericTokenList.length>0">
+            <tbody>
+                <tr *ngFor='let genericToken of genericTokenList'>
+                    <td class="hand" data-toggle="modal" data-target="#myModal"
+                        (click)="getSpecificTokenInformation(genericToken.token)">{{genericToken.token}}</td>
+                    <td>{{genericToken.created_date | date: 'dd-MMM-yyyy'}}</td>
+                    <td>{{(genericToken.is_expired)?'YES':'NO'}}</td>
+                </tr>
+            </tbody>
+        </ng-container>
+        <ng-container *ngIf="genericTokenList.length==0">
+            <tbody>
+                <tr>
+                    <td colspan="3">
+                        <span>No records to display.</span>
+                    </td>
+                </tr>
+            </tbody>
+        </ng-container>
+    </table>
+</div>
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg  modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Token Information</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table class="table table-hover table-striped table-bordered">
+                    <thead>
+                        <tr class="grid-header">
+                            <th>TOKEN</th>
+                            <th>CREATED ON</th>
+                            <th>WHEN TO EXPIRE</th>
+                            <th>CREATOR</th>
+                            <th>HAS EXPIRED</th>
+                            <th>REACTIVTE</th>
+                        </tr>
+                    </thead>
+                    <ng-container *ngIf="specificToken">
+                        <tbody>
+                            <tr>
+                                <td>{{specificToken.token}}</td>
+                                <td>{{specificToken.created_date | date: 'dd-MMM-yyyy'}}</td>
+                                <td>{{specificToken.expiry_date | date: 'dd-MMM-yyyy'}}</td>
+                                <td>{{specificToken.token_generator}}</td>
+                                <td>{{(specificToken.is_expired)?'YES':'NO'}}</td>
+                                <td *ngIf="specificToken.is_expired"><button type="button" class="btn btn-primary"
+                                        (click)="reactivate(specificToken.token)">
+                                        REACTIVATE
+                                    </button></td>
+                                <td *ngIf="!specificToken.is_expired"><button disabled type="button"
+                                        class="btn btn-secondary">
+                                        REACTIVATE
+                                    </button></td>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                    <ng-container *ngIf="!specificToken">
+                        <tbody>
+                            <tr>
+                                <td colspan="5">
+                                    <span>No records to display.</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

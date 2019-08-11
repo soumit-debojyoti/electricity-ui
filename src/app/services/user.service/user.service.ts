@@ -113,6 +113,39 @@ export class UserService {
       }));
   }
 
+  public getUnusedTokenGenericInformation(): Observable<any> {
+    const params = new HttpParams();
+    const urlStringObject = {};
+    const mainURL = this.apiUrlService.getFullURL('GET_UNUSED_TOKEN_GENERIC', urlStringObject);
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map(response => {
+        return response;
+      }));
+  }
+
+  public getUnusedTokenSpecificInformation(token: string): Observable<any> {
+    const params = new HttpParams();
+    const urlStringObject = {
+      token: token
+    };
+    const mainURL = this.apiUrlService.getFullURL('GET_UNUSED_TOKEN_SPECIFIC', urlStringObject);
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map(response => {
+        return response;
+      }));
+  }
+
+  public reactivateToken(token: string): Observable<any> {
+    const urlStringObject = {
+      token: token
+    };
+    const mainURL = this.apiUrlService.getFullURL('REACTIVATE_TOKEN', urlStringObject);
+    return this.baseService.post(mainURL, {}, false)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
   public getRankAchieverCount(user_id: number): Observable<any> {
     const params = new HttpParams();
     const urlStringObject = {
