@@ -19,6 +19,7 @@ a{
     margin:auto;
     height:400px;
     background-color: rgba(236, 48, 20, 0.9);
+    border-radius: 25px;
 }
 .white-panel{
     background-color: rgba(255,255, 255, 1);
@@ -30,6 +31,7 @@ a{
     transition:.3s ease-in-out;
     z-index:0;
     box-shadow: 0 0 15px 9px #00000096;
+    border-radius: 28px;
 }
 .login-reg-panel input[type="radio"]{
     position:relative;
@@ -52,16 +54,16 @@ a{
     font-size: 18px;
 }
 .login-info-box{
-    width:30%;
-    padding:0 50px;
+    width:40%;
+    /* padding:0 50px; */
     top:20%;
     left:0;
     position:absolute;
     text-align:left;
 }
 .register-info-box{
-    width:30%;
-    padding:0 50px;
+    width:40%;
+    /* padding:0 50px; */
     top:20%;
     right:0;
     position:absolute;
@@ -151,7 +153,7 @@ a{
 .login-error{
     color: chocolate;
     position: relative;
-    top: 34px;
+    top: -4px;
 }
     
     
