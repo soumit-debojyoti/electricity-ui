@@ -1,7 +1,7 @@
 export interface WalletReportResponse {
     user_logs: Array<UserLog>;
     wallet_logs: Array<WalletLog>;
-    date_logs: Array<DateLog>;
+    // date_logs: Array<DateLog>;
 }
 export interface UserLog {
     user_id: number;

@@ -1,137 +1,164 @@
-<h2>
-  Rank Hierarchy
-</h2>
-<p><b>Self Information</b></p>
-<table class="border">
-  <tr width="80%">
-    <th class="border">USER NAME</th>
-    <th class="border">FIRST NAME</th>
-    <th class="border">MIDDLE NAME</th>
-    <th class="border">LAST NAME</th>
-    <th class="border">MOBILE NUMBER</th>
-    <th class="border">GENDER</th>
-    <th class="border">ROLE NAME</th>
-    <th class="border">FATHER NAME</th>
-    <th class="border">EMAIL</th>
-    <th class="border">DOB</th>
-  </tr>
-  <tr *ngIf="self; else notShowself" width="80%">
-    <td class="border">{{self.user_name}}</td>
-    <td class="border">{{self.first_name}}</td>
-    <td class="border">{{self.middle_name}}</td>
-    <td class="border">{{self.last_name}}</td>
-    <td class="border">{{self.mobile_number}}</td>
-    <td class="border">{{self.sex}}</td>
-    <td class="border">{{self.role_name}}</td>
-    <td class="border">{{self.father_name}}</td>
-    <td class="border">{{self.email}}</td>
-    <td class="border">{{self.dob | date: 'dd-MMM-yyyy'}}</td>
-  </tr>
-  <ng-template #notShowself>
-    <tr>
-      <td class="border" colspan="10">No data found</td>
-    </tr>
-  </ng-template>
+<div class="container">
+  <h1>
+    Rank Hierarchy
+  </h1>
+  <h3>Self Information</h3>
+  <table class="table table-hover table-striped table-bordered">
+    <thead>
+      <tr class="grid-header">
+        <th>USER NAME</th>
+        <th>FIRST NAME</th>
+        <th>LAST NAME</th>
+        <th>MOBILE NUMBER</th>
+        <th>GENDER</th>
+        <th>ROLE NAME</th>
+        <th>EMAIL</th>
+        <th>DOB</th>
+      </tr>
+    </thead>
+    <ng-container *ngIf="self">
+      <tbody>
+        <tr>
+          <td>{{self.user_name}}</td>
+          <td>{{self.first_name}}</td>
+          <td>{{self.last_name}}</td>
+          <td>{{self.mobile_number}}</td>
+          <td>{{self.sex}}</td>
+          <td>{{self.role_name}}</td>
+          <td>{{self.email}}</td>
+          <td>{{self.dob | date: 'dd-MMM-yyyy'}}</td>
+        </tr>
+      </tbody>
+    </ng-container>
+    <ng-container *ngIf="!self">
+      <tbody>
+        <tr>
+          <td colspan="8">
+            <span>No records to display.</span>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
+  </table>
 
-</table>
-<hr>
-<p><b>Parent Information</b></p>
-<table class="border">
-  <tr width="80%">
-    <th class="border">USER NAME</th>
-    <th class="border">FIRST NAME</th>
-    <th class="border">MIDDLE NAME</th>
-    <th class="border">LAST NAME</th>
-    <th class="border">MOBILE NUMBER</th>
-    <th class="border">GENDER</th>
-    <th class="border">ROLE NAME</th>
-    <th class="border">FATHER NAME</th>
-    <th class="border">EMAIL</th>
-    <th class="border">DOB</th>
-  </tr>
-  <tr *ngIf="parent; else notShowparent" width="80%">
-    <td class="border">{{parent.user_name}}</td>
-    <td class="border">{{parent.first_name}}</td>
-    <td class="border">{{parent.middle_name}}</td>
-    <td class="border">{{parent.last_name}}</td>
-    <td class="border">{{parent.mobile_number}}</td>
-    <td class="border">{{parent.sex}}</td>
-    <td class="border">{{parent.role_name}}</td>
-    <td class="border">{{parent.father_name}}</td>
-    <td class="border">{{parent.email}}</td>
-    <td class="border">{{parent.dob | date: 'dd-MMM-yyyy'}}</td>
-  </tr>
-  <ng-template #notShowparent>
-    <tr>
-      <td class="border" colspan="10">No data found</td>
-    </tr>
-  </ng-template>
+  <h3>Parent Information</h3>
+  <table class="table table-hover table-striped table-bordered">
+    <thead>
+      <tr class="grid-header">
+        <th>USER NAME</th>
+        <th>FIRST NAME</th>
+        <th>LAST NAME</th>
+        <th>MOBILE NUMBER</th>
+        <th>GENDER</th>
+        <th>ROLE NAME</th>
+        <th>EMAIL</th>
+        <th>DOB</th>
+      </tr>
+    </thead>
+    <ng-container *ngIf="parent">
+      <tbody>
+        <tr>
+          <td>{{parent.user_name}}</td>
+          <td>{{parent.first_name}}</td>
+          <td>{{parent.last_name}}</td>
+          <td>{{parent.mobile_number}}</td>
+          <td>{{parent.sex}}</td>
+          <td>{{parent.role_name}}</td>
+          <td>{{parent.email}}</td>
+          <td>{{parent.dob | date: 'dd-MMM-yyyy'}}</td>
+        </tr>
+      </tbody>
+    </ng-container>
+    <ng-container *ngIf="!parent">
+      <tbody>
+        <tr>
+          <td colspan="8">
+            <span>No records to display.</span>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
+  </table>
 
-</table>
-
-<hr>
-<div *ngIf='children.length > 0'>
-<p><b>Children Information</b></p>
-<table class="border" >
-  <tr width="80%">
-    <th class="border">USER NAME</th>
-    <th class="border">FIRST NAME</th>
-    <th class="border">MIDDLE NAME</th>
-    <th class="border">LAST NAME</th>
-    <th class="border">MOBILE NUMBER</th>
-    <th class="border">GENDER</th>
-    <th class="border">ROLE NAME</th>
-    <th class="border">FATHER NAME</th>
-    <th class="border">EMAIL</th>
-    <th class="border">DOB</th>
-  </tr>
-  <ng-container *ngIf="children">
-    <tr *ngFor='let child of children' width="80%">
-      <td class="border">{{child.user_name}}</td>
-      <td class="border">{{child.first_name}}</td>
-      <td class="border">{{child.middle_name}}</td>
-      <td class="border">{{child.last_name}}</td>
-      <td class="border">{{child.mobile_number}}</td>
-      <td class="border">{{child.sex}}</td>
-      <td class="border">{{child.role_name}}</td>
-      <td class="border">{{child.father_name}}</td>
-      <td class="border">{{child.email}}</td>
-      <td class="border">{{child.dob | date: 'dd-MMM-yyyy'}}</td>
-    </tr>
-  </ng-container>
-</table>
+  <div *ngIf='children.length > 0'>
+    <h3>Children Information</h3>
+    <table class="table table-hover table-striped table-bordered">
+      <thead>
+        <tr class="grid-header">
+          <th>USER NAME</th>
+          <th>FIRST NAME</th>
+          <th>LAST NAME</th>
+          <th>MOBILE NUMBER</th>
+          <th>GENDER</th>
+          <th>ROLE NAME</th>
+          <th>EMAIL</th>
+          <th>DOB</th>
+        </tr>
+      </thead>
+      <ng-container *ngIf="children.length>0">
+        <tbody>
+          <tr *ngFor='let child of children'>
+            <td>{{child.user_name}}</td>
+            <td>{{child.first_name}}</td>
+            <td>{{child.last_name}}</td>
+            <td>{{child.mobile_number}}</td>
+            <td>{{child.sex}}</td>
+            <td>{{child.role_name}}</td>
+            <td>{{child.email}}</td>
+            <td>{{child.dob | date: 'dd-MMM-yyyy'}}</td>
+          </tr>
+        </tbody>
+      </ng-container>
+      <ng-container *ngIf="children.length==0">
+        <tbody>
+          <tr>
+            <td colspan="8">
+              <span>No records to display.</span>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+    </table>
+  </div>
+  <hr>
+  <div *ngIf="siblings.length > 0">
+    <h3>Siblings Information</h3>
+    <table class="table table-hover table-striped table-bordered">
+      <thead>
+        <tr class="grid-header">
+          <th>USER NAME</th>
+          <th>FIRST NAME</th>
+          <th>LAST NAME</th>
+          <th>MOBILE NUMBER</th>
+          <th>GENDER</th>
+          <th>ROLE NAME</th>
+          <th>EMAIL</th>
+          <th>DOB</th>
+        </tr>
+      </thead>
+      <ng-container *ngIf="siblings.length>0">
+        <tbody>
+          <tr *ngFor='let brother of siblings'>
+            <td>{{brother.user_name}}</td>
+            <td>{{brother.first_name}}</td>
+            <td>{{brother.last_name}}</td>
+            <td>{{brother.mobile_number}}</td>
+            <td>{{brother.sex}}</td>
+            <td>{{brother.role_name}}</td>
+            <td>{{brother.email}}</td>
+            <td>{{brother.dob | date: 'dd-MMM-yyyy'}}</td>
+          </tr>
+        </tbody>
+      </ng-container>
+      <ng-container *ngIf="siblings.length==0">
+        <tbody>
+          <tr>
+            <td colspan="8">
+              <span>No records to display.</span>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+    </table>
+  </div>
 </div>
-<hr>
-<div *ngIf="siblings.length > 0">
-<p><b>Siblings Information</b></p>
-<table class="border">
-  <tr width="80%">
-    <th class="border">USER NAME</th>
-    <th class="border">FIRST NAME</th>
-    <th class="border">MIDDLE NAME</th>
-    <th class="border">LAST NAME</th>
-    <th class="border">MOBILE NUMBER</th>
-    <th class="border">GENDER</th>
-    <th class="border">ROLE NAME</th>
-    <th class="border">FATHER NAME</th>
-    <th class="border">EMAIL</th>
-    <th class="border">DOB</th>
-  </tr>
-  <ng-container *ngIf="siblings">
-    <tr *ngFor='let brother of siblings' width="80%">
-      <td class="border">{{brother.user_name}}</td>
-      <td class="border">{{brother.first_name}}</td>
-      <td class="border">{{brother.middle_name}}</td>
-      <td class="border">{{brother.last_name}}</td>
-      <td class="border">{{brother.mobile_number}}</td>
-      <td class="border">{{brother.sex}}</td>
-      <td class="border">{{brother.role_name}}</td>
-      <td class="border">{{brother.father_name}}</td>
-      <td class="border">{{brother.email}}</td>
-      <td class="border">{{brother.dob | date: 'dd-MMM-yyyy'}}</td>
-    </tr>
-  </ng-container>
-</table>
-</div>
-
-<br>

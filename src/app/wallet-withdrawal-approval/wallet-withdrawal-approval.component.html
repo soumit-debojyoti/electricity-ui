@@ -1,37 +1,55 @@
-<p>
-  Wallet Withdrawal Approval
-</p>
-<div class="row header border border-dark">
-  <div class="col-sm-1">FIRST NAME</div>
-  <div class="col-sm-1">MIDDLE NAME</div>
-  <div class="col-sm-1">LAST NAME</div>
-  <div class="col-sm-2">COMMENT</div>
-  <div class="col-sm-1">AMOUNT</div>
-  <div class="col-sm-1">CREATED ON</div>
-  <div class="col-sm-1">APPROVE</div>
-  <div class="col-sm-1">REJECT</div>
-  <div class="col-sm-3">COMMENT BY ADMIN</div>
-</div>
-<div class="row  border  border-top-0 border-dark pt-2" *ngFor="let detail_message of detail_messages">
-  <div class="col-sm-1">{{detail_message.firstname}}</div>
-  <div class="col-sm-1">{{detail_message.middlename}}</div>
-  <div class="col-sm-1">{{detail_message.lastname}}</div>
-  <div class="col-sm-2">{{detail_message.comment}}</div>
-  <div class="col-sm-1"><span>&#8377;</span>{{detail_message.wallet_balance}}</div>
-  <div class="col-sm-1">{{detail_message.createdon | date: 'MMM/dd/yyyy'}}</div>
-  <div class="col-sm-1">
-    <mat-slide-toggle #approve [checked]="detail_message.approved" (change)="onChange(detail_message)">
-    </mat-slide-toggle>
-  </div>
-  <div class="col-sm-1">
-    <mat-slide-toggle #reject [checked]="detail_message.rejected" (change)="onChangeReject(detail_message)">
-    </mat-slide-toggle>
-  </div>
-  <div class="col-sm-3"><textarea rows="1" cols="37" #admincomment [disabled]="IsDisabled(detail_message)"
-      [(ngModel)]="detail_message.admincomment"></textarea></div>
-</div>
-<div class="row">
-  <div class="col-sm-12">
-    <input type="submit" class="button button-submit float-right margin-right-15" (click)="submit()">
+<div class="container">
+  <h1>
+    Wallet Withdrawal Approval
+  </h1>
+  <table class="table table-hover table-striped table-bordered">
+    <thead>
+      <tr class="grid-header">
+        <th>FIRST NAME</th>
+        <th>LAST NAME</th>
+        <th>COMMENT</th>
+        <th>AMOUNT</th>
+        <th>CREATED ON</th>
+        <th>APPROVE</th>
+        <th>REJECT</th>
+        <th>COMMENT BY ADMIN</th>
+      </tr>
+    </thead>
+    <ng-container *ngIf="detail_messages.length>0">
+      <tbody>
+        <tr *ngFor='let detail_message of detail_messages'>
+          <td>{{detail_message.firstname}}</td>
+          <td>{{detail_message.lastname}}</td>
+          <td>{{detail_message.comment}}</td>
+          <td><span>&#8377;</span>{{detail_message.wallet_balance}}</td>
+          <td>{{detail_message.createdon | date: 'MMM/dd/yyyy'}}</td>
+          <td>
+            <mat-slide-toggle #approve [checked]="detail_message.approved" (change)="onChange(detail_message)">
+            </mat-slide-toggle>
+          </td>
+          <td>
+            <mat-slide-toggle #reject [checked]="detail_message.rejected" (change)="onChangeReject(detail_message)">
+            </mat-slide-toggle>
+          </td>
+          <td><textarea rows="1" cols="24" #admincomment [disabled]="IsDisabled(detail_message)"
+              [(ngModel)]="detail_message.admin_comment"></textarea></td>
+        </tr>
+      </tbody>
+    </ng-container>
+    <ng-container *ngIf="detail_messages.length==0">
+      <tbody>
+        <tr>
+          <td colspan="8">
+            <span>No records to display.</span>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
+  </table>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <input type="submit" class="btn btn-primary float-right" (click)="submit()">
+    </div>
   </div>
 </div>

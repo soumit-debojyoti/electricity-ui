@@ -86,11 +86,12 @@ export class UserService {
       }));
   }
 
-  public getWalletBalanceReport(userId: number, monthNumber: number, yearNumber: number): Observable<any> {
+  public getWalletBalanceReport(userId: number, startDate: string, endDate: string): Observable<any> {
+
     const urlStringObject = {
       userId: userId,
-      monthNumber: monthNumber,
-      yearNumber: yearNumber
+      startDate: startDate,
+      endDate: endDate
     };
     const params = new HttpParams();
     const mainURL = this.apiUrlService.getFullURL('WALLET_BALANCE_REPORT', urlStringObject);
@@ -155,7 +156,6 @@ export class UserService {
   }
 
   public getSearchUsers(name: string): Observable<any> {
-    debugger;
     if (name === '') {
       name = 'all';
     }

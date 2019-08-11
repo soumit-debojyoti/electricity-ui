@@ -41,3 +41,11 @@ body {
     margin-top: 11px;
  } */
 .pointer {cursor: pointer;}
+.mandatory{
+   font-weight: bold;
+   color: red;
+   font-size: 1.25rem;
+}
+.grid-header{
+  background-color:  darkgray;
+}

@@ -1,90 +1,175 @@
-<p>
-  {{header}}
-</p>
-<div *ngIf="isWithdrawalWallet">
+<div class="container" *ngIf="isWithdrawalWallet">
+  <h2>
+    {{header}}
+  </h2>
   <div class="row">
-    <div class="col-sm-8">
-      <p class="color-crimson">Why you want to widthdraw the balance?</p>
-      <textarea rows="4" cols="110" #comment></textarea><br>
-      <input type="submit" class="button button-submit float-right" (click)="widthdraw(comment)">
+    <div class="col-sm-12">
+      <span>Why you want to widthdraw the balance?</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <textarea rows="4" cols="136" #comment></textarea><br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <input type="submit" class="btn btn-primary float-right" (click)="widthdraw(comment)">
     </div>
   </div>
 </div>
-<div *ngIf="isDeductWallet">
+<div class="container" *ngIf="isDeductWallet">
+  <h2>
+    {{header}}
+  </h2>
   <div class="row">
-    <div class="col-sm-8">
-      <p class="color-crimson">How much amount you need to deduct?</p>
-      <span>&#8377;</span><input type="number" #amount min="0">
-      <p class="color-crimson">Why you want to deduct the balance?</p>
-      <textarea rows="4" cols="110" #comment></textarea><br>
-      <input type="submit" class="button button-submit float-right" (click)="deduct(comment,amount)">
+    <div class="col-sm-12">
+      <span>How much amount you need to deduct?</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <input type="number" #amount min="0" title="Rs...." placeholder="Rs....">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <span>Why you want to deduct the balance?</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <textarea rows="4" cols="136" #comment title="Comment" placeholder="Comment"></textarea><br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <input type="submit" class="btn btn-primary float-right" (click)="deduct(comment,amount)">
     </div>
   </div>
 </div>
-<div *ngIf="isAddBalanceRequest">
+<div class="container" *ngIf="isAddBalanceRequest">
+  <h2>
+    {{header}}
+  </h2>
   <div class="row">
-    <div class="col-sm-8">
-      <p class="color-crimson">How much amount you need?</p>
-      <span>&#8377;</span><input type="number" #amount min="0">
+    <div class="col-sm-12">
+      <span>How much amount you need?</span>
     </div>
+
   </div>
   <div class="row">
-    <div class="col-sm-8">
-      <p class="color-crimson">Comment</p>
-      <textarea rows="4" cols="110" #comment></textarea><br>
+    <div class="col-sm-12">
+      <input type="number" #amount min="0" title="Rs...." placeholder="Rs....">
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <span>Comment</span>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <textarea rows="4" cols="136" #comment title="Comment" placeholder="Comment"></textarea><br>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
       <input type="submit" class="btn btn-primary float-right" (click)="balanceRequest(amount,comment)">
     </div>
   </div>
 </div>
-<div *ngIf="isBalanceRequestReport">
+<div class="container" *ngIf="isBalanceRequestReport">
+  <h2>
+    {{header}}
+  </h2>
   <div *ngIf="isSuperAdmin">
-    <span>Users</span>
-    <select class="form-control" id="user" #user [(ngModel)]="userId" (change)="changeUser($event, user.value)">
-      <option [value]="-1">Select User</option>
-      <ng-container *ngIf="users && users.length>0">
-        <option *ngFor="let user of users" [value]="user.user_id">{{user.user_name}}</option>
-      </ng-container>
-    </select>
+    <div class="row">
+      <div class="col-xs-10 col-10 col-md-8">
+        <span>Users</span>
+        <select class="form-control" id="user" #user [(ngModel)]="userId" (change)="changeUser($event, user.value)">
+          <option [value]="-1">Select User</option>
+          <ng-container *ngIf="users && users.length>0">
+            <option *ngFor="let user of users" [value]="user.user_id">{{user.user_name}}</option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
   </div>
   <div>
-    <span>Date</span>
-    <select class="form-control" id="user" #device (change)="changeDate($event, device.value)">
-      <option [value]="-1">Select Date</option>
-      <ng-container *ngIf="datelogs && datelogs.length>0">
-        <option *ngFor="let datelog of datelogs; let i = index" [value]="i">{{datelog.month_name}} of
-          {{datelog.year_name}}</option>
-      </ng-container>
-    </select>
+    <div class="row">
+      <div class="col-xs-5 col-5 col-md-4">
+        <span>Start Date</span>
+        <div class="input-group">
+          <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
+            bsDatepicker [(bsValue)]="startDate">
+          <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
+              (click)="dpstartDate.toggle()"></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-5 col-5 col-md-4">
+        <span>End Date</span>
+        <div class="input-group">
+          <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
+            [(bsValue)]="endDate">
+          <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
+              (click)="dpendDate.toggle()"></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-1 col-1 col-md-2">
+        <span>&nbsp;</span>
+      </div>
+      <div class="col-xs-1 col-1 col-md-2">
+        <span>&nbsp;</span>
+        <div class="input-group">
+          <button class="btn btn-primary float-right form-control" (click)="search()">Report</button>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="m-t-20">
-    <div class="row heading">
-      <div class="col-sm-2">User Name</div>
-      <div class="col-sm-1">Amount</div>
-      <div class="col-sm-5">Message</div>
-      <div class="col-sm-2">Transaction Type</div>
-      <div class="col-sm-2">Transaction Date</div>
-    </div>
-    <ng-container *ngIf="wallettransactions && wallettransactions.length>0">
-      <div class="row" *ngFor="let wallettransaction of wallettransactions">
-        <div class="col-sm-2">{{userName}}</div>
-        <div class="col-sm-1"><span>&#8377;</span>{{wallettransaction.transaction_amount}}</div>
-        <div class="col-sm-5">{{wallettransaction.message}}</div>
-        <div class="col-sm-2"
-          [ngClass]="{'debit': wallettransaction.transaction_mode.trim()=='debit', 'credit':wallettransaction.transaction_mode.trim()=='credit' }">
-          <i class="em"
-            [ngClass]="{'em-astonished': wallettransaction.transaction_mode.trim()=='debit', 'em-anguished':wallettransaction.transaction_mode.trim()=='credit' }"></i>
-          &nbsp;{{wallettransaction.transaction_mode| uppercase}}
-
-        </div>
-        <div class="col-sm-2">{{wallettransaction.created_on | date: 'dd-MM-yyyy'}}</div>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="wallettransactions && wallettransactions.length==0">
-      <div class="row">
-        <div class="col-sm-12">
-          <span>No records to display.</span>
-        </div>
-      </div>
-    </ng-container>
+    <table class="table table-hover table-striped table-bordered">
+      <thead>
+        <tr class="grid-header">
+          <th>User Name</th>
+          <th>Amount</th>
+          <th>Message</th>
+          <th>Transaction Type</th>
+          <th>Transaction Date</th>
+        </tr>
+      </thead>
+      <ng-container *ngIf="wallettransactions && wallettransactions.length>0">
+        <tbody>
+          <tr *ngFor="let wallettransaction of wallettransactions">
+            <td>{{userName}}</td>
+            <td><span>&#8377;</span>{{wallettransaction.transaction_amount}}</td>
+            <td>{{wallettransaction.message}}</td>
+            <td class=""
+              [ngClass]="{'debit': wallettransaction.transaction_mode.trim()=='debit', 'credit':wallettransaction.transaction_mode.trim()=='credit' }">
+              <i class="em"
+                [ngClass]="{'em-astonished': wallettransaction.transaction_mode.trim()=='debit', 'em-anguished':wallettransaction.transaction_mode.trim()=='credit' }"></i>
+              &nbsp;{{wallettransaction.transaction_mode| uppercase}}
+            </td>
+            <td>{{wallettransaction.created_on | date: 'dd-MM-yyyy'}}</td>
+          </tr>
+        </tbody>
+      </ng-container>
+      <ng-container *ngIf="wallettransactions && wallettransactions.length==0">
+        <tbody>
+          <tr>
+            <td colspan="5">
+              <span>No records to display.</span>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+    </table>
   </div>
+
+
 </div>

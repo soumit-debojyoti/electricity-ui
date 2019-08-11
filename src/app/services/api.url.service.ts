@@ -18,7 +18,7 @@ export class ApiUrlService extends BaseURLService {
       SEARCH_USERS: `user/searchusers/{name}`,
       VALIDATE_TOKEN: `user/validatetoken/{token}`,
       WALLET_BALANCE: `user/walletbalance/user/{userId}`,
-      WALLET_BALANCE_REPORT: `user/walletbalancereport/user/{userId}/month/{monthNumber}/year/{yearNumber}`,
+      WALLET_BALANCE_REPORT: `user/walletbalancereport/user/{userId}/start/{startDate}/end/{endDate}`,
       WALLET_BALANCE_TRANSFER: `user/balancetransfer/sender/{senderId}/receiver/{receiverId}/amount/{amount}/comment/{comment}`,
       ADDRESSPROOF_DATA: `common/addressproofs`,
       IDPROOF_DATA: `common/idproofs`,

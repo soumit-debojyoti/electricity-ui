@@ -2,7 +2,29 @@
   <p><strong>Balance Transfer</strong></p>
   <div class="row">
     <div class="col-sm-7 float-left">
-      <p class="color-crimson">User id to transfer</p>
+      <p class="color-crimson">User id to transfer<span class="mandatory">*</span></p>
+
+
+
+
+      <!-- <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl"
+            [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of options" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form> -->
+
+
+
+
+
+
+
       <!-- <select class="form-control" id="user" #user (change)="changeUser($event, user.value)">
         <option [value]="-1">Select User</option>
         <ng-container *ngIf="filteredUsers && filteredUsers.length>0">
@@ -12,14 +34,14 @@
       <input class="width-365" type="text" #user value="">
     </div>
     <div class="col-sm-5 float-right">
-      <p class="color-crimson float-right">How much amount you need to transfer?</p>
+      <p class="color-crimson float-right">Amount need to transfer?<span class="mandatory">*</span></p>
       <div class="float-right"><span style="font-size: 20px;">&#8377;</span>&nbsp;<input type="number" #amount min="0">
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <p class="color-crimson">Comment</p>
+      <p class="color-crimson">Comment<span class="mandatory">*</span></p>
       <textarea rows="4" cols="89" #comment></textarea>
     </div>
   </div>

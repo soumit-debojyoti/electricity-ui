@@ -19,7 +19,8 @@ import {
   NbLayoutModule,
   NbButtonModule
 } from '@nebular/theme';
-
+import { MatNativeDateModule } from '@angular/material';
+import { DemoMaterialModule } from './material-module';
 // import { StoreService } from './store/store.service';
 // import { StoreModule } from '@ngrx/store';
 // import { createReducer } from './store/reducers/message.reducer';
@@ -33,13 +34,15 @@ import {
   imports: [
     CommonModule,
     BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     DashboardModule,
+    DemoMaterialModule,
     StorageServiceModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule,
-    BrowserAnimationsModule,
     NgxSpinnerModule,
     NbThemeModule.forRoot(),
     NbLayoutModule,
@@ -54,4 +57,12 @@ import {
     }, DataService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+
+
+
+
+export class AppModule {
+
+
+}

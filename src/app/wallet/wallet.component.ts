@@ -34,7 +34,10 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public isBalanceRequestReport: boolean;
   public wallet_balance: string;
   public isSuperAdmin: boolean;
-
+  public startDate: Date;
+  public endDate: Date;
+  public maxStartDate: Date;
+  public today: Date;
   public users: Array<UserLog>;
   public wallettransactions: Array<WalletLog>;
   public datelogs: Array<DateLog>;
@@ -44,6 +47,11 @@ export class WalletComponent implements OnInit, AfterViewInit {
     private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
+    this.endDate = new Date();
+    this.startDate = new Date();
+    this.startDate.setDate(this.startDate.getDate() - 5);
+    this.today = new Date();
+    this.maxStartDate = this.today;
     this.selectedIndex = 0;
     this.initialLoad = false;
     this.userChange = false;
@@ -80,7 +88,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
         this.wallettransactions = [];
         this.datelogs = [];
         this.users = [];
-        this.header = 'Wallet Balance Report!';
+        this.header = 'Transaction History!';
         this.initialLoad = true;
         this.userChange = true;
         this.userId = this.storage.get('user_id');
@@ -90,7 +98,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
           this.isSuperAdmin = true;
         }
 
-        this.getWalletBalanceReport(this.userId, 0, 0);
+        this.getWalletBalanceReport(this.userId, 'all', 'all');
       }
     }, () => {
       this.loadingScreenService.stopLoading();
@@ -98,12 +106,12 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.device.nativeElement.value = this.selectedIndex;
+    // this.device.nativeElement.value = this.selectedIndex;
   }
 
-  private getWalletBalanceReport(userId: number, monthNumber: number, yearNumber: number): void {
+  private getWalletBalanceReport(userId: number, startDate: string, endDate: string): void {
     this.loadingScreenService.startLoading();
-    this.userService.getWalletBalanceReport(userId, monthNumber, yearNumber)
+    this.userService.getWalletBalanceReport(userId, startDate, endDate)
       .subscribe((response: WalletReportResponse) => {
         this.loadingScreenService.stopLoading();
         if (response !== undefined) {
@@ -113,8 +121,8 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
           this.wallettransactions = response.wallet_logs;
           if (this.initialLoad || this.userChange) {
-            this.datelogs = response.date_logs;
-            this.selectedIndex = 0; // this.datelogs.length - 1;
+            // this.datelogs = response.date_logs;
+            // this.selectedIndex = 0; // this.datelogs.length - 1;
           }
         }
       }, () => {
@@ -127,23 +135,37 @@ export class WalletComponent implements OnInit, AfterViewInit {
       this.initialLoad = false;
       this.userChange = false;
       const dateLog = this.datelogs[+deviceindex];
-      this.getWalletBalanceReport(this.userId, dateLog.month_number, +dateLog.year_name);
+      this.getWalletBalanceReport(this.userId, '2019-08-02', '2018-07-07');
       // sthis.getWalletBalanceReport(monthNumber);
     } else {
       this.wallettransactions = [];
     }
   }
-  public changeUser($event, userId): void {
-    if (userId > -1) {
-      this.initialLoad = false;
-      this.userChange = true;
-      this.userId = +userId;
-      this.getWalletBalanceReport(this.userId, 0, 0);
-      // sthis.getWalletBalanceReport(monthNumber);
-    } else {
-      this.wallettransactions = [];
-    }
+
+  public search(): void {
+    this.initialLoad = false;
+    this.userChange = false;
+    this.getWalletBalanceReport(this.userId, this.formatDate(this.startDate), this.formatDate(this.endDate));
   }
+
+
+
+
+
+
+
+
+  // public changeUser($event, userId): void {
+  //   if (userId > -1) {
+  //     this.initialLoad = false;
+  //     this.userChange = true;
+  //     this.userId = +userId;
+  //     this.getWalletBalanceReport(this.userId, '', '');
+  //     // sthis.getWalletBalanceReport(monthNumber);
+  //   } else {
+  //     this.wallettransactions = [];
+  //   }
+  // }
   // #region withdrawal
   public widthdraw(comment: any): void {
     const commentFinal = comment.value;
@@ -275,7 +297,22 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
   // #endregion
 
+  private formatDate(date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate();
+    const year = d.getFullYear();
 
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+
+    if (day.length < 2) {
+      day = '0' + day;
+    }
+
+    return [year, month, day].join('-');
+  }
 
   private addWalletTransaction(amount: number, userId: number, message: string, transactionMode: string, requestType: string): void {
     this.loadingScreenService.startLoading();

@@ -33,6 +33,8 @@ import { ApiBalanceComponent } from '../widgets/api-balance/api-balance.componen
 import { ProfileService } from '../widgets/profile/profile.service';
 import { GenerateTokenService } from '../widgets/generate-token/generate-token.service';
 import { AmountTransferComponent } from '../widgets/amount-transfer/amount-transfer.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DemoMaterialModule } from '../material-module';
 
 
 
@@ -67,7 +69,10 @@ import { AmountTransferComponent } from '../widgets/amount-transfer/amount-trans
     ],
     imports: [
         CommonModule,
-        DashboardRoutingModule
+        DashboardRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DemoMaterialModule
     ],
     providers: [
         ProfileService,

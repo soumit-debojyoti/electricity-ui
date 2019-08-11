@@ -4,8 +4,8 @@ import { LoadingScreenService } from '../../services/loading-screen/loading-scre
 import { User, TransferAmountModel } from '../../models/user.model';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { AlertService } from '../../services/common.service/alert.service';
-import { MAT_MENU_DEFAULT_OPTIONS_FACTORY } from '@angular/material/menu/typings/menu-directive';
 import { DataService } from 'src/app/services/data.service/data.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-amount-transfer',
@@ -17,6 +17,17 @@ export class AmountTransferComponent implements OnInit {
   public filteredUsers: Array<User>;
   public userId: number;
   public senderUserId: number;
+
+
+
+
+
+
+
+
+
+
+
   constructor(private userService: UserService, private loadingScreenService: LoadingScreenService, private alertService: AlertService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService) { }
 
@@ -95,6 +106,7 @@ export class AmountTransferComponent implements OnInit {
         this.sendMoney(user, amount, comment);
       } else {
         this.alertService.confirmationMessage('', 'User is not valid.', 'warning', true, false);
+        this.clear(user, amount, comment);
         return false;
       }
     }

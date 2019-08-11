@@ -21,7 +21,7 @@ export class BalanceTransferComponent implements OnInit {
   }
 
   public transferWalletBalances(): void {
-    this.router.navigate(['/transfer-amount']);
+    // this.router.navigate(['/transfer-amount']);
   }
 
 }

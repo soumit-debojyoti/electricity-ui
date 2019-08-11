@@ -1,60 +1,46 @@
-<h2>
-  Configuration
-</h2>
+<div class="container">
+  <h2>
+    Configuration
+  </h2>
+  <table class="table table-hover table-striped">
+    <thead>
+      <tr class="grid-header">
+        <th>CONFIGURATION FIELDS</th>
+        <th>CONFIGURATION VALUE</th>
+      </tr>
+    </thead>
+    <ng-container>
+      <tbody>
+        <tr>
+          <td><label>Referal Wallet Balance Deduct Amount</label></td>
+          <td><input type="text" [(ngModel)]="referal_wallet_balance_deduct_amount" /></td>
+        </tr>
+        <tr>
+          <td><label>Down Side Direct Numer Of Joinee</label></td>
+          <td><input type="text" [(ngModel)]="down_side_direct_numer_of_joinee" /></td>
+        </tr>
+        <tr>
+          <td><label>Down Side Direct Of Joinee Point</label></td>
+          <td><input type="text" [(ngModel)]="down_side_direct_of_joinee_point" /></td>
+        </tr>
+        <tr>
+          <td><label>Point Unit Price</label></td>
+          <td><input type="text" [(ngModel)]="point_unit_price" /></td>
+        </tr>
+        <tr>
+          <td><label>First Registration Wallet Balance</label></td>
+          <td><input type="text" [(ngModel)]="first_registration_wallet_balance" /></td>
+        </tr>
+        <tr>
+          <td><label>Wallet Approvar Role</label></td>
+          <td><input type="text" [(ngModel)]="wallet_approver_role" /></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><button (click)="submitConfiguration()" class="btn btn-primary float-right">Submit</button></td>
+        </tr>
 
-<div class="row">
-  <div class="col-sm-6">
-    <label>Referal Wallet Balance Deduct Amount</label>
-  </div>
-  <div class="col-sm-6">
-    <input type="text" [(ngModel)]="referal_wallet_balance_deduct_amount" />
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-6">
-    <label>Down Side Direct Numer Of Joinee</label>
-  </div>
-  <div class="col-sm-6">
-    <input type="text" [(ngModel)]="down_side_direct_numer_of_joinee" />
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-6">
-    <label>Down Side Direct Of Joinee Point</label>
-  </div>
-  <div class="col-sm-6">
-    <input type="text" [(ngModel)]="down_side_direct_of_joinee_point" />
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-6">
-    <label>Point Unit Price</label>
-  </div>
-  <div class="col-sm-6">
-    <input type="text" [(ngModel)]="point_unit_price" />
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-6">
-    <label>First Registration Wallet Balance</label>
-  </div>
-  <div class="col-sm-6">
-    <input type="text" [(ngModel)]="first_registration_wallet_balance" />
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-6">
-    <label>Wallet Approvar Role</label>
-  </div>
-  <div class="col-sm-6">
-    <input type="text" [(ngModel)]="wallet_approver_role" />
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-6">
-
-  </div>
-  <div class="col-sm-6">
-    <button (click)="submitConfiguration()" class="btn btn-primary">Submit</button>
-  </div>
+      </tbody>
+    </ng-container>
+  </table>
 </div>
