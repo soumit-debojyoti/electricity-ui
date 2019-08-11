@@ -53,6 +53,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'reactivate-token',
+    loadChildren: './reactivate-token/reactivate-token.module#ReactivateTokenModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: '',
     loadChildren: './login/login.module#LoginModule',
     pathMatch: 'full'

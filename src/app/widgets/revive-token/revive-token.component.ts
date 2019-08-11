@@ -7,21 +7,19 @@ import { UserService } from 'src/app/services/user.service/user.service';
 import { LoadingScreenService } from 'src/app/services/loading-screen/loading-screen.service';
 
 @Component({
-  selector: 'app-balance-transfer',
-  templateUrl: './balance-transfer.component.html',
-  styleUrls: ['./balance-transfer.component.css']
+  selector: 'app-revive-token',
+  templateUrl: './revive-token.component.html',
+  styleUrls: ['./revive-token.component.css']
 })
-export class BalanceTransferComponent implements OnInit {
+export class ReviveTokenComponent implements OnInit {
 
   constructor(private router: Router) { }
-
-
 
   ngOnInit() {
   }
 
-  public transferWalletBalances(): void {
-    // this.router.navigate(['/transfer-amount']);
+  public reviveToken(): void {
+    this.router.navigate(['/reactivate-token']);
   }
 
 }

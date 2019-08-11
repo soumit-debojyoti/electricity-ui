@@ -21,6 +21,7 @@ import {
 } from '@nebular/theme';
 import { MatNativeDateModule } from '@angular/material';
 import { DemoMaterialModule } from './material-module';
+
 // import { StoreService } from './store/store.service';
 // import { StoreModule } from '@ngrx/store';
 // import { createReducer } from './store/reducers/message.reducer';
@@ -29,7 +30,6 @@ import { DemoMaterialModule } from './material-module';
   declarations: [
     AppComponent,
     NavBarComponent,
-
   ],
   imports: [
     CommonModule,
