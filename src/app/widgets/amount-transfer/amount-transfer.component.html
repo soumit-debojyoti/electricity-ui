@@ -2,7 +2,7 @@
   <p><strong>Balance Transfer</strong></p>
   <div class="row">
     <div class="col-sm-7 float-left">
-      <p class="color-crimson">User id to transfer<span class="mandatory">*</span></p>
+      <p class="color-crimson">User to transfer<span class="mandatory">*</span></p>
 
 
 
@@ -35,14 +35,15 @@
     </div>
     <div class="col-sm-5 float-right">
       <p class="color-crimson float-right">Amount need to transfer?<span class="mandatory">*</span></p>
-      <div class="float-right"><span style="font-size: 20px;">&#8377;</span>&nbsp;<input type="number" #amount min="0">
+      <div class="float-right"><span style="font-size: 20px;">&#8377;</span>&nbsp;<input type="number" #amount min="0"
+          title="Rs...." placeholder="Rs....">
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12">
       <p class="color-crimson">Comment<span class="mandatory">*</span></p>
-      <textarea rows="4" cols="89" #comment></textarea>
+      <textarea rows="4" cols="89" #comment title="Comment...." placeholder="Comment...."></textarea>
     </div>
   </div>
   <button class="btn btn-primary float-right" (click)="submit(user,amount,comment)">Submit</button>
