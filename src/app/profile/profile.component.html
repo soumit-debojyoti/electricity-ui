@@ -2,10 +2,10 @@
   <div class="w3-container">
     <h4 class="w3-center pointer">{{full_name}}</h4>
     <p class="w3-center pointer">
-      <img *ngIf="sex=='Male'" [src]="photo" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
+      <img [src]="photo" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
 
-      <img *ngIf="sex!='Male'" [src]="photo" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
-    <input #fileImage type="file" (change)="uploadPhoto(fileImage.files)" class="form-control no-border" />
+    </p>
+    <input #fileImage type="file" (change)="reUploadPhoto(fileImage.files)" class="form-control no-border" />
     <span style="font-weight:bold;color:green;" *ngIf="messagePhoto">
       {{messagePhoto}}
     </span>
@@ -13,19 +13,18 @@
     <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme pointer"></i> Role : {{role | titlecase}}</p>
     <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme pointer"></i> City :{{city}}, {{state_name}}</p>
     <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme pointer"></i> {{dob}}</p>
-    <p class="pl-40">Account Balance&nbsp;&nbsp;<span
-        [ngClass]="{'low_balance': balance <= 100, 'high_balance':balance > 100 }"><span>&#8377;</span><strong>{{balance}}</strong></span>
+    <p class="pl-40">Account Balance&nbsp;&nbsp;
+      <span>
+        <span>&#8377;</span>
+        <strong>{{balance}}</strong>
+      </span>
     </p>
   </div>
 </div>
-<div class="jumbotron">
+<!-- <div class="jumbotron">
   <div class="container">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-
-
       <h2>Basic Information</h2>
-
-
       <div class="row">
         <div class="col-md-2 float-right"><label>User Name</label></div>
         <div class="col-md-10 float-left">
@@ -95,14 +94,7 @@
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-2 float-right"><label>DOB</label></div>
-        <div class="col-md-4 float-left">
-          <input type="date" formControlName="dob" class="form-control" (change)="dateChange()"
-            [ngClass]="{ 'is-invalid': submitted && f.dob.errors }" />
-          <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
-            <div *ngIf="f.dob.errors.required">D O B is required</div>
-          </div>
-        </div> -->
+
       </div>
       <div class="row">
         <div class="col-md-2 float-right"><label>Father Name</label></div>
@@ -208,10 +200,9 @@
       </div>
       <div class="col-md-10 float-right">
         <div class="form-group float-right">
-          <!-- <button [disabled]="loading" class="btn btn-primary">Submit</button> -->
           <button class="btn btn-primary">Submit</button>
         </div>
       </div>
     </form>
   </div>
-</div>
+</div> -->

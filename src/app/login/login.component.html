@@ -43,9 +43,9 @@
           <form class="form-signin">
             <div class="form-label-group">
               <input #userid class="animated form-control" [ngClass]="{'shake': islog}" type="text"
-                placeholder="user id">
+                placeholder="User Name" autofocus>
               <input #password class="animated form-control" [ngClass]="{'shake': islog}" type="password"
-                placeholder="Password">
+                placeholder="Password" (keydown.enter)="login($event,userid,password)">
 
 
               <input type="button" class="btn btn-lg btn-primary btn-block text-uppercase"

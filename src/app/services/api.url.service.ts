@@ -13,6 +13,7 @@ export class ApiUrlService extends BaseURLService {
       REGISTER_USER: `User/registeruser`,
       FILE_UPLOAD: `common/upload/{fileType}`,
       PHOTO_UPLOAD: `common/uploadphoto/{fileType}/{fileName}`,
+      PHOTO_REUPLOAD: `common/reuploadphoto/{userName}/{fileType}/{fileName}/{oldfileName}/{oldfileExtension}`,
       REFERAL_TOKEN: `user/referaltoken/{userId}`,
       GET_USERS: `user/users`,
       SEARCH_USERS: `user/searchusers/{name}`,

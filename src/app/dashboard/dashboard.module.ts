@@ -36,6 +36,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DemoMaterialModule } from '../material-module';
 import { ReviveTokenComponent } from '../widgets/revive-token/revive-token.component';
 
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import {
+//     MatButtonModule, MatCardModule, MatMenuModule, MatToolbarModule,
+//     MatIconModule, MatSidenavModule, MatListModule
+// } from '@angular/material';
 
 
 
@@ -72,7 +77,10 @@ import { ReviveTokenComponent } from '../widgets/revive-token/revive-token.compo
         DashboardRoutingModule,
         FormsModule,
         ReactiveFormsModule,
-        DemoMaterialModule
+        DemoMaterialModule,
+        // BrowserAnimationsModule,
+        // MatButtonModule, MatCardModule, MatMenuModule, MatToolbarModule,
+        // MatIconModule, MatSidenavModule, MatListModule
     ],
     providers: [
         ProfileService,

@@ -14,6 +14,7 @@ import { State } from '../models/state.model';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { RegisterUserResponse } from '../models/registeruser.model';
 import { forkJoin } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -54,10 +55,12 @@ export class ProfileComponent implements OnInit {
   public messageIdProof: string;
   public messageAddressProof: string;
   public messagePhoto: string;
+  public oldImage: string;
   private rootURL = environment.baseUrl;
+
   constructor(private common: CommonService, private profileService: ProfileService, private formBuilder: FormBuilder,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService, private userService: UserService,
-    private loadingScreenService: LoadingScreenService) {
+    private loadingScreenService: LoadingScreenService, private router: Router) {
     this.name = '';
     this.full_name = '';
   }
@@ -69,11 +72,15 @@ export class ProfileComponent implements OnInit {
       { 'id': 3, 'name': 'Trans' },
       { 'id': 4, 'name': 'NA' }
     ];
-    // this.getStates();
-    // convenience getter for easy access to form fields
+    this.InitiaLoad();
+  }
 
-    // this.registerForm.controls['uploaddocumentid'].disable();
-    // this.registerForm.controls['uploaddocumentaddress'].disable();
+
+  get f() { return this.registerForm.controls; }
+
+
+
+  private InitiaLoad() {
     this.photoUploadPath = '';
     this.messagePhoto = '';
     this.name = this.storage.get('login_user');
@@ -91,31 +98,28 @@ export class ProfileComponent implements OnInit {
         this.city = response.city;
         this.address = response.address;
         this.district = response.district;
+        this.dob = response.dob;
         this.state = response.state_name;
         this.pincode = response.pin;
         this.state_name = response.state_name;
         this.mobile = response.mobile_number;
         this.email = response.email;
-        // this.dob = response.dob;
         this.sex = response.sex;
         this.role = response.role_name;
         this.photo = response.photo;
+        this.oldImage = this.photo;
         this.photo = this.rootURL + this.photo;
         this.storage.set('role', this.role);
         this.storage.set('user_id', this.user_id);
         const message: User = response;
         this.data.changeMessage(this.role);
-        this.initiateRegitrationForm();
         this.getWalletBalance();
       }, () => {
         this.loadingScreenService.stopLoading();
       });
   }
 
-
-  get f() { return this.registerForm.controls; }
-
-  public uploadPhoto(files) {
+  public reUploadPhoto(files) {
     if (files.length === 0) {
       return;
     }
@@ -124,18 +128,28 @@ export class ProfileComponent implements OnInit {
       formData.append(this.name, file);
     }
     this.loadingScreenService.startLoading();
-    this.common.uploadPhoto('photo', this.name, formData)
+    const extension = this.file_get_ext(this.oldImage);
+    const fileInitial = this.oldImage.split('.' + extension)[0];
+    const fileOriginalName = fileInitial.split('photo/')[1];
+    this.common.reUploadPhoto(this.name, 'photo',
+      this.name + Math.floor(Math.random() * (999999 - 100000)) + 100000, fileOriginalName, extension, formData)
       .subscribe((event: any) => {
         this.loadingScreenService.stopLoading();
         if (event !== undefined) {
-          // this.photoUploadPath = environment.baseUrl + event.toString();
           this.photoUploadPath = event.toString();
-          // this.download('photo', this.photoUploadPath);
+          this.photo = this.rootURL + this.photoUploadPath;
           this.messagePhoto = 'Upload successful';
+          this.router.navigate(['/profile']);
         }
       }, () => {
         this.loadingScreenService.stopLoading();
       });
+  }
+
+
+
+  private file_get_ext(filename) {
+    return typeof filename !== 'undefined' ? filename.substring(filename.lastIndexOf('.') + 1, filename.length).toLowerCase() : false;
   }
 
   onSubmit() {

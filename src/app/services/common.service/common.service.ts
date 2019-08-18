@@ -66,9 +66,19 @@ export class CommonService {
       fileType: fileType,
       fileName: fileName
     };
-    // var url: string = `common/upload/${fileType}`;
-    // let params = new HttpParams();
     const mainURL = this.apiUrlService.getFullURL('PHOTO_UPLOAD', urlStringObject);
+    return this.baseService.post(mainURL, formdata, true);
+  }
+
+  reUploadPhoto(userName: string, fileType: string, fileName: string, oldImageName: string, oldImageExtension: string, formdata: FormData) {
+    const urlStringObject = {
+      userName: userName,
+      fileType: fileType,
+      fileName: fileName,
+      oldfileName: oldImageName,
+      oldfileExtension: oldImageExtension
+    };
+    const mainURL = this.apiUrlService.getFullURL('PHOTO_REUPLOAD', urlStringObject);
     return this.baseService.post(mainURL, formdata, true);
   }
 
