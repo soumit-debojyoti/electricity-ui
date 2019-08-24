@@ -103,7 +103,7 @@ export class LoginComponent implements OnInit {
           this.storage.set('security_token', token.value);
           this.router.navigateByUrl('/register');
         } else {
-          this.alertService.confirmationMessage('', 'Token is not valid........', 'success', true, false);
+          this.alertService.confirmationMessage('', 'Token is not valid........', 'error', true, false);
         }
       }, () => {
         this.isRegisterSuccess = false;

@@ -65,8 +65,8 @@
                                 <td>{{specificToken.expiry_date | date: 'dd-MMM-yyyy'}}</td>
                                 <td>{{specificToken.token_generator}}</td>
                                 <td>{{(specificToken.is_expired)?'YES':'NO'}}</td>
-                                <td *ngIf="specificToken.is_expired"><button type="button" class="btn btn-primary"
-                                        (click)="reactivate(specificToken.token)">
+                                <td data-dismiss="modal" *ngIf="specificToken.is_expired"><button type="button"
+                                        class="btn btn-primary" (click)="reactivate(specificToken.token)">
                                         REACTIVATE
                                     </button></td>
                                 <td *ngIf="!specificToken.is_expired"><button disabled type="button"
