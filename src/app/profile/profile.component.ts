@@ -128,9 +128,13 @@ export class ProfileComponent implements OnInit {
       formData.append(this.name, file);
     }
     this.loadingScreenService.startLoading();
-    const extension = this.file_get_ext(this.oldImage);
+    let extension = this.file_get_ext(this.oldImage);
     const fileInitial = this.oldImage.split('.' + extension)[0];
-    const fileOriginalName = fileInitial.split('photo/')[1];
+    let fileOriginalName = fileInitial.split('photo/')[1];
+    if (fileOriginalName === undefined) {
+      fileOriginalName = 'empty';
+      extension = 'empty';
+    }
     this.common.reUploadPhoto(this.name, 'photo',
       this.name + Math.floor(Math.random() * (999999 - 100000)) + 100000, fileOriginalName, extension, formData)
       .subscribe((event: any) => {
