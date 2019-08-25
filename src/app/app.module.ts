@@ -21,7 +21,7 @@ import {
 } from '@nebular/theme';
 import { MatNativeDateModule } from '@angular/material';
 import { DemoMaterialModule } from './material-module';
-
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // import { StoreService } from './store/store.service';
 // import { StoreModule } from '@ngrx/store';
 // import { createReducer } from './store/reducers/message.reducer';
@@ -54,7 +54,7 @@ import { DemoMaterialModule } from './material-module';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }, DataService],
+    }, { provide: LocationStrategy, useClass: HashLocationStrategy }, DataService],
   bootstrap: [AppComponent]
 })
 
