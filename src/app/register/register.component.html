@@ -264,6 +264,22 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-2 float-right"><label>Photo</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <input #fileImage type="file" (change)="uploadPhoto(fileImage.files)" formControlName="photo"
+              class="form-control no-border" [ngClass]="{ 'is-invalid': submitted && f.photo.errors }" />
+            <span style="font-weight:bold;color:green;" *ngIf="messagePhoto">
+              {{messagePhoto}}
+            </span>
+
+            <div *ngIf="submitted && f.photo.errors" class="invalid-feedback">
+              <div *ngIf="f.photo.errors.required">Photo is required</div>
+            </div>
+          </div>
+        </div>
+      </div>
       <h2>Bank Details</h2>
       <div class="row">
         <div class="col-md-2 float-right"><label>Bank Name</label></div>
@@ -382,20 +398,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-2 float-right"><label>Photo</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <input #fileImage type="file" (change)="uploadPhoto(fileImage.files)" formControlName="photo"
-              class="form-control no-border" [ngClass]="{ 'is-invalid': submitted && f.photo.errors }" />
-            <span style="font-weight:bold;color:green;" *ngIf="messagePhoto">
-              {{messagePhoto}}
-            </span>
 
-            <div *ngIf="submitted && f.photo.errors" class="invalid-feedback">
-              <div *ngIf="f.photo.errors.required">Photo is required</div>
-            </div>
-          </div>
-        </div>
         <div class="col-md-2 float-right"><label>Bank Details</label></div>
         <div class="col-md-4 float-left">
           <div class="form-group">

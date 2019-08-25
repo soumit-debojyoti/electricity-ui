@@ -60,7 +60,7 @@
                     <ng-container *ngIf="specificToken">
                         <tbody>
                             <tr>
-                                <td>{{specificToken.token}}</td>
+                                <td (click)="copyMessageToClipboard(specificToken.token)">{{specificToken.token}}</td>
                                 <td>{{specificToken.created_date | date: 'dd-MMM-yyyy'}}</td>
                                 <td>{{specificToken.expiry_date | date: 'dd-MMM-yyyy'}}</td>
                                 <td>{{specificToken.token_generator}}</td>

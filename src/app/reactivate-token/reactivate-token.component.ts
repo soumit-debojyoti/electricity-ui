@@ -6,8 +6,8 @@ import { UserService } from '../services/user.service/user.service';
 import { SiblingModel, ChildModel, ParentModel, RankAchieverModel, OwnModel } from '../models/rank-chiever.model';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 import { TokenDetailsGeneric, TokenDetailsSpecific } from '../models/token.model';
-import * as $ from 'jquery';
 import { AlertService } from '../services/common.service/alert.service';
+import { ClipboardService } from 'ngx-clipboard';
 
 @Component({
   selector: 'app-reactivate-token',
@@ -21,7 +21,7 @@ export class ReactivateTokenComponent implements OnInit {
   constructor(private userService: UserService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService,
     private router: Router, private data: DataService,
-    private loadingScreenService: LoadingScreenService) { }
+    private loadingScreenService: LoadingScreenService, private clipboardService: ClipboardService) { }
 
   ngOnInit() {
     this.genericTokenList = [];
@@ -46,6 +46,11 @@ export class ReactivateTokenComponent implements OnInit {
 
   public getSpecificTokenInformation(token: string): void {
     this.getUnusedTokenSpecificInformation(token);
+  }
+
+  public copyMessageToClipboard(token: number): void {
+    this.clipboardService.copyFromContent(token.toString());
+    this.alertService.confirmationMessage('', 'Clipboard copy successful.', 'success', true, false);
   }
 
 

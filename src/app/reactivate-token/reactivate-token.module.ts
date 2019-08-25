@@ -4,12 +4,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ReactivateTokenRoutingModule } from './reactivate-token-routing.module';
 import { ReactivateTokenComponent } from './reactivate-token.component';
 
+import { ClipboardModule } from 'ngx-clipboard';
+
 @NgModule({
     declarations: [ReactivateTokenComponent],
     imports: [
         CommonModule,
         ReactivateTokenRoutingModule,
-        FormsModule,
+        FormsModule, ClipboardModule,
         ReactiveFormsModule,
     ]
 })
