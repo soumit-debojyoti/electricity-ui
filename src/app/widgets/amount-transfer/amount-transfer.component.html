@@ -31,12 +31,12 @@
           <option *ngFor="let user of filteredUsers" [value]="user.user_id">{{user.user_name}}</option>
         </ng-container>
       </select> -->
-      <input class="width-365" type="text" #user value="">
+      <input appSelectAll class="width-365" type="text" #user value="">
     </div>
     <div class="col-sm-5 float-right">
       <p class="color-crimson float-right">Amount need to transfer?<span class="mandatory">*</span></p>
-      <div class="float-right"><span style="font-size: 20px;">&#8377;</span>&nbsp;<input type="number" #amount min="0"
-          title="Rs...." placeholder="Rs....">
+      <div class="float-right"><span style="font-size: 20px;">&#8377;</span>&nbsp;<input appSelectAll type="number"
+          #amount min="0" title="Rs...." placeholder="Rs....">
       </div>
     </div>
   </div>

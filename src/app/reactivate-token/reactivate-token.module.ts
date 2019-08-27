@@ -5,9 +5,10 @@ import { ReactivateTokenRoutingModule } from './reactivate-token-routing.module'
 import { ReactivateTokenComponent } from './reactivate-token.component';
 
 import { ClipboardModule } from 'ngx-clipboard';
+import { FilterTextPipe } from '../pipes/filter-text.pipe';
 
 @NgModule({
-    declarations: [ReactivateTokenComponent],
+    declarations: [ReactivateTokenComponent, FilterTextPipe],
     imports: [
         CommonModule,
         ReactivateTokenRoutingModule,

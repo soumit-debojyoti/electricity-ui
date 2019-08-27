@@ -19,15 +19,6 @@ export class AmountTransferComponent implements OnInit {
   public senderUserId: number;
 
 
-
-
-
-
-
-
-
-
-
   constructor(private userService: UserService, private loadingScreenService: LoadingScreenService, private alertService: AlertService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService) { }
 

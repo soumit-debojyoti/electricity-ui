@@ -35,13 +35,7 @@ import { AmountTransferComponent } from '../widgets/amount-transfer/amount-trans
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DemoMaterialModule } from '../material-module';
 import { ReviveTokenComponent } from '../widgets/revive-token/revive-token.component';
-
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import {
-//     MatButtonModule, MatCardModule, MatMenuModule, MatToolbarModule,
-//     MatIconModule, MatSidenavModule, MatListModule
-// } from '@angular/material';
-
+import { SharedModule } from '../shared-module';
 
 
 
@@ -71,6 +65,7 @@ import { ReviveTokenComponent } from '../widgets/revive-token/revive-token.compo
         AdminProfileComponent,
         ApiBalanceComponent,
         AmountTransferComponent
+
     ],
     imports: [
         CommonModule,
@@ -78,6 +73,7 @@ import { ReviveTokenComponent } from '../widgets/revive-token/revive-token.compo
         FormsModule,
         ReactiveFormsModule,
         DemoMaterialModule,
+        SharedModule
         // BrowserAnimationsModule,
         // MatButtonModule, MatCardModule, MatMenuModule, MatToolbarModule,
         // MatIconModule, MatSidenavModule, MatListModule

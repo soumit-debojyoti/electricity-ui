@@ -42,7 +42,7 @@
           <h2>LOGIN</h2>
           <form class="form-signin">
             <div class="form-label-group">
-              <input #userid class="animated form-control" [ngClass]="{'shake': islog}" type="text"
+              <input #userid class="animated form-control" [ngClass]="{'shake': islog}" type="text" appSelectAll
                 placeholder="User Name" autofocus>
               <input #password class="animated form-control" [ngClass]="{'shake': islog}" type="password"
                 placeholder="Password" (keydown.enter)="login($event,userid,password)">

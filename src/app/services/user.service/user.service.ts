@@ -146,6 +146,29 @@ export class UserService {
       }));
   }
 
+  public deactivateToken(token: string): Observable<any> {
+    const urlStringObject = {
+      token: token
+    };
+    const mainURL = this.apiUrlService.getFullURL('DEACTIVATE_TOKEN', urlStringObject);
+    return this.baseService.post(mainURL, {}, false)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+
+  public surrenderToken(token: string): Observable<any> {
+    const urlStringObject = {
+      token: token
+    };
+    const mainURL = this.apiUrlService.getFullURL('SURRENDER_TOKEN', urlStringObject);
+    return this.baseService.post(mainURL, {}, false)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
   public getRankAchieverCount(user_id: number): Observable<any> {
     const params = new HttpParams();
     const urlStringObject = {

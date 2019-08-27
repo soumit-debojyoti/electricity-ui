@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { HttpClientModule } from '@angular/common/http';
-import { DashboardModule } from './dashboard/dashboard.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthGuard } from './auth/auth.guard';
@@ -22,6 +21,7 @@ import {
 import { MatNativeDateModule } from '@angular/material';
 import { DemoMaterialModule } from './material-module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { SharedModule } from './shared-module';
 // import { StoreService } from './store/store.service';
 // import { StoreModule } from '@ngrx/store';
 // import { createReducer } from './store/reducers/message.reducer';
@@ -29,7 +29,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
-    NavBarComponent,
+    NavBarComponent
   ],
   imports: [
     CommonModule,
@@ -40,13 +40,13 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     MatNativeDateModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    DashboardModule,
     DemoMaterialModule,
     StorageServiceModule,
     NgxSpinnerModule,
     NbThemeModule.forRoot(),
     NbLayoutModule,
-    NbButtonModule
+    NbButtonModule,
+    SharedModule
     // StoreModule.forRoot(createReducer())
   ],
   providers: [AuthGuard

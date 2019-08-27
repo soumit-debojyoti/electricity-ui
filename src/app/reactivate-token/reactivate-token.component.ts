@@ -15,6 +15,7 @@ import { ClipboardService } from 'ngx-clipboard';
   styleUrls: ['./reactivate-token.component.css']
 })
 export class ReactivateTokenComponent implements OnInit {
+  public token: string;
   public user_id: number;
   public genericTokenList: Array<TokenDetailsGeneric>;
   public specificToken: TokenDetailsSpecific;
@@ -24,6 +25,7 @@ export class ReactivateTokenComponent implements OnInit {
     private loadingScreenService: LoadingScreenService, private clipboardService: ClipboardService) { }
 
   ngOnInit() {
+    this.token = '';
     this.genericTokenList = [];
     if (this.storage.get('user_id') !== undefined) {
       this.user_id = this.storage.get('user_id');
@@ -33,6 +35,32 @@ export class ReactivateTokenComponent implements OnInit {
 
   public reactivate(token: string): void {
     this.userService.reactivateToken(token)
+      .subscribe((response: any) => {
+        this.loadingScreenService.stopLoading();
+        this.alertService.confirmationMessage('',
+          response.message,
+          'success', true, false);
+        this.getUnusedTokenGenericInformation();
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
+  public deactivate(token: string): void {
+    this.userService.deactivateToken(token)
+      .subscribe((response: any) => {
+        this.loadingScreenService.stopLoading();
+        this.alertService.confirmationMessage('',
+          response.message,
+          'success', true, false);
+        this.getUnusedTokenGenericInformation();
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
+  public surrender(token: string): void {
+    this.userService.surrenderToken(token)
       .subscribe((response: any) => {
         this.loadingScreenService.stopLoading();
         this.alertService.confirmationMessage('',

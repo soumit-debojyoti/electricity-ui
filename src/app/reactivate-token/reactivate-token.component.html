@@ -1,29 +1,42 @@
 <div class="container">
-    <h2>
-        Unused Token Information
-    </h2>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>
+                Unused Token Information
+            </h2>
+        </div>
+    </div>
+    <div class="d-flex flex-row-reverse pb-2">
+        <input #searchToken type="text" placeholder="Search token" [(ngModel)]="token" />
+    </div>
+
     <table class="table table-hover table-striped table-bordered">
         <thead>
             <tr class="grid-header">
                 <th>TOKEN</th>
                 <th>CREATED ON</th>
                 <th>HAS EXPIRED</th>
+                <th>SURRENDER</th>
             </tr>
         </thead>
         <ng-container *ngIf="genericTokenList.length>0">
             <tbody>
-                <tr *ngFor='let genericToken of genericTokenList'>
+                <tr *ngFor='let genericToken of genericTokenList | filterText:token'>
                     <td class="hand" data-toggle="modal" data-target="#myModal"
                         (click)="getSpecificTokenInformation(genericToken.token)">{{genericToken.token}}</td>
                     <td>{{genericToken.created_date | date: 'dd-MMM-yyyy'}}</td>
                     <td>{{(genericToken.is_expired)?'YES':'NO'}}</td>
+                    <td><button type="button" class="btn btn-primary" data-dismiss="modal"
+                            (click)="surrender(genericToken.token)">
+                            SURRENDER
+                        </button></td>
                 </tr>
             </tbody>
         </ng-container>
         <ng-container *ngIf="genericTokenList.length==0">
             <tbody>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="4">
                         <span>No records to display.</span>
                     </td>
                 </tr>
@@ -71,12 +84,13 @@
                                 <td>{{specificToken.token_generator}}</td>
                                 <td>{{(specificToken.is_expired)?'YES':'NO'}}</td>
                                 <td data-dismiss="modal" *ngIf="specificToken.is_expired"><button type="button"
-                                        class="btn btn-primary" (click)="reactivate(specificToken.token)">
+                                        data-dismiss="modal" class="btn btn-primary"
+                                        (click)="reactivate(specificToken.token)">
                                         REACTIVATE
                                     </button></td>
-                                <td *ngIf="!specificToken.is_expired"><button disabled type="button"
-                                        class="btn btn-secondary">
-                                        REACTIVATE
+                                <td *ngIf="!specificToken.is_expired"><button type="button" class="btn btn-primary"
+                                        data-dismiss="modal" (click)="deactivate(specificToken.token)">
+                                        DEACTIVATE
                                     </button></td>
                             </tr>
                         </tbody>
