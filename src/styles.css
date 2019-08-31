@@ -177,3 +177,16 @@ body {
   color: white;
   background-color: #3b5998;
 }
+
+input[type="button"]:hover, button:hover {
+    transform:  translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  input[type="button"]:hover::after, button:hover::after {
+  opacity: 1;
+}
+
+  input[type="button"]:active, button:active {
+      transform:  scale(.99);
+    }
