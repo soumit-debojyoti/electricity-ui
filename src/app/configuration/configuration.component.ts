@@ -16,6 +16,7 @@ export class ConfigurationComponent implements OnInit {
   public point_unit_price: number;
   public first_registration_wallet_balance: number;
   public wallet_approver_role: number;
+  public kyc_submission_days: number;
   public config: ConfigurationModel;
   constructor(private common: CommonService, private alertService: AlertService,
     private loadingScreenService: LoadingScreenService) {
@@ -28,6 +29,7 @@ export class ConfigurationComponent implements OnInit {
     this.point_unit_price = 0;
     this.first_registration_wallet_balance = 0;
     this.wallet_approver_role = 0;
+    this.kyc_submission_days = 0;
     this.getConfiguration();
   }
 
@@ -42,6 +44,7 @@ export class ConfigurationComponent implements OnInit {
         this.point_unit_price = configuration.point_unit_price;
         this.first_registration_wallet_balance = configuration.first_registration_wallet_balance;
         this.wallet_approver_role = configuration.wallet_approver_role;
+        this.kyc_submission_days = configuration.kyc_submission_days;
       }, () => {
         this.loadingScreenService.stopLoading();
       });
@@ -55,6 +58,7 @@ export class ConfigurationComponent implements OnInit {
       point_unit_price: +this.point_unit_price,
       first_registration_wallet_balance: +this.first_registration_wallet_balance,
       wallet_approver_role: +this.wallet_approver_role,
+      kyc_submission_days: +this.kyc_submission_days
     };
     this.loadingScreenService.startLoading();
     this.common.setConfiguration(this.config)

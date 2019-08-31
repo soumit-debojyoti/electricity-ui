@@ -38,6 +38,7 @@ export class RegisterComponent implements OnInit {
   public messageIdProof: string;
   public messageAddressProof: string;
   public messagePhoto: string;
+  public isKYCLater: boolean;
 
   constructor(private common: CommonService,
     private userService: UserService, private formBuilder: FormBuilder,
@@ -46,7 +47,7 @@ export class RegisterComponent implements OnInit {
     private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
-
+    this.isKYCLater = false;
     this.clearUploadVariables();
     this.genders = [
       { 'id': 1, 'name': 'Male' },
@@ -68,6 +69,10 @@ export class RegisterComponent implements OnInit {
     this.getStates();
   }
 
+  public changeKYC(isKYC: any) {
+    this.isKYCLater = isKYC.checked;
+  }
+
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
 
@@ -83,7 +88,6 @@ export class RegisterComponent implements OnInit {
     if (!this.isEmployee) {
       formDataregister.append('introcode', this.registerForm.get('introcode').value);
       formDataregister.append('introname', this.registerForm.get('introname').value);
-
     }
     formDataregister.append('isEmployee', this.isEmployee ? 'true' : 'false');
 
@@ -111,13 +115,16 @@ export class RegisterComponent implements OnInit {
     formDataregister.append('accnumber', this.registerForm.get('accnumber').value);
     formDataregister.append('ifsc', this.registerForm.get('ifsc').value);
     formDataregister.append('branch', this.registerForm.get('branch').value);
-    formDataregister.append('idprooftype', this.registerForm.get('idproof').value);
-    formDataregister.append('idproof', this.idProofUploadpath);
-    formDataregister.append('addressprooftype', this.registerForm.get('addressproof').value);
-    formDataregister.append('addressproof', this.addressProofUploadpath);
     formDataregister.append('photo', this.photoUploadPath);
+    formDataregister.append('isKYCLater', this.isKYCLater.toString());
+    if (!this.isKYCLater) {
+      formDataregister.append('idprooftype', this.registerForm.get('idproof').value);
+      formDataregister.append('idproof', this.idProofUploadpath);
+      formDataregister.append('addressprooftype', this.registerForm.get('addressproof').value);
+      formDataregister.append('addressproof', this.addressProofUploadpath);
 
-    formDataregister.append('bankdetails', this.registerForm.get('bankdetails').value);
+      formDataregister.append('bankdetails', this.registerForm.get('bankdetails').value);
+    }
     formDataregister.append('payonline', this.registerForm.get('payonline').value);
     this.loadingScreenService.startLoading();
     this.userService.registerUser(formDataregister)

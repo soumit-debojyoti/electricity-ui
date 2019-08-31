@@ -40,6 +40,11 @@
           <td><input type="text" [(ngModel)]="wallet_approver_role" title="Role..." placeholder="Role...." /></td>
         </tr>
         <tr>
+          <td><label>Days withing KYC document need to submit.</label></td>
+          <td><input type="number" [(ngModel)]="kyc_submission_days" title="KYC submission days...."
+              placeholder="KYC submission days...." /></td>
+        </tr>
+        <tr>
           <td></td>
           <td><button (click)="submitConfiguration()" class="btn btn-primary float-right">Submit</button></td>
         </tr>
