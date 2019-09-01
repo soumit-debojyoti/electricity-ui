@@ -22,9 +22,6 @@ import { MatNativeDateModule } from '@angular/material';
 import { DemoMaterialModule } from './material-module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { SharedModule } from './shared-module';
-// import { StoreService } from './store/store.service';
-// import { StoreModule } from '@ngrx/store';
-// import { createReducer } from './store/reducers/message.reducer';
 
 @NgModule({
   declarations: [
