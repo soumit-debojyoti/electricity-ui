@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-api',
@@ -8,13 +7,9 @@ import { Router } from '@angular/router';
 })
 export class AddApiComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor() { }
 
   ngOnInit() {
-  }
-
-  public gotoAddApi() {
-    this.router.navigate(['/add-api']);
   }
 
 }

@@ -38,6 +38,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'add-api',
+    loadChildren: './add-api/add-api.module#AddApiModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'rank-achiever-list',
     loadChildren: './rank-achiever-list/rank-achiever-list.module#RankAchieverListModule',
     canActivate: [AuthGuard]
