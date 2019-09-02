@@ -12,9 +12,11 @@ import { UserWalletBalanceResponse } from 'src/app/models/user-wallet-balance-re
 import { CommonService } from '../services/common.service/common.service';
 import { State } from '../models/state.model';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { RegisterUserResponse } from '../models/registeruser.model';
+import { RegisterUserResponse, KYCDetails } from '../models/registeruser.model';
 import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
+import { AddressProof } from '../models/addressproof.model';
+import { IdProof } from '../models/idproof.model';
 
 @Component({
   selector: 'app-profile',
@@ -56,6 +58,13 @@ export class ProfileComponent implements OnInit {
   public messageAddressProof: string;
   public messagePhoto: string;
   public oldImage: string;
+
+  public idProofs: Array<IdProof> = [];
+  public addressProofs: Array<AddressProof> = [];
+  public selectedIdProof: IdProof;
+  public selectedAddressProof: AddressProof;
+  public idProofUploadpath: string;
+  public addressProofUploadpath: string;
   private rootURL = environment.baseUrl;
 
   constructor(private common: CommonService, private profileService: ProfileService, private formBuilder: FormBuilder,
@@ -66,21 +75,99 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.genders = [
-      { 'id': 1, 'name': 'Male' },
-      { 'id': 2, 'name': 'Female' },
-      { 'id': 3, 'name': 'Trans' },
-      { 'id': 4, 'name': 'NA' }
-    ];
-    this.InitiaLoad();
+    // this.genders = [
+    //   { 'id': 1, 'name': 'Male' },
+    //   { 'id': 2, 'name': 'Female' },
+    //   { 'id': 3, 'name': 'Trans' },
+    //   { 'id': 4, 'name': 'NA' }
+    // ];
+    // this.getAddressProof();
+    this.user_id = this.storage.get('user_id');
+    this.clearUploadVariables();
+    this.initiateRegitrationForm();
+
   }
 
 
   get f() { return this.registerForm.controls; }
 
+  private clearUploadVariables() {
+    this.idProofUploadpath = '';
+    this.addressProofUploadpath = '';
+    this.photoUploadPath = '';
+    this.messageAddressProof = '';
+    this.messageIdProof = '';
+    this.messagePhoto = '';
+  }
 
+  public onIdProofChanged(event: any) {
+    if (event.target.value !== '0') {
+      this.selectedIdProof = this.idProofs.find(n => n.id_proof_id === event.target.value);
+      this.registerForm.controls['uploaddocumentid'].enable();
 
-  private InitiaLoad() {
+    } else {
+      this.registerForm.controls['uploaddocumentid'].disable();
+      this.idProofUploadpath = '';
+    }
+  }
+
+  public onAddressProofChanged(event: any) {
+    if (event.target.value !== '0') {
+      this.selectedAddressProof = this.addressProofs.find(n => n.address_proof_id === event.target.value);
+      this.registerForm.controls['uploaddocumentaddress'].enable();
+    } else {
+      this.registerForm.controls['uploaddocumentaddress'].disable();
+      this.addressProofUploadpath = '';
+    }
+  }
+
+  public uploadIdProof(files) {
+    if (files.length === 0) {
+      return;
+    }
+
+    const formData = new FormData();
+
+    for (const file of files) {
+      formData.append(file.name, file);
+    }
+
+    this.loadingScreenService.startLoading();
+    this.common.upload('idProof', formData)
+      .subscribe((event: any) => {
+        this.loadingScreenService.stopLoading();
+        if (event !== undefined) {
+          this.idProofUploadpath = event.toString();
+        }
+        this.messageIdProof = 'Upload successful';
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
+  public uploadAddressProof(files) {
+    if (files.length === 0) {
+      return;
+    }
+    const formData = new FormData();
+    for (const file of files) {
+      formData.append(file.name, file);
+    }
+
+    this.loadingScreenService.startLoading();
+    this.common.upload('addressProof', formData)
+      .subscribe((event: any) => {
+        this.loadingScreenService.stopLoading();
+        if (event !== undefined) {
+          this.addressProofUploadpath = event.toString();
+        }
+        this.messageAddressProof = 'Upload successful';
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
+  private InitialLoad() {
     this.photoUploadPath = '';
     this.messagePhoto = '';
     this.name = this.storage.get('login_user');
@@ -119,6 +206,35 @@ export class ProfileComponent implements OnInit {
       });
   }
 
+
+  public onSubmit() {
+    this.submitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    // stop here if form is invalid
+
+    const formDataregister: FormData = new FormData();
+
+    formDataregister.append('idprooftype', this.registerForm.get('idproof').value);
+    formDataregister.append('idproof', this.idProofUploadpath);
+    formDataregister.append('addressprooftype', this.registerForm.get('addressproof').value);
+    formDataregister.append('addressproof', this.addressProofUploadpath);
+
+    formDataregister.append('bankdetails', this.registerForm.get('bankdetails').value);
+    this.loadingScreenService.startLoading();
+    this.userService.addKYC(this.user_id, formDataregister)
+      .subscribe((response: RegisterUserResponse) => {
+        this.loadingScreenService.stopLoading();
+        if (response.message === 'KYC detail added.') {
+
+        }
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
   public reUploadPhoto(files) {
     if (files.length === 0) {
       return;
@@ -135,6 +251,7 @@ export class ProfileComponent implements OnInit {
       fileOriginalName = 'empty';
       extension = 'empty';
     }
+
     this.common.reUploadPhoto(this.name, 'photo',
       this.name + Math.floor(Math.random() * (999999 - 100000)) + 100000, fileOriginalName, extension, formData)
       .subscribe((event: any) => {
@@ -150,86 +267,43 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-
-
   private file_get_ext(filename) {
     return typeof filename !== 'undefined' ? filename.substring(filename.lastIndexOf('.') + 1, filename.length).toLowerCase() : false;
   }
 
-  onSubmit() {
-    return false;
-    this.submitted = true;
-    if (this.registerForm.invalid) {
-      return;
-    }
-
-    // stop here if form is invalid
-
-    const formDataregister: FormData = new FormData();
-    formDataregister.append('username', this.registerForm.get('username').value);
-    formDataregister.append('password', this.registerForm.get('password').value);
-    formDataregister.append('firstName', this.registerForm.get('firstName').value);
-    formDataregister.append('middleName', this.registerForm.get('middleName').value);
-    formDataregister.append('lastName', this.registerForm.get('lastName').value);
-    formDataregister.append('fathername', this.registerForm.get('fathername').value);
-    formDataregister.append('gender', this.registerForm.get('gender').value);
-    formDataregister.append('dob', this.registerForm.get('dob').value);
-    formDataregister.append('mobile', this.registerForm.get('mobile').value);
-    formDataregister.append('email', this.registerForm.get('email').value);
-    formDataregister.append('pancard', this.registerForm.get('pancard').value);
-    formDataregister.append('aadharcard', this.registerForm.get('aadharcard').value);
-    formDataregister.append('address', this.registerForm.get('address').value);
-    formDataregister.append('po', this.registerForm.get('po').value);
-    formDataregister.append('ps', this.registerForm.get('ps').value);
-    formDataregister.append('district', this.registerForm.get('district').value);
-    formDataregister.append('city', this.registerForm.get('city').value);
-    formDataregister.append('state', this.registerForm.get('state').value);
-    formDataregister.append('pincode', this.registerForm.get('pincode').value);
-    formDataregister.append('photo', this.photoUploadPath);
-    this.loadingScreenService.startLoading();
-    this.userService.registerUser(formDataregister)
-      .subscribe((response: RegisterUserResponse) => {
-        this.loadingScreenService.stopLoading();
-        if (response.message === 'Registered.') {
-          // this.addWallet(response);
-        }
-      }, () => {
-        this.loadingScreenService.stopLoading();
-      });
-  }
-
-  // private getStates(): void {
-  //   this.loadingScreenService.startLoading();
-  //   this.common.getState()
-  //     .subscribe((response: Array<State>) => {
-  //       this.loadingScreenService.stopLoading();
-  //       this.states = response;
-  //     }, () => {
-  //       this.loadingScreenService.stopLoading();
-  //     });
-  // }
-
   private initiateRegitrationForm() {
     this.registerForm = this.formBuilder.group({
-      username: new FormControl({ value: this.name, disabled: true }, Validators.required),
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      cpassword: ['', [Validators.required, Validators.minLength(6)]],
-      firstName: new FormControl({ value: this.first_name, disabled: false }, Validators.required),
-      middleName: new FormControl({ value: this.middle_name, disabled: false }, Validators.required),
-      lastName: new FormControl({ value: this.last_name, disabled: false }, Validators.required),
-      fathername: new FormControl({ value: this.father_name, disabled: false }, Validators.required),
-      gender: new FormControl({ value: this.genders.find(x => x.name === this.sex).id, disabled: false }, Validators.required),
-      // dob: new FormControl({ value: this.dob, disabled: false }, Validators.required),
-      mobile: new FormControl({ value: this.mobile, disabled: false }, Validators.required),
-      email: new FormControl({ value: this.email, disabled: false }, Validators.required),
-      address: new FormControl({ value: this.address, disabled: false }, Validators.required),
-      district: new FormControl({ value: this.district, disabled: false }, Validators.required),
-      city: new FormControl({ value: this.city, disabled: false }, Validators.required),
-      state: new FormControl({ value: this.states.find(x => x.state_name === this.state).state_id, disabled: false }, Validators.required),
-      pincode: new FormControl({ value: this.pincode, disabled: false }, Validators.required),
-      photo: new FormControl({ value: this.photoUploadPath, disabled: false }, Validators.required),
-    }, {
-        validator: mustMatch('password', 'cpassword')
+      idproof: ['0'],
+      uploaddocumentid: [''],
+      addressproof: ['0'],
+      uploaddocumentaddress: [''],
+      bankdetails: [''],
+    });
+    forkJoin(this.userService.getKYC(this.user_id), this.common.getIdProof(), this.common.getAddressProof())
+      .subscribe(([responsekyc, responseIdProof, responseAddressProof]) => {
+        this.idProofs = responseIdProof;
+        this.addressProofs = responseAddressProof;
+        // if (responsekyc.list.length > 0) {
+        //   this.registerForm = this.formBuilder.group({
+        //     idproof: [responsekyc.list[0].id_proof_id],
+        //     uploaddocumentid: [responsekyc.list[0].id_proof_document_path],
+        //     addressproof: [responsekyc.list[0].address_proof_id],
+        //     uploaddocumentaddress: [responsekyc.list[0].address_proof_document_path],
+        //     bankdetails: [responsekyc.list[0].bank_details],
+        //   });
+        // } else {
+        //   this.registerForm = this.formBuilder.group({
+        //     idproof: ['0'],
+        //     uploaddocumentid: [''],
+        //     addressproof: ['0'],
+        //     uploaddocumentaddress: [''],
+        //     bankdetails: [''],
+        //   });
+        // }
+
+        this.registerForm.controls['uploaddocumentid'].disable();
+        this.registerForm.controls['uploaddocumentaddress'].disable();
+        this.InitialLoad();
       });
   }
 
@@ -247,7 +321,6 @@ export class ProfileComponent implements OnInit {
   }
 
   private updateUserDetails() {
-
   }
 
 }
@@ -261,7 +334,6 @@ export function mustMatch(controlName: string, matchingControlName: string) {
       // return if another validator has already found an error on the matchingControl
       return;
     }
-
     // set error on matchingControl if validation fails
     if (control.value !== matchingControl.value) {
       matchingControl.setErrors({ mustMatch: true });

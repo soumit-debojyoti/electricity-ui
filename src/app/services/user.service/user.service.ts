@@ -33,6 +33,29 @@ export class UserService {
       }));
   }
 
+  public addKYC(userId: number, formdata: FormData): Observable<any> {
+    const urlStringObject = {
+      userId: userId
+    };
+    const mainURL = this.apiUrlService.getFullURL('ADD_KYC', urlStringObject);
+    return this.baseService.post(mainURL, formdata, true)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public getKYC(userId: number): Observable<any> {
+    const urlStringObject = {
+      userId: userId
+    };
+    const params = new HttpParams();
+    const mainURL = this.apiUrlService.getFullURL('GET_KYC', urlStringObject);
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
   public walletDeductRequest(userId: number, comment: string, amountDeduct: number): Observable<any> {
     const urlStringObject = {
       requestInitiatorId: userId,

@@ -8,7 +8,8 @@ import { ValidateReferalTokenResponse } from '../models/validatereferaltokenresp
 import { FindUserResponse } from '../models/find-user-response.model';
 import { AlertService } from '../services/common.service/alert.service';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
-
+import { SweetAlertType } from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -68,7 +69,33 @@ export class LoginComponent implements OnInit {
 
           this.storage.set('access_token', res.access_token);
           if (res.message !== '') {
-            this.alertService.confirmationMessage('', res.message, 'success', true, false);
+            if (res.isLoginSuccess) {
+              let timerInterval;
+              Swal.fire({
+                title: 'KYC Check!!',
+                html: res.message,
+                timer: 5000,
+                onBeforeOpen: () => {
+                  Swal.showLoading();
+                  timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft().toString();
+                  }, 100);
+                },
+                onClose: () => {
+                  clearInterval(timerInterval);
+                }
+              }).then((result) => {
+                if (
+                  /* Read more about handling dismissals below */
+                  result.dismiss === Swal.DismissReason.timer
+                ) {
+                  console.log('I was closed by the timer')
+                }
+              })
+            } else {
+              this.alertService.confirmationMessage('', res.message, 'success', true, false);
+            }
+
           }
 
           this.router.navigate(['/dashboard']);

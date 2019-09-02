@@ -16,6 +16,8 @@ export class ApiUrlService extends BaseURLService {
       PHOTO_REUPLOAD: `common/reuploadphoto/{userName}/{fileType}/{fileName}/{oldfileName}/{oldfileExtension}`,
       REFERAL_TOKEN: `user/referaltoken/{userId}`,
       GET_USERS: `user/users`,
+      ADD_KYC: `user/addkyc/{userId}`,
+      GET_KYC: `user/getkycdetail/{userId}`,
       SEARCH_USERS: `user/searchusers/{name}`,
       VALIDATE_TOKEN: `user/validatetoken/{token}`,
       WALLET_BALANCE: `user/walletbalance/user/{userId}`,

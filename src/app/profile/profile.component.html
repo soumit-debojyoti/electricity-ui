@@ -21,6 +21,89 @@
     </p>
   </div>
 </div>
+<hr />
+<div class="w3-card w3-round w3-white animated flipInX pt-6">
+  <div class="w3-container">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <h2>KYC Information</h2>
+      <div class="row">
+        <div class="col-md-2 float-right"><label>ID Proof</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <select class="form-control" id="id-proof" formControlName="idproof" (change)="onIdProofChanged($event)">
+              <option [value]="0">Select</option>
+              <option *ngFor="let idProof of idProofs" [value]="idProof.id_proof_id">{{idProof.id_proof_type}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2 float-right"><label>Upload document</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <input #fileId type="file" (change)="uploadIdProof(fileId.files)" formControlName="uploaddocumentid"
+              class="form-control no-border" [ngClass]="{ 'is-invalid': submitted && f.uploaddocumentid.errors }" />
+            <span style="font-weight:bold;color:green;" *ngIf="messageIdProof">
+              {{messageIdProof}}
+            </span>
+            <div *ngIf="submitted && f.uploaddocumentid.errors" class="invalid-feedback">
+              <div *ngIf="f.uploaddocumentid.errors.required">ID Proof is required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 float-right"><label>Address Proof</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <select class="form-control" id="address-proof" formControlName="addressproof"
+              (change)="onAddressProofChanged($event)">
+              <option [value]="0" selected>Select</option>
+              <option *ngFor="let addressProof of addressProofs" [value]="addressProof.address_proof_id">
+                {{addressProof.address_proof_type}}</option>
+            </select>
+            <!-- <div *ngIf="f.addressproof.errors.required">Address Proof is required</div> -->
+          </div>
+        </div>
+        <div class="col-md-2 float-right"><label>Upload document</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <input #fileAddress type="file" multiple (change)="uploadAddressProof(fileAddress.files)"
+              formControlName="uploaddocumentaddress" class="form-control no-border"
+              [ngClass]="{ 'is-invalid': submitted && f.uploaddocumentaddress.errors }" />
+            <span style="font-weight:bold;color:green;" *ngIf="messageAddressProof">
+              {{messageAddressProof}}
+            </span>
+
+            <div *ngIf="submitted && f.uploaddocumentaddress.errors" class="invalid-feedback">
+              <div *ngIf="f.uploaddocumentaddress.errors.required">Address Proof is required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-md-2 float-right"><label>Bank Details</label></div>
+        <div class="col-md-4 float-left">
+          <div class="form-group">
+            <input type="text" formControlName="bankdetails" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.bankdetails.errors }" />
+            <div *ngIf="submitted && f.bankdetails.errors" class="invalid-feedback">
+              <div *ngIf="f.bankdetails.errors.required">Bank Details is required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10 float-right">
+        <div class="form-group float-right">
+          <button class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
 <!-- <div class="jumbotron">
   <div class="container">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
