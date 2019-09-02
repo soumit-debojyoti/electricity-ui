@@ -68,7 +68,7 @@
     </div>
 
     <div class="w3-row-padding animated slideInUp">
-      <div class="w3-half w3-margin-bottom">
+      <div *ngIf="isSuperAdmin" class="w3-half w3-margin-bottom">
         <div class="w3-card w3-round w3-white">
           <app-add-api></app-add-api>
         </div>
@@ -83,13 +83,13 @@
 
 
     <div class="w3-row-padding animated slideInUp">
-      <div *ngIf="isSuperAdmin" class="w3-half w3-margin-bottom animated slideInUp">
+      <div class="w3-half w3-margin-bottom animated slideInUp">
         <div class="w3-card w3-round w3-white">
           <app-recharge></app-recharge>
         </div>
       </div>
       <div class="w3-half w3-margin-bottom animated slideInUp">
-        <div class="w3-card w3-round w3-white">
+        <div *ngIf="isSuperAdmin" class="w3-card w3-round w3-white">
           <app-commission-setting></app-commission-setting>
         </div>
       </div>
