@@ -1,1 +1,12 @@
 <p>add-api works!</p>
+<div class="row">
+    <div class="col-xs-10 col-10 col-md-8">
+      <span>Users</span>
+      <select class="form-control" id="user" #rechargeType [(ngModel)]="rechargeType" (change)="changeRechargeType($event, rechargeType.value)">
+        <option [value]="-1">Select User</option>
+        <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
+          <option *ngFor="let rechargeOption of rechargeTypes" [value]="rechargeOption">{{rechargeOption}}</option>
+        </ng-container>
+      </select>
+    </div>
+  </div>
