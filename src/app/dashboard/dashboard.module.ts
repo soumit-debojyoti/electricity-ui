@@ -36,6 +36,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DemoMaterialModule } from '../material-module';
 import { ReviveTokenComponent } from '../widgets/revive-token/revive-token.component';
 import { SharedModule } from '../shared-module';
+import { RechargeComponent } from '../widgets/recharge/recharge.component';
 
 
 
@@ -64,7 +65,8 @@ import { SharedModule } from '../shared-module';
         AddEmployeeComponent,
         AdminProfileComponent,
         ApiBalanceComponent,
-        AmountTransferComponent
+        AmountTransferComponent,
+        RechargeComponent
 
     ],
     imports: [

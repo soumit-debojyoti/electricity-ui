@@ -38,6 +38,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'recharge',
+    loadChildren: './recharge/recharge.module#RechargeModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'add-api',
     loadChildren: './add-api/add-api.module#AddApiModule',
     canActivate: [AuthGuard]
