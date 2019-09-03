@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment';
 import { ApiUrlService } from '../api.url.service';
 import { ConfigurationModel } from '../../models/configuration.model';
 import { WithdrawalWallet } from 'src/app/models/admin-approval-notification-response.model';
+import { RechargeAPI } from 'src/app/models/common.model';
 
 @Injectable({
   providedIn: 'root'
@@ -216,6 +217,16 @@ export class CommonService {
       .pipe(map((response: any) => {
         return response;
       }));
+  }
+
+  public saveRechargeAPI(rechargeOption: string, operatorname: string, apiValue: string): Observable<any> {
+    debugger;
+    const rechargeApiObject = new RechargeAPI();
+    rechargeApiObject.apiValue = apiValue;
+    rechargeApiObject.rechargeMode = rechargeOption;
+    rechargeApiObject.operatorName = operatorname;
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_API');
+    return this.baseService.post(mainURL, rechargeApiObject, true);
   }
 
 }

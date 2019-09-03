@@ -1,12 +1,27 @@
-<p>add-api works!</p>
+<div *ngIf="apiAddedSuccessfully"> API Added Successfully</div>
 <div class="row">
     <div class="col-xs-10 col-10 col-md-8">
-      <span>Users</span>
-      <select class="form-control" id="user" #rechargeType [(ngModel)]="rechargeType" (change)="changeRechargeType($event, rechargeType.value)">
-        <option [value]="-1">Select User</option>
+      <span>Recharge Type</span>
+      <!-- <select class="form-control" id="user" #rechargeType [(ngModel)]="rechargeType" (change)="changeRechargeType($event, rechargeType.value)"> -->
+          <select class="form-control" id="rechargeType" [(ngModel)]="rechargeType" (change)="changeRechargeType()">
+        <option [value]="-1">Select Recharge Option</option>
         <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
           <option *ngFor="let rechargeOption of rechargeTypes" [value]="rechargeOption">{{rechargeOption}}</option>
         </ng-container>
       </select>
     </div>
+    <div *ngIf="rechargeType === 'PREPAID'">
+        <div class="col-xs-10 col-10 col-md-8">
+            <div>Operator Name</div>
+            <input type="text" [(ngModel)] = 'operatorName'/>
+          </div>
+          <div class="col-xs-10 col-10 col-md-8">
+            <div>API</div>
+            <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'apiValue'/>
+          </div>
+          <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
+              <button (click) = 'AddAPI()'>Add API</button>
+          </div>
+    </div>
+    
   </div>

@@ -3,3 +3,8 @@ export enum RechargeType {
     MobilePostpaid,
     DTH
 }
+export class RechargeAPI {
+    public rechargeMode: string;
+    public operatorName: string;
+    public apiValue: string;
+}

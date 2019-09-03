@@ -14,6 +14,7 @@ export class AddApiComponent implements OnInit {
   }
 
   public gotoAddApi() {
+    console.log('Add api called');
     this.router.navigate(['/add-api']);
   }
 
