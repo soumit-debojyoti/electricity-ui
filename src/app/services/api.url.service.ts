@@ -48,7 +48,9 @@ export class ApiUrlService extends BaseURLService {
       REACTIVATE_TOKEN: `user/reactivatetoken/{token}`,
       DEACTIVATE_TOKEN: `user/deactivatetoken/{token}`,
       SURRENDER_TOKEN: `user/surrendertoken/{token}`,
-      RECHARGE_API: `RechargeAPI/api`
+      RECHARGE_API: `RechargeAPI/api`,
+      RECHARGE_API_FETCH: `RechargeAPI/api/{rechargeMode}`,
+      INSERT_TRANSACTION: `RechargeAPI/api/recharge/{userID}/rechargemode/{rechargeMode}/amount/{rechargeAmount}`,
     };
   }
 

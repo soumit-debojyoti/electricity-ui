@@ -229,4 +229,26 @@ export class CommonService {
     return this.baseService.post(mainURL, rechargeApiObject, true);
   }
 
+  public getRechargeAPIInfo(rechargeMode: string): Observable<Array<RechargeAPI>> {
+    const urlStringObject = {
+      rechargeMode: rechargeMode
+    };
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_API_FETCH', urlStringObject);
+    return this.baseService.get(mainURL, {}, true);
+  }
+
+  public insertTransaction(rechargeMode: string, userId: number, rechargeAmount: string): Observable<number> {
+    const urlStringObject = {
+      userID: userId,
+      rechargeMode: rechargeMode,
+      rechargeAmount: rechargeAmount
+    };
+    const mainURL = this.apiUrlService.getFullURL('INSERT_TRANSACTION', urlStringObject);
+    return this.baseService.post(mainURL, {}, true);
+  }
+
+  public recharge(rechargeURL: string): Observable<any> {
+    return this.baseService.post(rechargeURL, {}, true);
+  }
+
 }
