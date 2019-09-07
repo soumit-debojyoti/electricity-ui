@@ -32,6 +32,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public isDeductWallet: boolean;
   public isAddBalanceRequest: boolean;
   public isBalanceRequestReport: boolean;
+  public isRechargetransactionReport: boolean;
   public wallet_balance: string;
   public isSuperAdmin: boolean;
   public startDate: Date;
@@ -82,13 +83,31 @@ export class WalletComponent implements OnInit, AfterViewInit {
         this.header = 'Wallet Deduct!';
       }
       // #endregion
-      if (this.walletType === 'report') {
+      if (this.walletType === 'wallettransactionreport') {
         this.initializeOption();
         this.isBalanceRequestReport = true;
         this.wallettransactions = [];
         this.datelogs = [];
         this.users = [];
-        this.header = 'Transaction History!';
+        this.header = 'Wallet Transaction History!';
+        this.initialLoad = true;
+        this.userChange = true;
+        this.userId = this.storage.get('user_id');
+        this.userName = this.storage.get('login_user');
+        const role = this.storage.get('role');
+        if (role === 'super admin') {
+          this.isSuperAdmin = true;
+        }
+
+        this.getWalletBalanceReport(this.userId, 'all', 'all');
+      }
+      if (this.walletType === 'rechargetransactionreport') {
+        this.initializeOption();
+        this.isRechargetransactionReport = true;
+        this.wallettransactions = [];
+        this.datelogs = [];
+        this.users = [];
+        this.header = 'Recharge Transaction History!';
         this.initialLoad = true;
         this.userChange = true;
         this.userId = this.storage.get('user_id');
@@ -339,6 +358,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.isWithdrawalWallet = false;
 
     this.isBalanceRequestReport = false;
+    this.isRechargetransactionReport = false;
     this.isAddBalanceRequest = false;
     this.isDeductWallet = false;
   }

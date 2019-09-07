@@ -173,17 +173,13 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-
-
   public dateChange() {
-    const date = this.registerForm.controls['dob'].value;
+    // const date = this.registerForm.controls['dob'].value;
     const fname = this.registerForm.controls['firstName'].value.toLowerCase().substring(0, 3);
     const lname = this.registerForm.controls['lastName'].value.toLowerCase().substring(0, 3);
     this.user_name = fname + '-' + lname + '-' + Math.floor(Math.random() * (999999 - 100000)) + 100000;
     this.registerForm.controls['username'].setValue(this.user_name); // = this.user_name;
   }
-
-
 
   private initiateRegitrationForm() {
     if (this.isEmployee) {
@@ -223,8 +219,8 @@ export class RegisterComponent implements OnInit {
         bankdetails: [''],
         payonline: ['']
       }, {
-          validator: mustMatch('password', 'cpassword')
-        });
+        validator: mustMatch('password', 'cpassword')
+      });
     } else {
       this.registerForm = this.formBuilder.group({
         introcode: new FormControl({ value: this.introducer_code, disabled: true }, Validators.required),
@@ -262,8 +258,8 @@ export class RegisterComponent implements OnInit {
         bankdetails: [''],
         payonline: ['']
       }, {
-          validator: mustMatch('password', 'cpassword')
-        });
+        validator: mustMatch('password', 'cpassword')
+      });
     }
 
   }
