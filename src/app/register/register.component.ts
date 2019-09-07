@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
 
-  onSubmit() {
+  public onSubmit() {
     this.submitted = true;
     if (this.registerForm.invalid) {
       return;
@@ -138,47 +138,157 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  private addWallet(register: RegisterUserResponse): void {
-    this.loadingScreenService.startLoading();
-    this.common.addWallet(register.user_security_stamp)
-      .subscribe((event: any) => {
-        this.loadingScreenService.stopLoading();
-        if (event !== undefined) {
-          if (event.message === 'success' && register.message === 'Registered.') {
-            this.addWalletTransaction(event.amount_wallet_for_registration, event.user_id,
-              'Amount added to open a wallet with initial amount.', 'debit');
-          }
-        }
-      }, () => {
-        this.loadingScreenService.stopLoading();
-      });
-  }
-
-  private addWalletTransaction(amount: number, userId: number, message: string, transactionMode: string): void {
-    this.loadingScreenService.startLoading();
-    this.common.addWalletTransaction(amount, userId, message, transactionMode)
-      .subscribe((event: any) => {
-        this.loadingScreenService.stopLoading();
-        if (event !== undefined) {
-          if (event.message === 'success') {
-            this.alertService.confirmationMessage('',
-              `Registration SUCCESS!!. Please click ok to go to login page.
-              Please note that you will able to login with your username and password.`,
-              'success', true, false);
-            this.router.navigate(['/login']);
-          }
-        }
-      }, () => {
-        this.loadingScreenService.stopLoading();
-      });
-  }
-
   public dateChange() {
     // const date = this.registerForm.controls['dob'].value;
     const fname = this.registerForm.controls['firstName'].value.toLowerCase().substring(0, 3);
     const lname = this.registerForm.controls['lastName'].value.toLowerCase().substring(0, 3);
-    this.user_name = fname + '-' + lname + '-' + Math.floor(Math.random() * (999999 - 100000)) + 100000;
+    this.user_name = this.useridFormation();
     this.registerForm.controls['username'].setValue(this.user_name); // = this.user_name;
+  }
+
+  public onIdProofChanged(event: any) {
+    if (event.target.value !== '0') {
+      this.selectedIdProof = this.idProofs.find(n => n.id_proof_id === event.target.value);
+      this.registerForm.controls['uploaddocumentid'].enable();
+
+    } else {
+      this.registerForm.controls['uploaddocumentid'].disable();
+      this.idProofUploadpath = '';
+    }
+  }
+
+  public onAddressProofChanged(event: any) {
+    if (event.target.value !== '0') {
+      this.selectedAddressProof = this.addressProofs.find(n => n.address_proof_id === event.target.value);
+      this.registerForm.controls['uploaddocumentaddress'].enable();
+    } else {
+      this.registerForm.controls['uploaddocumentaddress'].disable();
+      this.addressProofUploadpath = '';
+    }
+  }
+
+  public getAddressProof(): void {
+    this.loadingScreenService.startLoading();
+    this.common.getAddressProof()
+      .subscribe((response: Array<AddressProof>) => {
+        this.loadingScreenService.stopLoading();
+        this.addressProofs = response;
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
+  public getIdProof(): void {
+    this.loadingScreenService.startLoading();
+    this.common.getIdProof()
+      .subscribe((response: Array<IdProof>) => {
+        this.loadingScreenService.stopLoading();
+        this.idProofs = response;
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
+  public uploadIdProof(files) {
+    if (files.length === 0) {
+      return;
+    }
+
+    const formData = new FormData();
+
+    for (const file of files) {
+      formData.append(file.name, file);
+    }
+
+    this.loadingScreenService.startLoading();
+    this.common.upload('idProof', formData)
+      .subscribe((event: any) => {
+        this.loadingScreenService.stopLoading();
+        if (event !== undefined) {
+          this.idProofUploadpath = event.toString();
+        }
+        this.messageIdProof = 'Upload successful';
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
+  public uploadAddressProof(files) {
+    if (files.length === 0) {
+      return;
+    }
+
+    const formData = new FormData();
+
+    for (const file of files) {
+      formData.append(file.name, file);
+    }
+
+    this.loadingScreenService.startLoading();
+    this.common.upload('addressProof', formData)
+      .subscribe((event: any) => {
+        this.loadingScreenService.stopLoading();
+        if (event !== undefined) {
+          this.addressProofUploadpath = event.toString();
+        }
+        this.messageAddressProof = 'Upload successful';
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
+  public uploadPhoto(files) {
+    if (files.length === 0) {
+      return;
+    }
+    const formData = new FormData();
+    for (const file of files) {
+      formData.append(this.user_name, file);
+    }
+    this.loadingScreenService.startLoading();
+    this.common.uploadPhoto('photo', this.user_name, formData)
+      .subscribe((event: any) => {
+        this.loadingScreenService.stopLoading();
+        if (event !== undefined) {
+          // this.photoUploadPath = environment.baseUrl + event.toString();
+          this.photoUploadPath = event.toString();
+          // this.download('photo', this.photoUploadPath);
+          this.messagePhoto = 'Upload successful';
+        }
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
+  private clearUploadVariables() {
+    this.idProofUploadpath = '';
+    this.addressProofUploadpath = '';
+    this.photoUploadPath = '';
+    this.messageAddressProof = '';
+    this.messageIdProof = '';
+    this.messagePhoto = '';
+  }
+
+  private getStates(): void {
+    this.loadingScreenService.startLoading();
+    this.common.getState()
+      .subscribe((response: Array<State>) => {
+        this.loadingScreenService.stopLoading();
+        this.states = response;
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
+  private useridFormation(): string {
+    const x = new Date();
+    const y = x.getFullYear().toString();
+    let m = (x.getMonth() + 1).toString();
+    let d = x.getDate().toString();
+    (d.length === 1) ? (d = '0' + d) : (d = d);
+    (m.length === 1) ? (m = '0' + m) : (m = m);
+    const yyyymmdd = y + m + d;
+    return yyyymmdd + '' + Math.floor(Math.random() * (999999 - 100000)) + 100000;
   }
 
   private initiateRegitrationForm() {
@@ -261,137 +371,37 @@ export class RegisterComponent implements OnInit {
         validator: mustMatch('password', 'cpassword')
       });
     }
-
   }
 
-  private clearUploadVariables() {
-    this.idProofUploadpath = '';
-    this.addressProofUploadpath = '';
-    this.photoUploadPath = '';
-    this.messageAddressProof = '';
-    this.messageIdProof = '';
-    this.messagePhoto = '';
-  }
-
-  public onIdProofChanged(event: any) {
-    if (event.target.value !== '0') {
-      this.selectedIdProof = this.idProofs.find(n => n.id_proof_id === event.target.value);
-      this.registerForm.controls['uploaddocumentid'].enable();
-
-    } else {
-      this.registerForm.controls['uploaddocumentid'].disable();
-      this.idProofUploadpath = '';
-    }
-  }
-
-  public onAddressProofChanged(event: any) {
-    if (event.target.value !== '0') {
-      this.selectedAddressProof = this.addressProofs.find(n => n.address_proof_id === event.target.value);
-      this.registerForm.controls['uploaddocumentaddress'].enable();
-    } else {
-      this.registerForm.controls['uploaddocumentaddress'].disable();
-      this.addressProofUploadpath = '';
-    }
-  }
-
-  public getAddressProof(): void {
+  private addWallet(register: RegisterUserResponse): void {
     this.loadingScreenService.startLoading();
-    this.common.getAddressProof()
-      .subscribe((response: Array<AddressProof>) => {
-        this.loadingScreenService.stopLoading();
-        this.addressProofs = response;
-      }, () => {
-        this.loadingScreenService.stopLoading();
-      });
-  }
-
-  public getIdProof(): void {
-    this.loadingScreenService.startLoading();
-    this.common.getIdProof()
-      .subscribe((response: Array<IdProof>) => {
-        this.loadingScreenService.stopLoading();
-        this.idProofs = response;
-      }, () => {
-        this.loadingScreenService.stopLoading();
-      });
-  }
-
-  private getStates(): void {
-    this.loadingScreenService.startLoading();
-    this.common.getState()
-      .subscribe((response: Array<State>) => {
-        this.loadingScreenService.stopLoading();
-        this.states = response;
-      }, () => {
-        this.loadingScreenService.stopLoading();
-      });
-  }
-
-  public uploadIdProof(files) {
-    if (files.length === 0) {
-      return;
-    }
-
-    const formData = new FormData();
-
-    for (const file of files) {
-      formData.append(file.name, file);
-    }
-
-    this.loadingScreenService.startLoading();
-    this.common.upload('idProof', formData)
+    this.common.addWallet(register.user_security_stamp)
       .subscribe((event: any) => {
         this.loadingScreenService.stopLoading();
         if (event !== undefined) {
-          this.idProofUploadpath = event.toString();
+          if (event.message === 'success' && register.message === 'Registered.') {
+            this.addWalletTransaction(event.amount_wallet_for_registration, event.user_id,
+              'Amount added to open a wallet with initial amount.', 'debit');
+          }
         }
-        this.messageIdProof = 'Upload successful';
       }, () => {
         this.loadingScreenService.stopLoading();
       });
   }
 
-  public uploadAddressProof(files) {
-    if (files.length === 0) {
-      return;
-    }
-
-    const formData = new FormData();
-
-    for (const file of files) {
-      formData.append(file.name, file);
-    }
-
+  private addWalletTransaction(amount: number, userId: number, message: string, transactionMode: string): void {
     this.loadingScreenService.startLoading();
-    this.common.upload('addressProof', formData)
+    this.common.addWalletTransaction(amount, userId, message, transactionMode)
       .subscribe((event: any) => {
         this.loadingScreenService.stopLoading();
         if (event !== undefined) {
-          this.addressProofUploadpath = event.toString();
-        }
-        this.messageAddressProof = 'Upload successful';
-      }, () => {
-        this.loadingScreenService.stopLoading();
-      });
-  }
-
-  public uploadPhoto(files) {
-    if (files.length === 0) {
-      return;
-    }
-    const formData = new FormData();
-    for (const file of files) {
-      formData.append(this.user_name, file);
-    }
-    this.loadingScreenService.startLoading();
-    this.common.uploadPhoto('photo', this.user_name, formData)
-      .subscribe((event: any) => {
-        this.loadingScreenService.stopLoading();
-        if (event !== undefined) {
-          // this.photoUploadPath = environment.baseUrl + event.toString();
-          this.photoUploadPath = event.toString();
-          // this.download('photo', this.photoUploadPath);
-          this.messagePhoto = 'Upload successful';
+          if (event.message === 'success') {
+            this.alertService.confirmationMessage('',
+              `Registration SUCCESS!!. Please click ok to go to login page.
+              Please note that you will able to login with your username and password.`,
+              'success', true, false);
+            this.router.navigate(['/login']);
+          }
         }
       }, () => {
         this.loadingScreenService.stopLoading();
