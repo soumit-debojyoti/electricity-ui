@@ -13,7 +13,7 @@ export class AddApiComponent implements OnInit {
   public apiAddedSuccessfully: boolean = false;
   public rechargeTypes: Array<string>;
   constructor(private commonService: CommonService) {
-    this.rechargeTypes = ['PREPAID', 'DTH', 'POSTPAID'];
+    this.rechargeTypes = ['PREPAID', 'DTH', 'POSTPAID', 'ELECTRICITY', 'GAS', 'WATER'];
   }
 
   ngOnInit() {

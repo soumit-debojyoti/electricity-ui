@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Headers } from '@angular/http';
+import { Headers, RequestOptions, ResponseOptions } from '@angular/http';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import 'rxjs/add/operator/catch';
@@ -248,7 +248,32 @@ export class CommonService {
   }
 
   public recharge(rechargeURL: string): Observable<any> {
-    return this.baseService.post(rechargeURL, {}, false);
+    // let headers = new Headers();
+    // headers.append('Access-Control-Allow-Origin', '*');
+    // headers.append('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
+    // let opts = new RequestOptions();
+    // opts.headers = headers;
+    return this.http.post('https://cors-anywhere.herokuapp.com/' + rechargeURL, {});
+    // return this.baseService.post(rechargeURL, {}, false);
+  }
+
+  public updateTransaction(orderID: string, transactionStatus: string, errorMessage: string) {
+    const urlStringObject = {
+      orderID: orderID,
+      transactionStatus: transactionStatus,
+      errorMessage: errorMessage
+    };
+    const mainURL = this.apiUrlService.getFullURL('UPDATE_TRANSACTION', urlStringObject);
+    return this.baseService.post(mainURL, {}, true);
+  }
+  public deductBalanceTransaction(userID: string, amount: string, message: string) {
+    const urlStringObject = {
+      userID: userID,
+      amount: amount,
+      message: message
+    };
+    const mainURL = this.apiUrlService.getFullURL('DEDUCT_WALLET_BALANCE_TRANSACTION', urlStringObject);
+    return this.baseService.post(mainURL, {}, true);
   }
 
 }
