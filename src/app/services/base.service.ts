@@ -44,24 +44,39 @@ export class BaseService {
 
   }
 
-  post(url: string, formBody: any, bypassInterceptor: boolean = false): Observable<any> {
-    if (bypassInterceptor) {
-      const headers = new HttpHeaders();
-      headers.append('Content-Type', 'application/json');
-      headers.append('access-control-allow-origin', '*');
+  post(url: string, formBody: any, bypassInterceptor: boolean = false, isjolo: boolean = false): Observable<any> {
+    debugger;
+    if (!isjolo) {
+      if (bypassInterceptor) {
+        const headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+        headers.append('access-control-allow-origin', '*');
 
 
-      this.httpClient = new HttpClient(this.handler);
-      return this.httpClient.post(url, formBody, { headers: headers })
-        .pipe(
-          catchError(this.errorHandler));
+        this.httpClient = new HttpClient(this.handler);
+        return this.httpClient.post(url, formBody, { headers: headers })
+          .pipe(
+            catchError(this.errorHandler));
+      } else {
+        const headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+        headers.append('access-control-allow-origin', '*');
+        return this.http.post<any>(url, formBody, { headers: headers })
+          .catch(this.errorHandler);
+      }
     } else {
       const headers = new HttpHeaders();
       headers.append('Content-Type', 'application/json');
-      headers.append('access-control-allow-origin', '*');
+      // headers.append('access-control-allow-origin', 'https://joloapi.com');
+      headers.append('Access-Control-Expose-Headers', 'Access-Control-*');
+      headers.append('Access-Control-Allow-Headers', 'Access-Control-*, Origin, X-Requested-With, Content-Type, Accept');
+      headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, HEAD');
+      headers.append('Access-Control-Allow-Origin', '*');
+      headers.append('Allow', 'GET, POST, PUT, DELETE, OPTIONS, HEAD');
       return this.http.post<any>(url, formBody, { headers: headers })
         .catch(this.errorHandler);
     }
+
   }
 
   // post1(url: string, formBody: any): Observable<any> {
