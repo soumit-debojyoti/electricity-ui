@@ -40,8 +40,9 @@
         <div class="col-md-2 float-right"><label>Upload document</label></div>
         <div class="col-md-4 float-left">
           <div class="form-group">
-            <input #fileId type="file" (change)="uploadIdProof(fileId.files)" formControlName="uploaddocumentid"
-              class="form-control no-border" [ngClass]="{ 'is-invalid': submitted && f.uploaddocumentid.errors }" />
+            <input #fileId type="file" accept=".pdf" (change)="uploadIdProof(fileId.files)"
+              formControlName="uploaddocumentid" class="form-control no-border"
+              [ngClass]="{ 'is-invalid': submitted && f.uploaddocumentid.errors }" />
             <span style="font-weight:bold;color:green;" *ngIf="messageIdProof">
               {{messageIdProof}}
             </span>
@@ -67,7 +68,7 @@
         <div class="col-md-2 float-right"><label>Upload document</label></div>
         <div class="col-md-4 float-left">
           <div class="form-group">
-            <input #fileAddress type="file" multiple (change)="uploadAddressProof(fileAddress.files)"
+            <input #fileAddress type="file" accept=".pdf" (change)="uploadAddressProof(fileAddress.files)"
               formControlName="uploaddocumentaddress" class="form-control no-border"
               [ngClass]="{ 'is-invalid': submitted && f.uploaddocumentaddress.errors }" />
             <span style="font-weight:bold;color:green;" *ngIf="messageAddressProof">

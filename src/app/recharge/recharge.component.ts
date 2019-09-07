@@ -27,24 +27,24 @@ export class RechargeComponent implements OnInit {
     this.fetchRechargeAPIInfo(this.rechargeMode);
   }
   fetchRechargeAPIInfo(rechargeMode: string): void {
-    this.common.getRechargeAPIInfo(rechargeMode).subscribe( (response: Array<RechargeAPI>) => {
-        this.apiInfoList = response;
+    this.common.getRechargeAPIInfo(rechargeMode).subscribe((response: Array<RechargeAPI>) => {
+      this.apiInfoList = response;
     });
 
   }
 
   recharge(): void {
-    let rechargeAPI = this.apiInfoList.find( x => x.operatorName === this.operatorName);
+    const rechargeAPI = this.apiInfoList.find(x => x.operatorName === this.operatorName);
     const userID = this.storage.get('user_id');
     console.log(userID, 'user id');
-    console.log("recharge called!");
+    console.log('recharge called!');
     this.common.insertTransaction(this.rechargeMode, userID, this.rechargeAmount.toString()).subscribe(
       (response: number) => {
         rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#Mobile#', this.mobileNumber.toString());
         rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#Amount#', this.rechargeAmount.toString());
         rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#Order#', response.toString());
-        console.log(rechargeAPI.apiValue );
-        this.common.recharge(rechargeAPI.apiValue).subscribe( (response: any) => {
+        console.log(rechargeAPI.apiValue);
+        this.common.recharge(rechargeAPI.apiValue).subscribe((response: any) => {
           console.log(response);
         });
       }
