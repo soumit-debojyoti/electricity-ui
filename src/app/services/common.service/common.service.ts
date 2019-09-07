@@ -248,7 +248,6 @@ export class CommonService {
   }
 
   public recharge(rechargeURL: string): Observable<any> {
-<<<<<<< HEAD
     // let headers = new Headers();
     // headers.append('Access-Control-Allow-Origin', '*');
     // headers.append('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
@@ -275,9 +274,6 @@ export class CommonService {
     };
     const mainURL = this.apiUrlService.getFullURL('DEDUCT_WALLET_BALANCE_TRANSACTION', urlStringObject);
     return this.baseService.post(mainURL, {}, true);
-=======
-    return this.baseService.post(rechargeURL, {}, true, true);
->>>>>>> 660ecb5d1e1afce8be52d966020f41fcbc1e67bb
   }
 
 }
