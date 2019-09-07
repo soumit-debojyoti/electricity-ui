@@ -40,7 +40,6 @@ export class RechargeComponent implements OnInit {
   recharge(): void {
     const rechargeAPI = this.apiInfoList.find( x => x.operatorName === this.operatorName);
     const userID = this.storage.get('user_id');
-    debugger;
     this.common.insertTransaction(this.rechargeMode, userID, this.rechargeAmount.toString()).subscribe(
       (response: number) => {
         rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#Mobile#', this.mobileNumber.toString());
