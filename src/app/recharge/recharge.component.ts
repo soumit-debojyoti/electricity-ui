@@ -31,8 +31,8 @@ export class RechargeComponent implements OnInit {
     this.fetchRechargeAPIInfo(this.rechargeMode);
   }
   fetchRechargeAPIInfo(rechargeMode: string): void {
-    this.common.getRechargeAPIInfo(rechargeMode).subscribe( (response: Array<RechargeAPI>) => {
-        this.apiInfoList = response;
+    this.common.getRechargeAPIInfo(rechargeMode).subscribe((response: Array<RechargeAPI>) => {
+      this.apiInfoList = response;
     });
 
   }
@@ -50,6 +50,8 @@ export class RechargeComponent implements OnInit {
         this.common.recharge(rechargeAPI.apiValue).subscribe( (innerResponse: any) => {
           console.log('Recharge Sub called');
           console.log(innerResponse);
+        }, (err) => {
+          console.log('error has occured in recharge page -', err);
         });
       }
     );

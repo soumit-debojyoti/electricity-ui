@@ -37,6 +37,7 @@ import { DemoMaterialModule } from '../material-module';
 import { ReviveTokenComponent } from '../widgets/revive-token/revive-token.component';
 import { SharedModule } from '../shared-module';
 import { RechargeComponent } from '../widgets/recharge/recharge.component';
+import { RechargeTransactionReportComponent } from '../widgets/recharge-transaction-report/recharge-transaction-report.component';
 
 
 
@@ -66,7 +67,8 @@ import { RechargeComponent } from '../widgets/recharge/recharge.component';
         AdminProfileComponent,
         ApiBalanceComponent,
         AmountTransferComponent,
-        RechargeComponent
+        RechargeComponent,
+        RechargeTransactionReportComponent
 
     ],
     imports: [

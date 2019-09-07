@@ -173,3 +173,94 @@
 
 
 </div>
+<div class="container" *ngIf="isRechargetransactionReport">
+  <h2>
+    {{header}}
+  </h2>
+  <div *ngIf="isSuperAdmin">
+    <div class="row">
+      <div class="col-xs-10 col-10 col-md-8">
+        <span>Users</span>
+        <select class="form-control" id="user" #user [(ngModel)]="userId" (change)="changeUser($event, user.value)">
+          <option [value]="-1">Select User</option>
+          <ng-container *ngIf="users && users.length>0">
+            <option *ngFor="let user of users" [value]="user.user_id">{{user.user_name}}</option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="row">
+      <div class="col-xs-5 col-5 col-md-4">
+        <span>Start Date</span>
+        <div class="input-group">
+          <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
+            bsDatepicker [(bsValue)]="startDate">
+          <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
+              (click)="dpstartDate.toggle()"></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-5 col-5 col-md-4">
+        <span>End Date</span>
+        <div class="input-group">
+          <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
+            [(bsValue)]="endDate">
+          <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
+              (click)="dpendDate.toggle()"></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-1 col-1 col-md-2">
+        <span></span>
+      </div>
+      <div class="col-xs-1 col-1 col-md-2">
+
+        <div class="input-group">
+          <button class="btn btn-primary float-right form-control" (click)="search()">Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="m-t-20">
+    <table class="table table-hover table-striped table-bordered">
+      <thead>
+        <tr class="grid-header">
+          <th>User Name</th>
+          <th>Amount</th>
+          <th>Message</th>
+          <th>Transaction Type</th>
+          <th>Transaction Date</th>
+        </tr>
+      </thead>
+      <ng-container *ngIf="wallettransactions && wallettransactions.length>0">
+        <tbody>
+          <tr *ngFor="let wallettransaction of wallettransactions">
+            <td>{{userName}}</td>
+            <td><span>&#8377;</span>{{wallettransaction.transaction_amount}}</td>
+            <td>{{wallettransaction.message}}</td>
+            <td class=""
+              [ngClass]="{'debit': wallettransaction.transaction_mode.trim()=='debit', 'credit':wallettransaction.transaction_mode.trim()=='credit' }">
+              <i class="em"
+                [ngClass]="{'em-astonished': wallettransaction.transaction_mode.trim()=='debit', 'em-anguished':wallettransaction.transaction_mode.trim()=='credit' }"></i>
+              &nbsp;{{wallettransaction.transaction_mode| uppercase}}
+            </td>
+            <td>{{wallettransaction.created_on | date: 'dd-MM-yyyy'}}</td>
+          </tr>
+        </tbody>
+      </ng-container>
+      <ng-container *ngIf="wallettransactions && wallettransactions.length==0">
+        <tbody>
+          <tr>
+            <td colspan="5">
+              <span>No records to display.</span>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+    </table>
+  </div>
+
+
+</div>
