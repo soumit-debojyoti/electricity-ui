@@ -51,6 +51,8 @@ export class ApiUrlService extends BaseURLService {
       RECHARGE_API: `RechargeAPI/api`,
       RECHARGE_API_FETCH: `RechargeAPI/api/{rechargeMode}`,
       INSERT_TRANSACTION: `RechargeAPI/api/recharge/{userID}/rechargemode/{rechargeMode}/amount/{rechargeAmount}`,
+      UPDATE_TRANSACTION: `RechargeAPI/api/transaction/{orderID}/status/{transactionStatus}/message/{errorMessage}`,
+      DEDUCT_WALLET_BALANCE_TRANSACTION: `RechargeAPI/api/transaction/user/{userID}/wallet/amount/{amount}/message/{message}`,
     };
   }
 

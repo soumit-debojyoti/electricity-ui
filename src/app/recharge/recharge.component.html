@@ -1,4 +1,6 @@
 <p *ngIf='insufficientBalance' style="color: red">You have insufficient balance</p>
+<p *ngIf="joloTransactionStatus === 'SUCCESS'" style="color: green">Your transaction is successful</p>
+<p *ngIf="joloTransactionStatus === 'FAILURE'" style="color: red">Your transaction is not successful, please contact administrator for further enquiry.</p>
 <div class="row">
     <div class="col-xs-10 col-10 col-md-8">
         <span>Recharge Type</span>
@@ -63,6 +65,45 @@
             <button (click) = 'recharge()'>Recharge</button>
         </div> -->
   </div>
+  <div *ngIf="rechargeMode === 'ELECTRICITY' || rechargeMode === 'GAS' || rechargeMode === 'WATER'">
+    <div class="col-xs-10 col-10 col-md-8">
+        <div>Operator Name</div>
+        <select class="form-control" id="rechargeType" [(ngModel)]="operatorName">
+            <!-- <option [value]="-1">Select Recharge Option</option> -->
+            <ng-container>
+              <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}</option>
+            </ng-container>
+        </select>
+      </div>
+      <!--Electricity-->
+      <div class="col-xs-10 col-10 col-md-8" *ngIf="rechargeMode === 'ELECTRICITY'">
+        <div>Consumer Number</div> <!--Service-->
+        <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'consumerNumber'/>
+      </div>
+      <div class="col-xs-10 col-10 col-md-8" *ngIf="rechargeMode === 'GAS'">
+        <div>Consumer Number</div> <!--Service-->
+        <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'consumerNumber' maxlength="15" minlength="10"/>
+      </div>
+      <div class="col-xs-10 col-10 col-md-8" *ngIf="rechargeMode === 'WATER'">
+        <div>Consumer Number</div> <!--Service-->
+        <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'consumerNumber'/>
+      </div>
+      <div class="col-xs-10 col-10 col-md-8">
+        <div>Bill Amount</div>
+        <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'rechargeAmount'/>
+      </div>
+      <div class="col-xs-10 col-10 col-md-8">
+        <div>Customer Name</div>
+        <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'customerName'/>
+      </div>
+      <div class="col-xs-10 col-10 col-md-8">
+        <div>Customer Number</div>
+        <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'customerMobile'/>
+      </div>
+      <!-- <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
+          <button (click) = 'recharge()'>Recharge</button>
+      </div> -->
+</div>
   <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
     <button (click) = 'checkAndDeductBalance()'>Recharge</button>
   </div>
