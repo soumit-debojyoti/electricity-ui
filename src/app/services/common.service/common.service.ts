@@ -220,7 +220,6 @@ export class CommonService {
   }
 
   public saveRechargeAPI(rechargeOption: string, operatorname: string, apiValue: string): Observable<any> {
-    debugger;
     const rechargeApiObject = new RechargeAPI();
     rechargeApiObject.apiValue = apiValue;
     rechargeApiObject.rechargeMode = rechargeOption;
@@ -248,7 +247,7 @@ export class CommonService {
   }
 
   public recharge(rechargeURL: string): Observable<any> {
-    return this.baseService.post(rechargeURL, {}, true, true);
+    return this.baseService.post(rechargeURL, {}, true);
   }
 
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-recharge',
+  selector: 'app-recharge-widget',
   templateUrl: './recharge.component.html',
   styleUrls: ['./recharge.component.css']
 })
