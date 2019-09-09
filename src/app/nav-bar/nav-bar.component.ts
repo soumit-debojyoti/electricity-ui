@@ -25,6 +25,13 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit() {
     this.isLogin = false;
+    this.data.currentMessage.subscribe(message => {
+      if (message === 'login-done') {
+        const is_login = this.storage.get('is_login');
+        this.isLogin = is_login;
+      }
+    });
+    this.isLogin = false;
     this.withdrawalnotificationcount = 0;
     this.addwalletnotificationcount = 0;
     this.loadingScreenService.startLoading();
@@ -45,6 +52,7 @@ export class NavBarComponent implements OnInit {
 
   logout() {
     this.isLogin = false;
+    this.storage.set('is_login', false);
     this.auth.logout();
   }
 

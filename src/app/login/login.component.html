@@ -7,13 +7,13 @@
           <form class="form-signin">
             <div class="form-label-group">
               <input type="text" id="userid" class="animated form-control" placeholder="User ID" required autofocus>
-              <label for="userid" class="placeholder">User ID</label>
+              <!-- <label for="userid" class="placeholder">User ID</label> -->
             </div>
 
             <div class="form-label-group">
               <input type="password" id="password" class="animated form-control" placeholder="Password"
                 (keydown.enter)="login($event,userid,password)" required>
-              <label for="password" class="placeholder">Password</label>
+              <!-- <label for="password" class="placeholder">Password</label> -->
             </div>
 
 
@@ -34,7 +34,7 @@
             <div class="form-label-group">
               <input type="text" id='token' class="animated  form-control" [ngClass]="{'shake': isRegis}" type="text"
                 appSelectAll placeholder="Token" autofocus required>
-              <label for="token">Token</label>
+              <!-- <label for="token">Token</label> -->
             </div>
             <button class="btn btn-lg btn-primary btn-block text-uppercase" (click)="register()"
               type="button">Validate</button>

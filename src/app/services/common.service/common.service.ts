@@ -93,6 +93,7 @@ export class CommonService {
     this.storage.remove('introducer_name');
     this.storage.remove('role_id');
     this.storage.remove('security_token');
+    this.storage.remove('is_login');
   }
 
   public getPagePermission(pageOrWidgetName: string): Observable<any> {
@@ -248,7 +249,6 @@ export class CommonService {
   }
 
   public recharge(rechargeURL: string): Observable<any> {
-    debugger;
     return this.http.post(this.corsByPass + rechargeURL, {});
   }
 
@@ -281,7 +281,6 @@ export class CommonService {
   }
 
   public fetchValidationAPIDetails(rechargeMode: string, operatorName: string): Observable<any> {
-    debugger;
     const urlStringObject = {
       rechargeMode: rechargeMode,
       operatorName: operatorName

@@ -10,6 +10,7 @@ import { AlertService } from '../services/common.service/alert.service';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 import { SweetAlertType } from 'sweetalert2';
 import Swal from 'sweetalert2';
+import { DataService } from '../services/data.service/data.service';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
   public isLoggedIn: boolean;
   public introducer_code: string;
   constructor(private auth: AuthService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
-    private router: Router, private alertService: AlertService,
+    private router: Router, private alertService: AlertService, private data: DataService,
     private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
@@ -72,6 +73,8 @@ export class LoginComponent implements OnInit {
             this.isLoginSuccess = true;
 
             this.storage.set('access_token', res.access_token);
+            this.storage.set('is_login', true);
+            this.data.changeMessage('login-done');
             if (res.message !== '') {
               if (res.isLoginSuccess) {
                 let timerInterval;
