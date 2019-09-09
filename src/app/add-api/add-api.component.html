@@ -4,11 +4,11 @@
       <span>Recharge Type</span>
       <!-- <select class="form-control" id="user" #rechargeType [(ngModel)]="rechargeType" (change)="changeRechargeType($event, rechargeType.value)"> -->
           <select class="form-control" id="rechargeType" [(ngModel)]="rechargeType" (change)="changeRechargeType()">
-        <option [value]="-1">Select Recharge Option</option>
-        <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
-          <option *ngFor="let rechargeOption of rechargeTypes" [value]="rechargeOption">{{rechargeOption}}</option>
-        </ng-container>
-      </select>
+            <option [value]="-1">Select Recharge Option</option>
+              <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
+              <option *ngFor="let rechargeOption of rechargeTypes" [value]="rechargeOption">{{rechargeOption}}</option>
+            </ng-container>       
+          </select>
     </div>
     <div>
         <div class="col-xs-10 col-10 col-md-8">
@@ -18,6 +18,18 @@
           <div class="col-xs-10 col-10 col-md-8">
             <div>API</div>
             <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'apiValue'/>
+          </div>
+          <div class="col-xs-10 col-10 col-md-8">
+            <select class="form-control" id="rechargeType" [(ngModel)] ='confirmation' (change)="changeConfirmation()">
+              <option [value]="-1">Select Recharge Option</option>
+                <ng-container *ngIf="confirmationTypes && confirmationTypes.length>0">
+                <option *ngFor="let confirmation of confirmationTypes" [value]="confirmation">{{confirmation}}</option>
+              </ng-container>       
+            </select>
+          </div>          
+          <div class="col-xs-10 col-10 col-md-8" *ngIf='validationRequired'>
+            <div>API Validation</div>
+            <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'validationApiValue'/>
           </div>
           <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
               <button (click) = 'AddAPI()'>Add API</button>

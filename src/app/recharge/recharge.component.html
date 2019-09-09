@@ -33,6 +33,9 @@
           <!-- <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
               <button (click) = 'recharge()'>Recharge</button>
           </div> -->
+          <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
+            <button (click) = 'checkAndDeductBalance()'>Recharge</button>
+          </div>
     </div>
 
     <div *ngIf="rechargeMode === 'POSTPAID'">
@@ -64,6 +67,9 @@
         <!-- <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
             <button (click) = 'recharge()'>Recharge</button>
         </div> -->
+        <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
+          <button (click) = 'checkAndDeductBalance()'>Recharge</button>
+        </div>
   </div>
   <div *ngIf="rechargeMode === 'ELECTRICITY' || rechargeMode === 'GAS' || rechargeMode === 'WATER'">
     <div class="col-xs-10 col-10 col-md-8">
@@ -86,25 +92,36 @@
       </div>
       <div class="col-xs-10 col-10 col-md-8" *ngIf="rechargeMode === 'WATER'">
         <div>Consumer Number</div> <!--Service-->
-        <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'consumerNumber'/>
-      </div>
-      <div class="col-xs-10 col-10 col-md-8">
-        <div>Bill Amount</div>
-        <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'rechargeAmount'/>
-      </div>
-      <div class="col-xs-10 col-10 col-md-8">
-        <div>Customer Name</div>
-        <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'customerName'/>
+        <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'consumerNumber' />
       </div>
       <div class="col-xs-10 col-10 col-md-8">
         <div>Customer Number</div>
         <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'customerMobile'/>
       </div>
+      <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px" *ngIf="customerMobile !== '' && consumerNumber !==''">
+        <button (click) = 'validateTransaction()'>Validate</button>
+      </div>
+      <div *ngIf='billDue && utilityTransactionValidated'>
+        <div class="col-xs-10 col-10 col-md-8">
+          <div>Bill Amount</div>
+          <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'rechargeAmount' disabled/>
+        </div>
+        <div class="col-xs-10 col-10 col-md-8">
+          <div>Customer Name</div>
+          <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'customerName' disabled/>
+        </div>
+      </div>
+      <div *ngIf='!billDue && utilityTransactionValidated'>
+        <p>{utilityTransactionErrorMessage}}.</p>
+      </div>
+      
+      <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px" *ngIf = 'billDue'>
+        <button (click) = 'checkAndDeductBalance()'>Recharge</button>
+      </div>
+      
       <!-- <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
           <button (click) = 'recharge()'>Recharge</button>
       </div> -->
 </div>
-  <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
-    <button (click) = 'checkAndDeductBalance()'>Recharge</button>
-  </div>
+  
 </div>

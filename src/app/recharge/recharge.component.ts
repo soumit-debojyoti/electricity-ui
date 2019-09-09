@@ -20,8 +20,12 @@ export class RechargeComponent implements OnInit {
   public customerName: string;
   public customerMobile: string;
   public consumerNumber: number;
+  public validationReferenceID: string;
   public insufficientBalance: boolean = false;
   public joloTransactionStatus: string = '' ;
+  public billDue: boolean = true;
+  public utilityTransactionValidated: boolean = false;
+  public utilityTransactionErrorMessage: string;
   constructor(private common: CommonService, private alertService: AlertService,
     private loadingScreenService: LoadingScreenService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private userService: UserService) { }
@@ -42,7 +46,7 @@ export class RechargeComponent implements OnInit {
   recharge(): void {
     const rechargeAPI = this.apiInfoList.find( x => x.operatorName === this.operatorName);
     let transactionMessage = '';
-    rechargeAPI.apiValue = rechargeAPI.apiValue.toLowerCase();
+    // rechargeAPI.apiValue = rechargeAPI.apiValue.toLowerCase();
     const userID = this.storage.get('user_id');
     this.common.insertTransaction(this.rechargeMode, userID, this.rechargeAmount.toString()).subscribe(
       (response: number) => {
@@ -62,6 +66,7 @@ export class RechargeComponent implements OnInit {
           rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#order#', response.toString());
           rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#customer_mobile#', this.customerMobile.toString());
           rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#customer_name#', this.customerName.toString());
+          rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#reference_id#', this.validationReferenceID.toString());
           transactionMessage = `UTILITY TRANSACTION - ${this.consumerNumber}`;
           break;
         }
@@ -75,7 +80,7 @@ export class RechargeComponent implements OnInit {
             this.common.deductBalanceTransaction(userID, this.rechargeAmount.toString(),
             transactionMessage).subscribe( (balance: any) => {
               console.log('Balance Deducted', balance);
-            })
+            });
           }
           this.common.updateTransaction(response.toString(),
            this.joloTransactionStatus, innerResponse.error.toString()).subscribe( (transactionUpdate: any) => {
@@ -101,6 +106,27 @@ export class RechargeComponent implements OnInit {
 
   resetInputValue(): void {
     // Implementation needed
+  }
+
+  validateTransaction(): void {
+    this.common.fetchValidationAPIDetails(this.rechargeMode, this.operatorName).subscribe(
+      (response: RechargeAPI) => {
+        console.log('inside validate transaction', response);
+        this.common.recharge(response.apiValue).subscribe( (innerResponse: any) => {
+          console.log('after validation', innerResponse);
+          this.utilityTransactionValidated = true;
+          if ( innerResponse.status === 'SUCCESS') {
+            this.billDue = true;
+            this.rechargeAmount = innerResponse.dueamount;
+            this.customerName = innerResponse.customername;
+            this.validationReferenceID = innerResponse.reference_id;
+          } else if ( innerResponse.status === 'FAILED') {
+            this.billDue = false;
+            this.utilityTransactionErrorMessage = innerResponse.error;
+          }
+        });
+      }
+    );
   }
 
 }

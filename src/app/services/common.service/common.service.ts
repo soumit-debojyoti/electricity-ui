@@ -21,6 +21,7 @@ export class CommonService {
   AccessToken: string;
   private rootURL = environment.apiUrl + 'auth';
   private username: string;
+  private corsByPass: string = 'https://cors-anywhere.herokuapp.com/';
   constructor(private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private http: HttpClient, private baseService: BaseService,
     private apiUrlService: ApiUrlService) { }
@@ -219,8 +220,7 @@ export class CommonService {
       }));
   }
 
-  public saveRechargeAPI(rechargeOption: string, operatorname: string, apiValue: string): Observable<any> {
-    debugger;
+  public saveRechargeAPI(rechargeOption: string, operatorname: string, apiValue: string): Observable<any> {    
     const rechargeApiObject = new RechargeAPI();
     rechargeApiObject.apiValue = apiValue;
     rechargeApiObject.rechargeMode = rechargeOption;
@@ -248,13 +248,7 @@ export class CommonService {
   }
 
   public recharge(rechargeURL: string): Observable<any> {
-    // let headers = new Headers();
-    // headers.append('Access-Control-Allow-Origin', '*');
-    // headers.append('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
-    // let opts = new RequestOptions();
-    // opts.headers = headers;
-    return this.http.post('https://cors-anywhere.herokuapp.com/' + rechargeURL, {});
-    // return this.baseService.post(rechargeURL, {}, false);
+    return this.http.post(this.corsByPass + rechargeURL, {});
   }
 
   public updateTransaction(orderID: string, transactionStatus: string, errorMessage: string) {
@@ -274,6 +268,24 @@ export class CommonService {
     };
     const mainURL = this.apiUrlService.getFullURL('DEDUCT_WALLET_BALANCE_TRANSACTION', urlStringObject);
     return this.baseService.post(mainURL, {}, true);
+  }
+
+  public saveRechargeAPIValidation(rechargeOption: string, operatorName: string, apiValue: string): Observable<any> {
+    const rechargeApiObject = new RechargeAPI();
+    rechargeApiObject.apiValue = apiValue;
+    rechargeApiObject.rechargeMode = rechargeOption;
+    rechargeApiObject.operatorName = operatorName;
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_API_VALIDATION');
+    return this.baseService.post(mainURL, rechargeApiObject, true);
+  }
+
+  public fetchValidationAPIDetails(rechargeMode: string, operatorName: string): Observable<any> {
+    const urlStringObject = {
+      rechargeMode: rechargeMode,
+      operatorName: operatorName
+    };
+    const mainURL = this.apiUrlService.getFullURL('FETCH_RECHARGE_API_VALIDATION', urlStringObject);
+    return this.baseService.get(mainURL, {}, true);
   }
 
 }
