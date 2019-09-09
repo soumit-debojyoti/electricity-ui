@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RechargeType } from '../../app/models/common.model';
 import { CommonService } from '../services/common.service/common.service';
+import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 @Component({
   selector: 'app-add-api',
   templateUrl: './add-api.component.html',
@@ -16,7 +17,7 @@ export class AddApiComponent implements OnInit {
   public confirmationTypes: Array<string>;
   public apiAddedSuccessfully: boolean = false;
   public rechargeTypes: Array<string>;
-  constructor(private commonService: CommonService) {
+  constructor(private commonService: CommonService, private loadingScreenService: LoadingScreenService) {
     this.rechargeTypes = ['PREPAID', 'DTH', 'POSTPAID', 'ELECTRICITY', 'GAS', 'WATER'];
     this.confirmationTypes = ['Yes', 'No'];
   }
@@ -36,6 +37,22 @@ export class AddApiComponent implements OnInit {
       (response: boolean) => {
         console.log( response );
         this.apiAddedSuccessfully = response;
+        if (response) {
+          if ( this.confirmation.toLowerCase() === 'yes') {
+            this.loadingScreenService.startLoading();
+            this.commonService.saveRechargeAPIValidation(this.rechargeType, this.operatorName, this.validationApiValue).subscribe(
+              (innerResponse: boolean) => {
+                this.loadingScreenService.stopLoading();
+                console.log( innerResponse );
+              }, (err) => {
+                console.log(err);
+                this.loadingScreenService.stopLoading();
+              }
+            );
+          }
+        }
+      }, (err) => {
+        console.log(err);
       }
     );
   }

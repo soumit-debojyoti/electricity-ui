@@ -1,6 +1,8 @@
 <p *ngIf='insufficientBalance' style="color: red">You have insufficient balance</p>
 <p *ngIf="joloTransactionStatus === 'SUCCESS'" style="color: green">Your transaction is successful</p>
 <p *ngIf="joloTransactionStatus === 'FAILURE'" style="color: red">Your transaction is not successful, please contact administrator for further enquiry.</p>
+<p *ngIf='!billDue && utilityTransactionValidated' style="color: red">{{utilityTransactionErrorMessage}}.</p>
+
 <div class="row">
     <div class="col-xs-10 col-10 col-md-8">
         <span>Recharge Type</span>
@@ -98,7 +100,7 @@
         <div>Customer Number</div>
         <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'customerMobile'/>
       </div>
-      <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px" *ngIf="customerMobile !== '' && consumerNumber !==''">
+      <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px" *ngIf="customerMobile !== '' && consumerNumber !=='' && !utilityTransactionValidated">
         <button (click) = 'validateTransaction()'>Validate</button>
       </div>
       <div *ngIf='billDue && utilityTransactionValidated'>
@@ -111,11 +113,7 @@
           <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'customerName' disabled/>
         </div>
       </div>
-      <div *ngIf='!billDue && utilityTransactionValidated'>
-        <p>{utilityTransactionErrorMessage}}.</p>
-      </div>
-      
-      <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px" *ngIf = 'billDue'>
+      <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px" *ngIf = 'billDue && utilityTransactionValidated'>
         <button (click) = 'checkAndDeductBalance()'>Recharge</button>
       </div>
       
