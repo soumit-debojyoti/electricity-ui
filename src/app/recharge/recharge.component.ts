@@ -48,19 +48,21 @@ export class RechargeComponent implements OnInit {
     let transactionMessage = '';
     // rechargeAPI.apiValue = rechargeAPI.apiValue.toLowerCase();
     const userID = this.storage.get('user_id');
+    this.loadingScreenService.startLoading();
     this.common.insertTransaction(this.rechargeMode, userID, this.rechargeAmount.toString()).subscribe(
       (response: number) => {
         switch (this.rechargeMode) {
           case 'PREPAID':
-          rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#mobile#', this.mobileNumber.toString());
-          rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#amount#', this.rechargeAmount.toString());
-          rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#order#', response.toString());
+          rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#Mobile#', this.mobileNumber.toString());
+          rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#Amount#', this.rechargeAmount.toString());
+          rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#Order#', response.toString());
           console.log(rechargeAPI.apiValue );
           transactionMessage = `PREPAID TRANSACTION - ${this.mobileNumber}`;
           break;
           case 'WATER':
           case 'GAS':
           case 'ELECTRICITY':
+            debugger;
           rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#consumer_number#', this.consumerNumber.toString());
           rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#amount#', this.rechargeAmount.toString());
           rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#order#', response.toString());
@@ -86,9 +88,14 @@ export class RechargeComponent implements OnInit {
            this.joloTransactionStatus, innerResponse.error.toString()).subscribe( (transactionUpdate: any) => {
              console.log('Update Transaction Status Called', transactionUpdate);
            });
+           this.loadingScreenService.stopLoading();
         }, (err) => {
           console.log('error has occured in recharge page -', err);
+          this.loadingScreenService.stopLoading();
         });
+      }, (err) => {
+        console.log(err);
+        this.loadingScreenService.stopLoading();
       }
     );
   }
@@ -109,10 +116,12 @@ export class RechargeComponent implements OnInit {
   }
 
   validateTransaction(): void {
+    debugger;
+    this.loadingScreenService.startLoading();
     this.common.fetchValidationAPIDetails(this.rechargeMode, this.operatorName).subscribe(
       (response: RechargeAPI) => {
         console.log('inside validate transaction', response);
-        this.common.recharge(response.apiValue).subscribe( (innerResponse: any) => {
+        this.common.recharge(this.createValidateAPIUrlUtility(response.apiValue)).subscribe( (innerResponse: any) => {
           console.log('after validation', innerResponse);
           this.utilityTransactionValidated = true;
           if ( innerResponse.status === 'SUCCESS') {
@@ -124,9 +133,25 @@ export class RechargeComponent implements OnInit {
             this.billDue = false;
             this.utilityTransactionErrorMessage = innerResponse.error;
           }
+          this.loadingScreenService.stopLoading();
+        }, (err) => {
+          console.log(err);
+          this.loadingScreenService.stopLoading();
         });
+      }, (err) => {
+        console.log(err);
+        this.loadingScreenService.stopLoading();
       }
     );
+  }
+
+  createValidateAPIUrlUtility(apiValue: string): string {
+    let returnApiValue = apiValue;
+    returnApiValue = returnApiValue.replace('#consumer_number#', this.consumerNumber.toString());
+    returnApiValue = returnApiValue.replace('#customer_mobile#', this.customerMobile.toString());
+    returnApiValue = returnApiValue.replace('#order#', '001');
+    returnApiValue = returnApiValue.replace('#customer_name#', 'xx');
+    return returnApiValue;
   }
 
 }

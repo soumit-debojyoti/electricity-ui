@@ -20,8 +20,9 @@
             <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'apiValue'/>
           </div>
           <div class="col-xs-10 col-10 col-md-8">
+            <span>Validation Required</span>
             <select class="form-control" id="rechargeType" [(ngModel)] ='confirmation' (change)="changeConfirmation()">
-              <option [value]="-1">Select Recharge Option</option>
+              <!-- <option [value]="-1">Select Recharge Option</option> -->
                 <ng-container *ngIf="confirmationTypes && confirmationTypes.length>0">
                 <option *ngFor="let confirmation of confirmationTypes" [value]="confirmation">{{confirmation}}</option>
               </ng-container>       

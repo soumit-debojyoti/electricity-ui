@@ -248,6 +248,7 @@ export class CommonService {
   }
 
   public recharge(rechargeURL: string): Observable<any> {
+    debugger;
     return this.http.post(this.corsByPass + rechargeURL, {});
   }
 
@@ -280,6 +281,7 @@ export class CommonService {
   }
 
   public fetchValidationAPIDetails(rechargeMode: string, operatorName: string): Observable<any> {
+    debugger;
     const urlStringObject = {
       rechargeMode: rechargeMode,
       operatorName: operatorName
