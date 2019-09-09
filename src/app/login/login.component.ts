@@ -59,7 +59,6 @@ export class LoginComponent implements OnInit {
 
 
   public login($event): void {
-    debugger;
     const username = document.getElementById('userid');
     const password = document.getElementById('password');
     if (username['value'] === undefined || password['value'] === undefined) {

@@ -31,7 +31,7 @@
           <option *ngFor="let user of filteredUsers" [value]="user.user_id">{{user.user_name}}</option>
         </ng-container>
       </select> -->
-      <input appSelectAll class="width-365" type="text" #user value="">
+      <input appSelectAll class="" type="text" #user value="">
     </div>
     <div class="col-sm-5 float-right">
       <p class="color-crimson float-right">Amount need to transfer?<span class="mandatory">*</span></p>
@@ -43,7 +43,7 @@
   <div class="row">
     <div class="col-sm-12">
       <p class="color-crimson">Comment<span class="mandatory">*</span></p>
-      <textarea rows="4" cols="89" #comment title="Comment...." placeholder="Comment...."></textarea>
+      <textarea rows="4" #comment title="Comment...." placeholder="Comment...." style="width:100%;"></textarea>
     </div>
   </div>
   <button class="btn btn-primary float-right" (click)="submit(user,amount,comment)">Submit</button>

@@ -1,19 +1,19 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-      <div class="card card-signin my-5 animated jackInTheBox" *ngIf="isLogin">
+      <div class="card card-signin my-5 animated jackInTheBox bg-shadow" *ngIf="isLogin">
         <div class="card-body">
           <h5 class="card-title text-center text-uppercase">Login</h5>
           <form class="form-signin">
             <div class="form-label-group">
               <input type="text" id="userid" class="animated form-control" placeholder="User ID" required autofocus>
-              <label for="userid">User ID</label>
+              <label for="userid" class="placeholder">User ID</label>
             </div>
 
             <div class="form-label-group">
               <input type="password" id="password" class="animated form-control" placeholder="Password"
                 (keydown.enter)="login($event,userid,password)" required>
-              <label for="password">Password</label>
+              <label for="password" class="placeholder">Password</label>
             </div>
 
 
@@ -27,7 +27,7 @@
           </form>
         </div>
       </div>
-      <div class="card card-signin my-5 animated jackInTheBox" *ngIf="!isLogin">
+      <div class="card card-signin my-5 animated jackInTheBox bg-shadow" *ngIf="!isLogin">
         <div class="card-body">
           <h5 class="card-title text-center text-uppercase">REGISTER</h5>
           <form class="form-signin">

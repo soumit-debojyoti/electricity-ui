@@ -270,6 +270,14 @@ body {
   background-color: #3b5998;
 }
 
+.placeholder{
+  color:red;
+  
+}
+.bg-shadow{
+  box-shadow: 10px 12px 0.5rem rgba(0,0,0,0.5);
+}
+
 /* Fallback for Edge
 -------------------------------------------------- */
 
