@@ -58,84 +58,92 @@ export class LoginComponent implements OnInit {
   }
 
 
-  public login($event, username: any, password: any): void {
-    this.islog = true;
-    this.loadingScreenService.startLoading();
-    this.auth.login(username.value, password.value)
-      .subscribe((res: any) => {
-        this.loadingScreenService.stopLoading();
-        if (res.isLoginSuccess === true) {
-          this.isLoginSuccess = true;
+  public login($event): void {
+    debugger;
+    const username = document.getElementById('userid');
+    const password = document.getElementById('password');
+    if (username['value'] === undefined || password['value'] === undefined) {
+    } else {
+      this.islog = true;
+      this.loadingScreenService.startLoading();
+      this.auth.login(username['value'], password['value'])
+        .subscribe((res: any) => {
+          this.loadingScreenService.stopLoading();
+          if (res.isLoginSuccess === true) {
+            this.isLoginSuccess = true;
 
-          this.storage.set('access_token', res.access_token);
-          if (res.message !== '') {
-            if (res.isLoginSuccess) {
-              let timerInterval;
-              Swal.fire({
-                title: 'KYC Check!!',
-                html: res.message,
-                timer: 5000,
-                onBeforeOpen: () => {
-                  Swal.showLoading();
-                  timerInterval = setInterval(() => {
-                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft().toString();
-                  }, 100);
-                },
-                onClose: () => {
-                  clearInterval(timerInterval);
-                }
-              }).then((result) => {
-                if (
-                  /* Read more about handling dismissals below */
-                  result.dismiss === Swal.DismissReason.timer
-                ) {
-                  console.log('I was closed by the timer')
-                }
-              })
-            } else {
-              this.alertService.confirmationMessage('', res.message, 'success', true, false);
+            this.storage.set('access_token', res.access_token);
+            if (res.message !== '') {
+              if (res.isLoginSuccess) {
+                let timerInterval;
+                Swal.fire({
+                  title: 'KYC Check!!',
+                  html: res.message,
+                  timer: 5000,
+                  onBeforeOpen: () => {
+                    Swal.showLoading();
+                    timerInterval = setInterval(() => {
+                      Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft().toString();
+                    }, 100);
+                  },
+                  onClose: () => {
+                    clearInterval(timerInterval);
+                  }
+                }).then((result) => {
+                  if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.timer
+                  ) {
+                    console.log('I was closed by the timer');
+                  }
+                });
+              } else {
+                this.alertService.confirmationMessage('', res.message, 'success', true, false);
+              }
+
             }
 
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.isLoginSuccess = false;
+            this.errorMessage = res.message;
           }
-
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.isLoginSuccess = false;
-          this.errorMessage = res.message;
-        }
-      },
-        error => {
+        }, error => {
           this.loadingScreenService.stopLoading();
           this.isLoginSuccess = false;
           this.errorMessage = 'Username or password are invalid....';
           console.log('We got error', error.message);
           console.log('Error type', error.stack);
 
-        }, _ => {
-
         });
+    }
+
   }
 
-  public register(token: any): void {
-    this.introducer_code = token.value;
-    this.loadingScreenService.startLoading();
-    this.auth.register(token.value)
-      .subscribe((response: ValidateReferalTokenResponse) => {
-        this.loadingScreenService.stopLoading();
-        this.isRegisterSuccess = true;
-        if (response.is_valid) {
-          this.storage.remove('is_employee');
-          this.storage.set('introducer_code', this.introducer_code);
-          this.storage.set('introducer_name', response.introducer_name);
-          this.storage.set('security_token', token.value);
-          this.router.navigateByUrl('/register');
-        } else {
-          this.alertService.confirmationMessage('', 'Token is not valid........', 'error', true, false);
-        }
-      }, () => {
-        this.isRegisterSuccess = false;
-        this.loadingScreenService.stopLoading();
-      });
+  public register(): void {
+    const token = document.getElementById('token');
+    if (token['value'] === undefined) {
+    } else {
+      this.introducer_code = token['value'];
+      this.loadingScreenService.startLoading();
+      this.auth.register(token['value'])
+        .subscribe((response: ValidateReferalTokenResponse) => {
+          this.loadingScreenService.stopLoading();
+          this.isRegisterSuccess = true;
+          if (response.is_valid) {
+            this.storage.remove('is_employee');
+            this.storage.set('introducer_code', this.introducer_code);
+            this.storage.set('introducer_name', response.introducer_name);
+            this.storage.set('security_token', token['value']);
+            this.router.navigateByUrl('/register');
+          } else {
+            this.alertService.confirmationMessage('', 'Token is not valid........', 'error', true, false);
+          }
+        }, () => {
+          this.isRegisterSuccess = false;
+          this.loadingScreenService.stopLoading();
+        });
+    }
   }
 }
 

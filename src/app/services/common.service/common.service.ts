@@ -220,7 +220,7 @@ export class CommonService {
       }));
   }
 
-  public saveRechargeAPI(rechargeOption: string, operatorname: string, apiValue: string): Observable<any> {    
+  public saveRechargeAPI(rechargeOption: string, operatorname: string, apiValue: string): Observable<any> {
     const rechargeApiObject = new RechargeAPI();
     rechargeApiObject.apiValue = apiValue;
     rechargeApiObject.rechargeMode = rechargeOption;
