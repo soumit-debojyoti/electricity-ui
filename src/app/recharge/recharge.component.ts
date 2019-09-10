@@ -37,9 +37,15 @@ export class RechargeComponent implements OnInit {
     this.fetchRechargeAPIInfo(this.rechargeMode);
   }
   fetchRechargeAPIInfo(rechargeMode: string): void {
+    this.loadingScreenService.startLoading();
     this.common.getRechargeAPIInfo(rechargeMode).subscribe((response: Array<RechargeAPI>) => {
       this.apiInfoList = response;
-    });
+      this.loadingScreenService.stopLoading();
+    }, (err) => {
+      this.loadingScreenService.stopLoading();
+      console.log(err);
+    }
+    );
 
   }
 
