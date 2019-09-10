@@ -1,3 +1,8 @@
+<p *ngIf="role_name === 4">
+  <input type="radio" value="self" name="viewMode" (change) = "changeView('self')" > self
+  <input type="radio" value="admin" name="viewMode" (change)="changeView('admin')" > admin
+</p>
+<div *ngIf= "viewMode ==='self'">
 <div class="container" *ngIf="isWithdrawalWallet">
   <h2>
     {{header}}
@@ -263,4 +268,77 @@
   </div>
 
 
+</div>
+</div>
+<!--ALL Display-->
+<div *ngIf= "viewMode ==='admin'">
+  <div class="row">
+    <div class="col-xs-5 col-5 col-md-4">
+      <span>Start Date</span>
+      <div class="input-group">
+        <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
+          bsDatepicker [(bsValue)]="startDate">
+        <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
+            (click)="dpstartDate.toggle()"></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-5 col-5 col-md-4">
+      <span>End Date</span>
+      <div class="input-group">
+        <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
+          [(bsValue)]="endDate">
+        <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
+            (click)="dpendDate.toggle()"></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-1 col-1 col-md-2">
+      <span></span>
+    </div>
+    <div class="col-xs-1 col-1 col-md-2">
+
+      <div class="input-group">
+        <button class="btn btn-primary float-right form-control" (click)="search()">Report</button>
+      </div>
+    </div>
+  </div>
+  <div class="m-t-20">
+    <table class="table table-hover table-striped table-bordered">
+      <thead>
+        <tr class="grid-header">
+          <th>User Name</th>
+          <th>Amount</th>
+          <th>Message</th>
+          <th>Transaction Type</th>
+          <th>Transaction Date</th>
+        </tr>
+      </thead>
+      <ng-container *ngIf="allTransaction && allTransaction.length>0">
+        <tbody>
+          <tr *ngFor="let wallettransaction of allTransaction">
+            <td>{{wallettransaction.userName}}</td>
+            <td><span>&#8377;</span>{{wallettransaction.transactionAmount}}</td>
+            <td>{{wallettransaction.transactionMessage}}</td>
+            <td class=""
+              [ngClass]="{'debit': wallettransaction.transactionMode.trim()=='debit', 'credit':wallettransaction.transactionMode.trim()=='credit' }">
+              <i class="em"
+                [ngClass]="{'em-astonished': wallettransaction.transactionMode.trim()=='debit', 'em-anguished':wallettransaction.transactionMode.trim()=='credit' }"></i>
+              &nbsp;{{wallettransaction.transactionMode| uppercase}}
+            </td>
+            <td>{{wallettransaction.transactionTime | date: 'dd-MM-yyyy'}}</td>
+          </tr>
+        </tbody>
+      </ng-container>
+      <ng-container *ngIf="allTransaction && allTransaction.length==0">
+        <tbody>
+          <tr>
+            <td colspan="5">
+              <span>No records to display.</span>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+    </table>
+  </div>
 </div>

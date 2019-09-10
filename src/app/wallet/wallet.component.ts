@@ -8,7 +8,7 @@ import { AlertService } from '../services/common.service/alert.service';
 import { UserService } from '../services/user.service/user.service';
 import { WalletReportResponse, UserLog, WalletLog, DateLog } from '../models/wallet-balance-report.model';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
-
+import { WalletTransaction } from '../models/common.model';
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
@@ -42,6 +42,9 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public users: Array<UserLog>;
   public wallettransactions: Array<WalletLog>;
   public datelogs: Array<DateLog>;
+  public allTransaction: Array<WalletTransaction> = [];
+  public viewMode: string = 'self';
+  public role_name: string;
   constructor(private common: CommonService, private userService: UserService,
     private route: ActivatedRoute, private router: Router,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService,
@@ -60,6 +63,8 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.userId = 0;
     this.initializeOption();
     this.userId = this.storage.get('user_id');
+    this.role_name = this.storage.get('role_id');
+    this.fetchAllTransaction();
     this.loadingScreenService.startLoading();
     this.route.paramMap.subscribe(params => {
       this.loadingScreenService.stopLoading();
@@ -361,5 +366,21 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.isRechargetransactionReport = false;
     this.isAddBalanceRequest = false;
     this.isDeductWallet = false;
+  }
+
+  public fetchAllTransaction(): void {
+    this.loadingScreenService.startLoading();
+    this.common.fetchAllTransaction(this.userId).subscribe( (response) => {
+      this.loadingScreenService.stopLoading();
+      this.allTransaction = response;
+    }, (err) => {
+      console.log(err);
+      this.loadingScreenService.stopLoading();
+    });
+  }
+
+  public changeView(value: string) {
+    this.viewMode = value;
+    console.log('change view called', this.viewMode);
   }
 }

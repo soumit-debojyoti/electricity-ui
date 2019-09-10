@@ -55,6 +55,7 @@ export class ApiUrlService extends BaseURLService {
       DEDUCT_WALLET_BALANCE_TRANSACTION: `RechargeAPI/api/transaction/user/{userID}/wallet/amount/{amount}/message/{message}`,
       FETCH_RECHARGE_API_VALIDATION: `RechargeAPI/api/validation/rechargemode/{rechargeMode}/operator/{operatorName}`,
       RECHARGE_API_VALIDATION: `RechargeAPI/api/validation`,
+      FETCH_ALL_TRANSACTION: `User/{requestorID}/AllTransaction`,
     };
   }
 
