@@ -27,7 +27,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public header: string;
   public userId: number;
   public userName: string;
-  public walletType: any;
+  public walletType: any = '';
   public isWithdrawalWallet: boolean;
   public isDeductWallet: boolean;
   public isAddBalanceRequest: boolean;
@@ -43,7 +43,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public wallettransactions: Array<WalletLog>;
   public datelogs: Array<DateLog>;
   public allTransaction: Array<WalletTransaction> = [];
-  public viewMode: string;
+  public viewMode: string = 'self';
   public role_id: number;
   constructor(private common: CommonService, private userService: UserService,
     private route: ActivatedRoute, private router: Router,
@@ -51,8 +51,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
     private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
-    this.walletType = '';
-    this.viewMode = 'self';
     this.endDate = new Date();
     this.startDate = new Date();
     this.startDate.setDate(this.startDate.getDate() - 5);
@@ -67,6 +65,11 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.userId = this.storage.get('user_id');
     this.role_id = this.storage.get('role_id');
     this.fetchAllTransaction();
+    /** fetching all user list for admin deduct balance*/
+    this.userService.getAllUsers().subscribe((response: Array<UserLog>) => {
+        this.users = response;
+        console.log('All users called', this.users);
+    });
     this.loadingScreenService.startLoading();
     this.route.paramMap.subscribe(params => {
       this.loadingScreenService.stopLoading();
@@ -284,7 +287,15 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   // #endregion
-
+  /** Deduct balance for admin - from user account selected */
+  public deductBalanceFromUser(comment: any, amount: any ): void {
+    debugger;
+    this.common.deductBalanceTransaction(this.userId.toString(), amount.value, comment.value).subscribe(
+      (response: any) => {
+        console.log(response);
+      }
+    );
+  }
   // #region Balance request
   public balanceRequest(amount: any, comment: any): void {
     this.requestBalance(this.userId, amount.value, comment.value);
@@ -377,13 +388,13 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public fetchAllTransaction(): void {
     this.loadingScreenService.startLoading();
     this.common.fetchAllTransaction(this.userId, this.startDate.toDateString()
-      , this.endDate.toDateString()).subscribe((response) => {
-        this.loadingScreenService.stopLoading();
-        this.allTransaction = response;
-      }, (err) => {
-        console.log(err);
-        this.loadingScreenService.stopLoading();
-      });
+    , this.endDate.toDateString()).subscribe( (response) => {
+      this.loadingScreenService.stopLoading();
+      this.allTransaction = response;
+    }, (err) => {
+      console.log(err);
+      this.loadingScreenService.stopLoading();
+    });
   }
 
   public changeView(value: string) {

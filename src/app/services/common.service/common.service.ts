@@ -262,6 +262,7 @@ export class CommonService {
     return this.baseService.post(mainURL, {}, true);
   }
   public deductBalanceTransaction(userID: string, amount: string, message: string) {
+    debugger;
     const urlStringObject = {
       userID: userID,
       amount: amount,

@@ -5,6 +5,7 @@ import { DataService } from '../services/data.service/data.service';
 import { UserService } from '../services/user.service/user.service';
 import { SiblingModel, ChildModel, ParentModel, RankAchieverModel, OwnModel } from '../models/rank-chiever.model';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
+import { RankAchiever } from '../models/common.model';
 
 @Component({
   selector: 'app-rank-achiever-list',
@@ -15,8 +16,11 @@ export class RankAchieverListComponent implements OnInit {
   public user_id: number;
   public parent: ParentModel;
   public self: OwnModel;
-  public children: Array<ChildModel>;
-  public siblings: Array<SiblingModel>;
+  public children: Array<ChildModel> = [];
+  public siblings: Array<SiblingModel> = [];
+  public rankAchievers: Array<RankAchiever> = [];
+  public viewMode: string = 'self';
+  public role_id = 0;
   constructor(private userService: UserService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router, private data: DataService,
     private loadingScreenService: LoadingScreenService) { }
@@ -26,6 +30,8 @@ export class RankAchieverListComponent implements OnInit {
       this.user_id = this.storage.get('user_id');
       this.getRankAchieverList(this.user_id);
     }
+    this.role_id = this.storage.get('role_id');
+    this.getAllRankAchiever();
   }
   private getRankAchieverList(user_id: number): void {
     this.loadingScreenService.startLoading();
@@ -39,5 +45,18 @@ export class RankAchieverListComponent implements OnInit {
       }, () => {
         this.loadingScreenService.stopLoading();
       });
+  }
+
+  public getAllRankAchiever(): void {
+    this.userService.getRankAchiever().subscribe( (response: Array<RankAchiever>) => {
+      debugger;
+      this.rankAchievers = response;
+      console.log(this.rankAchievers);
+    });
+  }
+
+  public changeView(value: string) {
+    this.viewMode = value;
+    console.log('change view called', this.viewMode);
   }
 }

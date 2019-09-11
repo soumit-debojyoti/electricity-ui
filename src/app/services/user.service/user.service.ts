@@ -256,6 +256,12 @@ export class UserService {
       ));
   }
 
-
+  public getRankAchiever(): Observable<any> {
+    // var url: string = `user/users/${user_name}`;
+    const params = new HttpParams();
+    const urlStringObject = {};
+    const mainURL = this.apiUrlService.getFullURL('FETCH_RANK_ACHIEVER', urlStringObject);
+    return this.baseService.get(mainURL, {}, params);
+  }
 
 }

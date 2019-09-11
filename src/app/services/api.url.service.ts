@@ -56,6 +56,7 @@ export class ApiUrlService extends BaseURLService {
       FETCH_RECHARGE_API_VALIDATION: `RechargeAPI/api/validation/rechargemode/{rechargeMode}/operator/{operatorName}`,
       RECHARGE_API_VALIDATION: `RechargeAPI/api/validation`,
       FETCH_ALL_TRANSACTION: `User/{requestorID}/AllTransaction/from/{startDate}/to/{endDate}`,
+      FETCH_RANK_ACHIEVER: `user/rankachiever`,
     };
   }
 

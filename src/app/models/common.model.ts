@@ -17,3 +17,12 @@ export class WalletTransaction {
     public transactionTime: string;
     public transactionMode: string;
 }
+
+export class RankAchiever {
+    public userName: string;
+    public firstName: string;
+    public lastName: string;
+    public userRank: number;
+    public rankAchievementDate: Date;
+    public joiningDate: Date;
+}

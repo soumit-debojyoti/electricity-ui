@@ -1,4 +1,8 @@
-<div class="container">
+<p *ngIf="role_id === 4" class="container">
+  <input type="radio" [value]="self" name="viewMode" (change) = "changeView('self')" [checked]='true'> Self View
+  <input type="radio" [value]="admin" name="viewMode" (change)="changeView('admin')"> Admin View
+</p>
+<div class="container" *ngIf="viewMode==='self'">
   <h1>
     Rank Hierarchy
   </h1>
@@ -160,5 +164,51 @@
         </tbody>
       </ng-container>
     </table>
+  </div>
+</div>
+<!--Admin View-->
+<div class="container" *ngIf="viewMode==='admin'">
+  <div>
+    <div *ngIf='rankAchievers.length > 0'>
+      <h3>Children Information</h3>
+      <table class="table table-hover table-striped table-bordered">
+        <thead>
+          <tr class="grid-header">
+            <th>USER NAME</th>
+            <th>FIRST NAME</th>
+            <th>LAST NAME</th>
+            <!-- <th>MOBILE NUMBER</th> -->
+            <!-- <th>GENDER</th> -->
+            <!-- <th>ROLE NAME</th> -->
+            <!-- <th>EMAIL</th> -->
+            <!-- <th>DOB</th> -->
+            <th>User Rank</th>
+            <th>RankAchievementDate</th>
+            <th>JoiningDate</th>
+          </tr>
+        </thead>
+        <ng-container *ngIf="rankAchievers.length>0">
+          <tbody>
+            <tr *ngFor='let achiever of rankAchievers'>
+              <td>{{achiever.userName}}</td>
+              <td>{{achiever.firstName}}</td>
+              <td>{{achiever.lastName}}</td>
+              <td>{{achiever.userRank}}</td>
+              <td>{{achiever.rankAchievementDate | date: 'dd-MMM-yyyy'}}</td>
+              <td>{{achiever.joiningDate | date: 'dd-MMM-yyyy'}}</td>
+            </tr>
+          </tbody>
+        </ng-container>
+        <ng-container *ngIf="rankAchievers.length==0">
+          <tbody>
+            <tr>
+              <td colspan="8">
+                <span>No records to display.</span>
+              </td>
+            </tr>
+          </tbody>
+        </ng-container>
+      </table>
+    </div>
   </div>
 </div>
