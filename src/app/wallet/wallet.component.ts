@@ -27,7 +27,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public header: string;
   public userId: number;
   public userName: string;
-  public walletType: any = '';
+  public walletType: any;
   public isWithdrawalWallet: boolean;
   public isDeductWallet: boolean;
   public isAddBalanceRequest: boolean;
@@ -43,14 +43,16 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public wallettransactions: Array<WalletLog>;
   public datelogs: Array<DateLog>;
   public allTransaction: Array<WalletTransaction> = [];
-  public viewMode: string = 'self';
-  public role_name: string;
+  public viewMode: string;
+  public role_id: number;
   constructor(private common: CommonService, private userService: UserService,
     private route: ActivatedRoute, private router: Router,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService,
     private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
+    this.walletType = '';
+    this.viewMode = 'self';
     this.endDate = new Date();
     this.startDate = new Date();
     this.startDate.setDate(this.startDate.getDate() - 5);
@@ -63,7 +65,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.userId = 0;
     this.initializeOption();
     this.userId = this.storage.get('user_id');
-    this.role_name = this.storage.get('role_id');
+    this.role_id = this.storage.get('role_id');
     this.fetchAllTransaction();
     this.loadingScreenService.startLoading();
     this.route.paramMap.subscribe(params => {
@@ -375,13 +377,13 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public fetchAllTransaction(): void {
     this.loadingScreenService.startLoading();
     this.common.fetchAllTransaction(this.userId, this.startDate.toDateString()
-    , this.endDate.toDateString()).subscribe( (response) => {
-      this.loadingScreenService.stopLoading();
-      this.allTransaction = response;
-    }, (err) => {
-      console.log(err);
-      this.loadingScreenService.stopLoading();
-    });
+      , this.endDate.toDateString()).subscribe((response) => {
+        this.loadingScreenService.stopLoading();
+        this.allTransaction = response;
+      }, (err) => {
+        console.log(err);
+        this.loadingScreenService.stopLoading();
+      });
   }
 
   public changeView(value: string) {

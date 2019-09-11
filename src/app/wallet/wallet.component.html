@@ -1,277 +1,277 @@
-<p *ngIf="role_name === 4">
-  <input type="radio" [value]="self" name="viewMode" (change) = "changeView('self')" [checked]='true'> Self View
+<p *ngIf="role_id === 4">
+  <input type="radio" [value]="self" name="viewMode" (change)="changeView('self')" [checked]='true'> Self View
   <input type="radio" [value]="admin" name="viewMode" (change)="changeView('admin')"> Admin View
 </p>
-<div *ngIf= "viewMode ==='self'">
-<div class="container" *ngIf="isWithdrawalWallet">
-  <h2>
-    {{header}}
-  </h2>
-  <div class="row">
-    <div class="col-sm-12">
-      <span>Why you want to widthdraw the balance?</span>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <textarea rows="4" cols="136" #comment title="Comment...." placeholder="Comment...."></textarea><br>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <input type="submit" class="btn btn-primary float-right" (click)="widthdraw(comment)">
-    </div>
-  </div>
-</div>
-<div class="container" *ngIf="isDeductWallet">
-  <h2>
-    {{header}}
-  </h2>
-  <div class="row">
-    <div class="col-sm-12">
-      <span>How much amount you need to deduct?</span>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <input type="number" #amount min="0" title="Rs...." placeholder="Rs....">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <span>Why you want to deduct the balance?</span>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <textarea rows="4" cols="136" #comment title="Comment...." placeholder="Comment...."></textarea><br>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <input type="submit" class="btn btn-primary float-right" (click)="deduct(comment,amount)">
-    </div>
-  </div>
-</div>
-<div class="container" *ngIf="isAddBalanceRequest">
-  <h2>
-    {{header}}
-  </h2>
-  <div class="row">
-    <div class="col-sm-12">
-      <span>How much amount you need?</span>
-    </div>
-
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <input type="number" #amount min="0" title="Rs...." placeholder="Rs....">
-    </div>
-
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <span>Comment</span>
-    </div>
-
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <textarea rows="4" cols="136" #comment title="Comment...." placeholder="Comment...."></textarea><br>
-    </div>
-
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <input type="submit" class="btn btn-primary float-right" (click)="balanceRequest(amount,comment)">
-    </div>
-  </div>
-</div>
-<div class="container" *ngIf="isBalanceRequestReport">
-  <h2>
-    {{header}}
-  </h2>
-  <div *ngIf="isSuperAdmin">
+<div *ngIf="viewMode ==='self'">
+  <div class="container" *ngIf="isWithdrawalWallet">
+    <h2>
+      {{header}}
+    </h2>
     <div class="row">
-      <div class="col-xs-10 col-10 col-md-8">
-        <span>Users</span>
-        <select class="form-control" id="user" #user [(ngModel)]="userId" (change)="changeUser($event, user.value)">
-          <option [value]="-1">Select User</option>
-          <ng-container *ngIf="users && users.length>0">
-            <option *ngFor="let user of users" [value]="user.user_id">{{user.user_name}}</option>
-          </ng-container>
-        </select>
+      <div class="col-sm-12">
+        <span>Why you want to widthdraw the balance?</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <textarea rows="4" cols="136" #comment title="Comment...." placeholder="Comment...."></textarea><br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <input type="submit" class="btn btn-primary float-right" (click)="widthdraw(comment)">
       </div>
     </div>
   </div>
-  <div>
+  <div class="container" *ngIf="isDeductWallet">
+    <h2>
+      {{header}}
+    </h2>
     <div class="row">
-      <div class="col-xs-5 col-5 col-md-4">
-        <span>Start Date</span>
-        <div class="input-group">
-          <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
-            bsDatepicker [(bsValue)]="startDate">
-          <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
-              (click)="dpstartDate.toggle()"></button>
+      <div class="col-sm-12">
+        <span>How much amount you need to deduct?</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <input type="number" #amount min="0" title="Rs...." placeholder="Rs....">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <span>Why you want to deduct the balance?</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <textarea rows="4" cols="136" #comment title="Comment...." placeholder="Comment...."></textarea><br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <input type="submit" class="btn btn-primary float-right" (click)="deduct(comment,amount)">
+      </div>
+    </div>
+  </div>
+  <div class="container" *ngIf="isAddBalanceRequest">
+    <h2>
+      {{header}}
+    </h2>
+    <div class="row">
+      <div class="col-sm-12">
+        <span>How much amount you need?</span>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <input type="number" #amount min="0" title="Rs...." placeholder="Rs....">
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <span>Comment</span>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <textarea rows="4" cols="136" #comment title="Comment...." placeholder="Comment...."></textarea><br>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <input type="submit" class="btn btn-primary float-right" (click)="balanceRequest(amount,comment)">
+      </div>
+    </div>
+  </div>
+  <div class="container" *ngIf="isBalanceRequestReport">
+    <h2>
+      {{header}}
+    </h2>
+    <div *ngIf="isSuperAdmin">
+      <div class="row">
+        <div class="col-xs-10 col-10 col-md-8">
+          <span>Users</span>
+          <select class="form-control" id="user" #user [(ngModel)]="userId" (change)="changeUser($event, user.value)">
+            <option [value]="-1">Select User</option>
+            <ng-container *ngIf="users && users.length>0">
+              <option *ngFor="let user of users" [value]="user.user_id">{{user.user_name}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="row">
+        <div class="col-xs-5 col-5 col-md-4">
+          <span>Start Date</span>
+          <div class="input-group">
+            <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
+              bsDatepicker [(bsValue)]="startDate">
+            <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
+                (click)="dpstartDate.toggle()"></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-5 col-5 col-md-4">
+          <span>End Date</span>
+          <div class="input-group">
+            <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
+              [(bsValue)]="endDate">
+            <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
+                (click)="dpendDate.toggle()"></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-1 col-1 col-md-2">
+          <span></span>
+        </div>
+        <div class="col-xs-1 col-1 col-md-2">
+
+          <div class="input-group">
+            <button class="btn btn-primary float-right form-control" (click)="search()">Report</button>
           </div>
         </div>
       </div>
-      <div class="col-xs-5 col-5 col-md-4">
-        <span>End Date</span>
-        <div class="input-group">
-          <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
-            [(bsValue)]="endDate">
-          <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
-              (click)="dpendDate.toggle()"></button>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-1 col-1 col-md-2">
-        <span></span>
-      </div>
-      <div class="col-xs-1 col-1 col-md-2">
+    </div>
+    <div class="m-t-20">
+      <table class="table table-hover table-striped table-bordered">
+        <thead>
+          <tr class="grid-header">
+            <th>User Name</th>
+            <th>Amount</th>
+            <th>Message</th>
+            <th>Transaction Type</th>
+            <th>Transaction Date</th>
+          </tr>
+        </thead>
+        <ng-container *ngIf="wallettransactions && wallettransactions.length>0">
+          <tbody>
+            <tr *ngFor="let wallettransaction of wallettransactions">
+              <td>{{userName}}</td>
+              <td><span>&#8377;</span>{{wallettransaction.transaction_amount}}</td>
+              <td>{{wallettransaction.message}}</td>
+              <td class=""
+                [ngClass]="{'debit': wallettransaction.transaction_mode.trim()=='debit', 'credit':wallettransaction.transaction_mode.trim()=='credit' }">
+                <i class="em"
+                  [ngClass]="{'em-astonished': wallettransaction.transaction_mode.trim()=='debit', 'em-anguished':wallettransaction.transaction_mode.trim()=='credit' }"></i>
+                &nbsp;{{wallettransaction.transaction_mode| uppercase}}
+              </td>
+              <td>{{wallettransaction.created_on | date: 'dd-MM-yyyy'}}</td>
+            </tr>
+          </tbody>
+        </ng-container>
+        <ng-container *ngIf="wallettransactions && wallettransactions.length==0">
+          <tbody>
+            <tr>
+              <td colspan="5">
+                <span>No records to display.</span>
+              </td>
+            </tr>
+          </tbody>
+        </ng-container>
+      </table>
+    </div>
 
-        <div class="input-group">
-          <button class="btn btn-primary float-right form-control" (click)="search()">Report</button>
+
+  </div>
+  <div class="container" *ngIf="isRechargetransactionReport">
+    <h2>
+      {{header}}
+    </h2>
+    <div *ngIf="isSuperAdmin">
+      <div class="row">
+        <div class="col-xs-10 col-10 col-md-8">
+          <span>Users</span>
+          <select class="form-control" id="user" #user [(ngModel)]="userId" (change)="changeUser($event, user.value)">
+            <option [value]="-1">Select User</option>
+            <ng-container *ngIf="users && users.length>0">
+              <option *ngFor="let user of users" [value]="user.user_id">{{user.user_name}}</option>
+            </ng-container>
+          </select>
         </div>
       </div>
     </div>
-  </div>
-  <div class="m-t-20">
-    <table class="table table-hover table-striped table-bordered">
-      <thead>
-        <tr class="grid-header">
-          <th>User Name</th>
-          <th>Amount</th>
-          <th>Message</th>
-          <th>Transaction Type</th>
-          <th>Transaction Date</th>
-        </tr>
-      </thead>
-      <ng-container *ngIf="wallettransactions && wallettransactions.length>0">
-        <tbody>
-          <tr *ngFor="let wallettransaction of wallettransactions">
-            <td>{{userName}}</td>
-            <td><span>&#8377;</span>{{wallettransaction.transaction_amount}}</td>
-            <td>{{wallettransaction.message}}</td>
-            <td class=""
-              [ngClass]="{'debit': wallettransaction.transaction_mode.trim()=='debit', 'credit':wallettransaction.transaction_mode.trim()=='credit' }">
-              <i class="em"
-                [ngClass]="{'em-astonished': wallettransaction.transaction_mode.trim()=='debit', 'em-anguished':wallettransaction.transaction_mode.trim()=='credit' }"></i>
-              &nbsp;{{wallettransaction.transaction_mode| uppercase}}
-            </td>
-            <td>{{wallettransaction.created_on | date: 'dd-MM-yyyy'}}</td>
-          </tr>
-        </tbody>
-      </ng-container>
-      <ng-container *ngIf="wallettransactions && wallettransactions.length==0">
-        <tbody>
-          <tr>
-            <td colspan="5">
-              <span>No records to display.</span>
-            </td>
-          </tr>
-        </tbody>
-      </ng-container>
-    </table>
-  </div>
+    <div>
+      <div class="row">
+        <div class="col-xs-5 col-5 col-md-4">
+          <span>Start Date</span>
+          <div class="input-group">
+            <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
+              bsDatepicker [(bsValue)]="startDate">
+            <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
+                (click)="dpstartDate.toggle()"></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-5 col-5 col-md-4">
+          <span>End Date</span>
+          <div class="input-group">
+            <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
+              [(bsValue)]="endDate">
+            <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
+                (click)="dpendDate.toggle()"></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-1 col-1 col-md-2">
+          <span></span>
+        </div>
+        <div class="col-xs-1 col-1 col-md-2">
 
-
-</div>
-<div class="container" *ngIf="isRechargetransactionReport">
-  <h2>
-    {{header}}
-  </h2>
-  <div *ngIf="isSuperAdmin">
-    <div class="row">
-      <div class="col-xs-10 col-10 col-md-8">
-        <span>Users</span>
-        <select class="form-control" id="user" #user [(ngModel)]="userId" (change)="changeUser($event, user.value)">
-          <option [value]="-1">Select User</option>
-          <ng-container *ngIf="users && users.length>0">
-            <option *ngFor="let user of users" [value]="user.user_id">{{user.user_name}}</option>
-          </ng-container>
-        </select>
-      </div>
-    </div>
-  </div>
-  <div>
-    <div class="row">
-      <div class="col-xs-5 col-5 col-md-4">
-        <span>Start Date</span>
-        <div class="input-group">
-          <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
-            bsDatepicker [(bsValue)]="startDate">
-          <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
-              (click)="dpstartDate.toggle()"></button>
+          <div class="input-group">
+            <button class="btn btn-primary float-right form-control" (click)="search()">Report</button>
           </div>
         </div>
       </div>
-      <div class="col-xs-5 col-5 col-md-4">
-        <span>End Date</span>
-        <div class="input-group">
-          <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
-            [(bsValue)]="endDate">
-          <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
-              (click)="dpendDate.toggle()"></button>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-1 col-1 col-md-2">
-        <span></span>
-      </div>
-      <div class="col-xs-1 col-1 col-md-2">
-
-        <div class="input-group">
-          <button class="btn btn-primary float-right form-control" (click)="search()">Report</button>
-        </div>
-      </div>
     </div>
-  </div>
-  <div class="m-t-20">
-    <table class="table table-hover table-striped table-bordered">
-      <thead>
-        <tr class="grid-header">
-          <th>User Name</th>
-          <th>Amount</th>
-          <th>Message</th>
-          <th>Transaction Type</th>
-          <th>Transaction Date</th>
-        </tr>
-      </thead>
-      <ng-container *ngIf="wallettransactions && wallettransactions.length>0">
-        <tbody>
-          <tr *ngFor="let wallettransaction of wallettransactions">
-            <td>{{userName}}</td>
-            <td><span>&#8377;</span>{{wallettransaction.transaction_amount}}</td>
-            <td>{{wallettransaction.message}}</td>
-            <td class=""
-              [ngClass]="{'debit': wallettransaction.transaction_mode.trim()=='debit', 'credit':wallettransaction.transaction_mode.trim()=='credit' }">
-              <i class="em"
-                [ngClass]="{'em-astonished': wallettransaction.transaction_mode.trim()=='debit', 'em-anguished':wallettransaction.transaction_mode.trim()=='credit' }"></i>
-              &nbsp;{{wallettransaction.transaction_mode| uppercase}}
-            </td>
-            <td>{{wallettransaction.created_on | date: 'dd-MM-yyyy'}}</td>
+    <div class="m-t-20">
+      <table class="table table-hover table-striped table-bordered">
+        <thead>
+          <tr class="grid-header">
+            <th>User Name</th>
+            <th>Amount</th>
+            <th>Message</th>
+            <th>Transaction Type</th>
+            <th>Transaction Date</th>
           </tr>
-        </tbody>
-      </ng-container>
-      <ng-container *ngIf="wallettransactions && wallettransactions.length==0">
-        <tbody>
-          <tr>
-            <td colspan="5">
-              <span>No records to display.</span>
-            </td>
-          </tr>
-        </tbody>
-      </ng-container>
-    </table>
-  </div>
+        </thead>
+        <ng-container *ngIf="wallettransactions && wallettransactions.length>0">
+          <tbody>
+            <tr *ngFor="let wallettransaction of wallettransactions">
+              <td>{{userName}}</td>
+              <td><span>&#8377;</span>{{wallettransaction.transaction_amount}}</td>
+              <td>{{wallettransaction.message}}</td>
+              <td class=""
+                [ngClass]="{'debit': wallettransaction.transaction_mode.trim()=='debit', 'credit':wallettransaction.transaction_mode.trim()=='credit' }">
+                <i class="em"
+                  [ngClass]="{'em-astonished': wallettransaction.transaction_mode.trim()=='debit', 'em-anguished':wallettransaction.transaction_mode.trim()=='credit' }"></i>
+                &nbsp;{{wallettransaction.transaction_mode| uppercase}}
+              </td>
+              <td>{{wallettransaction.created_on | date: 'dd-MM-yyyy'}}</td>
+            </tr>
+          </tbody>
+        </ng-container>
+        <ng-container *ngIf="wallettransactions && wallettransactions.length==0">
+          <tbody>
+            <tr>
+              <td colspan="5">
+                <span>No records to display.</span>
+              </td>
+            </tr>
+          </tbody>
+        </ng-container>
+      </table>
+    </div>
 
 
-</div>
+  </div>
 </div>
 <!--ALL Display-->
-<div *ngIf= "viewMode ==='admin'">
+<div *ngIf="viewMode ==='admin'">
   <div class="row">
     <div class="col-xs-5 col-5 col-md-4">
       <span>Start Date</span>
@@ -342,4 +342,3 @@
     </table>
   </div>
 </div>
- 
