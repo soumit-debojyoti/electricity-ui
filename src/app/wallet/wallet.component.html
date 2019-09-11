@@ -1,6 +1,6 @@
 <p *ngIf="role_name === 4">
-  <input type="radio" value="self" name="viewMode" (change) = "changeView('self')" > self
-  <input type="radio" value="admin" name="viewMode" (change)="changeView('admin')" > admin
+  <input type="radio" [value]="self" name="viewMode" (change) = "changeView('self')" [checked]='true'> Self View
+  <input type="radio" [value]="admin" name="viewMode" (change)="changeView('admin')"> Admin View
 </p>
 <div *ngIf= "viewMode ==='self'">
 <div class="container" *ngIf="isWithdrawalWallet">
@@ -342,3 +342,4 @@
     </table>
   </div>
 </div>
+ 

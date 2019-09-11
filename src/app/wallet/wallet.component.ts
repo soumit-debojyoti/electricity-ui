@@ -167,9 +167,13 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   public search(): void {
-    this.initialLoad = false;
-    this.userChange = false;
-    this.getWalletBalanceReport(this.userId, this.formatDate(this.startDate), this.formatDate(this.endDate));
+    if (this.viewMode.toLowerCase() === 'self') {
+      this.initialLoad = false;
+      this.userChange = false;
+      this.getWalletBalanceReport(this.userId, this.formatDate(this.startDate), this.formatDate(this.endDate));
+    } else {
+      this.fetchAllTransaction();
+    }
   }
 
 
@@ -370,7 +374,8 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
   public fetchAllTransaction(): void {
     this.loadingScreenService.startLoading();
-    this.common.fetchAllTransaction(this.userId).subscribe( (response) => {
+    this.common.fetchAllTransaction(this.userId, this.startDate.toDateString()
+    , this.endDate.toDateString()).subscribe( (response) => {
       this.loadingScreenService.stopLoading();
       this.allTransaction = response;
     }, (err) => {

@@ -289,12 +289,16 @@ export class CommonService {
     return this.baseService.get(mainURL, {}, true);
   }
 
-  public fetchAllTransaction(requestorID: number): Observable<any> {
+  public fetchAllTransaction(requestorID: number, startDate: string, endDate: string): Observable<any> {
+    debugger;
+    const params = new HttpParams();
     const urlStringObject = {
-      requestorID: requestorID
+      requestorID: requestorID,
+      startDate: startDate,
+      endDate: endDate
     };
     const mainURL = this.apiUrlService.getFullURL('FETCH_ALL_TRANSACTION', urlStringObject);
-    return this.baseService.get(mainURL, {}, true);
+    return this.baseService.get(mainURL, {}, params);
   }
 
 }
