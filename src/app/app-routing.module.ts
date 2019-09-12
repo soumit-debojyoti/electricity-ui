@@ -68,6 +68,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'news-update',
+    loadChildren: './news-feed-form/news-feed-form.module#NewsFeedFormModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: '',
     loadChildren: './login/login.module#LoginModule',
     pathMatch: 'full'

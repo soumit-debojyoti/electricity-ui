@@ -1,0 +1,75 @@
+<div class="col-sm-12">
+    <div style="margin-left: 30px">
+        <input type="radio" [value]="updatePost" name="viewMode" (change) = "changeView('updatePost')" [checked]='true'> Upload Post
+        <input type="radio" [value]="viewPost" name="viewMode" (change)="changeView('viewPost')"> View Post
+    </div>
+    <br/>
+    <div class="col-sm-12" *ngIf='!viewMode'>    
+        <form class="col-sm-12" [formGroup]="newsForm">
+            <p *ngIf="formSubmitted && !errorInSubmission" style="color:green">News successfully posted</p>
+            <p *ngIf="formSubmitted && errorInSubmission" style="color:red">News not posted,sorry try again!</p>
+            <div class="form-group">
+            <label for="feedTitle">Title</label>
+            <input type="text" name="feedTitle" class="form-control" id="feedTitle" placeholder="TDS charge increased"
+            formControlName="feedTitle">
+            <small id="emailHelp" class="form-text text-muted">
+                This title will be used for the header of the content you upload.<span style="color:red">*</span>
+            </small>
+            </div>
+            <div class="form-group">
+            <label for="feedContent">News content</label>
+            <textarea class="form-control" name="feedContent" id="feedContent" rows="3" formControlName="feedContent"></textarea>
+            <small id="contentHelp" class="form-text text-muted">
+                News information.<span style="color:red">*</span>
+            </small>
+            </div>
+            <div class="form-group">
+                <label for="feedValidity">News Validity</label>
+                <input type="number" class="form-control" name="feedValidity" id="feedValidity" rows="3" formControlName="feedValidity">
+                <small id="validityHelp" class="form-text text-muted">
+                    Number of days for which the post will be displayed. <span style="color:red">*</span>
+                </small>
+                <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                    <div *ngIf="formControl.feedValidity.errors.invalidNumber">Please enter a non negetive whole number</div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" (click)='postMyNews()' [disabled]='!newsForm.valid'>Post</button>
+        </form>
+    </div>
+    <!-- Section - Display All Post-->
+    <div *ngIf='viewMode'>
+        <div>
+                <table class="table table-hover table-striped table-bordered">
+                        <thead>
+                          <tr class="grid-header">
+                            <th>Post Title</th>
+                            <th>Content</th>
+                            <th>Post created on</th>
+                            <th>Post valid till</th>
+                            <th>Validity(in days)</th>
+                          </tr>
+                        </thead>
+                        <ng-container *ngIf="newsFeeds && newsFeeds.length>0">
+                          <tbody>
+                            <tr *ngFor="let newsFeed of newsFeeds">
+                              <td>{{newsFeed.title}}</td>
+                              <td>{{newsFeed.content}}</td>
+                              <td>{{newsFeed.postDate | date: 'dd-MMM-yyyy'}}</td>
+                              <td>{{newsFeed.expirationDate | date: 'dd-MMM-yyyy'}}</td>
+                              <td><input type='text' [value] = 'newsFeed.postValidity' [disabled]='true'></td>
+                            </tr>
+                          </tbody>
+                        </ng-container>
+                        <ng-container *ngIf="newsFeeds && newsFeeds.length==0">
+                          <tbody>
+                            <tr>
+                              <td colspan="5">
+                                <span>No records to display.</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </ng-container>
+                      </table>
+        </div>
+    </div>
+</div>

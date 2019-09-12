@@ -22,7 +22,6 @@ import { MatNativeDateModule } from '@angular/material';
 import { DemoMaterialModule } from './material-module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { SharedModule } from './shared-module';
-
 @NgModule({
   declarations: [
     AppComponent,

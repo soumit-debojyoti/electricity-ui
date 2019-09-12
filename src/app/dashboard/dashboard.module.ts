@@ -27,7 +27,7 @@ import { WidthdrawalRequestComponent } from '../widgets/widthdrawal-request/widt
 import { AddEmployeeComponent } from '../widgets/add-employee/add-employee.component';
 import { AdminProfileComponent } from '../widgets/admin-profile/admin-profile.component';
 import { ApiBalanceComponent } from '../widgets/api-balance/api-balance.component';
-
+import { NewsSliderComponent } from '../widgets/news-slider/news-slider.component';
 
 import { ProfileService } from '../widgets/profile/profile.service';
 import { GenerateTokenService } from '../widgets/generate-token/generate-token.service';
@@ -68,8 +68,8 @@ import { RechargeTransactionReportComponent } from '../widgets/recharge-transact
         ApiBalanceComponent,
         AmountTransferComponent,
         RechargeComponent,
-        RechargeTransactionReportComponent
-
+        RechargeTransactionReportComponent,
+        NewsSliderComponent
     ],
     imports: [
         CommonModule,

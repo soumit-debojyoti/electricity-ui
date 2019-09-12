@@ -26,3 +26,12 @@ export class RankAchiever {
     public rankAchievementDate: Date;
     public joiningDate: Date;
 }
+
+export class NewsFeed {
+    title: string;
+    content: string;
+    postDate: string;
+    expirationDate: string;
+    postValidity: number;
+    feedID: number;
+}
