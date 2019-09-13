@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 import { CommonService } from '../services/common.service/common.service';
 import { NewsFeed } from '../models/common.model';
@@ -16,6 +16,8 @@ export class NewsFeedFormComponent implements OnInit {
   public viewMode: boolean;
   newsFeed: NewsFeed;
   newsFeeds: Array<NewsFeed>;
+  public viewNewsForm: FormGroup;
+  // public feeds: FormArray;
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService,
     private loadingScreenService: LoadingScreenService) { }
@@ -35,6 +37,9 @@ export class NewsFeedFormComponent implements OnInit {
         feedValidity: ['', [Validators.required, CustomValidator.numeric]]
       }
     );
+    this.viewNewsForm = this.formBuilder.group({
+      feeds: this.formBuilder.array([])
+    });
     this.fetchPost();
   }
   get formControl() {
@@ -89,4 +94,40 @@ export class NewsFeedFormComponent implements OnInit {
       }
     );
   }
+
+  updateNewsValidity(newsFeed: NewsFeed, controlValue: any, index: number): void {
+    debugger;
+    //this.checkValidNumber();
+    console.log('News Feed - ', newsFeed);
+    newsFeed.postValidity = controlValue;
+    console.log('News Feed - ', newsFeed);
+  }
+
+  get formControlViewNews() {
+    return this.viewNewsForm.controls;
+  }
+
+  // checkValidNumber(): void {
+  //   debugger;
+  //   this.viewNewsForm.controls;
+  //   console.log('check called');
+  // }
+
+  addFormGroup(): FormGroup  {
+    return this.formBuilder.group(
+      {
+        feedValidity: ['', [Validators.required, CustomValidator.numeric]]
+      }
+    );
+  }
+
+  public setUpViewNewsFeedControls(): void {
+    debugger;
+    this.newsFeeds.forEach( (item: any) => {
+      const control = <FormArray>this.viewNewsForm.get('feeds');
+      control.push(this.addFormGroup());
+    });
+  }
+
+
 }

@@ -29,7 +29,7 @@
                 <small id="validityHelp" class="form-text text-muted">
                     Number of days for which the post will be displayed. <span style="color:red">*</span>
                 </small>
-                <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                <div *ngIf="formControl.feedValidity.errors" class="invalid-feedback">
                     <div *ngIf="formControl.feedValidity.errors.invalidNumber">Please enter a non negetive whole number</div>
                 </div>
             </div>
@@ -47,19 +47,25 @@
                             <th>Post created on</th>
                             <th>Post valid till</th>
                             <th>Validity(in days)</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <ng-container *ngIf="newsFeeds && newsFeeds.length>0">
                           <tbody>
-                            <tr *ngFor="let newsFeed of newsFeeds">
+                            <tr *ngFor="let newsFeed of newsFeeds; let i = index">
                               <td>{{newsFeed.title}}</td>
                               <td>{{newsFeed.content}}</td>
                               <td>{{newsFeed.postDate | date: 'dd-MMM-yyyy'}}</td>
                               <td>{{newsFeed.expirationDate | date: 'dd-MMM-yyyy'}}</td>
-                              <td><input type='text' [value] = 'newsFeed.postValidity' [disabled]='true'></td>
+                              <td><input type='number' [(value)] = 'newsFeed.postValidity' [disabled]='false'></td>
+                              <!-- <span *ngIf='formControlViewNews.feedValidity.errors' style="color:red">Wrong Input</span> -->
+                              <!-- <td><input class="btn btn-primary" type="button" value="Update" (change) ="check()" (click) = "updateNewsValidity(newsFeed, feedValidity, i)" [disabled]='!viewNewsForm.valid'></td> -->
+                              <td><input class="btn btn-primary" type="button" value="Update" (change) ="check()" (click) = "updateNewsValidity(newsFeed, 2, i)"></td>
                             </tr>
+                          <!-- </tr> -->
                           </tbody>
                         </ng-container>
+                      
                         <ng-container *ngIf="newsFeeds && newsFeeds.length==0">
                           <tbody>
                             <tr>
