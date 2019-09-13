@@ -34,4 +34,8 @@ export class NewsFeed {
     expirationDate: string;
     postValidity: number;
     feedID: number;
+    newsValid: boolean;
+    constructor() {
+        this.newsValid = false;
+    }
 }

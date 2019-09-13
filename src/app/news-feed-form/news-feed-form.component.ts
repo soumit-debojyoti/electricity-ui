@@ -37,13 +37,19 @@ export class NewsFeedFormComponent implements OnInit {
         feedValidity: ['', [Validators.required, CustomValidator.numeric]]
       }
     );
+    // this.viewNewsForm = this.formBuilder.group({
+    //   feeds: this.formBuilder.array([])
+    // });
     this.viewNewsForm = this.formBuilder.group({
-      feeds: this.formBuilder.array([])
+      feedValidity: ['', [Validators.required, CustomValidator.numeric]]
     });
     this.fetchPost();
   }
   get formControl() {
     return this.newsForm.controls;
+  }
+  get viewFormControl() {
+    return this.viewNewsForm.controls;
   }
   /**
    * Submits the post in the database
@@ -89,6 +95,7 @@ export class NewsFeedFormComponent implements OnInit {
       (response: Array<NewsFeed>) => {
         this.newsFeeds = response;
         this.loadingScreenService.stopLoading();
+        // this.setUpViewNewsFeedControls();
       }, (err) => {
         this.loadingScreenService.stopLoading();
       }
@@ -97,37 +104,44 @@ export class NewsFeedFormComponent implements OnInit {
 
   updateNewsValidity(newsFeed: NewsFeed, controlValue: any, index: number): void {
     debugger;
-    //this.checkValidNumber();
     console.log('News Feed - ', newsFeed);
     newsFeed.postValidity = controlValue;
     console.log('News Feed - ', newsFeed);
+    this.loadingScreenService.startLoading();
+    this.commonService.updateNews(newsFeed).subscribe( (response: boolean) => {
+      if ( response) {
+        this.loadingScreenService.stopLoading();
+        this.fetchPost();
+      }
+    }, (err) => {
+      this.loadingScreenService.stopLoading();
+      console.log('Error occured while updating news feed!', err);
+    });
   }
 
   get formControlViewNews() {
     return this.viewNewsForm.controls;
   }
 
-  // checkValidNumber(): void {
-  //   debugger;
-  //   this.viewNewsForm.controls;
-  //   console.log('check called');
+  checkValidNumber(newsFeed: NewsFeed): void {
+    newsFeed.newsValid = this.viewNewsForm.valid;
+  }
+
+  // addFormGroup(): FormGroup  {
+  //   return this.formBuilder.group(
+  //     {
+  //       feedValidity: ['', [Validators.required, CustomValidator.numeric]]
+  //     }
+  //   );
   // }
 
-  addFormGroup(): FormGroup  {
-    return this.formBuilder.group(
-      {
-        feedValidity: ['', [Validators.required, CustomValidator.numeric]]
-      }
-    );
-  }
-
-  public setUpViewNewsFeedControls(): void {
-    debugger;
-    this.newsFeeds.forEach( (item: any) => {
-      const control = <FormArray>this.viewNewsForm.get('feeds');
-      control.push(this.addFormGroup());
-    });
-  }
+  // public setUpViewNewsFeedControls(): void {
+  //   debugger;
+  //   this.newsFeeds.forEach( (item: any) => {
+  //     const control = <FormArray>this.viewNewsForm.get('feeds');
+  //     control.push(this.addFormGroup());
+  //   });
+  // }
 
 
 }

@@ -38,44 +38,46 @@
     </div>
     <!-- Section - Display All Post-->
     <div *ngIf='viewMode'>
-        <div>
-                <table class="table table-hover table-striped table-bordered">
-                        <thead>
-                          <tr class="grid-header">
-                            <th>Post Title</th>
-                            <th>Content</th>
-                            <th>Post created on</th>
-                            <th>Post valid till</th>
-                            <th>Validity(in days)</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <ng-container *ngIf="newsFeeds && newsFeeds.length>0">
-                          <tbody>
-                            <tr *ngFor="let newsFeed of newsFeeds; let i = index">
-                              <td>{{newsFeed.title}}</td>
-                              <td>{{newsFeed.content}}</td>
-                              <td>{{newsFeed.postDate | date: 'dd-MMM-yyyy'}}</td>
-                              <td>{{newsFeed.expirationDate | date: 'dd-MMM-yyyy'}}</td>
-                              <td><input type='number' [(value)] = 'newsFeed.postValidity' [disabled]='false'></td>
-                              <!-- <span *ngIf='formControlViewNews.feedValidity.errors' style="color:red">Wrong Input</span> -->
-                              <!-- <td><input class="btn btn-primary" type="button" value="Update" (change) ="check()" (click) = "updateNewsValidity(newsFeed, feedValidity, i)" [disabled]='!viewNewsForm.valid'></td> -->
-                              <td><input class="btn btn-primary" type="button" value="Update" (change) ="check()" (click) = "updateNewsValidity(newsFeed, 2, i)"></td>
-                            </tr>
-                          <!-- </tr> -->
-                          </tbody>
-                        </ng-container>
-                      
-                        <ng-container *ngIf="newsFeeds && newsFeeds.length==0">
-                          <tbody>
-                            <tr>
-                              <td colspan="5">
-                                <span>No records to display.</span>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </ng-container>
-                      </table>
-        </div>
+        <form [formGroup]="viewNewsForm">
+            <table class="table table-hover table-striped table-bordered">
+              <thead>
+                  <tr class="grid-header">
+                    <th>Post Title</th>
+                    <th>Content</th>
+                    <th>Post created on</th>
+                    <th>Post valid till</th>
+                    <th>Validity(in days)</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <ng-container *ngIf="newsFeeds && newsFeeds.length>0">
+                  <tbody>
+                    <tr *ngFor="let newsFeed of newsFeeds; let i = index">
+                      <td>{{newsFeed.title}}</td>
+                      <td>{{newsFeed.content}}</td>
+                      <td>{{newsFeed.postDate | date: 'dd-MMM-yyyy'}}</td>
+                      <td>{{newsFeed.expirationDate | date: 'dd-MMM-yyyy'}}</td>
+                      <td><input type='number' (change) ='checkValidNumber(newsFeed)' [(value)] = 'newsFeed.postValidity' [disabled]='false' formControlName="feedValidity"></td>
+                      <!-- <span *ngIf='formControlViewNews.feedValidity.errors' style="color:red">Wrong Input</span> -->
+                      <!-- <td><input class="btn btn-primary" type="button" value="Update" (change) ="check()" (click) = "updateNewsValidity(newsFeed, feedValidity, i)" [disabled]='!viewNewsForm.valid'></td> -->
+                      <td><input class="btn btn-primary" type="button" value="Update" (change) ="check()" 
+                        (click) = "updateNewsValidity(newsFeed, viewFormControl.feedValidity.value, i)" [disabled]="!newsFeed.newsValid"></td>
+                    </tr>
+                  <!-- </tr> -->
+                  </tbody>
+              </ng-container>
+            <ng-container *ngIf="newsFeeds && newsFeeds.length==0">
+              <tbody>
+                <tr>
+                  <td colspan="5">
+                    <span>No records to display.</span>
+                  </td>
+                </tr>
+              </tbody>
+            </ng-container>
+            </table>
+          
+          </form>
+        
     </div>
 </div>

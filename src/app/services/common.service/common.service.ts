@@ -310,4 +310,9 @@ export class CommonService {
     return this.baseService.get(mainURL, {}, true);
   }
 
+  public updateNews(newsFeed: NewsFeed): Observable<boolean> {
+    const mainURL = this.apiUrlService.getFullURL('NEWS_FEED');
+    return this.baseService.put(mainURL, newsFeed, true);
+  }
+
 }
