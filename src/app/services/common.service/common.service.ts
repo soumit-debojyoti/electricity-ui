@@ -262,7 +262,6 @@ export class CommonService {
     return this.baseService.post(mainURL, {}, true);
   }
   public deductBalanceTransaction(userID: string, amount: string, message: string) {
-    debugger;
     const urlStringObject = {
       userID: userID,
       amount: amount,
@@ -291,7 +290,6 @@ export class CommonService {
   }
 
   public fetchAllTransaction(requestorID: number, startDate: string, endDate: string): Observable<any> {
-    debugger;
     const params = new HttpParams();
     const urlStringObject = {
       requestorID: requestorID,

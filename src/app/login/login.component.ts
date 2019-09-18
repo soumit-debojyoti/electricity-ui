@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
                   onBeforeOpen: () => {
                     Swal.showLoading();
                     timerInterval = setInterval(() => {
-                      Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft().toString();
+                      // Swal.getContent().querySelector('strong')['textContent'] = Swal.getTimerLeft().toString();
                     }, 100);
                   },
                   onClose: () => {

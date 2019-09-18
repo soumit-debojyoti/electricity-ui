@@ -29,6 +29,8 @@ export class NavBarComponent implements OnInit {
       if (message === 'login-done') {
         const is_login = this.storage.get('is_login');
         this.isLogin = is_login;
+      } else if (message === 'default message') {
+        this.logout();
       }
     });
     this.isLogin = false;
@@ -37,7 +39,9 @@ export class NavBarComponent implements OnInit {
     this.loadingScreenService.startLoading();
     this.data.currentMessage.subscribe(message => {
       this.loadingScreenService.stopLoading();
-      if (this.storage.get('login_user') !== undefined) {
+      if (this.storage === undefined) {
+        this.isLogin = false;
+      } else if (typeof (this.storage.get('login_user')) === 'string') {
         this.isLogin = true;
         this.getWithdrawalNotification(this.storage.get('user_id'));
         this.getAddDeductWalletNotification(this.storage.get('user_id'));

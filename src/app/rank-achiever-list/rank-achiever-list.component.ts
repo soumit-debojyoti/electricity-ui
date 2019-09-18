@@ -48,8 +48,7 @@ export class RankAchieverListComponent implements OnInit {
   }
 
   public getAllRankAchiever(): void {
-    this.userService.getRankAchiever().subscribe( (response: Array<RankAchiever>) => {
-      debugger;
+    this.userService.getRankAchiever().subscribe((response: Array<RankAchiever>) => {
       this.rankAchievers = response;
       console.log(this.rankAchievers);
     });
