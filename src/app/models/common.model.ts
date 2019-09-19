@@ -39,3 +39,13 @@ export class NewsFeed {
         this.newsValid = false;
     }
 }
+
+export class IntroducerBonus {
+    introducerLevel: number;
+    referralBonus: number;
+    monthlyPayout: number;
+    validBonus: boolean;
+    constructor() {
+        this.validBonus = false;
+    }
+}

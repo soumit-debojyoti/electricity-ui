@@ -17,7 +17,6 @@ export class NewsFeedFormComponent implements OnInit {
   newsFeed: NewsFeed;
   newsFeeds: Array<NewsFeed>;
   public viewNewsForm: FormGroup;
-  // public feeds: FormArray;
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService,
     private loadingScreenService: LoadingScreenService) { }
@@ -37,9 +36,6 @@ export class NewsFeedFormComponent implements OnInit {
         feedValidity: ['', [Validators.required, CustomValidator.numeric]]
       }
     );
-    // this.viewNewsForm = this.formBuilder.group({
-    //   feeds: this.formBuilder.array([])
-    // });
     this.viewNewsForm = this.formBuilder.group({
       feedValidity: ['', [Validators.required, CustomValidator.numeric]]
     });
@@ -103,10 +99,7 @@ export class NewsFeedFormComponent implements OnInit {
   }
 
   updateNewsValidity(newsFeed: NewsFeed, controlValue: any, index: number): void {
-    debugger;
-    console.log('News Feed - ', newsFeed);
     newsFeed.postValidity = controlValue;
-    console.log('News Feed - ', newsFeed);
     this.loadingScreenService.startLoading();
     this.commonService.updateNews(newsFeed).subscribe( (response: boolean) => {
       if ( response) {

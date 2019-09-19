@@ -3,6 +3,8 @@ import { CommonService } from '../services/common.service/common.service';
 import { ConfigurationModel } from '../models/configuration.model';
 import { AlertService } from '../services/common.service/alert.service';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { IntroducerBonus } from '../models/common.model';
 
 @Component({
   selector: 'app-configuration',
@@ -18,8 +20,13 @@ export class ConfigurationComponent implements OnInit {
   public wallet_approver_role: number;
   public kyc_submission_days: number;
   public config: ConfigurationModel;
+  // Added for Bonus Information
+  public viewBonusInfoForm: FormGroup;
+  public levelBonusInfoList: Array<IntroducerBonus>;
+  public bonusMode: boolean;
+  public configMode: boolean;
   constructor(private common: CommonService, private alertService: AlertService,
-    private loadingScreenService: LoadingScreenService) {
+    private loadingScreenService: LoadingScreenService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
@@ -31,8 +38,18 @@ export class ConfigurationComponent implements OnInit {
     this.wallet_approver_role = 0;
     this.kyc_submission_days = 0;
     this.getConfiguration();
-  }
+    this.viewBonusInfoForm = this.formBuilder.group( {
+      referralAmount: ['', Validators.required],
+      monthlyAmount: ['', Validators.required]
+    });
+    this.levelBonusInfoList = [];
+    this.bonusMode = false;
+    this.configMode = true;
 
+  }
+  get viewFormControl() {
+    return this.viewBonusInfoForm.controls;
+  }
   private getConfiguration() {
     this.loadingScreenService.startLoading();
     this.common.getConfiguration()
@@ -73,5 +90,49 @@ export class ConfigurationComponent implements OnInit {
       }, () => {
         this.loadingScreenService.stopLoading();
       });
+  }
+
+  public fetchBonusInfo(): void {
+    this.loadingScreenService.startLoading();
+    this.common.fetchLevelInfo().subscribe( (response: Array<IntroducerBonus>) => {
+      this.levelBonusInfoList = response;
+      this.loadingScreenService.stopLoading();
+    }, (err) => {
+      this.loadingScreenService.stopLoading();
+    });
+  }
+
+  public changeView(viewMode: string): void {
+    if ( viewMode === 'Bonus Info') {
+      this.bonusMode = true;
+      this.configMode = false;
+      this.fetchBonusInfo();
+    }
+    if ( viewMode === 'Registration Info') {
+      this.bonusMode = false;
+      this.configMode = true;
+    }
+  }
+
+  public checkValidNumber(info: IntroducerBonus): void {
+    info.validBonus = true;
+  }
+
+  updateLevel(info: IntroducerBonus, referralAmount: number, monthlyAmount: number, rc: any, pc: any): void {
+    console.log('update level called.');
+    if ( this.viewFormControl.referralAmount.touched &&
+      this.viewFormControl.referralAmount.status === 'VALID') {
+        info.referralBonus = referralAmount;
+      }
+      if ( this.viewFormControl.monthlyAmount.touched &&
+        this.viewFormControl.monthlyAmount.status === 'VALID') {
+          info.monthlyPayout = monthlyAmount;
+        }
+    this.loadingScreenService.startLoading();
+    this.common.updateLevelInfo(info).subscribe( (response: boolean) => {
+      this.loadingScreenService.stopLoading();
+    }, (err) => {
+      this.loadingScreenService.stopLoading();
+    });
   }
 }

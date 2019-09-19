@@ -1,12 +1,23 @@
-<div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark container">
+  <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-link" [ngClass]="{'nav-item active': configMode}"><a (click)='changeView("Registration Info")'>Registration Info</a></li>
+        <li class="nav-link" [ngClass]="{'nav-item active': bonusMode}"><a (click)='changeView("Bonus Info")'>Bonus Info</a></li>
+        <!-- <li><a href="#">Link</a></li> -->
+      </ul>
+  </div>
+</nav>
+
+<!-- Configuration -->
+<div class="container" *ngIf='configMode'>
   <h2>
     Configuration
   </h2>
   <table class="table table-hover table-striped">
     <thead>
       <tr class="grid-header">
-        <th>CONFIGURATION FIELDS</th>
-        <th>CONFIGURATION VALUE</th>
+        <th>FIELDS</th>
+        <th>VALUE</th>
       </tr>
     </thead>
     <ng-container>
@@ -40,7 +51,7 @@
           <td><input type="text" [(ngModel)]="wallet_approver_role" title="Role..." placeholder="Role...." /></td>
         </tr>
         <tr>
-          <td><label>Days withing KYC document need to submit.</label></td>
+          <td><label>Days within KYC document need to submit.</label></td>
           <td><input type="number" [(ngModel)]="kyc_submission_days" title="KYC submission days...."
               placeholder="KYC submission days...." /></td>
         </tr>
@@ -53,3 +64,45 @@
     </ng-container>
   </table>
 </div>
+
+<!-- Bonus Info -->
+<div *ngIf='bonusMode' class="container">
+  <form [formGroup]="viewBonusInfoForm">
+      <table class="table table-hover table-striped table-bordered">
+        <thead>
+            <tr class="grid-header">
+              <th>Level</th>
+              <th>Referal Bonus</th>
+              <th>Monthly Bonus</th>
+            </tr>
+          </thead>
+          <ng-container *ngIf="levelBonusInfoList && levelBonusInfoList.length>0">
+            <tbody>
+              <tr *ngFor="let info of levelBonusInfoList; let i = index">
+                <td>{{info.introducerLevel}}</td>
+                <!-- <td>{{info.referralBonus}}</td>
+                <td>{{info.monthlyPayout}}</td> -->
+                <td><input type='number' (change) ='checkValidNumber(info)' [(value)] = 'info.referralBonus' [disabled]='false' formControlName="referralAmount"></td>
+                <td><input type='number' (change) ='checkValidNumber(info)' [(value)] = 'info.monthlyPayout' [disabled]='false' formControlName="monthlyAmount"></td>
+                <td><input class="btn btn-primary" type="button" value="Update"
+                  (click) = "updateLevel(info, viewFormControl.referralAmount.value, viewFormControl.monthlyAmount.value, viewFormControl.monthlyAmount, viewFormControl.referralAmount)" [disabled]="!info.validBonus"></td>
+              </tr>
+            <!-- </tr> -->
+            </tbody>
+        </ng-container>
+      <ng-container *ngIf="levelBonusInfoList && levelBonusInfoList.length==0">
+        <tbody>
+          <tr>
+            <td colspan="5">
+              <span>No records to display.</span>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+      </table>
+    
+    </form>
+  
+</div>
+
+

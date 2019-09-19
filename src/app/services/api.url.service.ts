@@ -58,6 +58,7 @@ export class ApiUrlService extends BaseURLService {
       FETCH_ALL_TRANSACTION: `User/{requestorID}/AllTransaction/from/{startDate}/to/{endDate}`,
       FETCH_RANK_ACHIEVER: `user/rankachiever`,
       NEWS_FEED: `Common/news`,
+      LEVEL_BONUS_INFO: `User/levelbonusinfo`
     };
   }
 

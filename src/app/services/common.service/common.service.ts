@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
 import { ApiUrlService } from '../api.url.service';
 import { ConfigurationModel } from '../../models/configuration.model';
 import { WithdrawalWallet } from 'src/app/models/admin-approval-notification-response.model';
-import { RechargeAPI, NewsFeed } from 'src/app/models/common.model';
+import { RechargeAPI, NewsFeed, IntroducerBonus } from 'src/app/models/common.model';
 
 @Injectable({
   providedIn: 'root'
@@ -314,5 +314,31 @@ export class CommonService {
     const mainURL = this.apiUrlService.getFullURL('NEWS_FEED');
     return this.baseService.put(mainURL, newsFeed, true);
   }
+  public fetchLevelInfo(): Observable<Array<IntroducerBonus>> {
+    const mainURL = this.apiUrlService.getFullURL('LEVEL_BONUS_INFO');
+    return this.baseService.get(mainURL, {}, true);
+  }
 
+  public updateLevelInfo(levelBonusInfo: IntroducerBonus): Observable<boolean> {
+    const mainURL = this.apiUrlService.getFullURL('LEVEL_BONUS_INFO');
+    return this.baseService.put(mainURL, levelBonusInfo, true);
+  }
+
+  public updateRechargeAPIValidation(rechargeOption: string, operatorName: string, apiValue: string): Observable<any> {
+    const rechargeApiObject = new RechargeAPI();
+    rechargeApiObject.apiValue = apiValue;
+    rechargeApiObject.rechargeMode = rechargeOption;
+    rechargeApiObject.operatorName = operatorName;
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_API_VALIDATION');
+    return this.baseService.put(mainURL, rechargeApiObject, true);
+  }
+
+  public updateRechargeAPI(rechargeOption: string, operatorname: string, apiValue: string): Observable<any> {
+    const rechargeApiObject = new RechargeAPI();
+    rechargeApiObject.apiValue = apiValue;
+    rechargeApiObject.rechargeMode = rechargeOption;
+    rechargeApiObject.operatorName = operatorname;
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_API');
+    return this.baseService.put(mainURL, rechargeApiObject, true);
+  }
 }
