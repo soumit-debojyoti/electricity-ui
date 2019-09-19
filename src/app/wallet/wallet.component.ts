@@ -67,8 +67,8 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.fetchAllTransaction();
     /** fetching all user list for admin deduct balance*/
     this.userService.getAllUsers().subscribe((response: Array<UserLog>) => {
-        this.users = response;
-        console.log('All users called', this.users);
+      this.users = response;
+      console.log('All users called', this.users);
     });
     this.loadingScreenService.startLoading();
     this.route.paramMap.subscribe(params => {
@@ -288,8 +288,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
   // #endregion
   /** Deduct balance for admin - from user account selected */
-  public deductBalanceFromUser(comment: any, amount: any ): void {
-    debugger;
+  public deductBalanceFromUser(comment: any, amount: any): void {
     this.common.deductBalanceTransaction(this.userId.toString(), amount.value, comment.value).subscribe(
       (response: any) => {
         console.log(response);
@@ -388,13 +387,13 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public fetchAllTransaction(): void {
     this.loadingScreenService.startLoading();
     this.common.fetchAllTransaction(this.userId, this.startDate.toDateString()
-    , this.endDate.toDateString()).subscribe( (response) => {
-      this.loadingScreenService.stopLoading();
-      this.allTransaction = response;
-    }, (err) => {
-      console.log(err);
-      this.loadingScreenService.stopLoading();
-    });
+      , this.endDate.toDateString()).subscribe((response) => {
+        this.loadingScreenService.stopLoading();
+        this.allTransaction = response;
+      }, (err) => {
+        console.log(err);
+        this.loadingScreenService.stopLoading();
+      });
   }
 
   public changeView(value: string) {
