@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark container">
+<nav class="navbar navbar-expand navbar-dark bg-dark container">
   <div class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto">
         <li class="nav-link" [ngClass]="{'nav-item active': add}"><a (click)='changeView("add")'>Add API</a></li>
@@ -8,8 +8,8 @@
   </div>
 </nav>
 
-<div class="container" *ngIf="apiAddedSuccessfully" style="color: green"> API Added Successfully</div>
-<div class="container" *ngIf="apiUpdatedSuccessfully" style="color: green"> API Updated Successfully</div>
+<div class="container bg-success" *ngIf="apiAddedSuccessfully" style="color: green"> API Added Successfully</div>
+<div class="container bg-success" *ngIf="apiUpdatedSuccessfully" style="color: green"> API Updated Successfully</div>
 <!-- Section API Add-->
 <div class="container" *ngIf='add'>
     <div class="col-xs-10 col-10 col-md-8">

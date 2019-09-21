@@ -15,3 +15,7 @@
 .example-full-width {
   width: 100%;
 }
+
+.text {
+    font-family: sans-serif;
+}

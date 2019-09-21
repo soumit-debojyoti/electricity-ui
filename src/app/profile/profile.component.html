@@ -5,7 +5,7 @@
       <img [src]="photo" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
 
     </p>
-    <input #fileImage type="file" (change)="reUploadPhoto(fileImage.files)" class="form-control no-border" />
+    <input #fileImage type="file" (change)="reUploadPhoto(fileImage.files)" class="form-control no-border img-circle" />
     <span style="font-weight:bold;color:green;" *ngIf="messagePhoto">
       {{messagePhoto}}
     </span>

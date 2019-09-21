@@ -1,51 +1,29 @@
 <div class="w3-container w3-padding">
   <p><strong>Balance Transfer</strong></p>
   <div class="row">
-    <div class="col-sm-7 float-left">
-      <p class="color-crimson">User to transfer<span class="mandatory">*</span></p>
-
-
-
-
-      <!-- <form class="example-form">
-        <mat-form-field class="example-full-width">
-          <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl"
-            [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of options" [value]="option">
-              {{option}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </form> -->
-
-
-
-
-
-
-
-      <!-- <select class="form-control" id="user" #user (change)="changeUser($event, user.value)">
-        <option [value]="-1">Select User</option>
-        <ng-container *ngIf="filteredUsers && filteredUsers.length>0">
-          <option *ngFor="let user of filteredUsers" [value]="user.user_id">{{user.user_name}}</option>
-        </ng-container>
-      </select> -->
-      <input appSelectAll class="" type="text" #user value="">
+    <div class="col">
+      <div class="text">User to transfer<span class="mandatory">*</span></div>
+      <input class="form-control" style="height: 34px" appSelectAll class="" type="text" #user value="" placeholder="user id">
     </div>
-    <div class="col-sm-5 float-right">
-      <p class="color-crimson float-right">Amount need to transfer?<span class="mandatory">*</span></p>
-      <div class="float-right"><span style="font-size: 20px;">&#8377;</span>&nbsp;<input appSelectAll type="number"
-          #amount min="0" title="Rs...." placeholder="Rs....">
+    <div class="col">
+      <div class="text">Amount need to transfer?<span class="mandatory">*</span></div>
+      <div class="input-group">
+        <div class="input-group-addon">&#8377;</div>
+        <input class="form-control" appSelectAll type="number" #amount min="0" title="Rs...." placeholder="Rs....">
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12">
-      <p class="color-crimson">Comment<span class="mandatory">*</span></p>
-      <textarea rows="4" #comment title="Comment...." placeholder="Comment...." style="width:100%;"></textarea>
+    <div class="col">
+      <div class="text">Comment<span class="mandatory">*</span></div>
+      <textarea class="form-control" rows="4" #comment title="Comment...." placeholder="Comment...." style="width:100%;"></textarea>
     </div>
   </div>
-  <button class="btn btn-primary float-right" (click)="submit(user,amount,comment)">Submit</button>
-  <button class="btn btn-secondary float-right mr-2" (click)="clear(user,amount,comment)">Clear</button>
+  <div class="row">
+    <div class = "col">
+        <button class="btn btn-primary float-left" style ="margin-top:15px; margin-right: 15px"  (click)="submit(user,amount,comment)">Submit</button>
+        <button class="btn btn-secondary float-left mr-2" style ="margin-top:15px; margin-right: 15px" (click)="clear(user,amount,comment)">Clear</button>
+    </div>
+  </div>
+  
 </div>

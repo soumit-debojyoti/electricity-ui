@@ -101,7 +101,7 @@
         <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'customerMobile'/>
       </div>
       <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px" *ngIf="customerMobile !== '' && consumerNumber !=='' && !utilityTransactionValidated">
-        <button (click) = 'validateTransaction()'>Validate</button>
+        <button class="btn btn-primary" (click) = 'validateTransaction()'>Validate</button>
       </div>
       <div *ngIf='billDue && utilityTransactionValidated'>
         <div class="col-xs-10 col-10 col-md-8">

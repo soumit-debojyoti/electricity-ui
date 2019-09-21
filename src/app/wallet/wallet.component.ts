@@ -9,6 +9,8 @@ import { UserService } from '../services/user.service/user.service';
 import { WalletReportResponse, UserLog, WalletLog, DateLog } from '../models/wallet-balance-report.model';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 import { WalletTransaction } from '../models/common.model';
+import { ProfileService } from '../widgets/profile/profile.service';
+import { User } from '../models/user.model';
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
@@ -45,10 +47,13 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public allTransaction: Array<WalletTransaction> = [];
   public viewMode: string = 'self';
   public role_id: number;
+  public selectedUser: any;
+  public user_name: string;
+  public name: string;
   constructor(private common: CommonService, private userService: UserService,
     private route: ActivatedRoute, private router: Router,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService,
-    private loadingScreenService: LoadingScreenService) { }
+    private loadingScreenService: LoadingScreenService,private profileService: ProfileService) { }
 
   ngOnInit() {
     this.endDate = new Date();
@@ -61,10 +66,13 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.userChange = false;
     this.isSuperAdmin = false;
     this.userId = 0;
+    this.user_name = this.storage.get('login_user');
     this.initializeOption();
     this.userId = this.storage.get('user_id');
     this.role_id = this.storage.get('role_id');
     this.fetchAllTransaction();
+    this.deductWalletBalanceUserIDChange();
+    this.selectedUser = {};
     /** fetching all user list for admin deduct balance*/
     this.userService.getAllUsers().subscribe((response: Array<UserLog>) => {
       this.users = response;
@@ -90,7 +98,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
       if (this.walletType === 'deduct') {
         this.initializeOption();
         this.isDeductWallet = true;
-        this.header = 'Wallet Deduct!';
+        this.header = 'Deduct amount from user wallet!';
       }
       // #endregion
       if (this.walletType === 'wallettransactionreport') {
@@ -133,7 +141,21 @@ export class WalletComponent implements OnInit, AfterViewInit {
       this.loadingScreenService.stopLoading();
     });
   }
-
+  public deductWalletBalanceUserIDChange(): void {
+    this.loadingScreenService.startLoading();
+    this.profileService.GetUser(this.user_name).subscribe(
+      (response: any) => {
+        if ( response !== null) {
+          this.selectedUser = response;
+          this.name = this.selectedUser.first_name + ' ' + this.selectedUser.last_name;
+        }
+        this.loadingScreenService.stopLoading();
+      } , (err) => {
+        console.log(err);
+        this.loadingScreenService.stopLoading();
+      }
+    );
+  }
   ngAfterViewInit() {
     // this.device.nativeElement.value = this.selectedIndex;
   }

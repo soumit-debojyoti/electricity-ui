@@ -1,8 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 // import { Message, ChannelNameEnum } from '../store/models/message.model';
 import { DataService } from '../services/data.service/data.service';
-// import { StoreService } from '../store/store.service';
-import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { ProfileService } from '../widgets/profile/profile.service';
@@ -69,6 +67,8 @@ export class DashboardComponent implements OnInit {
             this.isUser = false;
           }
         }
+        this.storage.set('username', response.first_name + ' ' + response.last_name);
+        this.storage.set('mobileno', response.mobile_number);
       }, () => {
         this.loadingScreenService.stopLoading();
       });

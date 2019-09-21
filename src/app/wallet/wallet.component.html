@@ -22,49 +22,63 @@
   </div>
   <!-- Wallet deduction Admin-->
   <div class="container" *ngIf="isDeductWallet">
-    <h2>
+    <div class="title text">
       {{header}}
-    </h2>
+    </div>
     <!-- <div class="row">
       <div class="col-sm-12">
         <span>How much amount you need to deduct?</span>
       </div>
     </div> -->
     <div class="row">
-      <div class="col-md-6">
-        <span>User account from which amount will be deducted</span>
-        <select class="form-control" id="user" #user [(ngModel)]="userId">
+      <div class="col">
+        <span class="text">User account from which amount will be deducted</span>
+        <select class="form-control text" id="user" #user [(ngModel)]="user_name" (change) = 'deductWalletBalanceUserIDChange()'>
           <option [value]="-1">Select User</option>
           <ng-container *ngIf="users && users.length>0">
-            <option *ngFor="let user of users" [value]="user.user_id">{{user.user_name}}</option>
+            <option *ngFor="let user of users" [value]="user.user_name">{{user.user_name}}</option>
           </ng-container>
         </select>
       </div>
-      <div class="col-md-6">
-          <div>
-              <div>Amount to deduct</div>
-              <input type="number" #amount min="0" title="Rs...." placeholder="Rs....">
-          </div>
+      <br/>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="text">User Name</div>
+        <input *ngIf='selectedUser' type="text" [value]="name" disabled>
       </div>
+      <div class="col">
+        <div class="text">User Mobile Number</div>
+        <input *ngIf='selectedUser' type="text" [value]="selectedUser.mobile_number" disabled>
+      </div>
+    </div>
+    <div class ='row'>
+        <div class="col">
+            <div>
+                <div class="text">Amount to deduct</div>
+                <input type="number" #amount min="0" title="Rs...." placeholder="Rs....">
+            </div>
+        </div>
     </div>
     <!-- <div class="row">
       <div class="col-sm-12">
         <input type="number" #amount min="0" title="Rs...." placeholder="Rs....">
       </div>
     </div> -->
+    <!-- <div class="row">
+      <div class="col">
+        <span class="text">Why you want to deduct the balance?</span>
+      </div>
+    </div> -->
     <div class="row">
-      <div class="col-sm-12">
-        <span>Why you want to deduct the balance?</span>
+      <div class="col">
+        <div class="text">Why you want to deduct the balance?</div>
+        <textarea class='form-control' rows="4" #comment title="Comment...." placeholder="Comment...."></textarea><br>
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12">
-        <textarea rows="4" cols="136" #comment title="Comment...." placeholder="Comment...."></textarea><br>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <input type="submit" class="btn btn-primary float-right" (click)="deductBalanceFromUser(comment,amount)">
+      <div class="col">
+        <input type="submit" class="btn btn-primary float-left" (click)="deductBalanceFromUser(comment,amount)">
       </div>
     </div>
   </div>
@@ -129,7 +143,7 @@
         </div>
         <div>
         <div class="row">
-          <div class="col-xs-5 col-5 col-md-4">
+          <div class="col">
             <span>Start Date</span>
             <div class="input-group">
               <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
@@ -139,7 +153,7 @@
               </div>
             </div>
           </div>
-          <div class="col-xs-5 col-5 col-md-4">
+          <div class="col">
             <span>End Date</span>
             <div class="input-group">
               <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
@@ -149,15 +163,13 @@
               </div>
             </div>
           </div>
-          <div class="col-xs-1 col-1 col-md-2">
-            <span></span>
-          </div>
-          <div class="col-xs-1 col-1 col-md-2">
-
-            <div class="input-group">
-              <button class="btn btn-primary float-right form-control" (click)="search()">Report</button>
+          
+        </div>
+        <div class="row">
+            <div class="col">
+                <button style="width: 20%" class="btn btn-primary float-right form-control" (click)="search()">Report</button>
+                
             </div>
-          </div>
         </div>
       </div>
       <div class="m-t-20">
@@ -203,7 +215,7 @@
     <!--ALL Display-->
   <div *ngIf="viewMode==='admin'" class="container">
       <div class="row">
-        <div class="col-xs-5 col-5 col-md-4">
+        <div class="col">
           <span>Start Date</span>
           <div class="input-group">
             <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
@@ -213,7 +225,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-5 col-5 col-md-4">
+        <div class="col">
           <span>End Date</span>
           <div class="input-group">
             <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
@@ -223,15 +235,13 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-1 col-1 col-md-2">
-          <span></span>
-        </div>
-        <div class="col-xs-1 col-1 col-md-2">
-    
-          <div class="input-group">
-            <button class="btn btn-primary float-right form-control" (click)="search()">Report</button>
+        
+        
+      </div>
+      <div class="row">
+          <div class="col">
+              <button class="btn btn-primary float-right form-control" style="width: 20%" (click)="search()">Report</button>              
           </div>
-        </div>
       </div>
       <div class="m-t-20">
         <table class="table table-hover table-striped table-bordered">
