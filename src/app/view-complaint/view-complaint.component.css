@@ -1,8 +1,13 @@
-span {
+.table a
+{
+    display:block;
+    text-decoration:none;
+}
+label {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bold;
 }
-div {
+li {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bold;
 }

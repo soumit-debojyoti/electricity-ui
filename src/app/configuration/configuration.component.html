@@ -1,15 +1,17 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand fa fa-home" style="font-size:48px" [routerLink]="['/dashboard']"></a>
   <div class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto">
         <li class="nav-link" [ngClass]="{'nav-item active': configMode}"><a (click)='changeView("Registration Info")'>Registration Info</a></li>
         <li class="nav-link" [ngClass]="{'nav-item active': bonusMode}"><a (click)='changeView("Bonus Info")'>Bonus Info</a></li>
+        <li class="nav-link" [ngClass]="{'nav-item active': bankMode}"><a (click)='changeView("Bank Account")'>Bank Account</a></li>
         <!-- <li><a href="#">Link</a></li> -->
       </ul>
   </div>
 </nav>
 
 <!-- Configuration -->
-<div class="container" *ngIf='configMode'>
+<div class="card" *ngIf='configMode'>
   <h2>
     Configuration
   </h2>
@@ -66,7 +68,7 @@
 </div>
 
 <!-- Bonus Info -->
-<div *ngIf='bonusMode' class="container">
+<div *ngIf='bonusMode' class="card">
   <form [formGroup]="viewBonusInfoForm">
       <table class="table table-hover table-striped table-bordered">
         <thead>
@@ -103,6 +105,72 @@
     
     </form>
   
+</div>
+
+<!-- Bank Account Details -->
+
+<div class="card" *ngIf='bankMode'>
+  <div class="card-header" style="color: grey">
+    Banking info
+    <br/>
+    <label style="color: green" *ngIf='bankInfoAdded && formSubmitted'>Bank Info Added succesfully</label>
+    <label style="color: red" *ngIf='!bankInfoAdded && formSubmitted'>Something went wrong</label>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="bankInfoForm">
+      <div class="row">
+        <div class="col">
+          <label> Bank Name: </label> <br/>
+          <input class="form-control" type="text" formControlName="bankName">
+          <small> Enter your bank name</small>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <label> Branch Name: </label> <br/>
+            <input class="form-control" type="text" formControlName="bankBranchName">
+            <small> Enter your bank branch name</small>
+          </div>
+          <div class="col">
+              <label> IFSC: </label> <br/>
+              <input class="form-control" type="text" formControlName="ifsCode">
+              <small> Enter IFSC Code</small>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <label> Bank Name: </label> <br/>
+            <input class="form-control" type="text" formControlName="accountNumber">
+            <small> Enter your 16 digits bank account number</small>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <button class="btn btn-primary" [disabled]='bankInfoForm.invalid' (click)='addBankAccount()'> Add </button>
+          </div>
+      </div>
+    </form> 
+  </div>
+  <div class="card-body">
+      <table class="table table-hover table-striped">
+          <thead>
+            <tr class="grid-header">
+              <th>Bank Name</th>
+              <th>Branch Name</th>
+              <th>IFSC Code</th>
+              <th>Account Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor='let bInfo of bankInfoList'>
+              <td>{{bInfo.bankName}}</td>
+              <td>{{bInfo.branchName}}</td>
+              <td>{{bInfo.ifscCode}}</td>
+              <td>{{bInfo.accountNumber}}</td>
+            </tr>
+          </tbody>
+          </table>
+  </div>
 </div>
 
 

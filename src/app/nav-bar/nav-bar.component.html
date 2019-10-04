@@ -8,14 +8,14 @@
         class="fa fa-globe"></i></a>
     <a href="#" *ngIf="!isLogin" class="w3-bar-item w3-button w3-hide-small  w3-hover-white header-item" title="Login"
       routerLink="/login" href="#"><i class="fa fa-sign-in"> Login</i></a>
-    <a *ngIf="isLogin" class="w3-bar-item w3-button w3-hide-small  w3-hover-white header-item" title="Login"
-      (click)="logout()"><i class="fa fa-sign-out"> Logout</i></a>
+    <!-- <a *ngIf="isLogin" class="w3-bar-item w3-button w3-hide-small  w3-hover-white header-item" title="Login"
+      (click)="logout()"><i class="fa fa-sign-out"> Logout</i></a> -->
     <a href="#" class="w3-bar-item w3-button w3-hide-small  w3-hover-white header-item" title="Dashboard"
       routerLink="/dashboard" href="#"><i class="fa fa-desktop"> Dashboard</i></a>
-    <a *ngIf="isLogin" (click)="gotoProfile()" class="w3-bar-item w3-button w3-hide-small  w3-hover-white"
-      title="Profile"><i class="fa fa-user"></i></a>
-    <a *ngIf="isLogin" href="#" class="w3-bar-item w3-button w3-hide-small  w3-hover-white" title="Messages"><i
-        class="fa fa-envelope"></i></a>
+    <!-- <a *ngIf="isLogin" (click)="gotoProfile()" class="w3-bar-item w3-button w3-hide-small  w3-hover-white"
+      title="Profile"><i class="fa fa-user"></i></a> -->
+    <!-- <a *ngIf="isLogin" href="#" class="w3-bar-item w3-button w3-hide-small  w3-hover-white" title="Messages"><i
+        class="fa fa-envelope"></i></a> -->
     <div *ngIf="isLogin" class="w3-dropdown-hover w3-hide-small" (click)="gotoWalletApproval()">
       <button class="w3-button " title="Wallet Withdrawal"><i class="fa fa-bell"></i><span
           class="w3-badge w3-right w3-small w3-green">{{withdrawalnotificationcount}}</span></button>
@@ -34,17 +34,21 @@
           {{detail_message.comment}}</a>
       </div>
     </div>
-    <a *ngIf="isLogin" href="#" class="w3-bar-item w3-button w3-hide-small w3-right  w3-hover-white" title="My Account">
+    <!-- <a *ngIf="isLogin" href="#" class="w3-bar-item w3-button w3-hide-small w3-right  w3-hover-white" title="My Account">
       <img src="assets/images/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-    </a>
+    </a> -->
+    <a *ngIf="isLogin" class="w3-bar-item w3-button w3-hide-small  w3-hover-white header-item" title="Login"
+      (click)="logout()"><i class="fa fa-sign-out"> Logout</i></a>
   </div>
 </div>
 
 <!-- Navbar on small screens -->
-<div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium font-large">
-  <a *ngIf="isLogin" href="#" class="w3-bar-item w3-button "></a>
+<!-- <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium font-large"> -->
+  <!-- <a *ngIf="isLogin" href="#" class="w3-bar-item w3-button "></a>
   <a *ngIf="isLogin" href="#" class="w3-bar-item w3-button "></a>
   <a *ngIf="isLogin" href="#" class="w3-bar-item w3-button "></a>
   <a *ngIf="isLogin" class="w3-bar-item w3-button w3-hide-small  w3-hover-white header-item" title="Login"
-    (click)="logout()"><i class="fa fa-sign-out"> Logout</i></a>
-</div>
+    (click)="logout()"><i class="fa fa-sign-out"> Logout</i></a> -->
+    <!-- <a *ngIf="isLogin" class="w3-bar-item w3-button w3-hide-small  w3-hover-white header-item" title="Login"
+      (click)="logout()"><i class="fa fa-sign-out"> Logout</i></a> -->
+<!-- </div> -->

@@ -1,0 +1,180 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">    
+        <a class="navbar-brand fa fa-home" style="font-size:48px" [routerLink]="['/dashboard']"></a>
+        <button class="navbar-toggler fa fa-home" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" [ngClass]="{'nav-item active': userView}" (click) = 'changeView("Complaints")'>Complaints</a>
+            </li>
+            <li class="nav-item" *ngIf='loggedInUserRoleID === 4'>
+              <a class="nav-link" [ngClass]="{'nav-item active': !userView}" (click) = 'changeView("Admin")'>Admin View</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+<!-- View User Complaints-->
+<div class="card" *ngIf='userView'>
+    <div class="card-header">
+        <label for="complaints">View complaints</label>
+    </div>
+    <div class="card-body">
+            <table class="table">
+                <thead class="thead-dark">
+                      <tr>
+                        <!-- <th scope="col">#</th> -->
+                        <th scope="col">Complaint Number</th>
+                        <th scope="col">Transaction ID</th>
+                        <th scope="col">Priority</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Comment by helpdesk</th>
+                        <th scope="col">Assigned to</th>
+                      </tr>
+                </thead>
+                <tbody *ngFor='let complaint of userComplaints; let index = i'>
+                    <tr>
+                        <!-- <th scope="row">{{i}}</th> -->
+                        <td>{{complaint.cid}}</td>
+                        <td>{{complaint.tid}}</td>
+                        <td>{{complaint.cPriorityText}}</td>
+                        <td>{{complaint.cStatusText}}</td>
+                        <td>{{complaint.resolverComment}}</td>
+                        <td>{{complaint.assignedToName}}</td>
+                     </tr>
+                </tbody>
+                <tbody *ngIf='userComplaints.length === 0'>
+                    <tr >
+                        <td>No complaint to display</td>
+                      </tr>
+                </tbody>
+            </table>
+    </div>
+</div>
+
+<!-- Admin View User Complaints-->
+<div class="card" *ngIf='adminView && loggedInUserRoleID === 4'>
+        <div class="card-header">
+            <label for="complaints">View complaints - Admin View</label>
+        </div>
+        <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                          <tr>
+                            <!-- <th scope="col">#</th> -->
+                            <th scope="col">Complaint Number</th>
+                            <th scope="col">Transaction ID</th>
+                            <th scope="col">Priority</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Comment by helpdesk</th>
+                            <th scope="col">Assigned to</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                    </thead>
+                    <tbody *ngFor='let complaint of adminComplaints'>
+                        <tr>
+                            <!-- <th scope="row">{{i}}</th> -->
+                            <td>{{complaint.cid}}</td>
+                            <td><a href="" (click)='changeTransactionID(complaint.transaction)' data-toggle="modal" data-target="#TransactionModal">{{complaint.tid}}</a></td>
+                            <td>{{complaint.cPriorityText}}</td>
+                            <td>{{complaint.cStatusText}}</td>
+                            <td>{{complaint.resolverComment}}</td>
+                            <td>{{complaint.assignedToName}}</td>
+                            <td *ngIf='complaint.cStatus !== 4'><button (click)='changeComplaint(complaint)' class="btn btn-primary" data-toggle="modal" data-target="#ComplaintModal">Update</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+</div>
+
+<!--Modal: View Transaction-->
+<div class="modal fade" id="TransactionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Transaction Details</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                  <div class="col">
+                      <label>Transaction Status</label>
+                      <input type="text" [value] = 'selectedTransaction.transactionStatus' disabled>
+                  </div>
+                  <div class="col">
+                        <label>Transaction Date</label>
+                        <input type="text" [value] = 'selectedTransaction.transactionDateText' disabled>
+                    </div>
+              </div>
+              <div class="row">
+                    <div class="col">
+                        <label>Transaction Amount</label>
+                        <input type="text" [value] = 'selectedTransaction.transactionAmount' disabled>
+                    </div>
+                    <div class="col">
+                          <label>Transaction Mode</label>
+                          <input type="text" [value] = 'selectedTransaction.transactionMode' disabled>
+                      </div>
+                </div>
+                <div class="row">
+                        <div class="col">
+                            <label>Transaction Message</label> <br/>
+                            <input type="text" [value] = 'selectedTransaction.transactionMessage' disabled>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+            </div>
+          </div>
+        </div>
+</div>
+
+<!-- Modal update complaint-->
+<div class="modal fade" id="ComplaintModal" tabindex="-1" role="dialog" aria-labelledby="ComplaintModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ComplaintModalLabel">Complaint Update</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="complaintForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col">
+                  <label>User Comment</label>
+                  <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3" disabled>{{selectedComplaint.userComment}}</textarea>
+                </div>
+              </div>
+            <div class="row">
+              <div class="col">
+                  <label>Complaint Status</label>
+                  <select formControlName="cStatus" class="form-control" [ngClass]="{ 'is-invalid': complaintSubmitted && f.cStatus.errors }">
+                    <!-- <option value="selectedComplaint.cStatus" selected>{{selectedComplaint.cStatusText}}</option> -->
+                    <option [value]='cStatus.key' *ngFor='let cStatus of complaintStatusList'>{{cStatus.value}}</option>
+                  </select>
+                  <small>Ticket status is mandatory<span style='color:red'>*</span></small>
+                  <div *ngIf="complaintSubmitted && f.cStatus.errors" class="invalid-feedback">
+                    <div *ngIf="f.cStatus.errors.required">Ticket status is required</div>
+                  </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                  <label>Update Comment</label>
+                  <textarea formControlName="cComment" class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click) = 'onSubmit()'>Ok</button>
+      </div>
+    </div>
+  </div>
+</div>

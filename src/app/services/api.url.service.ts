@@ -58,7 +58,14 @@ export class ApiUrlService extends BaseURLService {
       FETCH_ALL_TRANSACTION: `User/{requestorID}/AllTransaction/from/{startDate}/to/{endDate}`,
       FETCH_RANK_ACHIEVER: `user/rankachiever`,
       NEWS_FEED: `Common/news`,
-      LEVEL_BONUS_INFO: `User/levelbonusinfo`
+      LEVEL_BONUS_INFO: `User/levelbonusinfo`,
+      ADMIN_BANK_INFO: `common/bankinfo`,
+      RECHARGE_TRANSACTION_USER: `RechargeAPI/api/transaction/user/{userID}/from/{endDate}/to/{startDate}`,
+      RECHARGE_TRANSACTION: `RechargeAPI/api/transaction/from/{endDate}/to/{startDate}`,
+      RECHARGE_COMPALINT: `RechargeAPI/api/transaction/complaint`,
+      RECHARGE_COMPALINT_USER: `RechargeAPI/api/transaction/complaint/user/{userid}`,
+      RECHARGE_COMPALINT_ADMIN: `RechargeAPI/api/transaction/complaint/admin`,
+      COMPLAINT_UPDATE: `RechargeAPI/api/transaction/complaint`,
     };
   }
 

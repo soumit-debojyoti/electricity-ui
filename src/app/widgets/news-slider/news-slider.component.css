@@ -9,7 +9,7 @@
 .ticker-wrap {
     width: 50%;
     padding-left: 100%;
-    background-color: grey;
+    background-color:whitesmoke;
 }
 .ticker-move {
     display: inline-block;
@@ -27,5 +27,6 @@
     display: inline-block;
     padding: 20px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-style: oblique;
+    color:rgb(26, 21, 21);
+    font-weight: bold;
 }

@@ -1,7 +1,6 @@
-<div class="w3-row" style="padding-bottom: 15px">
+<div style="padding-bottom: 10px">
     <app-news-slider></app-news-slider>
 </div>
-
 <div class="w3-row">
   <!-- Left Column -->
   <div class="w3-col m3">
@@ -10,10 +9,10 @@
     <br>
 
     <!-- Accordion -->
-    <div class="w3-card w3-round animated slideInUp">
+    <!-- <div class="w3-card w3-round animated slideInUp">
       <app-report></app-report>
     </div>
-    <br>
+    <br> -->
 
     <!-- Interests -->
     <div class="w3-card w3-round w3-white w3-hide-small animated slideInUp">
@@ -72,9 +71,9 @@
     </div>
 
     <div class="w3-row-padding animated slideInUp">
-      <div *ngIf="isSuperAdmin" class="w3-half w3-margin-bottom">
+      <div class="w3-half w3-margin-bottom animated slideInUp">
         <div class="w3-card w3-round w3-white">
-          <app-add-api></app-add-api>
+          <app-recharge-widget></app-recharge-widget>
         </div>
       </div>
       <div class="w3-half w3-margin-bottom animated slideInUp">
@@ -83,18 +82,27 @@
         </div>
       </div>
     </div>
-
-
-
     <div class="w3-row-padding animated slideInUp">
-      <div class="w3-half w3-margin-bottom animated slideInUp">
+      <div *ngIf="isSuperAdmin" class="w3-half w3-margin-bottom">
         <div class="w3-card w3-round w3-white">
-          <app-recharge-widget></app-recharge-widget>
+          <app-add-api></app-add-api>
         </div>
       </div>
       <div class="w3-half w3-margin-bottom animated slideInUp">
         <div *ngIf="isSuperAdmin" class="w3-card w3-round w3-white">
           <app-commission-setting></app-commission-setting>
+        </div>
+      </div>
+    </div>
+    <div class="w3-row-padding animated slideInUp">
+      <div class="w3-half w3-margin-bottom animated slideInUp">
+        <div *ngIf="!isEmployee" class="w3-card w3-round w3-white">
+          <app-recharge-transaction-report></app-recharge-transaction-report>
+        </div>
+      </div>
+      <div class="w3-half w3-margin-bottom animated slideInUp">
+        <div *ngIf="!isEmployee" class="w3-card w3-round w3-white">
+          <app-wallet-balance-report></app-wallet-balance-report>
         </div>
       </div>
     </div>
@@ -129,10 +137,10 @@
     </div>
 
 
-    <div *ngIf="isSuperAdmin || isAdmin"
+    <!-- <div *ngIf="isSuperAdmin || isAdmin"
       class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
       <app-add-wallet-balance-admin></app-add-wallet-balance-admin>
-    </div>
+    </div> -->
 
 
     <div *ngIf="isSuperAdmin || isAdmin"
@@ -140,13 +148,13 @@
       <app-deduct-wallet-balance></app-deduct-wallet-balance>
     </div>
 
-    <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
+    <!-- <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
       <app-wallet-balance-report></app-wallet-balance-report>
     </div>
 
     <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
       <app-recharge-transaction-report></app-recharge-transaction-report>
-    </div>
+    </div> -->
 
     <!-- <div *ngIf="isSuperAdmin || isAdmin" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4"> -->
     <div class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">

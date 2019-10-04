@@ -15,3 +15,13 @@ p{
 .color-crimson{
     color:crimson;
 }
+span {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+a
+{
+    display:block;
+    text-decoration:none;
+}

@@ -1,7 +1,7 @@
 <div class="col-sm-12">
     <div style="margin-left: 30px">
-        <input type="radio" [value]="updatePost" name="viewMode" (change) = "changeView('updatePost')" [checked]='true'> Upload Post
-        <input type="radio" [value]="viewPost" name="viewMode" (change)="changeView('viewPost')"> View Post
+        <input type="radio"  name="viewMode" (change) = "changeView('updatePost')" [checked]='true'> Upload Post
+        <input type="radio"  name="viewMode" (change)="changeView('viewPost')"> View Post
     </div>
     <br/>
     <div class="col-sm-12" *ngIf='!viewMode'>    

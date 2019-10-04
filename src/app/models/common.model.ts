@@ -49,3 +49,39 @@ export class IntroducerBonus {
         this.validBonus = false;
     }
 }
+
+export class BankDetails {
+    bankName: string;
+    branchName: string;
+    ifscCode: string;
+    accountNumber: number;
+}
+
+export class RechargeTransaction {
+    transactionID: number;
+    userID: number;
+    transactionDate: Date;
+    transactionMode: string;
+    transactionAmount: number;
+    transactionStatus: string;
+    transactionMessage: string;
+    transactionDateText: string;
+}
+
+export class Complaint {
+    cID: number;
+    tID: number;
+    cPriority: number;
+    raisedBy: number;
+    userContactNumber: string;
+    userComment: string;
+    cStatus: number;
+    resolverComment: string;
+    assignedTo: number;
+    resolvedBy: number;
+    assignedToName: string;
+    cPriorityText: string;
+    cStatusText: string;
+    raisedByText: string;
+    transaction: RechargeTransaction;
+}

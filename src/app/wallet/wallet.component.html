@@ -124,7 +124,8 @@
           <input type="radio" [value]="self" name="viewMode" (change) = "changeView('self')" [checked]='true'> Specific View
           <input type="radio" [value]="admin" name="viewMode" (change)="changeView('admin')"> Consolidate View
       </p>
-    <div *ngIf="viewMode==='self'">
+    <!-- Admin view -->
+    <div *ngIf="viewMode==='admin'">
         <h2>
           {{header}}
         </h2>
@@ -212,8 +213,8 @@
       </div>
   </div>
   <div>
-    <!--ALL Display-->
-  <div *ngIf="viewMode==='admin'" class="container">
+    <!--Self View-->
+  <div *ngIf="viewMode==='self'" class="container">
       <div class="row">
         <div class="col">
           <span>Start Date</span>
@@ -290,11 +291,14 @@
     <h2>
       {{header}}
     </h2>
+    <div class="row">
+      <label *ngIf='ticketCreated' style="color: green">Your ticket has been successfully placed.</label>
+    </div>
     <div *ngIf="isSuperAdmin">
       <div class="row">
-        <div class="col-xs-10 col-10 col-md-8">
+        <div class="col">
           <span>Users</span>
-          <select class="form-control" id="user" #user [(ngModel)]="userId" (change)="changeUser($event, user.value)">
+          <select class="form-control" id="user" #user [(ngModel)]="selectedUserID" (change)="changeUser($event, user.value)">
             <option [value]="-1">Select User</option>
             <ng-container *ngIf="users && users.length>0">
               <option *ngFor="let user of users" [value]="user.user_id">{{user.user_name}}</option>
@@ -305,17 +309,17 @@
     </div>
     <div>
       <div class="row">
-        <div class="col-xs-5 col-5 col-md-4">
+        <div class="col">
           <span>Start Date</span>
           <div class="input-group">
             <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
-              bsDatepicker [(bsValue)]="startDate">
-            <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
-                (click)="dpstartDate.toggle()"></button>
-            </div>
+              bsDatepicker [(bsValue)]="startDate" aria-describedby="startDateCalendar">
+              <button id="startDateCalendar" class="btn btn-outline-secondary calendar input-group-append" type="button"
+                (click)="dpstartDate.toggle()">
+              </button>
           </div>
         </div>
-        <div class="col-xs-5 col-5 col-md-4">
+        <div class="col">
           <span>End Date</span>
           <div class="input-group">
             <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
@@ -325,57 +329,128 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-1 col-1 col-md-2">
-          <span></span>
-        </div>
-        <div class="col-xs-1 col-1 col-md-2">
-
+        <div class="col">
           <div class="input-group">
-            <button class="btn btn-primary float-right form-control" (click)="search()">Report</button>
+            <br/>
+            <button class="btn btn-primary float-right form-control" (click)="fetchUserTransaction()">Report</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="m-t-20">
-      <table class="table table-hover table-striped table-bordered">
+    <div class="card-body">
+      <table class="table table-hover table-striped">
         <thead>
           <tr class="grid-header">
-            <th>User Name</th>
-            <th>Amount</th>
-            <th>Message</th>
-            <th>Transaction Type</th>
+            <th>Transaction ID</th>
+            <th>User ID</th>
             <th>Transaction Date</th>
+            <th>Transaction Type</th>
+            <th>Transaction Amount</th>
+            <th>Transaction Status</th>
+            <th *ngIf='isSuperAdmin'>Transaction Message</th>
+            <th>Complain</th>
           </tr>
         </thead>
-        <ng-container *ngIf="wallettransactions && wallettransactions.length>0">
-          <tbody>
-            <tr *ngFor="let wallettransaction of wallettransactions">
-              <td>{{userName}}</td>
-              <td><span>&#8377;</span>{{wallettransaction.transaction_amount}}</td>
-              <td>{{wallettransaction.message}}</td>
-              <td class=""
-                [ngClass]="{'debit': wallettransaction.transaction_mode.trim()=='debit', 'credit':wallettransaction.transaction_mode.trim()=='credit' }">
-                <i class="em"
-                  [ngClass]="{'em-astonished': wallettransaction.transaction_mode.trim()=='debit', 'em-anguished':wallettransaction.transaction_mode.trim()=='credit' }"></i>
-                &nbsp;{{wallettransaction.transaction_mode| uppercase}}
-              </td>
-              <td>{{wallettransaction.created_on | date: 'dd-MM-yyyy'}}</td>
+          <tbody *ngIf="transactions && transactions.length>0">
+            <tr *ngFor="let transaction of transactions">
+              <td>{{transaction.transactionID}}</td>
+              <td>{{transaction.userID}}</td>
+              <td>{{transaction.transactionDate | date: 'dd-MM-yyyy'}}</td>
+              <td>{{transaction.transactionMode}}</td>
+              <td><span>&#8377;</span>{{transaction.transactionAmount}}</td>
+              <td>{{transaction.transactionStatus}}</td>
+              <td *ngIf='isSuperAdmin'>{{transaction.transactionMessage}}</td>
+              <td><button class="btn btn-primary" type="submit" (click)='editTransactionRowData(transaction)' data-toggle="modal" data-target='#complainModal'>Complain</button> </td>
             </tr>
           </tbody>
-        </ng-container>
-        <ng-container *ngIf="wallettransactions && wallettransactions.length==0">
-          <tbody>
+        <!-- <ng-container *ngIf="transactions && transactions.length==0"> -->
+          <tbody *ngIf="transactions && transactions.length==0">
             <tr>
-              <td colspan="5">
+              <td class="col">
                 <span>No records to display.</span>
               </td>
             </tr>
           </tbody>
-        </ng-container>
+        <!-- </ng-container> -->
       </table>
     </div>
 
 
   </div>
   <!-- End Recharge Transaction Report-->
+
+  <!-- Complaint Pop up-->
+  <div class="modal fade" id="complainModal" tabindex="-1" role="dialog" aria-labelledby="complainModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="complainModalLabel">Raise your complaint</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #f="ngForm">
+            <div class="row">
+              <div class="col">
+                <label> TransactionID: </label> <br/>
+                <input [value] = 'selectedTransactionRowdata.transactionID' class="form-control" type="text" disabled>
+              </div>
+              <div class="col">
+                <label> Transaction Date: </label> <br/>
+                <input [value] = 'selectedTransactionRowdata.transactionDateText' class="form-control" type="text" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label> Transaction Amount: </label> <br/>
+                <input [value] = 'selectedTransactionRowdata.transactionAmount' class="form-control" type="text"  disabled>
+              </div>
+              <div class="col">
+                <label> Transaction Mode: </label> <br/>
+                <input [value] = 'selectedTransactionRowdata.transactionMode' class="form-control" type="text" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="dropdown show col">
+                <label>Priority:</label>
+                  <select class="form-control" id="priority" #priority (change)="changePriority(priority.value)">                    
+                      <option *ngFor="let priority of ticketPriorityList" [value]="priority.priority">{{priority.text}}</option>                    
+                  </select>
+              </div>
+              <div class="col">
+                <label> User Name: </label> <br/>
+                <input [value] = 'name' class="form-control" type="text" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col"> 
+                  <label> User ID: </label> <br/>
+                  <input [value] = 'selectedTransactionRowdata.userID' class="form-control" type="text" disabled>
+              </div>
+              <div class="col">
+                  <label> User Contact Number: </label> <br/>
+                  <input [value] = 'selectedUser.mobile_number' class="form-control" type="text" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label> Comment: </label> <br/>
+                <textarea name="comment" class="form-control" rows="5" id="comment" #userComment="ngModel" [(ngModel)] ='userComplaintComment' required></textarea>
+                <div *ngIf="f.submitted && userComment.invalid" class="invalid-feedback">
+                    <div *ngIf="comment.errors.required">User Comment is required</div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)='raiseComplaint()'>Complain</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End -->
 </div>

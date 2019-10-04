@@ -8,9 +8,9 @@ import { AlertService } from '../services/common.service/alert.service';
 import { UserService } from '../services/user.service/user.service';
 import { WalletReportResponse, UserLog, WalletLog, DateLog } from '../models/wallet-balance-report.model';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
-import { WalletTransaction } from '../models/common.model';
+import { WalletTransaction, RechargeTransaction, Complaint } from '../models/common.model';
 import { ProfileService } from '../widgets/profile/profile.service';
-import { User } from '../models/user.model';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
@@ -50,13 +50,23 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public selectedUser: any;
   public user_name: string;
   public name: string;
-  constructor(private common: CommonService, private userService: UserService,
+  public transactions: Array<RechargeTransaction>;
+  public selectedUserID: number;
+  public selectedTransactionRowdata: RechargeTransaction;
+  public ticketPriorityText: string = 'Low';
+  public ticketPriorityList: Array<any>;
+  public userComplaintComment: string;
+  public userComplaintContactNumber: number;
+  public ticketCreated: boolean;
+  constructor(private datePipe: DatePipe, private common: CommonService, private userService: UserService,
     private route: ActivatedRoute, private router: Router,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService,
-    private loadingScreenService: LoadingScreenService,private profileService: ProfileService) { }
+    private loadingScreenService: LoadingScreenService, private profileService: ProfileService) { }
 
   ngOnInit() {
     this.endDate = new Date();
+    this.ticketCreated = false;
+    this.transactions = [];
     this.startDate = new Date();
     this.startDate.setDate(this.startDate.getDate() - 5);
     this.today = new Date();
@@ -70,9 +80,14 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.initializeOption();
     this.userId = this.storage.get('user_id');
     this.role_id = this.storage.get('role_id');
-    this.fetchAllTransaction();
     this.deductWalletBalanceUserIDChange();
     this.selectedUser = {};
+    this.selectedTransactionRowdata = new RechargeTransaction();
+    this.selectedUserID = this.userId;
+    this.ticketPriorityList = [{ priority: 3 , text: 'High'},
+    { priority: 2 , text: 'Medium'},
+    { priority: 1 , text: 'Low'}];
+    debugger;
     /** fetching all user list for admin deduct balance*/
     this.userService.getAllUsers().subscribe((response: Array<UserLog>) => {
       this.users = response;
@@ -115,9 +130,9 @@ export class WalletComponent implements OnInit, AfterViewInit {
         const role = this.storage.get('role');
         if (role === 'super admin') {
           this.isSuperAdmin = true;
-        }
-
-        this.getWalletBalanceReport(this.userId, 'all', 'all');
+          this.getWalletBalanceReport(this.userId, 'all', 'all');
+        } 
+        this.fetchAllTransaction();
       }
       if (this.walletType === 'rechargetransactionreport') {
         this.initializeOption();
@@ -133,9 +148,10 @@ export class WalletComponent implements OnInit, AfterViewInit {
         const role = this.storage.get('role');
         if (role === 'super admin') {
           this.isSuperAdmin = true;
+          this.fetchAllRechargeTransaction();
+        } else {
+          this.fetchUserRechargeTransaction(this.userId);
         }
-
-        this.getWalletBalanceReport(this.userId, 'all', 'all');
       }
     }, () => {
       this.loadingScreenService.stopLoading();
@@ -194,7 +210,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   public search(): void {
-    if (this.viewMode.toLowerCase() === 'self') {
+    if (this.viewMode.toLowerCase() === 'admin') {
       this.initialLoad = false;
       this.userChange = false;
       this.getWalletBalanceReport(this.userId, this.formatDate(this.startDate), this.formatDate(this.endDate));
@@ -203,24 +219,34 @@ export class WalletComponent implements OnInit, AfterViewInit {
     }
   }
 
-
-
-
-
-
-
-
-  // public changeUser($event, userId): void {
-  //   if (userId > -1) {
-  //     this.initialLoad = false;
-  //     this.userChange = true;
-  //     this.userId = +userId;
-  //     this.getWalletBalanceReport(this.userId, '', '');
-  //     // sthis.getWalletBalanceReport(monthNumber);
+  // public fetchTransaction(): void {
+  //   debugger;
+  //   console.log(this.startDate);
+  //   console.log(this.endDate);
+  //   console.log(this.userId);
+  //   if (this.isSuperAdmin) {
+  //     this.fetchAllRechargeTransaction();
   //   } else {
-  //     this.wallettransactions = [];
+  //     this.fetchUserRechargeTransaction(this.selectedUser);
   //   }
   // }
+
+
+  public fetchUserTransaction(): void {
+    if (this.isSuperAdmin) {
+      this.fetchUserRechargeTransaction(this.selectedUserID);
+    } else {
+      this.fetchUserRechargeTransaction(this.userId);
+    }
+  }
+
+
+
+
+
+  public changeUser($event, userId): void {
+    this.userId = userId;
+  }
   // #region withdrawal
   public widthdraw(comment: any): void {
     const commentFinal = comment.value;
@@ -405,7 +431,9 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.isAddBalanceRequest = false;
     this.isDeductWallet = false;
   }
-
+  /**
+   * Fetches user specific transaction for specific period
+   */
   public fetchAllTransaction(): void {
     this.loadingScreenService.startLoading();
     this.common.fetchAllTransaction(this.userId, this.startDate.toDateString()
@@ -421,5 +449,66 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public changeView(value: string) {
     this.viewMode = value;
     console.log('change view called', this.viewMode);
+  }
+
+  public fetchAllRechargeTransaction(): void {
+    this.loadingScreenService.startLoading();
+    this.common.fetchRechargeTransactionHistory(this.endDate.toDateString()
+    , this.startDate.toDateString()).subscribe( (response: any) => {
+      this.loadingScreenService.stopLoading();
+      this.transactions = response;
+    }, (err) => {
+      this.loadingScreenService.stopLoading();
+      console.log(err);
+    });
+  }
+  public fetchUserRechargeTransaction(userID: number): void {
+    this.loadingScreenService.startLoading();
+    this.common.fetchUserRechargeTransactionHistory(userID,
+      this.endDate.toDateString()
+    , this.startDate.toDateString()).subscribe( (response: any) => {
+      this.loadingScreenService.stopLoading();
+      this.transactions = response;
+    }, (err) => {
+      this.loadingScreenService.stopLoading();
+      console.log(err);
+    });
+  }
+
+  raiseComplaint(): void {
+    console.log('Raise Complaint called');
+    // Open popup and raise complain
+    const c = new Complaint();
+    c.tID = this.selectedTransactionRowdata.transactionID;
+    c.cStatus = 1;
+    c.assignedTo = 1;
+    c.raisedBy = this.userId;
+    c.resolvedBy = 0;
+    c.resolverComment = 'Your ticket has been acknowledged, our team will start working on it very soon.';
+    c.userComment = this.userComplaintComment;
+    c.userContactNumber = this.selectedUser.mobile_number;
+    c.cPriority = +this.ticketPriorityText;
+    this.loadingScreenService.startLoading();
+    this.common.addComplaint(c).subscribe( (response: boolean) => {
+      this.loadingScreenService.stopLoading();
+      this.ticketCreated = response;
+      this.ticketPriorityText = '3';
+      this.userComplaintComment = '';
+    }, (err) => {
+      this.loadingScreenService.stopLoading();
+    });
+  }
+
+  editTransactionRowData(rowData: any): void {
+    var t = this.selectedUser;
+    this.name = this.selectedUser.first_name + ' ' + this.selectedUser.last_name;
+    this.selectedTransactionRowdata = rowData;
+    this.selectedTransactionRowdata.transactionDateText =
+    this.datePipe.transform(this.selectedTransactionRowdata.transactionDate, 'dd-MM-yyyy');
+  }
+
+  changePriority(priority: any): void {
+    this.ticketPriorityText = priority;
+
   }
 }

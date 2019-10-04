@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
 import { ApiUrlService } from '../api.url.service';
 import { ConfigurationModel } from '../../models/configuration.model';
 import { WithdrawalWallet } from 'src/app/models/admin-approval-notification-response.model';
-import { RechargeAPI, NewsFeed, IntroducerBonus } from 'src/app/models/common.model';
+import { RechargeAPI, NewsFeed, IntroducerBonus, BankDetails, RechargeTransaction, Complaint } from 'src/app/models/common.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,11 @@ export class CommonService {
   private rootURL = environment.apiUrl + 'auth';
   private username: string;
   private corsByPass: string = 'https://cors-anywhere.herokuapp.com/';
+  private complaintStatus: [{ 'value': 'Acknowledged', 'key': 1},
+  { 'value': 'Assigned', 'key': 2},
+  { 'value': 'Work In Progress', 'key': 3},
+  { 'value': 'Resolved', 'key': 4},
+];
   constructor(private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private http: HttpClient, private baseService: BaseService,
     private apiUrlService: ApiUrlService) { }
@@ -340,5 +345,61 @@ export class CommonService {
     rechargeApiObject.operatorName = operatorname;
     const mainURL = this.apiUrlService.getFullURL('RECHARGE_API');
     return this.baseService.put(mainURL, rechargeApiObject, true);
+  }
+
+  public addBankDetails(bankDetails: BankDetails): Observable<boolean> {
+    const mainURL = this.apiUrlService.getFullURL('ADMIN_BANK_INFO');
+    return this.baseService.post(mainURL, bankDetails, true);
+  }
+
+  public fetchBankDetails(): Observable<Array<BankDetails>> {
+    const mainURL = this.apiUrlService.getFullURL('ADMIN_BANK_INFO');
+    return this.baseService.get(mainURL, {}, true);
+  }
+
+  public fetchRechargeTransactionHistory(stratDate: string, endDate: string): Observable<RechargeTransaction> {
+    const urlStringObject = {
+      endDate: endDate,
+      startDate: stratDate
+    };
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_TRANSACTION', urlStringObject);
+    return this.baseService.get(mainURL, {}, true);
+  }
+
+  public fetchUserRechargeTransactionHistory(userID: number, stratDate: string, endDate: string): Observable<RechargeTransaction> {
+    const urlStringObject = {
+      userID: userID,
+      endDate: endDate,
+      startDate: stratDate
+    };
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_TRANSACTION_USER', urlStringObject);
+    return this.baseService.get(mainURL, {}, true);
+  }
+
+  public addComplaint(complaint: Complaint): Observable<boolean> {
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_COMPALINT');
+    return this.baseService.post(mainURL, complaint, true);
+  }
+
+  public fetchUserComplaints(userID: number): Observable<Array<Complaint>> {
+    const urlStringObject = {
+      userid: userID
+    };
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_COMPALINT_USER', urlStringObject);
+    return this.baseService.get(mainURL, {}, true);
+  }
+
+  public fetchAdminComplaints(): Observable<Array<Complaint>> {
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_COMPALINT_ADMIN');
+    return this.baseService.get(mainURL, {}, true);
+  }
+
+  public getComplaintStatus(): Array<any> {
+    return this.complaintStatus;
+  }
+
+  public updateUserComplaint(complaint: Complaint): Observable<boolean> {
+    const mainURL = this.apiUrlService.getFullURL('COMPLAINT_UPDATE');
+    return this.baseService.put(mainURL, complaint, true);
   }
 }

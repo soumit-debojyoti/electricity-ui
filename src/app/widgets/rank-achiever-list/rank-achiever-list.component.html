@@ -1,4 +1,4 @@
-<div class="w3-container">
+<!-- <div class="w3-container">
   <p>Rank Achiever List</p>
   <div class="row">
     <div class="col-sm-4"><i class="fa fa-signal"></i></div>
@@ -17,7 +17,11 @@
     <div class="col-sm-4"><span class="pl-5" *ngIf="siblingsCount">{{siblingsCount}}</span></div>
   </div>
   <div class="row">
-    <!-- <div class="col-sm-6">&nbsp;</div> -->
     <div class="col-sm-6 hand details pointer" (click)="details()"><u>details....</u></div>
   </div>
+</div> -->
+
+<div class="card">
+  <!-- <span>Rank: &nbsp;&nbsp; <a [routerLink]="['/rank-achiever-list']">{{userRank}}</a></span> -->
+  <p><a class="text" style="margin-left: 10px" [routerLink]="['/rank-achiever-list']" title="Rank">Rank : {{userRank}}</a></p>
 </div>

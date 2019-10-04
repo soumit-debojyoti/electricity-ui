@@ -8,3 +8,8 @@
 .pl-40{
     padding-left:40px;
 }
+
+.text {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}

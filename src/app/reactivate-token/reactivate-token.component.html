@@ -1,11 +1,9 @@
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6">
-            <h2>
-                Unused Token Information
-            </h2>
-        </div>
+<div class="card">
+    <div class="card-header">
+            <a class="navbar-brand fa fa-home" style="font-size:48px;color: black;" [routerLink]="['/dashboard']"></a>
+            <span>Unused Token Information</span> 
     </div>
+    <div class="card-body">
     <div class="d-flex flex-row-reverse pb-2">
         <input #searchToken type="text" placeholder="Search token" [(ngModel)]="token" />
     </div>
@@ -43,6 +41,7 @@
             </tbody>
         </ng-container>
     </table>
+</div>
 </div>
 
 

@@ -42,3 +42,6 @@ pointer-events: none;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
 }
+.buttonwrapper {
+    display: inline-block;
+  }

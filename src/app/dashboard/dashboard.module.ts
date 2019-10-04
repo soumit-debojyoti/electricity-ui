@@ -28,7 +28,6 @@ import { AddEmployeeComponent } from '../widgets/add-employee/add-employee.compo
 import { AdminProfileComponent } from '../widgets/admin-profile/admin-profile.component';
 import { ApiBalanceComponent } from '../widgets/api-balance/api-balance.component';
 import { NewsSliderComponent } from '../widgets/news-slider/news-slider.component';
-
 import { ProfileService } from '../widgets/profile/profile.service';
 import { GenerateTokenService } from '../widgets/generate-token/generate-token.service';
 import { AmountTransferComponent } from '../widgets/amount-transfer/amount-transfer.component';

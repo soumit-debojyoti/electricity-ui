@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { WalletRoutingModule } from './wallet-routing.module';
 import { WalletComponent } from './wallet.component';
@@ -18,6 +18,7 @@ import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
         ReactiveFormsModule,
         BsDatepickerModule.forRoot(),
         DatepickerModule.forRoot()
-    ]
+    ],
+    providers: [DatePipe]
 })
 export class WalletModule { }

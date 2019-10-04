@@ -61,6 +61,7 @@ export class NewsFeedFormComponent implements OnInit {
     this.commonService.postNews(this.newsFeed).subscribe(
       (response: boolean) => {
         this.formSubmitted = response;
+        this.fetchPost();
         response ? this.errorInSubmission = !response : this.errorInSubmission = response;
         this.newsForm.reset();
         this.loadingScreenService.stopLoading();

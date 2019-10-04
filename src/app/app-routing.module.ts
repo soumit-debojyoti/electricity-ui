@@ -73,6 +73,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'view-complaint',
+    loadChildren: './view-complaint/view-complaint.module#ViewComplaintModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: '',
     loadChildren: './login/login.module#LoginModule',
     pathMatch: 'full'
