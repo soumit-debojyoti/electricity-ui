@@ -5,11 +5,13 @@
 .tcontainer{
     width: 100%;
     overflow: hidden;
+    height: 14px;
+    position: relative;
+    top: -16px;
 }
 .ticker-wrap {
     width: 50%;
     padding-left: 100%;
-    background-color:whitesmoke;
 }
 .ticker-move {
     display: inline-block;
@@ -29,4 +31,8 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color:rgb(26, 21, 21);
     font-weight: bold;
+}
+.position{
+    position: relative;
+    top: -23px;
 }

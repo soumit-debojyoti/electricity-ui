@@ -83,11 +83,7 @@
         <div class="col-md-2 float-right"><label>Middle Name</label></div>
         <div class="col-md-4 float-left">
           <div class="form-group">
-            <input type="text" formControlName="middleName" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.middleName.errors }" />
-            <div *ngIf="submitted && f.middleName.errors" class="invalid-feedback">
-              <div *ngIf="f.middleName.errors.required">Middle Name is required</div>
-            </div>
+            <input type="text" formControlName="middleName" class="form-control" />
           </div>
         </div>
 
@@ -108,7 +104,7 @@
           <input type="date" formControlName="dob" class="form-control" (change)="dateChange()"
             [ngClass]="{ 'is-invalid': submitted && f.dob.errors }" />
           <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
-            <div *ngIf="f.dob.errors.required">D O B is required</div>
+            <div *ngIf="f.dob.errors.required">DOB is required</div>
           </div>
         </div>
       </div>
@@ -165,10 +161,11 @@
         <div class="col-md-2 float-right"><label>Pancard No</label></div>
         <div class="col-md-10 float-left">
           <div class="form-group">
-            <input type="text" formControlName="pancard" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.pancard.errors }" />
+            <input type="text" formControlName="pancard" pattern="^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$"
+              class="form-control" [ngClass]="{ 'is-invalid': submitted && f.pancard.errors }" />
             <div *ngIf="submitted && f.pancard.errors" class="invalid-feedback">
               <div *ngIf="f.pancard.errors.required">Pancard is required</div>
+              <div *ngIf="f.pancard.errors.pattern">Pancard not valid</div>
             </div>
           </div>
         </div>
@@ -178,10 +175,11 @@
         <div class="col-md-10 float-left">
           <div class="form-group">
 
-            <input type="text" formControlName="aadharcard" class="form-control"
+            <input type="text" formControlName="aadharcard" pattern="^\d{4}\s\d{4}\s\d{4}$" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.aadharcard.errors }" />
             <div *ngIf="submitted && f.aadharcard.errors" class="invalid-feedback">
               <div *ngIf="f.aadharcard.errors.required">Aadharcard is required</div>
+              <div *ngIf="f.aadharcard.errors.pattern">Aadhar must be a valid number</div>
             </div>
           </div>
         </div>
