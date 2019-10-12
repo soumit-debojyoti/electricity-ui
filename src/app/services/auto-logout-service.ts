@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Message, ChannelNameEnum } from '../store/models/message.model';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 
-const MINUTES_UNITL_AUTO_LOGOUT = 1; // in Minutes
+const MINUTES_UNITL_AUTO_LOGOUT = 30; // in Minutes
 const CHECK_INTERVALL = 1000; // in ms
 const STORE_KEY = 'lastAction';
 
