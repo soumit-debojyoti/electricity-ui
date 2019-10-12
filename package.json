@@ -38,6 +38,7 @@
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "nebular-icons": "^1.1.0",
+    "ng-connection-service": "^1.0.4",
     "ngx-bootstrap": "^5.1.1",
     "ngx-cacheable": "^1.2.5",
     "ngx-clipboard": "^12.2.1",

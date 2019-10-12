@@ -43,8 +43,8 @@ export class NavBarComponent implements OnInit {
         this.isLogin = false;
       } else if (typeof (this.storage.get('login_user')) === 'string') {
         this.isLogin = true;
-        this.getWithdrawalNotification(this.storage.get('user_id'));
-        this.getAddDeductWalletNotification(this.storage.get('user_id'));
+        // this.getWithdrawalNotification(this.storage.get('user_id'));
+        // this.getAddDeductWalletNotification(this.storage.get('user_id'));
       } else {
         this.isLogin = false;
       }

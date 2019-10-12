@@ -37,6 +37,8 @@ import { ReviveTokenComponent } from '../widgets/revive-token/revive-token.compo
 import { SharedModule } from '../shared-module';
 import { RechargeComponent } from '../widgets/recharge/recharge.component';
 import { RechargeTransactionReportComponent } from '../widgets/recharge-transaction-report/recharge-transaction-report.component';
+import { WalletAddApprovalComponent } from '../widgets/wallet-add-approval/wallet-add-approval.component';
+import { WalletWithdrawalApprovalComponent } from '../widgets/wallet-withdrawal-approval/wallet-withdrawal-approval.component';
 
 
 
@@ -68,7 +70,9 @@ import { RechargeTransactionReportComponent } from '../widgets/recharge-transact
         AmountTransferComponent,
         RechargeComponent,
         RechargeTransactionReportComponent,
-        NewsSliderComponent
+        NewsSliderComponent,
+        WalletAddApprovalComponent,
+        WalletWithdrawalApprovalComponent
     ],
     imports: [
         CommonModule,
