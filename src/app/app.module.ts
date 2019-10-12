@@ -22,6 +22,10 @@ import { MatNativeDateModule } from '@angular/material';
 import { DemoMaterialModule } from './material-module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { SharedModule } from './shared-module';
+import { AutoLogoutService } from './services/auto-logout-service';
+import { StoreModule } from '@ngrx/store';
+import { createReducer } from './store/reducers/message.reducer';
+import { StoreService } from './store/store.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,15 +46,15 @@ import { SharedModule } from './shared-module';
     NbThemeModule.forRoot(),
     NbLayoutModule,
     NbButtonModule,
-    SharedModule
-    // StoreModule.forRoot(createReducer())
+    SharedModule,
+    StoreModule.forRoot(createReducer())
   ],
-  providers: [AuthGuard
+  providers: [AuthGuard, StoreService
     , {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }, { provide: LocationStrategy, useClass: HashLocationStrategy }, DataService],
+    }, { provide: LocationStrategy, useClass: HashLocationStrategy }, DataService, AutoLogoutService],
   bootstrap: [AppComponent]
 })
 

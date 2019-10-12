@@ -11,6 +11,7 @@ import { LoadingScreenService } from '../services/loading-screen/loading-screen.
 import { SweetAlertType } from 'sweetalert2';
 import Swal from 'sweetalert2';
 import { DataService } from '../services/data.service/data.service';
+import { AutoLogoutService } from '../services/auto-logout-service';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit {
   public introducer_code: string;
   constructor(private auth: AuthService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private router: Router, private alertService: AlertService, private data: DataService,
-    private loadingScreenService: LoadingScreenService) { }
+    private loadingScreenService: LoadingScreenService, private autoLogout: AutoLogoutService) { }
 
   ngOnInit() {
     this.isLogin = true;
@@ -68,6 +69,7 @@ export class LoginComponent implements OnInit {
       this.loadingScreenService.startLoading();
       this.auth.login(username['value'], password['value'])
         .subscribe((res: any) => {
+          this.autoLogout.reset();
           this.loadingScreenService.stopLoading();
           if (res.isLoginSuccess === true) {
             this.isLoginSuccess = true;

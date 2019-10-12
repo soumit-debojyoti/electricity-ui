@@ -11,8 +11,10 @@ import { BaseService } from '../base.service';
 import { environment } from '../../../environments/environment';
 import { ApiUrlService } from '../api.url.service';
 import { ConfigurationModel } from '../../models/configuration.model';
-import { RechargeAPI, NewsFeed, IntroducerBonus, BankDetails,
-  RechargeTransaction, Complaint, BankTransaction } from 'src/app/models/common.model';
+import {
+  RechargeAPI, NewsFeed, IntroducerBonus, BankDetails,
+  RechargeTransaction, Complaint, BankTransaction
+} from 'src/app/models/common.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +25,10 @@ export class CommonService {
   private username: string;
   private corsByPass = 'https://cors-anywhere.herokuapp.com/';
   private complaintStatus: [
-    { 'value': 'Acknowledged', 'key': 1},
-    { 'value': 'Assigned', 'key': 2},
-    { 'value': 'Work In Progress', 'key': 3},
-    { 'value': 'Resolved', 'key': 4},
+    { 'value': 'Acknowledged', 'key': 1 },
+    { 'value': 'Assigned', 'key': 2 },
+    { 'value': 'Work In Progress', 'key': 3 },
+    { 'value': 'Resolved', 'key': 4 },
   ];
   constructor(private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private http: HttpClient, private baseService: BaseService,

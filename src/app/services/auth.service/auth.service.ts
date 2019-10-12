@@ -16,13 +16,15 @@ import { CommonService } from '../common.service/common.service';
   providedIn: 'root'
 })
 export class AuthService {
-
+  public loggedIn: boolean;
   public AccessToken: string;
   private rootURL = environment.apiUrl + 'auth';
   private username: string;
   constructor(private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private http: HttpClient, private commonService: CommonService,
-    private baseService: BaseService, private apiUrlService: ApiUrlService) { }
+    private baseService: BaseService, private apiUrlService: ApiUrlService) {
+    this.loggedIn = false;
+  }
 
   login(userName: string, password: string): any {
     this.username = userName;
@@ -33,12 +35,15 @@ export class AuthService {
     return this.http.post(this.rootURL + '/token', {}, { headers: reqHeader }).pipe(map((response: any) => {
       this.storage.set('login_user', this.username);
       this.storage.set('role_id', response.role_id);
+      this.loggedIn = true;
+
       return response;
     }))
       .catch(this.errorHandler);
   }
 
   logout() {
+    this.loggedIn = false;
     this.commonService.clearAllSession();
     this.router.navigateByUrl('/login');
   }

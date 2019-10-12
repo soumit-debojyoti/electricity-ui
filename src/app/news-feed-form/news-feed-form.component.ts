@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@ang
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 import { CommonService } from '../services/common.service/common.service';
 import { NewsFeed } from '../models/common.model';
-import {CustomValidator} from '../models/CustomValidator';
+import { CustomValidator } from '../models/CustomValidator';
 @Component({
   selector: 'app-news-feed-form',
   templateUrl: './news-feed-form.component.html',
@@ -102,8 +102,8 @@ export class NewsFeedFormComponent implements OnInit {
   updateNewsValidity(newsFeed: NewsFeed, controlValue: any, index: number): void {
     newsFeed.postValidity = controlValue;
     this.loadingScreenService.startLoading();
-    this.commonService.updateNews(newsFeed).subscribe( (response: boolean) => {
-      if ( response) {
+    this.commonService.updateNews(newsFeed).subscribe((response: boolean) => {
+      if (response) {
         this.loadingScreenService.stopLoading();
         this.fetchPost();
       }
@@ -130,7 +130,6 @@ export class NewsFeedFormComponent implements OnInit {
   // }
 
   // public setUpViewNewsFeedControls(): void {
-  //   debugger;
   //   this.newsFeeds.forEach( (item: any) => {
   //     const control = <FormArray>this.viewNewsForm.get('feeds');
   //     control.push(this.addFormGroup());

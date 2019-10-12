@@ -5,9 +5,7 @@ import * as MessageActions from '../actions/message.actions';
 // Section 1
 
 const initialState: Message = {
-    object: {
-        value: 'http://google.com'
-    }
+    object: Date.now()
 };
 
 const parentFunc = (channelName) => {
