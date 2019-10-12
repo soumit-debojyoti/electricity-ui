@@ -1,6 +1,6 @@
 <div class="w3-card w3-round w3-white animated flipInX">
   <div class="w3-container">
-    <h4 class="w3-center pointer">{{full_name}}</h4>
+    <h4 class="w3-center pointer profile-name">{{full_name}}</h4>
     <p class="w3-center pointer">
       <img *ngIf="sex=='Male'" [src]="photo" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
 
@@ -13,8 +13,9 @@
         [ngClass]="{'low_balance': balance <= 100, 'high_balance':balance > 100 }"><span>&#8377;</span><strong>{{balance}}</strong></span>
     </p>
     <div class="w3-card-footer">
-        <p><i class="fa fa-user fa-fw w3-margin-right w3-text-theme pointer"></i> <a class="text" [routerLink]="['/profile']" title="Profile">Profile</a></p>
-        
+      <p><i class="fa fa-user fa-fw w3-margin-right w3-text-theme pointer"></i> <a class="text"
+          [routerLink]="['/profile']" title="Profile">Profile</a></p>
+
     </div>
   </div>
 </div>
