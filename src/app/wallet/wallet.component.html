@@ -85,37 +85,55 @@
   <!-- End Wallet deduction Admin -->
   <!-- Add Wallet Balance-->
   <div class="container" *ngIf="isAddBalanceRequest">
-    <h2>
+    <!-- <h2>
       {{header}}
-    </h2>
-    <div class="row">
-      <div class="col-sm-12">
-        <span>How much amount you need?</span>
+    </h2> -->
+    <form [formGroup]="addWalletBalanceForm">
+      <h5 class="text">{{header}}</h5>
+      <div class="row">
+        <div class="col-sm-12">
+          <span class="text">How much amount you need?</span>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <input type="number" #amount min="0" title="Rs...." placeholder="Rs....">
+      <div class="row">
+        <div class="col-sm-12">
+          <input type="number" name="amount" formControlName="amount" min="0" title="Rs...." placeholder="Rs....">
+        </div>
       </div>
-
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <span>Comment</span>
+      <div class="row">
+        <div class="col-sm-12">
+          <span class="text">Comment</span>
+        </div>
       </div>
-
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <textarea rows="4" cols="136" #comment title="Comment...." placeholder="Comment...."></textarea><br>
+      <div class="row">
+        <div class="col-sm-12">
+          <textarea rows="4" cols="136" title="Comment...." placeholder="Comment...." name="comment" formControlName="comment"></textarea><br>
+        </div>
       </div>
-
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <input type="submit" class="btn btn-primary float-right" (click)="balanceRequest(amount,comment)">
+      <div class="row">
+          <div class="col-sm-6">
+            <span class="text">Bank account</span>
+            <select class="form-control text" id="user" name="bankAccount" formControlName="accountNumber">
+              <option [value]="-1">Select Account</option>
+              <ng-container *ngIf="companyBankAccounts && companyBankAccounts.length>0">
+                <option *ngFor="let ba of companyBankAccounts" [value]="ba.accountNumber">{{ba.accountNumber}}</option>
+              </ng-container>
+            </select>
+          </div>
+          <div class="col-sm-6">
+            <span class="text">Transaction ID</span>
+            <br/>
+            <input type="text" name="transactionID" formControlName="transactionID">
+          </div>
       </div>
-    </div>
+      <br/>
+      <div class="row">
+        <div class="col-sm-12">
+          <input type="submit" class="btn btn-primary float-left" (click)="balanceRequest()">
+          <!-- <input type="submit" class="btn btn-primary float-left"> -->
+        </div>
+      </div>
+    </form>
   </div>
   <!-- End Add Wallet Balance-->
   <!-- Wallet Balance request-->

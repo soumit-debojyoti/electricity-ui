@@ -8,9 +8,10 @@ import { AlertService } from '../services/common.service/alert.service';
 import { UserService } from '../services/user.service/user.service';
 import { WalletReportResponse, UserLog, WalletLog, DateLog } from '../models/wallet-balance-report.model';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
-import { WalletTransaction, RechargeTransaction, Complaint } from '../models/common.model';
+import { WalletTransaction, RechargeTransaction, Complaint, BankDetails, BankTransaction } from '../models/common.model';
 import { ProfileService } from '../widgets/profile/profile.service';
 import { DatePipe } from '@angular/common';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
@@ -58,11 +59,20 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public userComplaintComment: string;
   public userComplaintContactNumber: number;
   public ticketCreated: boolean;
+  public companyBankAccounts: Array<BankDetails>;
+  public selectedBankAccount: BankDetails;
+  public bankTransaction: BankTransaction;
+  addWalletBalanceForm = new FormGroup({
+    transactionID : new FormControl('', Validators.required),
+    amount: new FormControl('', Validators.required),
+    comment: new FormControl('', Validators.required),
+    accountNumber: new FormControl('', Validators.required)
+  });
   constructor(private datePipe: DatePipe, private common: CommonService, private userService: UserService,
     private route: ActivatedRoute, private router: Router,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService,
     private loadingScreenService: LoadingScreenService, private profileService: ProfileService) { }
-
+    get f() { return this.addWalletBalanceForm.controls; }
   ngOnInit() {
     this.endDate = new Date();
     this.ticketCreated = false;
@@ -84,14 +94,14 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.selectedUser = {};
     this.selectedTransactionRowdata = new RechargeTransaction();
     this.selectedUserID = this.userId;
+    this.bankTransaction = new BankTransaction();
     this.ticketPriorityList = [{ priority: 3 , text: 'High'},
     { priority: 2 , text: 'Medium'},
     { priority: 1 , text: 'Low'}];
-    debugger;
+    this.companyBankAccounts = [];
     /** fetching all user list for admin deduct balance*/
     this.userService.getAllUsers().subscribe((response: Array<UserLog>) => {
       this.users = response;
-      console.log('All users called', this.users);
     });
     this.loadingScreenService.startLoading();
     this.route.paramMap.subscribe(params => {
@@ -109,6 +119,9 @@ export class WalletComponent implements OnInit, AfterViewInit {
         this.initializeOption();
         this.isAddBalanceRequest = true;
         this.header = 'Wallet Add!';
+        this.common.fetchBankDetails().subscribe( (response: Array<BankDetails>) => {
+          this.companyBankAccounts = response;
+        });
       }
       if (this.walletType === 'deduct') {
         this.initializeOption();
@@ -131,7 +144,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
         if (role === 'super admin') {
           this.isSuperAdmin = true;
           this.getWalletBalanceReport(this.userId, 'all', 'all');
-        } 
+        }
         this.fetchAllTransaction();
       }
       if (this.walletType === 'rechargetransactionreport') {
@@ -219,17 +232,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // public fetchTransaction(): void {
-  //   debugger;
-  //   console.log(this.startDate);
-  //   console.log(this.endDate);
-  //   console.log(this.userId);
-  //   if (this.isSuperAdmin) {
-  //     this.fetchAllRechargeTransaction();
-  //   } else {
-  //     this.fetchUserRechargeTransaction(this.selectedUser);
-  //   }
-  // }
 
 
   public fetchUserTransaction(): void {
@@ -344,8 +346,15 @@ export class WalletComponent implements OnInit, AfterViewInit {
     );
   }
   // #region Balance request
-  public balanceRequest(amount: any, comment: any): void {
-    this.requestBalance(this.userId, amount.value, comment.value);
+  public balanceRequest(): void {
+    if ( !this.addWalletBalanceForm.valid) {
+      alert('The form is invalid!');
+      this.addWalletBalanceForm.reset();
+      return;
+    }
+    this.bankTransaction.accountNumber = this.f.accountNumber.value;
+    this.bankTransaction.transactionID = this.f.transactionID.value;
+    this.requestBalance(this.userId, this.f.amount.value, this.f.comment.value);
   }
 
   private requestBalance(userId: number, amount: number, comment: string): void {
@@ -369,7 +378,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
               The justification for the widthdrawal is as '${comment}'`;
 
               }
-              this.addWalletTransaction(response.amount_requested, userId, message, 'debit', 'Add balance');
+              this.addWalletTransaction(response.amount_requested, userId, message, 'credit', 'Add balance');
               this.alertService.confirmationMessage('', message, 'success', true, false);
             } else {
               this.alertService.confirmationMessage('', response.message, 'error', true, false);
@@ -412,6 +421,18 @@ export class WalletComponent implements OnInit, AfterViewInit {
             this.alertService.confirmationMessage('',
               `${requestType} request has been successfully placed. Please wait for the super admin to confirm the same.`,
               'success', true, false);
+              this.common.fetchRecentTransactionID().subscribe( (response: number) => {
+                this.bankTransaction.received = false;
+                this.bankTransaction.verified = false;
+                this.bankTransaction.userID = userId;
+                this.bankTransaction.amount = amount;
+                this.bankTransaction.walletTransactionID = response;
+                this.common.addBankTransaction(this.bankTransaction).subscribe((responseT: boolean) => {
+                  console.log('bank transaction status: ', responseT);
+                }, (err) => {
+                  console.log('bank transaction - error occured', err);
+                });
+              });
             this.router.navigate(['/dashboard']);
           }
         }
@@ -500,7 +521,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   editTransactionRowData(rowData: any): void {
-    var t = this.selectedUser;
     this.name = this.selectedUser.first_name + ' ' + this.selectedUser.last_name;
     this.selectedTransactionRowdata = rowData;
     this.selectedTransactionRowdata.transactionDateText =
@@ -509,6 +529,5 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
   changePriority(priority: any): void {
     this.ticketPriorityText = priority;
-
   }
 }

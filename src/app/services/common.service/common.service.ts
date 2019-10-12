@@ -11,8 +11,8 @@ import { BaseService } from '../base.service';
 import { environment } from '../../../environments/environment';
 import { ApiUrlService } from '../api.url.service';
 import { ConfigurationModel } from '../../models/configuration.model';
-import { WithdrawalWallet } from 'src/app/models/admin-approval-notification-response.model';
-import { RechargeAPI, NewsFeed, IntroducerBonus, BankDetails, RechargeTransaction, Complaint } from 'src/app/models/common.model';
+import { RechargeAPI, NewsFeed, IntroducerBonus, BankDetails,
+  RechargeTransaction, Complaint, BankTransaction } from 'src/app/models/common.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +21,13 @@ export class CommonService {
   AccessToken: string;
   private rootURL = environment.apiUrl + 'auth';
   private username: string;
-  private corsByPass: string = 'https://cors-anywhere.herokuapp.com/';
-  private complaintStatus: [{ 'value': 'Acknowledged', 'key': 1},
-  { 'value': 'Assigned', 'key': 2},
-  { 'value': 'Work In Progress', 'key': 3},
-  { 'value': 'Resolved', 'key': 4},
-];
+  private corsByPass = 'https://cors-anywhere.herokuapp.com/';
+  private complaintStatus: [
+    { 'value': 'Acknowledged', 'key': 1},
+    { 'value': 'Assigned', 'key': 2},
+    { 'value': 'Work In Progress', 'key': 3},
+    { 'value': 'Resolved', 'key': 4},
+  ];
   constructor(private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private http: HttpClient, private baseService: BaseService,
     private apiUrlService: ApiUrlService) { }
@@ -401,5 +402,14 @@ export class CommonService {
   public updateUserComplaint(complaint: Complaint): Observable<boolean> {
     const mainURL = this.apiUrlService.getFullURL('COMPLAINT_UPDATE');
     return this.baseService.put(mainURL, complaint, true);
+  }
+
+  public fetchRecentTransactionID(): Observable<number> {
+    const mainURL = this.apiUrlService.getFullURL('RECENT_TRANSACTION');
+    return this.baseService.get(mainURL, {}, true);
+  }
+  public addBankTransaction(ba: BankTransaction): Observable<boolean> {
+    const mainURL = this.apiUrlService.getFullURL('BANK_TRANSACTION');
+    return this.baseService.post(mainURL, ba, true);
   }
 }

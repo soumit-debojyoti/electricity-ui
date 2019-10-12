@@ -1,6 +1,15 @@
 <div class="w3-container">
   <p class="mt-1">Generate Token</p>
   <img src="assets/images/join.png" alt="Avatar" style="width:50%"><br>
+  <div class="w3-row w3-opacity" *ngIf='privilageAccess'>
+    <span>Users</span>
+    <select class="form-control" #user (change) = 'changeUser(user.value)'>
+      <option [value]="-1">Select User</option>
+      <ng-container *ngIf="users && users.length>0">
+        <option *ngFor="let user of users" [value]="user.user_name">{{user.user_name}}</option>
+      </ng-container>
+    </select>
+  </div>
   <div class="w3-row w3-opacity">
     <div class="w3-full">
       <button (click)="generateToken()" class="w3-button w3-block w3-red w3-section" title="Generate"><i

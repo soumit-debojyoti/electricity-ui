@@ -85,3 +85,14 @@ export class Complaint {
     raisedByText: string;
     transaction: RechargeTransaction;
 }
+
+export class BankTransaction {
+    bankTransactionID: number;
+    accountNumber: string;
+    transactionID: string;
+    userID: number;
+    amount: number;
+    verified: boolean;
+    received: boolean;
+    walletTransactionID: number;
+}
