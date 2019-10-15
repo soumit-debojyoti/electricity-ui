@@ -13,11 +13,12 @@
 <div class="container bg-success" *ngIf="apiUpdatedSuccessfully" style="color: green"> API Updated Successfully</div>
 <!-- Section API Add-->
 <div class="card" *ngIf='add'>
+    <form #fA="ngForm">
   <div class="card-header">Add API</div>
     <div class="card-body">
       <div>Recharge Type</div>
       <!-- <select class="form-control" id="user" #rechargeType [(ngModel)]="rechargeType" (change)="changeRechargeType($event, rechargeType.value)"> -->
-          <select class="form-control" id="rechargeType" [(ngModel)]="rechargeType" (change)="changeRechargeType()">
+          <select name='rechargeTypeA' class="form-control" id="rechargeType" [(ngModel)]="rechargeType" (change)="changeRechargeType()" #rechargeTypeA="ngModel" required>
             <option [value]="-1">Select Recharge Option</option>
               <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
               <option *ngFor="let rechargeOption of rechargeTypes" [value]="rechargeOption">{{rechargeOption}}</option>
@@ -27,17 +28,17 @@
     <div>
         <div class="card-body">
             <div>Operator Name</div>
-            <input type="text" [(ngModel)] = 'operatorName'/>
+            <input name='operatorNameA' type="text" [(ngModel)] = 'operatorName' #operatorNameA required/>
             <span style="color:red">*</span>
           </div>
           <div class="card-body">
             <div>API</div>
-            <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'apiValue'/>
+            <input name='apiValueA' type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'apiValue' #apiValueA required/>
             <span style="color:red">*</span>
           </div>
           <div class="card-body">
             <div>Validation Required</div>
-            <select class="form-control" id="rechargeType" [(ngModel)] ='confirmation' (change)="changeConfirmation()">
+            <select name='validationRequiredA' class="form-control" id="rechargeType" [(ngModel)] ='confirmation' (change)="changeConfirmation()" #validationRequiredA required>
               <!-- <option [value]="-1">Select Recharge Option</option> -->
                 <ng-container *ngIf="confirmationTypes && confirmationTypes.length>0">
                 <option *ngFor="let confirmation of confirmationTypes" [value]="confirmation">{{confirmation}}</option>
@@ -46,15 +47,16 @@
           </div>          
           <div class="card-body" *ngIf='validationRequired'>
             <div>API Validation</div>
-            <input type="text" class="card-body" [(ngModel)] = 'validationApiValue'/>
+            <input name="validationApiValueA" type="text" class="card-body" [(ngModel)] = 'validationApiValue' #validationApiValueA required/>
             <span style="color:red">*</span><br/>
           </div>
           <div class="card-body" style="padding-top: 10px">
-              <button (click) = 'AddAPI()' class="btn btn-primary float-left">Add API</button>
+              <button (click) = 'AddAPI()' class="btn btn-primary float-left" [disabled]='!fA.form.valid'>Add API</button>
           </div>
     </div>
-    
+  </form>
   </div>
+
 <!-- Section API Update-->
 <div class="card" *ngIf='update'>
   <div class="card-header">

@@ -68,6 +68,9 @@ export class ApiUrlService extends BaseURLService {
       COMPLAINT_UPDATE: `RechargeAPI/api/transaction/complaint`,
       RECENT_TRANSACTION: `common/recent/transaction`,
       BANK_TRANSACTION: `common/bank/transaction`,
+      RECHARGE_SERVICE: `RechargeAPI/api/recharge/{rechargetype}`,
+      VALIDATE_UTILITY_SERVICE:
+      `RechargeAPI/api/recharge/validate/{rechargetype}/operator/{operatorName}/consumer/{consumer_number}/mobile/{customer_mobile}`
     };
   }
 

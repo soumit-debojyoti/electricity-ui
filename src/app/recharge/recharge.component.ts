@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { CommonService } from '../services/common.service/common.service';
 import { AlertService } from '../services/common.service/alert.service';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
-import { RechargeAPI } from '../models/common.model';
+import { RechargeAPI, PrepaidRecharge, UtilityRecharge } from '../models/common.model';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { UserService } from '../services/user.service/user.service';
 @Component({
@@ -26,12 +26,15 @@ export class RechargeComponent implements OnInit {
   public billDue: boolean = true;
   public utilityTransactionValidated: boolean = false;
   public utilityTransactionErrorMessage: string;
+  public rechargeObject: any;
   constructor(private common: CommonService, private alertService: AlertService,
     private loadingScreenService: LoadingScreenService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private userService: UserService) { }
 
   ngOnInit() {
     this.rechargeTypes = ['PREPAID', 'DTH', 'POSTPAID', 'ELECTRICITY', 'GAS', 'WATER'];
+    this.rechargeMode = 'PREPAID';
+    this.changeRechargeType();
   }
   changeRechargeType(): void {
     this.fetchRechargeAPIInfo(this.rechargeMode);
@@ -50,7 +53,6 @@ export class RechargeComponent implements OnInit {
   }
 
   recharge(): void {
-    const rechargeAPI = this.apiInfoList.find(x => x.operatorName === this.operatorName);
     let transactionMessage = '';
     // rechargeAPI.apiValue = rechargeAPI.apiValue.toLowerCase();
     const userID = this.storage.get('user_id');
@@ -59,26 +61,35 @@ export class RechargeComponent implements OnInit {
       (response: number) => {
         switch (this.rechargeMode) {
           case 'PREPAID':
-            rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#Mobile#', this.mobileNumber.toString());
-            rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#Amount#', this.rechargeAmount.toString());
-            rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#Order#', response.toString());
-            console.log(rechargeAPI.apiValue);
+            this.rechargeObject = new PrepaidRecharge();
+            this.rechargeObject.mobileNumber = this.mobileNumber.toString();
+            this.rechargeObject.amount = this.rechargeAmount.toString();
+            this.rechargeObject.orderNumber = response.toString();
+            this.rechargeObject.operatorName = this.operatorName;
             transactionMessage = `PREPAID TRANSACTION - ${this.mobileNumber}`;
             break;
           case 'WATER':
           case 'GAS':
           case 'ELECTRICITY':
-            rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#consumer_number#', this.consumerNumber.toString());
-            rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#amount#', this.rechargeAmount.toString());
-            rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#order#', response.toString());
-            rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#customer_mobile#', this.customerMobile.toString());
-            rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#customer_name#', this.customerName.toString());
-            rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#reference_id#', this.validationReferenceID.toString());
+            // rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#consumer_number#', this.consumerNumber.toString());
+            // rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#amount#', this.rechargeAmount.toString());
+            // rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#order#', response.toString());
+            // rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#customer_mobile#', this.customerMobile.toString());
+            // rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#customer_name#', this.customerName.toString());
+            // rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#reference_id#', this.validationReferenceID.toString());
             transactionMessage = `UTILITY TRANSACTION - ${this.consumerNumber}`;
+            this.rechargeObject = new UtilityRecharge();
+            this.rechargeObject.consumerNumber = this.consumerNumber.toString();
+            this.rechargeObject.amount = this.rechargeAmount.toString();
+            this.rechargeObject.orderNumber = response.toString();
+            this.rechargeObject.customerMobileNumber = this.customerMobile.toString();
+            this.rechargeObject.customerName = this.customerName.toString();
+            this.rechargeObject.validationReferenceID = this.validationReferenceID.toString();
+            this.rechargeObject.operatorName = this.operatorName;
             break;
         }
 
-        this.common.recharge(rechargeAPI.apiValue).subscribe((innerResponse: any) => {
+        this.common.rechargeService(this.rechargeMode, this.rechargeObject).subscribe((innerResponse: any) => {
           if (innerResponse.status === 'FAILED') {
             this.joloTransactionStatus = 'FAILURE';
           }
@@ -122,10 +133,9 @@ export class RechargeComponent implements OnInit {
 
   validateTransaction(): void {
     this.loadingScreenService.startLoading();
-    this.common.fetchValidationAPIDetails(this.rechargeMode, this.operatorName).subscribe(
-      (response: RechargeAPI) => {
-        console.log('inside validate transaction', response);
-        this.common.recharge(this.createValidateAPIUrlUtility(response.apiValue)).subscribe((innerResponse: any) => {
+    debugger;
+        this.common.validateUtilityService(this.rechargeMode,
+          this.operatorName, this.consumerNumber.toString(), this.customerMobile).subscribe((innerResponse: any) => {
           console.log('after validation', innerResponse);
           this.utilityTransactionValidated = true;
           if (innerResponse.status === 'SUCCESS') {
@@ -139,14 +149,9 @@ export class RechargeComponent implements OnInit {
           }
           this.loadingScreenService.stopLoading();
         }, (err) => {
-          console.log(err);
+          console.log('error occured inside validate utility recharge api', err);
           this.loadingScreenService.stopLoading();
         });
-      }, (err) => {
-        console.log(err);
-        this.loadingScreenService.stopLoading();
-      }
-    );
   }
 
   createValidateAPIUrlUtility(apiValue: string): string {
@@ -156,6 +161,11 @@ export class RechargeComponent implements OnInit {
     returnApiValue = returnApiValue.replace('#order#', '001');
     returnApiValue = returnApiValue.replace('#customer_name#', 'xx');
     return returnApiValue;
+  }
+
+  changeView(mode: string): void {
+    this.rechargeMode = mode;
+    this.changeRechargeType();
   }
 
 }

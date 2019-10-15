@@ -96,3 +96,19 @@ export class BankTransaction {
     received: boolean;
     walletTransactionID: number;
 }
+
+export class PrepaidRecharge {
+    mobileNumber: string;
+    amount: string;
+    orderNumber: string;
+    operatorName: string;
+}
+export class UtilityRecharge {
+    consumerNumber: string;
+    amount: string;
+    orderNumber: string;
+    customerMobileNumber: string;
+    customerName: string;
+    validationReferenceID: string;
+    operatorName: string;
+}

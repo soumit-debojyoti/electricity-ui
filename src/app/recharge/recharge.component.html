@@ -1,19 +1,50 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">    
+  <a class="navbar-brand fa fa-home" style="font-size:48px" [routerLink]="['/dashboard']"></a>
+  <button class="navbar-toggler fa fa-home" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'nav-item active': rechargeMode === 'PREPAID'}" (click) = 'changeView("PREPAID")'>Prepaid</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'nav-item active': rechargeMode === 'ELECTRICITY'}" (click) = 'changeView("ELECTRICITY")'>Electricity</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'nav-item active': rechargeMode === 'DTH'}" (click) = 'changeView("DTH")'>DTH</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'nav-item active': rechargeMode === 'GAS'}" (click) = 'changeView("GAS")'>Gas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'nav-item active': rechargeMode === 'WATER'}" (click) = 'changeView("WATER")'>Water</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'nav-item active': rechargeMode === 'POSTPAID'}" (click) = 'changeView("POSTPAID")'>POST PAID</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+
 <p *ngIf='insufficientBalance' style="color: red">You have insufficient balance</p>
 <p *ngIf="joloTransactionStatus === 'SUCCESS'" style="color: green">Your transaction is successful</p>
 <p *ngIf="joloTransactionStatus === 'FAILURE'" style="color: red">Your transaction is not successful, please contact administrator for further enquiry.</p>
 <p *ngIf='!billDue && utilityTransactionValidated' style="color: red">{{utilityTransactionErrorMessage}}.</p>
 
 <div class="row">
-    <div class="col-xs-10 col-10 col-md-8">
+    <!-- <div class="col-xs-10 col-10 col-md-8">
         <span>Recharge Type</span>
-        <!-- <select class="form-control" id="user" #rechargeType [(ngModel)]="rechargeType" (change)="changeRechargeType($event, rechargeType.value)"> -->
+        
             <select class="form-control" [(ngModel)]="rechargeMode" (change)="changeRechargeType()">
           <option [value]="-1">Select Recharge Option</option>
           <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
             <option *ngFor="let rechargeOption of rechargeTypes" [value]="rechargeOption">{{rechargeOption}}</option>
           </ng-container>
         </select>
-    </div>
+    </div> -->
     <div *ngIf="rechargeMode === 'PREPAID' || rechargeMode === 'DTH'">
         <div class="col-xs-10 col-10 col-md-8">
             <div>Operator Name</div>

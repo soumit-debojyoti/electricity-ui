@@ -260,6 +260,15 @@ export class CommonService {
     return this.http.post(this.corsByPass + rechargeURL, {});
   }
 
+  public rechargeService(rechargeType: string, rechargeObject: any): Observable<any> {
+    const urlStringObject = {
+      rechargetype: rechargeType
+    };
+    debugger;
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_SERVICE', urlStringObject);
+    return this.baseService.post(mainURL, rechargeObject, true);
+  }
+
   public updateTransaction(orderID: string, transactionStatus: string, errorMessage: string) {
     const urlStringObject = {
       orderID: orderID,
@@ -413,5 +422,17 @@ export class CommonService {
   public addBankTransaction(ba: BankTransaction): Observable<boolean> {
     const mainURL = this.apiUrlService.getFullURL('BANK_TRANSACTION');
     return this.baseService.post(mainURL, ba, true);
+  }
+
+  public validateUtilityService(rechargeType: string, operatorName: string,
+    consumer_number: string, customer_mobile: string): Observable<any> {
+    const urlStringObject = {
+      rechargetype: rechargeType,
+      operatorName: operatorName,
+      consumer_number: consumer_number,
+      customer_mobile: customer_mobile
+    };
+    const mainURL = this.apiUrlService.getFullURL('VALIDATE_UTILITY_SERVICE', urlStringObject);
+    return this.baseService.post(mainURL, {}, true);
   }
 }
