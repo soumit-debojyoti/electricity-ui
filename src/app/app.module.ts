@@ -48,7 +48,7 @@ import { StoreService } from './store/store.service';
     NbLayoutModule,
     NbButtonModule,
     SharedModule,
-    StoreModule.forRoot({ count: createReducer})
+    StoreModule.forRoot({ count: createReducer })
     // StoreModule.forRoot({ count: _counterReducer })
   ],
   providers: [AuthGuard, StoreService
