@@ -26,6 +26,7 @@ import { AutoLogoutService } from './services/auto-logout-service';
 import { StoreModule } from '@ngrx/store';
 import { createReducer } from './store/reducers/message.reducer';
 import { StoreService } from './store/store.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +48,8 @@ import { StoreService } from './store/store.service';
     NbLayoutModule,
     NbButtonModule,
     SharedModule,
-    StoreModule.forRoot(createReducer())
+    StoreModule.forRoot({ count: createReducer})
+    // StoreModule.forRoot({ count: _counterReducer })
   ],
   providers: [AuthGuard, StoreService
     , {
@@ -57,12 +59,5 @@ import { StoreService } from './store/store.service';
     }, { provide: LocationStrategy, useClass: HashLocationStrategy }, DataService, AutoLogoutService],
   bootstrap: [AppComponent]
 })
-
-
-
-
-
 export class AppModule {
-
-
 }
