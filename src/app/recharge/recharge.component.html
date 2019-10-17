@@ -35,122 +35,96 @@
 <p *ngIf='!billDue && utilityTransactionValidated' style="color: red">{{utilityTransactionErrorMessage}}.</p>
 
 <div class="row">
-    <!-- <div class="col-xs-10 col-10 col-md-8">
-        <span>Recharge Type</span>
-        
-            <select class="form-control" [(ngModel)]="rechargeMode" (change)="changeRechargeType()">
-          <option [value]="-1">Select Recharge Option</option>
-          <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
-            <option *ngFor="let rechargeOption of rechargeTypes" [value]="rechargeOption">{{rechargeOption}}</option>
-          </ng-container>
-        </select>
-    </div> -->
+  <div class="col-8">
     <div *ngIf="rechargeMode === 'PREPAID' || rechargeMode === 'DTH'">
-        <div class="col-xs-10 col-10 col-md-8">
-            <div>Operator Name</div>
-            <select class="form-control" id="rechargeType" [(ngModel)]="operatorName">
-                <!-- <option [value]="-1">Select Recharge Option</option> -->
-                <ng-container>
-                  <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}</option>
-                </ng-container>
-            </select>
+      <form [formGroup]="prepaidRechargeForm" class="col-12 border border-left-0">
+        <div class="row">
+          <div class="col-10">
+              <span>Operator Name</span>
+              <select class="form-control" id="rechargeType" formControlName="operatorName">
+                  <!-- <option [value]="-1">Select Recharge Option</option> -->
+                  <ng-container>
+                    <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}</option>
+                  </ng-container>
+              </select>
+              <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.operatorName.errors" style="color: red">need attention</span>
           </div>
-          <div class="col-xs-10 col-10 col-md-8">
-            <div>Mobile Number</div>
-            <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'mobileNumber'/>
+        </div>
+        <div class="row">
+          <div class="col-10">
+              <span>Mobile Number</span>
+              <input type="number" class="form-control" formControlName="mobileNumber"/>
+              <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.mobileNumber.errors" style="color: red">need attention</span>
           </div>
-          <div class="col-xs-10 col-10 col-md-8">
-            <div>Recharge Amount</div>
-            <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'rechargeAmount'/>
+        </div>
+        <div class="row">
+          <div class="col-10">
+            <span>Recharge Amount</span>
+            <input type="number" class="form-control" formControlName="rechargeAmount" (change)= 'validateAmount()'/>
+            <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.rechargeAmount.errors" style="color: red">need attention</span>
           </div>
-          <!-- <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
-              <button (click) = 'recharge()'>Recharge</button>
-          </div> -->
-          <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
+        </div>
+        <div class="row">
+          <div class="col-10" style="padding-top: 10px">
             <button (click) = 'checkAndDeductBalance()' class="btn btn-primary float-left">Recharge</button>
           </div>
+        </div>
+        </form> 
     </div>
-
-    <div *ngIf="rechargeMode === 'POSTPAID'">
-      <div class="col-xs-10 col-10 col-md-8">
-          <div>Operator Name</div>
-          <select class="form-control" id="rechargeType" [(ngModel)]="operatorName">
-              <!-- <option [value]="-1">Select Recharge Option</option> -->
-              <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
-                <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}</option>
-              </ng-container>
-          </select>
-        </div>
-        <div class="col-xs-10 col-10 col-md-8">
-          <div>Mobile Number</div>
-          <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'mobileNumber'/>
-        </div>
-        <div class="col-xs-10 col-10 col-md-8">
-          <div>Recharge Amount</div>
-          <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'rechargeAmount'/>
-        </div>
-        <div class="col-xs-10 col-10 col-md-8">
-          <div>Customer Mobile</div>
-          <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'customerMobile'/>
-        </div>
-        <div class="col-xs-10 col-10 col-md-8">
-          <div>Customer Name</div>
-          <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'customerName'/>
-        </div>
-        <!-- <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
-            <button (click) = 'recharge()'>Recharge</button>
-        </div> -->
-        <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
-          <button (click) = 'checkAndDeductBalance()' class="btn btn-primary float-left">Recharge</button>
-        </div>
   </div>
-  <div *ngIf="rechargeMode === 'ELECTRICITY' || rechargeMode === 'GAS' || rechargeMode === 'WATER'">
-    <div class="col-xs-10 col-10 col-md-8">
-        <div>Operator Name</div>
-        <select class="form-control" id="rechargeType" [(ngModel)]="operatorName">
-            <!-- <option [value]="-1">Select Recharge Option</option> -->
-            <ng-container>
-              <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}</option>
-            </ng-container>
-        </select>
+    <!-- Add Rest Part moved in note pad -->
+    <div class="col-8">
+      <div *ngIf="rechargeMode === 'ELECTRICITY' || rechargeMode === 'GAS' || rechargeMode === 'WATER'">
+        <form [formGroup]="utilityRechargeForm" class="col-12 border border-dark border-left-0">
+          <div class="col-10">
+              <span>Operator Name</span>
+              <select class="form-control" id="rechargeType" formControlName="operatorName">
+                  <ng-container>
+                    <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}</option>
+                  </ng-container>
+              </select>
+              <span class="error" *ngIf="formSubmitted && utilityRechargeForm.operatorName.errors" style="color: red">need attention</span>
+            </div>
+            <!--Electricity-->
+            <div class="col-10" *ngIf="rechargeMode === 'ELECTRICITY'">
+              <span>Consumer Number</span> <!--Service-->
+              <input type="number" class="form-control" formControlName="consumerNumber"/>
+            </div>
+            <div class="col-10" *ngIf="rechargeMode === 'GAS'">
+              <span>Consumer Number</span> <!--Service-->
+              <input type="text" class="form-control" formControlName="consumerNumber" maxlength="15" minlength="10"/>
+            </div>
+            <div class="col-10" *ngIf="rechargeMode === 'WATER'">
+              <span>Consumer Number</span> <!--Service-->
+              <input type="text" class="form-control" formControlName="consumerNumber" />
+            </div>
+            <span class="error" *ngIf="formSubmitted && utilityRechargeForm.consumerNumber.errors" style="color: red">need attention</span>
+            <div class="col-10">
+              <span>Customer Number</span>
+              <input type="number" class="form-control" formControlName="mobileNumber"/>
+              <span class="error" *ngIf="formSubmitted && utilityRechargeForm.mobileNumber.errors" style="color: red">need attention</span>
+            </div>
+            <div class="col-10" style="padding-top: 10px" *ngIf="fUtilityRecharge.operatorName.status === 'VALID' && fUtilityRecharge.mobileNumber.status === 'VALID' && fUtilityRecharge.consumerNumber.status === 'VALID' && !utilityTransactionValidated">
+              <button class="btn btn-primary" (click) = 'validateTransaction()'>Validate</button>
+            </div>
+            <div *ngIf='billDue && utilityTransactionValidated'>
+              <div class="col-10">
+                <div>Bill Amount</div>
+                <input type="number" class="form-control" formControlName="rechargeAmount" disabled/>
+              </div>
+              <div class="col-10">
+                <div>Customer Name</div>
+                <input type="text" class="form-control" formControlName="customerName" disabled/>
+              </div>
+            </div>
+            <div class="col-10" style="padding-top: 10px" *ngIf = 'billDue && utilityTransactionValidated'>
+              <button (click) = 'checkAndDeductBalance()' class="btn btn-primary float-left">Recharge</button>
+            </div>
+            
+            <!-- <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
+                <button (click) = 'recharge()'>Recharge</button>
+            </div> -->
+          </form>
       </div>
-      <!--Electricity-->
-      <div class="col-xs-10 col-10 col-md-8" *ngIf="rechargeMode === 'ELECTRICITY'">
-        <div>Consumer Number</div> <!--Service-->
-        <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'consumerNumber'/>
-      </div>
-      <div class="col-xs-10 col-10 col-md-8" *ngIf="rechargeMode === 'GAS'">
-        <div>Consumer Number</div> <!--Service-->
-        <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'consumerNumber' maxlength="15" minlength="10"/>
-      </div>
-      <div class="col-xs-10 col-10 col-md-8" *ngIf="rechargeMode === 'WATER'">
-        <div>Consumer Number</div> <!--Service-->
-        <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'consumerNumber' />
-      </div>
-      <div class="col-xs-10 col-10 col-md-8">
-        <div>Customer Number</div>
-        <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'customerMobile'/>
-      </div>
-      <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px" *ngIf="customerMobile !== '' && consumerNumber !=='' && !utilityTransactionValidated">
-        <button class="btn btn-primary" (click) = 'validateTransaction()'>Validate</button>
-      </div>
-      <div *ngIf='billDue && utilityTransactionValidated'>
-        <div class="col-xs-10 col-10 col-md-8">
-          <div>Bill Amount</div>
-          <input type="number" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'rechargeAmount' disabled/>
-        </div>
-        <div class="col-xs-10 col-10 col-md-8">
-          <div>Customer Name</div>
-          <input type="text" class="col-xs-10 col-10 col-md-8" [(ngModel)] = 'customerName' disabled/>
-        </div>
-      </div>
-      <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px" *ngIf = 'billDue && utilityTransactionValidated'>
-        <button (click) = 'checkAndDeductBalance()' class="btn btn-primary float-left">Recharge</button>
-      </div>
-      
-      <!-- <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
-          <button (click) = 'recharge()'>Recharge</button>
-      </div> -->
-</div>
-  
+    </div>
 </div>

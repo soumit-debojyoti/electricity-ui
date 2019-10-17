@@ -307,7 +307,7 @@
   </div>
   <!-- End Wallet Balance request-->
   <!-- Recharge Transaction Report-->
-  <div class="container" *ngIf="isRechargetransactionReport">
+  <div class="container" [hidden]="!isRechargetransactionReport">
     <h2>
       {{header}}
     </h2>
@@ -358,43 +358,62 @@
         </div>
       </div>
     </div>
-    <div class="card-body">
-      <table class="table table-hover table-striped">
-        <thead>
-          <tr class="grid-header">
-            <th>Transaction ID</th>
-            <th>User ID</th>
-            <th>Transaction Date</th>
-            <th>Transaction Type</th>
-            <th>Transaction Amount</th>
-            <th>Transaction Status</th>
-            <th *ngIf='isSuperAdmin'>Transaction Message</th>
-            <th>Complain</th>
-          </tr>
-        </thead>
-        <tbody *ngIf="transactions && transactions.length>0">
-          <tr *ngFor="let transaction of transactions">
-            <td>{{transaction.transactionID}}</td>
-            <td>{{transaction.userID}}</td>
-            <td>{{transaction.transactionDate | date: 'dd-MM-yyyy'}}</td>
-            <td>{{transaction.transactionMode}}</td>
-            <td><span>&#8377;</span>{{transaction.transactionAmount}}</td>
-            <td>{{transaction.transactionStatus}}</td>
-            <td *ngIf='isSuperAdmin'>{{transaction.transactionMessage}}</td>
-            <td><button class="btn btn-primary" type="submit" (click)='editTransactionRowData(transaction)'
-                data-toggle="modal" data-target='#complainModal'>Complain</button> </td>
-          </tr>
-        </tbody>
-        <!-- <ng-container *ngIf="transactions && transactions.length==0"> -->
-        <tbody *ngIf="transactions && transactions.length==0">
-          <tr>
-            <td class="col" colspan="8">
-              <span>No records to display.</span>
-            </td>
-          </tr>
-        </tbody>
-        <!-- </ng-container> -->
-      </table>
+    <div class="card">
+      <div class="card-header">Recharge Transaction</div>
+      <mat-table class="card-body" [dataSource]="dataSourceForRechargeTransaction" matSort>
+          <!-- Transaction ID Column -->
+          <ng-container matColumnDef="transactionID" style="width: 5%">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.transactionID}} </mat-cell>
+          </ng-container>
+      
+          <!-- User ID Column -->
+          <!-- <ng-container matColumnDef="userID">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> User ID </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.userID}} </mat-cell>
+          </ng-container> -->
+      
+          <!-- Transaction Date Column -->
+          <ng-container matColumnDef="transactionDate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Date </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.transactionDate | date: 'dd-MM-yyyy'}} </mat-cell>
+          </ng-container>
+      
+          <!-- Transaction Type Column -->
+          <ng-container matColumnDef="transactionMode">
+            <mat-header-cell *matHeaderCellDef> Transaction Type </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.transactionMode}} </mat-cell>
+          </ng-container>
+
+          <!-- Transaction Type Column -->
+          <ng-container matColumnDef="transactionAmount">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Amount </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.transactionAmount}} </mat-cell>
+          </ng-container>
+
+          <!-- Transaction Type Column -->
+          <ng-container matColumnDef="transactionStatus">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Status </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.transactionStatus}} </mat-cell>
+          </ng-container>
+
+          <!-- Transaction Type Column -->
+          <ng-container matColumnDef="transactionMessage" *ngIf='isSuperAdmin'>
+              <mat-header-cell *matHeaderCellDef > Transaction Message </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.transactionMessage}} </mat-cell>
+          </ng-container>
+      
+          <!-- Transaction Type Column -->
+          <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
+              <mat-cell *matCellDef="let row"> <button class="btn btn-primary" type="submit" (click)='editTransactionRowData(row)'
+                data-toggle="modal" data-target='#complainModal'>Complain</button> </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="rechargeTransactionDisplayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: rechargeTransactionDisplayedColumns;">
+          </mat-row>
+        </mat-table>      
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
     </div>
 
 

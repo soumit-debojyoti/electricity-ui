@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { CommonService } from '../services/common.service/common.service';
@@ -12,12 +12,13 @@ import { WalletTransaction, RechargeTransaction, Complaint, BankDetails, BankTra
 import { ProfileService } from '../widgets/profile/profile.service';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
   styleUrls: ['./wallet.component.css']
 })
-export class WalletComponent implements OnInit, AfterViewInit {
+export class WalletComponent implements OnInit {
   public descendants: boolean;
   public first: boolean;
   public read: any;
@@ -62,12 +63,16 @@ export class WalletComponent implements OnInit, AfterViewInit {
   public companyBankAccounts: Array<BankDetails>;
   public selectedBankAccount: BankDetails;
   public bankTransaction: BankTransaction;
+  public rechargeTransactionDisplayedColumns = [];
   addWalletBalanceForm = new FormGroup({
     transactionID : new FormControl('', Validators.required),
     amount: new FormControl('', Validators.required),
     comment: new FormControl('', Validators.required),
     accountNumber: new FormControl('', Validators.required)
   });
+  dataSourceForRechargeTransaction: MatTableDataSource<RechargeTransaction>;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
   constructor(private datePipe: DatePipe, private common: CommonService, private userService: UserService,
     private route: ActivatedRoute, private router: Router,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService,
@@ -148,6 +153,9 @@ export class WalletComponent implements OnInit, AfterViewInit {
         this.fetchAllTransaction();
       }
       if (this.walletType === 'rechargetransactionreport') {
+        this.rechargeTransactionDisplayedColumns =
+          ['transactionID', 'transactionDate',
+          'transactionMode', 'transactionAmount', 'transactionStatus', 'transactionMessage', 'action'];
         this.initializeOption();
         this.isRechargetransactionReport = true;
         this.wallettransactions = [];
@@ -185,10 +193,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
       }
     );
   }
-  ngAfterViewInit() {
-    // this.device.nativeElement.value = this.selectedIndex;
-  }
-
   private getWalletBalanceReport(userId: number, startDate: string, endDate: string): void {
     this.loadingScreenService.startLoading();
     this.userService.getWalletBalanceReport(userId, startDate, endDate)
@@ -471,13 +475,19 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.viewMode = value;
     console.log('change view called', this.viewMode);
   }
-
+  // ngAfterViewInit() {
+  //   this.dataSourceForRechargeTransaction.paginator = this.paginator;
+  //   this.dataSourceForRechargeTransaction.sort = this.sort;
+  // }
   public fetchAllRechargeTransaction(): void {
     this.loadingScreenService.startLoading();
     this.common.fetchRechargeTransactionHistory(this.endDate.toDateString()
     , this.startDate.toDateString()).subscribe( (response: any) => {
       this.loadingScreenService.stopLoading();
       this.transactions = response;
+      this.dataSourceForRechargeTransaction = new MatTableDataSource(this.transactions);
+      this.dataSourceForRechargeTransaction.paginator = this.paginator;
+      this.dataSourceForRechargeTransaction.sort = this.sort;
     }, (err) => {
       this.loadingScreenService.stopLoading();
       console.log(err);
@@ -490,6 +500,9 @@ export class WalletComponent implements OnInit, AfterViewInit {
     , this.startDate.toDateString()).subscribe( (response: any) => {
       this.loadingScreenService.stopLoading();
       this.transactions = response;
+      this.dataSourceForRechargeTransaction = new MatTableDataSource(this.transactions);
+      this.dataSourceForRechargeTransaction.paginator = this.paginator;
+      this.dataSourceForRechargeTransaction.sort = this.sort;
     }, (err) => {
       this.loadingScreenService.stopLoading();
       console.log(err);

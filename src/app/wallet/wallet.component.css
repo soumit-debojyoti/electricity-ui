@@ -45,3 +45,19 @@ pointer-events: none;
 .buttonwrapper {
     display: inline-block;
   }
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+.mat-header-cell {
+    /* font-weight: bold; */
+    font-size: 12px;
+    background-color: black;
+    color: white;
+    font-family: sans-serif;
+}
+.card-header {
+    font-weight: bold;
+    font-size: 20px;
+    font-family: sans-serif;
+}

@@ -1,0 +1,16 @@
+ul .active {
+    border-bottom: 2px solid #FFE600
+}
+
+span {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+form {
+    background-color: white;
+}
+.error {
+    font-weight: normal;
+}

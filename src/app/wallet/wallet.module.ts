@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { WalletRoutingModule } from './wallet-routing.module';
 import { WalletComponent } from './wallet.component';
 import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { DemoMaterialModule } from '../material-module';
 @NgModule({
     declarations: [WalletComponent],
     imports: [
@@ -11,6 +12,7 @@ import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
         WalletRoutingModule,
         FormsModule,
         ReactiveFormsModule,
+        DemoMaterialModule,
         BsDatepickerModule.forRoot(),
         DatepickerModule.forRoot()
     ],
