@@ -1,11 +1,11 @@
 <div class="w3-top" *ngIf="isLogin">
   <div class="w3-bar w3-theme-d2 w3-left-align font-large" style="margin-left:-9px;height:46px;">
-    <a class="w3-bar-item w3-button  w3-right w3-hover-white font-large w3-theme-d2 position"><i
-        class="fa fa-bars pointer" (click)="logout()"></i></a>
-    <a href="#" class="w3-bar-item w3-button"><img src="assets/logo/logo.jpg" class="logo"
+    <a class="w3-bar-item w3-button  w3-right w3-hover-white font-large w3-theme-d2 position" routerLink="/dashboard"><i
+        class="fa fa-bars pointer"></i></a>
+    <a href="#" class="w3-bar-item w3-button" routerLink="/dashboard"><img src="assets/logo/logo.jpg" class="logo"
         style="width:76px;height:38px;" alt="Avatar"></a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small  w3-hover-white header-item" title="News"><i
-        class="fa fa-globe"></i></a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small  w3-hover-white header-item" routerLink="/dashboard"
+      title="News"><i class="fa fa-globe"></i></a>
     <a href="#" *ngIf="!isLogin" class="w3-bar-item w3-button w3-hide-small  w3-hover-white header-item" title="Login"
       routerLink="/login" href="#"><i class="fa fa-sign-in"> Login</i></a>
     <!-- <a *ngIf="isLogin" class="w3-bar-item w3-button w3-hide-small  w3-hover-white header-item" title="Login"
