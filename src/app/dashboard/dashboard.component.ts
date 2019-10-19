@@ -76,7 +76,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getComponentSelected(name): void {
-    debugger;
     this.selectedComponetForActionArea = name;
   }
 

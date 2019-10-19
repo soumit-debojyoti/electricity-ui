@@ -308,16 +308,16 @@
   <!-- End Wallet Balance request-->
   <!-- Recharge Transaction Report-->
   <div class="container" [hidden]="!isRechargetransactionReport">
-    <h2>
-      {{header}}
-    </h2>
+    <div class="card-header">
+        {{header}}
+    </div>  
     <div class="row">
       <label *ngIf='ticketCreated' style="color: green">Your ticket has been successfully placed.</label>
     </div>
     <div *ngIf="isSuperAdmin">
       <div class="row">
         <div class="col">
-          <span>Users</span>
+          <span class="text-bold">Users : </span>
           <select class="form-control" id="user" #user [(ngModel)]="selectedUserID"
             (change)="changeUser($event, user.value)">
             <option [value]="-1">Select User</option>

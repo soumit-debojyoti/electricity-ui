@@ -13,11 +13,11 @@ import { CommonModule } from '@angular/common';
 import { DataService } from './services/data.service/data.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import {
-  NbThemeModule,
-  NbLayoutModule,
-  NbButtonModule
-} from '@nebular/theme';
+// import {
+//   NbThemeModule,
+//   NbLayoutModule,
+//   NbButtonModule
+// } from '@nebular/theme';
 import { MatNativeDateModule } from '@angular/material';
 import { DemoMaterialModule } from './material-module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
@@ -46,10 +46,10 @@ import { createReducer } from './store/reducers/message.reducer';
     DemoMaterialModule,
     StorageServiceModule,
     NgxSpinnerModule,
-    NbLayoutModule,
-    NbButtonModule,
+    // NbLayoutModule,
+    // NbButtonModule,
     SharedModule,
-    NbThemeModule.forRoot({ name: 'none'})
+    // NbThemeModule.forRoot({ name: 'default'})
     // UserIdleModule.forRoot({ idle: 180, timeout: 1, ping: 120 })
     // StoreModule.forRoot({ count: createReducer })
     // StoreModule.forRoot({ count: _counterReducer })
