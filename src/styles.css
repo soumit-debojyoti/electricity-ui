@@ -11,10 +11,7 @@ body {
    min-height:100%;
    position:relative;
 }
-#header {
-   /* background:#ff0;
-   padding:10px; */
-}
+
 #body {
    padding:10px;
    padding-bottom:60px;   /* Height of the footer */

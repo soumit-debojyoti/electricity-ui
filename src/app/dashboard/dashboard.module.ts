@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
-
-
-
 import { ProfileComponent } from '../widgets/profile/profile.component';
 import { NotificationComponent } from '../widgets/notification/notification.component';
 import { PostComponent } from '../widgets/post/post.component';
@@ -39,8 +35,8 @@ import { RechargeComponent } from '../widgets/recharge/recharge.component';
 import { RechargeTransactionReportComponent } from '../widgets/recharge-transaction-report/recharge-transaction-report.component';
 import { WalletAddApprovalComponent } from '../widgets/wallet-add-approval/wallet-add-approval.component';
 import { WalletWithdrawalApprovalComponent } from '../widgets/wallet-withdrawal-approval/wallet-withdrawal-approval.component';
-
-
+import { RechargeModule } from '../recharge/recharge.module';
+import { BalanceTransferComponent } from '../widgets/balance-transfer/balance-transfer.component';
 
 @NgModule({
     declarations: [
@@ -72,7 +68,8 @@ import { WalletWithdrawalApprovalComponent } from '../widgets/wallet-withdrawal-
         RechargeTransactionReportComponent,
         NewsSliderComponent,
         WalletAddApprovalComponent,
-        WalletWithdrawalApprovalComponent
+        WalletWithdrawalApprovalComponent,
+        BalanceTransferComponent
     ],
     imports: [
         CommonModule,
@@ -80,7 +77,9 @@ import { WalletWithdrawalApprovalComponent } from '../widgets/wallet-withdrawal-
         FormsModule,
         ReactiveFormsModule,
         DemoMaterialModule,
-        SharedModule
+        SharedModule,
+        RechargeModule
+        
         // BrowserAnimationsModule,
         // MatButtonModule, MatCardModule, MatMenuModule, MatToolbarModule,
         // MatIconModule, MatSidenavModule, MatListModule

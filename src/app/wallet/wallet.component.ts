@@ -64,6 +64,8 @@ export class WalletComponent implements OnInit {
   public selectedBankAccount: BankDetails;
   public bankTransaction: BankTransaction;
   public rechargeTransactionDisplayedColumns = [];
+  customCalendarSelectedStartDate: Date;
+  customCalendarSelectedEndDate: Date;
   addWalletBalanceForm = new FormGroup({
     transactionID : new FormControl('', Validators.required),
     amount: new FormControl('', Validators.required),
@@ -84,6 +86,8 @@ export class WalletComponent implements OnInit {
     this.transactions = [];
     this.startDate = new Date();
     this.startDate.setDate(this.startDate.getDate() - 5);
+    this.customCalendarSelectedEndDate = this.endDate;
+    this.customCalendarSelectedStartDate = this.startDate;
     this.today = new Date();
     this.maxStartDate = this.today;
     this.selectedIndex = 0;
@@ -542,5 +546,15 @@ export class WalletComponent implements OnInit {
 
   changePriority(priority: any): void {
     this.ticketPriorityText = priority;
+  }
+
+  getSelectedStartDate(date): void {
+    this.startDate = date;
+    console.log(this.startDate, 'inside custom date');
+  }
+
+  getSelectedEndDate(date): void {
+    this.endDate = date;
+    console.log(this.endDate, 'inside custom date');
   }
 }

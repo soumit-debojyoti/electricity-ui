@@ -27,6 +27,7 @@ import { StoreModule } from '@ngrx/store';
 import { createReducer } from './store/reducers/message.reducer';
 import { StoreService } from './store/store.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,11 +45,11 @@ import { StoreService } from './store/store.service';
     DemoMaterialModule,
     StorageServiceModule,
     NgxSpinnerModule,
-    NbThemeModule.forRoot(),
     NbLayoutModule,
     NbButtonModule,
     SharedModule,
-    StoreModule.forRoot({ count: createReducer})
+    StoreModule.forRoot({ count: createReducer}),
+    NbThemeModule.forRoot({ name: 'none'})
     // StoreModule.forRoot({ count: _counterReducer })
   ],
   providers: [AuthGuard, StoreService

@@ -5,6 +5,7 @@ import { WalletRoutingModule } from './wallet-routing.module';
 import { WalletComponent } from './wallet.component';
 import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DemoMaterialModule } from '../material-module';
+import { CommonControlsModule } from '../common-controls/common-controls.module';
 @NgModule({
     declarations: [WalletComponent],
     imports: [
@@ -13,6 +14,7 @@ import { DemoMaterialModule } from '../material-module';
         FormsModule,
         ReactiveFormsModule,
         DemoMaterialModule,
+        CommonControlsModule,
         BsDatepickerModule.forRoot(),
         DatepickerModule.forRoot()
     ],

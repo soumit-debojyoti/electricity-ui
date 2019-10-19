@@ -11,6 +11,7 @@ import { RechargeComponent } from './recharge.component';
         RechargeRoutingModule,
         FormsModule,
         ReactiveFormsModule,
-    ]
+    ],
+    exports: [RechargeComponent]
 })
 export class RechargeModule { }

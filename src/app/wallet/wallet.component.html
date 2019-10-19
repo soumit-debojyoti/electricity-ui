@@ -331,24 +331,26 @@
     <div>
       <div class="row">
         <div class="col">
-          <span>Start Date</span>
-          <div class="input-group">
+          <span class="text-bold">Start Date : </span>
+          <!-- <div class="input-group">
             <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
               bsDatepicker [(bsValue)]="startDate" aria-describedby="startDateCalendar">
             <button id="startDateCalendar" class="btn btn-outline-secondary calendar input-group-append" type="button"
               (click)="dpstartDate.toggle()">
             </button>
-          </div>
+          </div> -->
+          <app-custom-date-picker [date] = 'customCalendarSelectedStartDate' (selectedDate)='getSelectedStartDate($event)'></app-custom-date-picker>
         </div>
         <div class="col">
-          <span>End Date</span>
-          <div class="input-group">
+          <span class="text-bold">End Date : </span>
+          <!-- <div class="input-group">
             <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
               [(bsValue)]="endDate">
             <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
                 (click)="dpendDate.toggle()"></button>
             </div>
-          </div>
+          </div> -->
+          <app-custom-date-picker [date] = 'customCalendarSelectedEndDate' (selectedDate)='getSelectedEndDate($event)'></app-custom-date-picker>
         </div>
         <div class="col">
           <div class="input-group">
@@ -409,9 +411,16 @@
               <mat-cell *matCellDef="let row"> <button class="btn btn-primary" type="submit" (click)='editTransactionRowData(row)'
                 data-toggle="modal" data-target='#complainModal'>Complain</button> </mat-cell>
           </ng-container>
+
+          <ng-container matColumnDef="noData">
+              <!-- <mat-header-cell *matHeaderCellDef > Action </mat-header-cell> -->
+              <mat-footer-cell *matFooterCellDef="let row" [ngClass]="{'hide': transactions.length !== 0}"> No Data ... </mat-footer-cell>
+          </ng-container>
+
           <mat-header-row *matHeaderRowDef="rechargeTransactionDisplayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: rechargeTransactionDisplayedColumns;">
           </mat-row>
+          <mat-footer-row *matFooterRowDef="['noData']"></mat-footer-row>
         </mat-table>      
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
     </div>

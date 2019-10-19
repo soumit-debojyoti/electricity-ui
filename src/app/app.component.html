@@ -1,10 +1,25 @@
-<div class="">
-  <app-nav-bar></app-nav-bar>
+<nb-layout>
 
-  <!-- Page Container -->
-  <!--  -->
-  <div class="w3-container w3-content" style="max-width:1400px;margin-top:60px">
-    <router-outlet></router-outlet>
-  </div>
-</div>
-<ngx-spinner></ngx-spinner>
+  <nb-layout-header fixed>
+  <!-- Insert header here -->
+  </nb-layout-header>
+
+  <nb-layout-column>
+
+    <div class="">
+      <app-nav-bar></app-nav-bar>
+    
+      <!-- Page Container -->
+      <!--  -->
+      <div class="w3-container w3-content" style="max-width:1400px;margin-top:60px">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <ngx-spinner></ngx-spinner>
+  </nb-layout-column>
+
+  <nb-layout-footer fixed>
+  <!-- Insert footer here -->
+  </nb-layout-footer>
+
+</nb-layout>

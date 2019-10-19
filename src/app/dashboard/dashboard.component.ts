@@ -27,6 +27,7 @@ export class DashboardComponent implements OnInit {
   public role: string;
   public name: string;
   public photo: string;
+  public selectedComponetForActionArea: string;
   constructor(private profileService: ProfileService,
     private data: DataService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private loadingScreenService: LoadingScreenService) {
@@ -38,7 +39,7 @@ export class DashboardComponent implements OnInit {
     this.isSuperAdmin = false;
     this.isUser = false;
     this.GetUserRoleInformaion();
-
+    this.selectedComponetForActionArea = 'RECHARGE';
     // this.data.currentMessage.subscribe(message => {
 
     // });
@@ -72,6 +73,11 @@ export class DashboardComponent implements OnInit {
       }, () => {
         this.loadingScreenService.stopLoading();
       });
+  }
+
+  getComponentSelected(name): void {
+    debugger;
+    this.selectedComponetForActionArea = name;
   }
 
 }
