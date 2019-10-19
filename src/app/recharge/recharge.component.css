@@ -14,3 +14,7 @@ form {
 .error {
     font-weight: normal;
 }
+
+.btn {
+    margin-bottom: 15px;
+}

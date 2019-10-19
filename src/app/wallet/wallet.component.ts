@@ -157,9 +157,6 @@ export class WalletComponent implements OnInit {
         this.fetchAllTransaction();
       }
       if (this.walletType === 'rechargetransactionreport') {
-        this.rechargeTransactionDisplayedColumns =
-          ['transactionID', 'transactionDate',
-          'transactionMode', 'transactionAmount', 'transactionStatus', 'transactionMessage', 'action'];
         this.initializeOption();
         this.isRechargetransactionReport = true;
         this.wallettransactions = [];
@@ -174,8 +171,14 @@ export class WalletComponent implements OnInit {
         if (role === 'super admin') {
           this.isSuperAdmin = true;
           this.fetchAllRechargeTransaction();
+          this.rechargeTransactionDisplayedColumns =
+          ['transactionID', 'transactionDate',
+          'transactionMode', 'transactionAmount', 'transactionStatus', 'transactionMessage', 'action'];
         } else {
           this.fetchUserRechargeTransaction(this.userId);
+          this.rechargeTransactionDisplayedColumns =
+          ['transactionID', 'transactionDate',
+          'transactionMode', 'transactionAmount', 'transactionStatus', 'action'];
         }
       }
     }, () => {
@@ -503,6 +506,7 @@ export class WalletComponent implements OnInit {
       this.endDate.toDateString()
     , this.startDate.toDateString()).subscribe( (response: any) => {
       this.loadingScreenService.stopLoading();
+      debugger;
       this.transactions = response;
       this.dataSourceForRechargeTransaction = new MatTableDataSource(this.transactions);
       this.dataSourceForRechargeTransaction.paginator = this.paginator;

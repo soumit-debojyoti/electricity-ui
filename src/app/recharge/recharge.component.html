@@ -35,11 +35,11 @@
 <p *ngIf='!billDue && utilityTransactionValidated' style="color: red">{{utilityTransactionErrorMessage}}.</p>
 
 <div class="row">
-  <div class="col-8">
-    <div *ngIf="rechargeMode === 'PREPAID' || rechargeMode === 'DTH'">
-      <form [formGroup]="prepaidRechargeForm" class="col-12 border border-left-0">
+  <div class="col-sm-12">
+    <div *ngIf="rechargeMode === 'PREPAID' || rechargeMode === 'DTH'" class="card col-sm-8">
+      <form [formGroup]="prepaidRechargeForm" class="col-sm-12">
         <div class="row">
-          <div class="col-10">
+          <div class="col-8">
               <span>Operator Name</span>
               <select class="form-control" id="rechargeType" formControlName="operatorName">
                   <!-- <option [value]="-1">Select Recharge Option</option> -->
@@ -51,31 +51,41 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-10">
+          <div class="col-6">
               <span>Mobile Number</span>
-              <input type="number" class="form-control" formControlName="mobileNumber"/>
+              <input type="number" class="form-control" formControlName="mobileNumber" placeholder="Mobile Number"/>
               <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.mobileNumber.errors" style="color: red">need attention</span>
+          </div>
+          <div class="col-6">
+              <span>Recharge Amount</span>
+              <input type="number" class="form-control" formControlName="rechargeAmount" (change)= 'validateAmount()' placeholder="Recharge Amount"/>
+              <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.rechargeAmount.errors" style="color: red">need attention</span>
           </div>
         </div>
         <div class="row">
-          <div class="col-10">
+          <!-- <div class="col-10">
             <span>Recharge Amount</span>
             <input type="number" class="form-control" formControlName="rechargeAmount" (change)= 'validateAmount()'/>
             <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.rechargeAmount.errors" style="color: red">need attention</span>
-          </div>
+          </div> -->
         </div>
         <div class="row">
-          <div class="col-10" style="padding-top: 10px">
+          <div class="col-8" style="padding-top: 10px">
             <button (click) = 'checkAndDeductBalance()' class="btn btn-primary float-left">Recharge</button>
           </div>
         </div>
         </form> 
     </div>
+    <!-- <div class="card col-sm-4">
+      <div class="col-sm-4">
+        Mobile Number should be a valid number
+      </div>
+    </div> -->
   </div>
     <!-- Add Rest Part moved in note pad -->
-    <div class="col-8">
-      <div *ngIf="rechargeMode === 'ELECTRICITY' || rechargeMode === 'GAS' || rechargeMode === 'WATER'">
-        <form [formGroup]="utilityRechargeForm" class="col-12 border border-dark border-left-0">
+    <div class="col-sm-12">
+      <div class="card col-sm-8" *ngIf="rechargeMode === 'ELECTRICITY' || rechargeMode === 'GAS' || rechargeMode === 'WATER'">
+        <form [formGroup]="utilityRechargeForm" class="col-12">
           <div class="col-10">
               <span>Operator Name</span>
               <select class="form-control" id="rechargeType" formControlName="operatorName">

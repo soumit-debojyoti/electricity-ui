@@ -316,7 +316,7 @@
     </div>
     <div *ngIf="isSuperAdmin">
       <div class="row">
-        <div class="col">
+        <div class="col-sm-4">
           <span class="text-bold">Users : </span>
           <select class="form-control" id="user" #user [(ngModel)]="selectedUserID"
             (change)="changeUser($event, user.value)">
@@ -329,7 +329,7 @@
       </div>
     </div>
     <div>
-      <div class="row">
+      <div class="row" style="margin-top: 10px">
         <div class="col">
           <span class="text-bold">Start Date : </span>
           <!-- <div class="input-group">
@@ -352,10 +352,10 @@
           </div> -->
           <app-custom-date-picker [date] = 'customCalendarSelectedEndDate' (selectedDate)='getSelectedEndDate($event)'></app-custom-date-picker>
         </div>
-        <div class="col">
+        <div class="col-sm-2">
           <div class="input-group">
             <br />
-            <button class="btn btn-primary float-right form-control" (click)="fetchUserTransaction()">Report</button>
+            <button class="btn btn-primary float-right form-control" style="margin-bottom: 10px" (click)="fetchUserTransaction()">Report</button>
           </div>
         </div>
       </div>
@@ -401,8 +401,8 @@
 
           <!-- Transaction Type Column -->
           <ng-container matColumnDef="transactionMessage" *ngIf='isSuperAdmin'>
-              <mat-header-cell *matHeaderCellDef > Transaction Message </mat-header-cell>
-              <mat-cell *matCellDef="let row"> {{row.transactionMessage}} </mat-cell>
+              <mat-header-cell *matHeaderCellDef [ngClass]="{'hide': !isSuperAdmin}"> Transaction Message </mat-header-cell>
+              <mat-cell *matCellDef="let row" [ngClass]="{'hide': !isSuperAdmin}"> {{row.transactionMessage}} </mat-cell>
           </ng-container>
       
           <!-- Transaction Type Column -->
