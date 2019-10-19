@@ -1,9 +1,10 @@
 <div class="w3-container w3-padding">
-  <p><strong>Balance Transfer</strong></p>
+  <p><strong>Wallet Balance Transfer</strong></p>
   <div class="row">
     <div class="col">
       <div class="text">User to transfer<span class="mandatory">*</span></div>
-      <input class="form-control" style="height: 34px" appSelectAll class="" type="text" #user value="" placeholder="user id">
+      <input class="form-control" style="height: 34px" appSelectAll class="" type="text" #user value=""
+        placeholder="user id">
     </div>
     <div class="col">
       <div class="text">Amount need to transfer?<span class="mandatory">*</span></div>
@@ -16,14 +17,17 @@
   <div class="row">
     <div class="col">
       <div class="text">Comment<span class="mandatory">*</span></div>
-      <textarea class="form-control" rows="4" #comment title="Comment...." placeholder="Comment...." style="width:100%;"></textarea>
+      <textarea class="form-control" rows="4" #comment title="Comment...." placeholder="Comment...."
+        style="width:100%;"></textarea>
     </div>
   </div>
   <div class="row">
-    <div class = "col">
-        <button class="btn btn-primary float-left" style ="margin-top:15px; margin-right: 15px"  (click)="submit(user,amount,comment)">Submit</button>
-        <button class="btn btn-secondary float-left mr-2" style ="margin-top:15px; margin-right: 15px" (click)="clear(user,amount,comment)">Clear</button>
+    <div class="col">
+      <button class="btn btn-primary float-left" style="margin-top:15px; margin-right: 15px"
+        (click)="submit(user,amount,comment)">Submit</button>
+      <button class="btn btn-secondary float-left mr-2" style="margin-top:15px; margin-right: 15px"
+        (click)="clear(user,amount,comment)">Clear</button>
     </div>
   </div>
-  
+
 </div>
