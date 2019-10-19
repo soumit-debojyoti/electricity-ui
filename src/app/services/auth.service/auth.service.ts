@@ -35,6 +35,7 @@ export class AuthService {
     return this.http.post(this.rootURL + '/token', {}, { headers: reqHeader }).pipe(map((response: any) => {
       this.storage.set('login_user', this.username);
       this.storage.set('role_id', response.role_id);
+      this.storage.set('user_id', response.user_id);
       this.loggedIn = true;
 
       return response;

@@ -264,7 +264,6 @@ export class CommonService {
     const urlStringObject = {
       rechargetype: rechargeType
     };
-    debugger;
     const mainURL = this.apiUrlService.getFullURL('RECHARGE_SERVICE', urlStringObject);
     return this.baseService.post(mainURL, rechargeObject, true);
   }

@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ProfileService } from './profile.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { User } from 'src/app/models/user.model';
+import { forkJoin } from 'rxjs';
 import { DataService } from '../../services/data.service/data.service';
 // import { StoreService } from 'src/app/store/store.service';
 // import { ChannelNameEnum, Message } from 'src/app/store/models/message.model';
@@ -42,9 +43,10 @@ export class ProfileComponent implements OnInit {
       }
     });
     this.name = this.storage.get('login_user');
+    this.user_id = this.storage.get('user_id');
     this.loadingScreenService.startLoading();
-    this.profileService.GetUser(this.name)
-      .subscribe((response: User) => {
+    forkJoin(this.profileService.GetUser(this.name), this.userService.getWalletBalance(this.user_id))
+      .subscribe(([response, responseBalance]) => {
         this.loadingScreenService.stopLoading();
         this.user_id = response.user_id;
         this.first_name = response.first_name;
@@ -58,10 +60,12 @@ export class ProfileComponent implements OnInit {
         this.photo = response.photo;
         this.photo = this.rootURL + this.photo;
         this.storage.set('role', this.role);
-        this.storage.set('user_id', this.user_id);
+        // this.storage.set('user_id', this.user_id);
         const message: User = response;
         this.data.changeMessage(this.role);
-        this.getWalletBalance();
+        if (response !== undefined) {
+          this.balance = responseBalance.walletBalance;
+        }
       }, () => {
         this.loadingScreenService.stopLoading();
       });
