@@ -11,7 +11,7 @@ import { LoadingScreenService } from '../services/loading-screen/loading-screen.
 import { SweetAlertType } from 'sweetalert2';
 import Swal from 'sweetalert2';
 import { DataService } from '../services/data.service/data.service';
-import { AutoLogoutService } from '../services/auto-logout-service';
+// import { AutoLogoutService } from '../services/auto-logout-service';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   public introducer_code: string;
   constructor(private auth: AuthService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private router: Router, private alertService: AlertService, private data: DataService,
-    private loadingScreenService: LoadingScreenService, private autoLogout: AutoLogoutService) { }
+    private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
     this.isLogin = true;
@@ -40,6 +40,21 @@ export class LoginComponent implements OnInit {
     this.isLoginSuccess = true;
     this.isRegisterSuccess = true;
     this.auth.logout();
+
+
+
+    // this.userIdle.startWatching();
+
+    // Start watching when user idle is starting.
+    // this.userIdle.onTimerStart().subscribe(count => console.log(count));
+
+    // Start watch when time is up.
+    // this.userIdle.onTimeout().subscribe(() => {
+    //   console.log('Time is up!');
+    //   this.storage.set('is_login', false);
+    //   this.auth.logout();
+    //   this.router.navigate(['login']);
+    // });
   }
 
   public isRegister(): void {
@@ -69,7 +84,8 @@ export class LoginComponent implements OnInit {
       this.loadingScreenService.startLoading();
       this.auth.login(username['value'], password['value'])
         .subscribe((res: any) => {
-          this.autoLogout.reset();
+          // this.userIdle.startWatching();
+          // this.autoLogout.reset();
           this.loadingScreenService.stopLoading();
           if (res.isLoginSuccess === true) {
             this.isLoginSuccess = true;
@@ -149,6 +165,22 @@ export class LoginComponent implements OnInit {
         });
     }
   }
+
+  // stop() {
+  //   this.userIdle.stopTimer();
+  // }
+
+  // stopWatching() {
+  //   this.userIdle.stopWatching();
+  // }
+
+  // startWatching() {
+  //   this.userIdle.startWatching();
+  // }
+
+  // restart() {
+  //   this.userIdle.resetTimer();
+  // }
 }
 
 
