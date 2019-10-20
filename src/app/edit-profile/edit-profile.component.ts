@@ -71,7 +71,6 @@ export class EditProfileComponent implements OnInit {
       alert('The form is invalid');
       return;
     }
-    console.log('Submit - hey I am clicked!');
     this.loadingScreenService.startLoading();
     this.getControlValue();
     this.userService.updateUserDetails(this.storage.get('user_id'), this.userDetails).subscribe(
