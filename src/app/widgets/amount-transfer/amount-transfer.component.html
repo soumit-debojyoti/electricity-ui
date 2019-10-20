@@ -7,6 +7,11 @@
         placeholder="user id">
     </div>
     <div class="col">
+      <div class="text">Mobile to transfer<span class="mandatory">*</span></div>
+      <input class="form-control" style="height: 34px" appSelectAll class="" type="text" #mobile value=""
+        placeholder="mobile number">
+    </div>
+    <div class="col">
       <div class="text">Amount need to transfer?<span class="mandatory">*</span></div>
       <div class="input-group">
         <div class="input-group-addon">&#8377;</div>
@@ -24,7 +29,7 @@
   <div class="row">
     <div class="col">
       <button class="btn btn-primary float-left" style="margin-top:15px; margin-right: 15px"
-        (click)="submit(user,amount,comment)">Submit</button>
+        (click)="submit(user,mobile,amount,comment)">Submit</button>
       <button class="btn btn-secondary float-left mr-2" style="margin-top:15px; margin-right: 15px"
         (click)="clear(user,amount,comment)">Clear</button>
     </div>

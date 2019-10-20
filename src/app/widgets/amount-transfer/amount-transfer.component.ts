@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { UserService } from '../../services/user.service/user.service';
 import { LoadingScreenService } from '../../services/loading-screen/loading-screen.service';
-import { User, TransferAmountModel } from '../../models/user.model';
+import { User, TransferAmountModel, MobileValidationResponse, AccountValidationResponse } from '../../models/user.model';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { AlertService } from '../../services/common.service/alert.service';
 import { DataService } from 'src/app/services/data.service/data.service';
@@ -80,9 +80,14 @@ export class AmountTransferComponent implements OnInit {
   }
 
 
-  public submit(user: any, amount: any, comment: any) {
-    if (user.value === '') {
-      this.alertService.confirmationMessage('', 'User is mandatory.', 'warning', true, false);
+  public submit(user: any, mobile: any, amount: any, comment: any) {
+    if (user.value === '' && mobile.value === '') {
+      if (mobile.value === '') {
+        this.alertService.confirmationMessage('', 'Mobile is mandatory.', 'warning', true, false);
+        return false;
+      } else if (user.value === '') {
+        this.alertService.confirmationMessage('', 'User is mandatory.', 'warning', true, false);
+      }
       return false;
     } else if (amount.value === '') {
       this.alertService.confirmationMessage('', 'Amount is mandatory.', 'warning', true, false);
@@ -90,15 +95,21 @@ export class AmountTransferComponent implements OnInit {
     } else if (comment.value === '') {
       this.alertService.confirmationMessage('', 'Comment is mandatory.', 'warning', true, false);
       return false;
-    } else if (user.value !== '' && amount.value !== '' && comment.value !== '') {
-      if (this.validateUser(user)) {
-        this.senderUserId = this.filteredUsers.find(c => c.user_name === user.value).user_id;
-        this.userId = +this.storage.get('user_id');
-        this.sendMoney(user, amount, comment);
-      } else {
-        this.alertService.confirmationMessage('', 'User is not valid.', 'warning', true, false);
-        this.clear(user, amount, comment);
-        return false;
+    } else if ((user.value !== '' || mobile.value !== '') && amount.value !== '' && comment.value !== '') {
+      if ((user.value !== '' || mobile.value !== '')) {
+        if (user.value !== '') {
+          if (this.validateUser(user)) {
+            this.senderUserId = this.filteredUsers.find(c => c.user_name === user.value).user_id;
+            this.userId = +this.storage.get('user_id');
+            this.validateBankAccount(user, mobile, amount, comment);
+          } else {
+            this.alertService.confirmationMessage('', 'User is not valid.', 'warning', true, false);
+            this.clear(user, amount, comment);
+            return false;
+          }
+        } else if (mobile.value !== '') {
+          this.validateMobile(mobile, user, amount, comment);
+        }
       }
     }
   }
@@ -109,7 +120,7 @@ export class AmountTransferComponent implements OnInit {
     comment.value = '';
   }
 
-  private sendMoney(user: any, amount: any, comment: any) {
+  private sendMoney(user: any, mobile: any, amount: any, comment: any) {
     this.loadingScreenService.startLoading();
     this.userService.walletTransferRequest(this.userId, this.senderUserId, +amount.value, comment.value)
       .subscribe((response: TransferAmountModel) => {
@@ -120,6 +131,7 @@ export class AmountTransferComponent implements OnInit {
           this.alertService.confirmationMessage('', response.return_message, 'success', true, false);
         }
         user.value = '';
+        mobile.value = '';
         amount.value = '';
         comment.value = '';
         this.data.changeMessage('token-generate');
@@ -133,5 +145,31 @@ export class AmountTransferComponent implements OnInit {
 
   private validateUser(user: any): boolean {
     return (this.filteredUsers.find(c => c.user_name === user.value)) ? true : false;
+  }
+
+  private validateMobile(mobile: any, user: any, amount: any, comment: any): void {
+    let isvalid = false;
+    this.userService.validateMobile(mobile.value)
+      .subscribe((response: MobileValidationResponse) => {
+        if (!response.isValid) {
+          this.alertService.confirmationMessage('', 'Mobile number not valid.', 'error', true, false);
+          this.clear(user, amount, comment);
+        } else {
+          this.senderUserId = response.user_id;
+          this.validateBankAccount(user, mobile, amount, comment);
+        }
+        isvalid = response.isValid;
+      });
+  }
+
+  private validateBankAccount(user: any, mobile: any, amount: any, comment: any): void {
+    this.userService.validateAccount(this.senderUserId)
+      .subscribe((response: AccountValidationResponse) => {
+        if (!response.isValid) {
+          this.alertService.confirmationMessage('', response.message + 'So you can not send money to this account.', 'error', true, false);
+        } else {
+          this.sendMoney(user, mobile, amount, comment);
+        }
+      });
   }
 }

@@ -27,3 +27,14 @@ export interface TransferAmountModel {
     is_rejected: boolean;
     return_message: string;
 }
+
+export interface MobileValidationResponse {
+    isValid: boolean;
+    user_id: number;
+}
+
+export interface AccountValidationResponse {
+    isValid: boolean;
+    message: string;
+}
+
