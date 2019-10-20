@@ -5,7 +5,7 @@
   </span>
   <p><strong>Add Balance Request</strong></p>
   <div *ngIf="isLogin">
-    <p *ngFor="let detail_message of add_wallet_detail_messages" href="#" class="w3-bar-item w3-button"
+    <p *ngFor="let detail_message of add_wallet_detail_messages" href="#" class="w3-bar-item wrap-text pointer"
       (click)="gotoWalletAddDeduct()">
       <b>{{detail_message.firstname}}</b>&nbsp;<b>{{detail_message.lastname}}</b>
       {{detail_message.comment}}</p>

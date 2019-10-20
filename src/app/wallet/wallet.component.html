@@ -4,17 +4,17 @@
       {{header}}
     </h2>
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col">
         <span>Why you want to widthdraw the balance?</span>
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12">
-        <textarea rows="4" cols="136" #comment title="Comment...." placeholder="Comment...."></textarea><br>
+      <div class="col">
+        <textarea class='form-control' rows="4" #comment title="Comment...." placeholder="Comment...."></textarea><br>
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col">
         <input type="submit" class="btn btn-primary float-right" (click)="widthdraw(comment)">
       </div>
     </div>
@@ -107,26 +107,27 @@
       </div>
       <div class="row">
         <div class="col-sm-12">
-          <textarea rows="4" cols="136" title="Comment...." placeholder="Comment...." name="comment" formControlName="comment"></textarea><br>
+          <textarea rows="4" cols="136" title="Comment...." placeholder="Comment...." name="comment"
+            formControlName="comment"></textarea><br>
         </div>
       </div>
       <div class="row">
-          <div class="col-sm-6">
-            <span class="text">Bank account</span>
-            <select class="form-control text" id="user" name="bankAccount" formControlName="accountNumber">
-              <option [value]="-1">Select Account</option>
-              <ng-container *ngIf="companyBankAccounts && companyBankAccounts.length>0">
-                <option *ngFor="let ba of companyBankAccounts" [value]="ba.accountNumber">{{ba.accountNumber}}</option>
-              </ng-container>
-            </select>
-          </div>
-          <div class="col-sm-6">
-            <span class="text">Transaction ID</span>
-            <br/>
-            <input type="text" name="transactionID" formControlName="transactionID">
-          </div>
+        <div class="col-sm-6">
+          <span class="text">Bank account</span>
+          <select class="form-control text" id="user" name="bankAccount" formControlName="accountNumber">
+            <option [value]="-1">Select Account</option>
+            <ng-container *ngIf="companyBankAccounts && companyBankAccounts.length>0">
+              <option *ngFor="let ba of companyBankAccounts" [value]="ba.accountNumber">{{ba.accountNumber}}</option>
+            </ng-container>
+          </select>
+        </div>
+        <div class="col-sm-6">
+          <span class="text">Transaction ID</span>
+          <br />
+          <input type="text" name="transactionID" formControlName="transactionID">
+        </div>
       </div>
-      <br/>
+      <br />
       <div class="row">
         <div class="col-sm-12">
           <input type="submit" class="btn btn-primary float-left" (click)="balanceRequest()">
@@ -309,8 +310,8 @@
   <!-- Recharge Transaction Report-->
   <div class="container" [hidden]="!isRechargetransactionReport">
     <div class="card-header">
-        {{header}}
-    </div>  
+      {{header}}
+    </div>
     <div class="row">
       <label *ngIf='ticketCreated' style="color: green">Your ticket has been successfully placed.</label>
     </div>
@@ -339,7 +340,8 @@
               (click)="dpstartDate.toggle()">
             </button>
           </div> -->
-          <app-custom-date-picker [date] = 'customCalendarSelectedStartDate' (selectedDate)='getSelectedStartDate($event)'></app-custom-date-picker>
+          <app-custom-date-picker [date]='customCalendarSelectedStartDate'
+            (selectedDate)='getSelectedStartDate($event)'></app-custom-date-picker>
         </div>
         <div class="col">
           <span class="text-bold">End Date : </span>
@@ -350,7 +352,8 @@
                 (click)="dpendDate.toggle()"></button>
             </div>
           </div> -->
-          <app-custom-date-picker [date] = 'customCalendarSelectedEndDate' (selectedDate)='getSelectedEndDate($event)'></app-custom-date-picker>
+          <app-custom-date-picker [date]='customCalendarSelectedEndDate' (selectedDate)='getSelectedEndDate($event)'>
+          </app-custom-date-picker>
         </div>
         <div class="col-sm-2">
           <div class="input-group">
@@ -363,41 +366,29 @@
     <div class="card">
       <div class="card-header">Recharge Transaction</div>
       <mat-table class="card-body" [dataSource]="dataSourceForRechargeTransaction" matSort>
-          <!-- Transaction ID Column -->
-          <ng-container matColumnDef="transactionID" style="width: 5%">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.transactionID}} </mat-cell>
-          </ng-container>
-      
-          <!-- User ID Column -->
-          <!-- <ng-container matColumnDef="userID">
+        <!-- Transaction ID Column -->
+        <ng-container matColumnDef="transactionID" style="width: 5%">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.transactionID}} </mat-cell>
+        </ng-container>
+
+        <!-- User ID Column -->
+        <!-- <ng-container matColumnDef="userID">
             <mat-header-cell *matHeaderCellDef mat-sort-header> User ID </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.userID}} </mat-cell>
           </ng-container> -->
-      
-          <!-- Transaction Date Column -->
-          <ng-container matColumnDef="transactionDate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Date </mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.transactionDate | date: 'dd-MM-yyyy'}} </mat-cell>
-          </ng-container>
-      
-          <!-- Transaction Type Column -->
-          <ng-container matColumnDef="transactionMode">
-            <mat-header-cell *matHeaderCellDef> Transaction Type </mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.transactionMode}} </mat-cell>
-          </ng-container>
 
-          <!-- Transaction Type Column -->
-          <ng-container matColumnDef="transactionAmount">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Amount </mat-header-cell>
-              <mat-cell *matCellDef="let row"> {{row.transactionAmount}} </mat-cell>
-          </ng-container>
+        <!-- Transaction Date Column -->
+        <ng-container matColumnDef="transactionDate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Date </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.transactionDate | date: 'dd-MM-yyyy'}} </mat-cell>
+        </ng-container>
 
-          <!-- Transaction Type Column -->
-          <ng-container matColumnDef="transactionStatus">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Status </mat-header-cell>
-              <mat-cell *matCellDef="let row"> {{row.transactionStatus}} </mat-cell>
-          </ng-container>
+        <!-- Transaction Type Column -->
+        <ng-container matColumnDef="transactionMode">
+          <mat-header-cell *matHeaderCellDef> Transaction Type </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.transactionMode}} </mat-cell>
+        </ng-container>
 
           <!-- Transaction Type Column -->
           <ng-container matColumnDef="transactionMessage" *ngIf='isSuperAdmin'>
@@ -406,23 +397,44 @@
           </ng-container>
       
           <!-- Transaction Type Column -->
-          <ng-container matColumnDef="action">
+          <!-- <ng-container matColumnDef="action">
               <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
               <mat-cell *matCellDef="let row"> <button class="btn btn-primary" type="submit" (click)='editTransactionRowData(row)'
                 data-toggle="modal" data-target='#complainModal'>Complain</button> </mat-cell>
-          </ng-container>
+          </ng-container> -->
 
-          <ng-container matColumnDef="noData">
-              <!-- <mat-header-cell *matHeaderCellDef > Action </mat-header-cell> -->
-              <mat-footer-cell *matFooterCellDef="let row" [ngClass]="{'hide': transactions.length !== 0}"> No Data ... </mat-footer-cell>
-          </ng-container>
+        <!-- Transaction Type Column -->
+        <ng-container matColumnDef="transactionStatus">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Status </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.transactionStatus}} </mat-cell>
+        </ng-container>
 
-          <mat-header-row *matHeaderRowDef="rechargeTransactionDisplayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: rechargeTransactionDisplayedColumns;">
-          </mat-row>
-          <mat-footer-row *matFooterRowDef="['noData']"></mat-footer-row>
-        </mat-table>      
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        <!-- Transaction Type Column -->
+        <ng-container matColumnDef="transactionMessage" *ngIf='isSuperAdmin'>
+          <mat-header-cell *matHeaderCellDef> Transaction Message </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.transactionMessage}} </mat-cell>
+        </ng-container>
+
+        <!-- Transaction Type Column -->
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+          <mat-cell *matCellDef="let row"> <button class="btn btn-primary" type="submit"
+              (click)='editTransactionRowData(row)' data-toggle="modal" data-target='#complainModal'>Complain</button>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="noData">
+          <!-- <mat-header-cell *matHeaderCellDef > Action </mat-header-cell> -->
+          <mat-footer-cell *matFooterCellDef="let row" [ngClass]="{'hide': transactions.length !== 0}"> No Data ...
+          </mat-footer-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="rechargeTransactionDisplayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: rechargeTransactionDisplayedColumns;">
+        </mat-row>
+        <mat-footer-row *matFooterRowDef="['noData']"></mat-footer-row>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
     </div>
 
 

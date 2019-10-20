@@ -48,3 +48,13 @@ export class RegisterUserModel {
     gender: number; // 0 for male : 1 for female
     password: string;
 }
+export interface MobileValidationResponse {
+    isValid: boolean;
+    user_id: number;
+}
+
+export interface AccountValidationResponse {
+    isValid: boolean;
+    message: string;
+}
+

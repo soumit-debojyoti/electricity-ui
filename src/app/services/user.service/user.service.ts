@@ -256,6 +256,24 @@ export class UserService {
       ));
   }
 
+  public validateMobile(mobile: string): Observable<any> {
+    const params = new HttpParams();
+    const urlStringObject = {
+      mobile: mobile
+    };
+    const mainURL = this.apiUrlService.getFullURL('VALIDATE_MOBILE', urlStringObject);
+    return this.baseService.get(mainURL, {}, params);
+  }
+
+  public validateAccount(userid: number): Observable<any> {
+    const params = new HttpParams();
+    const urlStringObject = {
+      userid: userid
+    };
+    const mainURL = this.apiUrlService.getFullURL('VALIDATE_ACCOUNT', urlStringObject);
+    return this.baseService.get(mainURL, {}, params);
+  }
+
   public getRankAchiever(): Observable<any> {
     // var url: string = `user/users/${user_name}`;
     const params = new HttpParams();

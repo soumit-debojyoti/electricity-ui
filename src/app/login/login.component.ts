@@ -164,22 +164,6 @@ export class LoginComponent implements OnInit {
         });
     }
   }
-
-  // stop() {
-  //   this.userIdle.stopTimer();
-  // }
-
-  // stopWatching() {
-  //   this.userIdle.stopWatching();
-  // }
-
-  // startWatching() {
-  //   this.userIdle.startWatching();
-  // }
-
-  // restart() {
-  //   this.userIdle.resetTimer();
-  // }
 }
 
 
