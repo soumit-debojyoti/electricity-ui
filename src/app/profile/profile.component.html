@@ -1,292 +1,127 @@
-<div class="w3-card w3-round w3-white animated flipInX">
-  <div class="w3-container">
-    <h4 class="w3-center pointer">{{full_name}}</h4>
-    <p class="w3-center pointer">
-      <img [src]="photo" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">  
+<div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-link" [ngClass]="{'nav-item active': kycMode}"><a (click)='changeView("KYC")'>KYC information</a></li>
+      <li class="nav-link" [ngClass]="{'nav-item active': infoMode}"><a (click)='changeView("Basic Info")'>Personal Details</a></li>
+      <li class="nav-link" [ngClass]="{'nav-item active': adminMode}"><a (click)='changeView("Admin View")'>Admin View</a></li>
+      <!-- <li class="nav-link" [ngClass]="{'nav-item active': bankMode}"><a (click)='changeView("Bank Account")'>Bank Account</a></li> -->
+      <!-- <li><a href="#">Link</a></li> -->
+    </ul>
+</div>
+</nav>
+<!-- Section kyc Mode-->
+<div *ngIf='kycMode'>
+  <div class="w3-card w3-round w3-white animated flipInX">
+    <div class="w3-container">
+      <h4 class="w3-center pointer">{{full_name}}</h4>
+      <p class="w3-center pointer">
+        <img [src]="photo" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
 
-    </p>
-    <input #fileImage type="file" (change)="reUploadPhoto(fileImage.files)" class="form-control no-border img-circle" />
-    <span style="font-weight:bold;color:green;" *ngIf="messagePhoto">
-      {{messagePhoto}}
-    </span>
-    <hr>
-    <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme pointer"></i> Role : {{role | titlecase}}</p>
-    <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme pointer"></i> City :{{city}}, {{state_name}}</p>
-    <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme pointer"></i> {{dob}}</p>
-    <p class="pl-40">Account Balance&nbsp;&nbsp;
-      <span>
-        <span>&#8377;</span>
-        <strong>{{balance}}</strong>
+      </p>
+      <input #fileImage type="file" (change)="reUploadPhoto(fileImage.files)" class="form-control no-border img-circle" />
+      <span style="font-weight:bold;color:green;" *ngIf="messagePhoto">
+        {{messagePhoto}}
       </span>
-    </p>
+      <hr>
+      <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme pointer"></i> Role : {{role | titlecase}}</p>
+      <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme pointer"></i> City :{{city}}, {{state_name}}</p>
+      <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme pointer"></i> {{dob}}</p>
+      <p class="pl-40">Account Balance&nbsp;&nbsp;
+        <span>
+          <span>&#8377;</span>
+          <strong>{{balance}}</strong>
+        </span>
+      </p>
+    </div>
+  </div>
+  <hr />
+  <div class="w3-card w3-round w3-white animated flipInX pt-6">
+    <div class="w3-container">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <h2>KYC Information</h2>
+        <div class="row">
+          <div class="col-md-2 float-right"><label>ID Proof</label></div>
+          <div class="col-md-4 float-left">
+            <div class="form-group">
+              <select class="form-control" id="id-proof" formControlName="idproof" (change)="onIdProofChanged($event)">
+                <option [value]="0">Select</option>
+                <option *ngFor="let idProof of idProofs" [value]="idProof.id_proof_id">{{idProof.id_proof_type}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2 float-right"><label>Upload document</label></div>
+          <div class="col-md-4 float-left">
+            <div class="form-group">
+              <input #fileId type="file" accept=".pdf" (change)="uploadIdProof(fileId.files)"
+                formControlName="uploaddocumentid" class="form-control no-border"
+                [ngClass]="{ 'is-invalid': submitted && f.uploaddocumentid.errors }" />
+              <span style="font-weight:bold;color:green;" *ngIf="messageIdProof">
+                {{messageIdProof}}
+              </span>
+              <div *ngIf="submitted && f.uploaddocumentid.errors" class="invalid-feedback">
+                <div *ngIf="f.uploaddocumentid.errors.required">ID Proof is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 float-right"><label>Address Proof</label></div>
+          <div class="col-md-4 float-left">
+            <div class="form-group">
+              <select class="form-control" id="address-proof" formControlName="addressproof"
+                (change)="onAddressProofChanged($event)">
+                <option [value]="0" selected>Select</option>
+                <option *ngFor="let addressProof of addressProofs" [value]="addressProof.address_proof_id">
+                  {{addressProof.address_proof_type}}</option>
+              </select>
+              <!-- <div *ngIf="f.addressproof.errors.required">Address Proof is required</div> -->
+            </div>
+          </div>
+          <div class="col-md-2 float-right"><label>Upload document</label></div>
+          <div class="col-md-4 float-left">
+            <div class="form-group">
+              <input #fileAddress type="file" accept=".pdf" (change)="uploadAddressProof(fileAddress.files)"
+                formControlName="uploaddocumentaddress" class="form-control no-border"
+                [ngClass]="{ 'is-invalid': submitted && f.uploaddocumentaddress.errors }" />
+              <span style="font-weight:bold;color:green;" *ngIf="messageAddressProof">
+                {{messageAddressProof}}
+              </span>
+
+              <div *ngIf="submitted && f.uploaddocumentaddress.errors" class="invalid-feedback">
+                <div *ngIf="f.uploaddocumentaddress.errors.required">Address Proof is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-md-2 float-right"><label>Bank Details</label></div>
+          <div class="col-md-4 float-left">
+            <div class="form-group">
+              <input type="text" formControlName="bankdetails" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.bankdetails.errors }" />
+              <div *ngIf="submitted && f.bankdetails.errors" class="invalid-feedback">
+                <div *ngIf="f.bankdetails.errors.required">Bank Details is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-10 float-right">
+          <div class="form-group float-right">
+            <button class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
-<hr />
-<div class="w3-card w3-round w3-white animated flipInX pt-6">
-  <div class="w3-container">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <h2>KYC Information</h2>
-      <div class="row">
-        <div class="col-md-2 float-right"><label>ID Proof</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <select class="form-control" id="id-proof" formControlName="idproof" (change)="onIdProofChanged($event)">
-              <option [value]="0">Select</option>
-              <option *ngFor="let idProof of idProofs" [value]="idProof.id_proof_id">{{idProof.id_proof_type}}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-2 float-right"><label>Upload document</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <input #fileId type="file" accept=".pdf" (change)="uploadIdProof(fileId.files)"
-              formControlName="uploaddocumentid" class="form-control no-border"
-              [ngClass]="{ 'is-invalid': submitted && f.uploaddocumentid.errors }" />
-            <span style="font-weight:bold;color:green;" *ngIf="messageIdProof">
-              {{messageIdProof}}
-            </span>
-            <div *ngIf="submitted && f.uploaddocumentid.errors" class="invalid-feedback">
-              <div *ngIf="f.uploaddocumentid.errors.required">ID Proof is required</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-2 float-right"><label>Address Proof</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <select class="form-control" id="address-proof" formControlName="addressproof"
-              (change)="onAddressProofChanged($event)">
-              <option [value]="0" selected>Select</option>
-              <option *ngFor="let addressProof of addressProofs" [value]="addressProof.address_proof_id">
-                {{addressProof.address_proof_type}}</option>
-            </select>
-            <!-- <div *ngIf="f.addressproof.errors.required">Address Proof is required</div> -->
-          </div>
-        </div>
-        <div class="col-md-2 float-right"><label>Upload document</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <input #fileAddress type="file" accept=".pdf" (change)="uploadAddressProof(fileAddress.files)"
-              formControlName="uploaddocumentaddress" class="form-control no-border"
-              [ngClass]="{ 'is-invalid': submitted && f.uploaddocumentaddress.errors }" />
-            <span style="font-weight:bold;color:green;" *ngIf="messageAddressProof">
-              {{messageAddressProof}}
-            </span>
-
-            <div *ngIf="submitted && f.uploaddocumentaddress.errors" class="invalid-feedback">
-              <div *ngIf="f.uploaddocumentaddress.errors.required">Address Proof is required</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-
-        <div class="col-md-2 float-right"><label>Bank Details</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <input type="text" formControlName="bankdetails" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.bankdetails.errors }" />
-            <div *ngIf="submitted && f.bankdetails.errors" class="invalid-feedback">
-              <div *ngIf="f.bankdetails.errors.required">Bank Details is required</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-10 float-right">
-        <div class="form-group float-right">
-          <button class="btn btn-primary">Submit</button>
-        </div>
-      </div>
-    </form>
-  </div>
+<!-- Section End info Mode-->
+<!-- Section admin Mode-->
+<div *ngIf='adminMode'>
+  <app-all-profile></app-all-profile>
 </div>
-
-
-
-<!-- <div class="jumbotron">
-  <div class="container">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <h2>Basic Information</h2>
-      <div class="row">
-        <div class="col-md-2 float-right"><label>User Name</label></div>
-        <div class="col-md-10 float-left">
-          <div class="form-group">
-            <input type="text" formControlName="username" class="form-control" disabled />
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-2 float-right"><label>Password</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <input type="password" formControlName="password" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-              <div *ngIf="f.password.errors.required">Password is required</div>
-              <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2 float-right"><label>Confirm Password</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <input type="password" formControlName="cpassword" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.cpassword.errors }" />
-            <div *ngIf="submitted && f.cpassword.errors" class="invalid-feedback">
-              <div *ngIf="f.cpassword.errors.required">Confirm password is required</div>
-              <div *ngIf="f.cpassword.errors.minlength">Confirm password must be at least 6 characters</div>
-              <div *ngIf="f.cpassword.errors.mustMatch">Passwords must match</div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-      <div class="row">
-        <div class="col-md-2 float-right"><label>First Name</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <input type="text" formControlName="firstName" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
-            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-              <div *ngIf="f.firstName.errors.required">First Name is required</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2 float-right"><label>Middle Name</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <input type="text" formControlName="middleName" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.middleName.errors }" />
-            <div *ngIf="submitted && f.middleName.errors" class="invalid-feedback">
-              <div *ngIf="f.middleName.errors.required">Middle Name is required</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="row">
-        <div class="col-md-2 float-right"><label>Last Name</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <input type="text" formControlName="lastName" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-              <div *ngIf="f.lastName.errors.required">Last Name is required</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="row">
-        <div class="col-md-2 float-right"><label>Father Name</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <input type="text" formControlName="fathername" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.fathername.errors }" />
-            <div *ngIf="submitted && f.fathername.errors" class="invalid-feedback">
-              <div *ngIf="f.fathername.errors.required">Father Name is required</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2 float-right"><label>Gender</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <select class="form-control" id="gender" formControlName="gender">
-              <option [value]="0">Select</option>
-              <option *ngFor="let gender of genders" [value]="gender.id">{{gender.name}}</option>
-            </select>
-
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-2 float-right"><label>Mobile Number</label></div>
-        <div class="col-md-10 float-left">
-          <div class="form-group">
-
-            <input type="text" formControlName="mobile" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" />
-            <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
-              <div *ngIf="f.mobile.errors.required">Mobile is required</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-2 float-right"><label>Email</label></div>
-        <div class="col-md-10 float-left" colspan="4">
-          <div class="form-group">
-
-            <input type="text" formControlName="email" class="form-control" />
-
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-2 float-right"><label>Address</label></div>
-        <div class="col-md-10 float-left">
-          <div class="form-group">
-
-            <input type="text" formControlName="address" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.address.errors }" />
-            <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
-              <div *ngIf="f.address.errors.required">Address is required</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <td class="col-md-2 float-right"><label>District</label></td>
-        <td class="col-md-4 float-left">
-          <div class="form-group">
-            <input type="text" formControlName="district" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.district.errors }" />
-            <div *ngIf="submitted && f.district.errors" class="invalid-feedback">
-              <div *ngIf="f.district.errors.required">District is required</div>
-            </div>
-          </div>
-        </td>
-        <td class="col-md-2 float-right"><label>City</label></td>
-        <td class="col-md-4 float-left">
-          <div class="form-group">
-            <input type="text" formControlName="city" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.city.errors }" />
-            <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
-              <div *ngIf="f.city.errors.required">City is required</div>
-            </div>
-          </div>
-        </td>
-      </div>
-      <div class="row">
-        <div class="col-md-2 float-right"><label>State</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <select class="form-control" id="state" formControlName="state">
-              <option [value]="0">Select</option>
-              <option *ngFor="let state of states" [value]="state.state_id">{{state.state_name}}</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-2 float-right"><label>Pincode</label></div>
-        <div class="col-md-4 float-left">
-          <div class="form-group">
-            <input type="text" formControlName="pincode" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.pincode.errors }" />
-            <div *ngIf="submitted && f.pincode.errors" class="invalid-feedback">
-              <div *ngIf="f.pincode.errors.required">Pincode is required</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-10 float-right">
-        <div class="form-group float-right">
-          <button class="btn btn-primary">Submit</button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div> -->
+<!-- Section End admin Mode-->
+<!-- Edit Profile -->
+<app-edit-profile [user]='userDetails' (userEdited)='handleEditUserOutput($event)' *ngIf='infoMode'></app-edit-profile>
+<!-- End Edit Profile -->

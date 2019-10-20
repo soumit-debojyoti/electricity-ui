@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ProfileService } from '../widgets/profile/profile.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
-import { User } from 'src/app/models/user.model';
+import { User, RegisterUserModel } from 'src/app/models/user.model';
 import { DataService } from '../services/data.service/data.service';
 // import { StoreService } from 'src/app/store/store.service';
 // import { ChannelNameEnum, Message } from 'src/app/store/models/message.model';
@@ -66,7 +66,11 @@ export class ProfileComponent implements OnInit {
   public idProofUploadpath: string;
   public addressProofUploadpath: string;
   private rootURL = environment.baseUrl;
-
+  userDetails: RegisterUserModel;
+  viewMode: string;
+  adminMode: boolean;
+  infoMode: boolean;
+  kycMode: boolean;
   constructor(private common: CommonService, private profileService: ProfileService, private formBuilder: FormBuilder,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService, private userService: UserService,
     private loadingScreenService: LoadingScreenService, private router: Router) {
@@ -75,17 +79,15 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.genders = [
-    //   { 'id': 1, 'name': 'Male' },
-    //   { 'id': 2, 'name': 'Female' },
-    //   { 'id': 3, 'name': 'Trans' },
-    //   { 'id': 4, 'name': 'NA' }
-    // ];
-    // this.getAddressProof();
     this.user_id = this.storage.get('user_id');
     this.clearUploadVariables();
     this.initiateRegitrationForm();
-
+    this.viewMode = 'Basic Info';
+    this.infoMode = false;
+    this.adminMode = false;
+    this.kycMode = true;
+    this.userDetails = new RegisterUserModel();
+    this.getUser();
   }
 
 
@@ -279,28 +281,11 @@ export class ProfileComponent implements OnInit {
       uploaddocumentaddress: [''],
       bankdetails: [''],
     });
-    forkJoin(this.userService.getKYC(this.user_id), this.common.getIdProof(), this.common.getAddressProof())
+    forkJoin(this.userService.getKYC(this.user_id), this.common.getIdProof(),
+    this.common.getAddressProof())
       .subscribe(([responsekyc, responseIdProof, responseAddressProof]) => {
         this.idProofs = responseIdProof;
         this.addressProofs = responseAddressProof;
-        // if (responsekyc.list.length > 0) {
-        //   this.registerForm = this.formBuilder.group({
-        //     idproof: [responsekyc.list[0].id_proof_id],
-        //     uploaddocumentid: [responsekyc.list[0].id_proof_document_path],
-        //     addressproof: [responsekyc.list[0].address_proof_id],
-        //     uploaddocumentaddress: [responsekyc.list[0].address_proof_document_path],
-        //     bankdetails: [responsekyc.list[0].bank_details],
-        //   });
-        // } else {
-        //   this.registerForm = this.formBuilder.group({
-        //     idproof: ['0'],
-        //     uploaddocumentid: [''],
-        //     addressproof: ['0'],
-        //     uploaddocumentaddress: [''],
-        //     bankdetails: [''],
-        //   });
-        // }
-
         this.registerForm.controls['uploaddocumentid'].disable();
         this.registerForm.controls['uploaddocumentaddress'].disable();
         this.InitialLoad();
@@ -320,9 +305,35 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  private updateUserDetails() {
+  handleEditUserOutput(userUpdated: boolean): void {
+    if (userUpdated) {
+      debugger;
+      this.getUser();
+    }
   }
 
+  /**Changes the mode of the view */
+  changeView(mode: string): void {
+    this.viewMode = mode;
+    switch (this.viewMode) {
+      case 'Basic Info': this.infoMode = true; this.adminMode = false; this.kycMode = false;
+        break;
+      case 'Admin View': this.infoMode = false; this.adminMode = true; this.kycMode = false;
+      break;
+      case 'KYC': this.kycMode = true; this.infoMode = false; this.adminMode = false;
+    }
+  }
+
+  getUser(): void {
+    this.loadingScreenService.startLoading();
+    this.userService.getUserDetails(this.user_id).subscribe( (response: RegisterUserModel) => {
+      this.loadingScreenService.stopLoading();
+      this.userDetails = response;
+    }, (err) => {
+      this.loadingScreenService.stopLoading();
+      console.log('error occured in profile section', err);
+    });
+  }
 }
 // custom validator to check that two fields match
 export function mustMatch(controlName: string, matchingControlName: string) {

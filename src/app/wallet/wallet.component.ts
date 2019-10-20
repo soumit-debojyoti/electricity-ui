@@ -506,7 +506,6 @@ export class WalletComponent implements OnInit {
       this.endDate.toDateString()
     , this.startDate.toDateString()).subscribe( (response: any) => {
       this.loadingScreenService.stopLoading();
-      debugger;
       this.transactions = response;
       this.dataSourceForRechargeTransaction = new MatTableDataSource(this.transactions);
       this.dataSourceForRechargeTransaction.paginator = this.paginator;

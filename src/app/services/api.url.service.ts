@@ -70,7 +70,10 @@ export class ApiUrlService extends BaseURLService {
       BANK_TRANSACTION: `common/bank/transaction`,
       RECHARGE_SERVICE: `RechargeAPI/api/recharge/{rechargetype}`,
       VALIDATE_UTILITY_SERVICE:
-      `RechargeAPI/api/recharge/validate/{rechargetype}/operator/{operatorName}/consumer/{consumer_number}/mobile/{customer_mobile}`
+      `RechargeAPI/api/recharge/validate/{rechargetype}/operator/{operatorName}/consumer/{consumer_number}/mobile/{customer_mobile}`,
+      FETCH_ALL_USER_DETAILS: `User/alluserinfo`,
+      FETCH_USER_DETAILS: `User/alluserinfo/user/{userID}`,
+      UPDATE_USER_DETAILS: `User/details/user/{userID}`,
     };
   }
 
