@@ -12,3 +12,21 @@
 .hide {
     display: none;
 }
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+.mat-header-cell {
+    /* font-weight: bold; */
+    font-size: 12px;
+    background-color: #1a2138;
+    color: white;
+    font-family: sans-serif;
+}
+
+.btn {
+    color: white;
+    background-color: 1ec149;
+  }
+

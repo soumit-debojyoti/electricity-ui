@@ -31,6 +31,8 @@ export class EditProfileComponent implements OnInit {
   userDetails: RegisterUserModel;
   message: string;
   updateSuccessful: boolean;
+  maxDOB = new Date(); // current date - as user's age can not be negetive.
+  selectedDOB: Date;
   constructor(private formBuilder: FormBuilder,
     private userService: UserService, private loadingScreenService: LoadingScreenService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService) { }
@@ -73,6 +75,7 @@ export class EditProfileComponent implements OnInit {
     }
     this.loadingScreenService.startLoading();
     this.getControlValue();
+    debugger;
     this.userService.updateUserDetails(this.storage.get('user_id'), this.userDetails).subscribe(
       (response: boolean) => {
         this.loadingScreenService.stopLoading();
@@ -111,6 +114,7 @@ export class EditProfileComponent implements OnInit {
     this.f.mobile.setValue(this.userDetails.mobile);
     this.f.gender.setValue(this.userDetails.gender.toString());
     this.f.dob.setValue(this.userDetails.dob);
+    this.selectedDOB = new Date(this.userDetails.dob);
     this.f.address.setValue(this.userDetails.address);
     this.f.po.setValue(this.userDetails.po);
     this.f.ps.setValue(this.userDetails.ps);
@@ -134,12 +138,17 @@ export class EditProfileComponent implements OnInit {
     this.userDetails.email = this.f.email.value;
     this.userDetails.mobile = this.f.mobile.value;
     this.userDetails.gender = +this.f.gender.value;
-    this.userDetails.dob = this.f.dob.value;
+    this.userDetails.dob = this.selectedDOB.toDateString();
     this.userDetails.address = this.f.address.value;
     this.userDetails.po = this.f.po.value;
     this.userDetails.ps = this.f.ps.value;
     this.userDetails.district = this.f.district.value;
     this.userDetails.city = this.f.city.value;
     this.userDetails.pincode = this.f.pincode.value;
+  }
+
+  changeDate(date: any): void {
+    debugger;
+    this.selectedDOB = date.value;
   }
 }

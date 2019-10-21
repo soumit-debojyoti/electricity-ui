@@ -307,7 +307,6 @@ export class ProfileComponent implements OnInit {
 
   handleEditUserOutput(userUpdated: boolean): void {
     if (userUpdated) {
-      debugger;
       this.getUser();
     }
   }

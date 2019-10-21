@@ -90,6 +90,16 @@
                                 </div>
                         </div> -->
                     </div>
+                    <div class="row">
+                        <div class="form-group" class="col-12">
+                            <label for="picker">DOB: &nbsp;&nbsp;</label>
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker" placeholder="Choose a date" [value] = 'selectedDOB' (dateChange)='changeDate($event)' [max]="maxDOB">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
                     <br/>
         </div>
         

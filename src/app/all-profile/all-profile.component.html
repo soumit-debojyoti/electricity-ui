@@ -47,7 +47,8 @@
         <ng-container matColumnDef="action">
           <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
           <mat-cell *matCellDef="let row"> <button class="btn btn-primary" type="submit" (click)='editUserRowData(row)'
-            data-toggle="modal" data-target='#editModal'>Edit</button> </mat-cell>
+            data-toggle="modal" data-target='#editModal'><i class="fas fa-edit"></i></button> </mat-cell>
+            
       </ng-container>
         <ng-container matColumnDef="noData">
             <!-- <mat-header-cell *matHeaderCellDef > Action </mat-header-cell> -->

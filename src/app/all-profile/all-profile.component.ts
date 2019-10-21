@@ -49,7 +49,6 @@ export class AllProfileComponent implements OnInit {
 
   handleEditUserOutput(userUpdated: boolean): void {
     if (userUpdated) {
-      debugger;
       this.fetchAllUserDetails();
     }
   }
