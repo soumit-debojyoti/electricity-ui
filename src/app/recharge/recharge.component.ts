@@ -79,7 +79,6 @@ export class RechargeComponent implements OnInit {
   get fPrepaidRecharge() { return this.prepaidRechargeForm.controls; }
   get fUtilityRecharge() { return this.utilityRechargeForm.controls; }
   recharge(): void {
-    debugger;
     let transactionMessage = '';
     const userID = this.storage.get('user_id');
     this.loadingScreenService.startLoading();

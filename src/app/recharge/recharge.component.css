@@ -1,5 +1,5 @@
 ul .active {
-    border-bottom: 2px solid #FFE600
+    border-bottom: 2px solid #28a745;
 }
 
 span {
@@ -17,5 +17,6 @@ form {
 
 .btn {
     margin-bottom: 15px;
+    background-color: #28a745;
 }
 
