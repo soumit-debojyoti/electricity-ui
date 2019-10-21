@@ -72,14 +72,14 @@
               <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.rechargeAmount.errors" style="color: red">need attention</span>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row"> -->
           <!-- <div class="col-10">
             <span>Recharge Amount</span>
             <input type="number" class="form-control" formControlName="rechargeAmount" (change)='validateAmount()' />
             <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.rechargeAmount.errors" style="color: red">need
               attention</span>
           </div>
-        </div>
+        </div> -->
         <div class="row">
           <div class="col-10" style="padding-top: 10px">
             <button (click)='checkAndDeductBalance()' class="btn btn-primary float-left">Recharge</button>

@@ -390,10 +390,10 @@
           <mat-cell *matCellDef="let row"> {{row.transactionMode}} </mat-cell>
         </ng-container>
 
-          <!-- Transaction Type Column -->
-          <ng-container matColumnDef="transactionMessage" *ngIf='isSuperAdmin'>
-              <mat-header-cell *matHeaderCellDef [ngClass]="{'hide': !isSuperAdmin}"> Transaction Message </mat-header-cell>
-              <mat-cell *matCellDef="let row" [ngClass]="{'hide': !isSuperAdmin}"> {{row.transactionMessage}} </mat-cell>
+         <!-- Transaction Type Column -->
+          <ng-container matColumnDef="transactionAmount">
+              <mat-header-cell *matHeaderCellDef> Transaction Amount </mat-header-cell>
+              <mat-cell *matCellDef="let row" > {{row.transactionAmount}} </mat-cell>
           </ng-container>
       
           <!-- Transaction Type Column -->
@@ -410,7 +410,7 @@
         </ng-container>
 
         <!-- Transaction Type Column -->
-        <ng-container matColumnDef="transactionMessage" *ngIf='isSuperAdmin'>
+        <ng-container matColumnDef="transactionMessage">
           <mat-header-cell *matHeaderCellDef> Transaction Message </mat-header-cell>
           <mat-cell *matCellDef="let row"> {{row.transactionMessage}} </mat-cell>
         </ng-container>

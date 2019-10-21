@@ -121,6 +121,7 @@ export class EditProfileComponent implements OnInit {
   /** Resets the form with default value */
   resetForm(): void {
     this.userDetails = JSON.parse(JSON.stringify(this.user));
+    this.setValue();
   }
   ngOndestroy() {
     console.log('Edit User destroyed!');
