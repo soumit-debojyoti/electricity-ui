@@ -34,13 +34,27 @@
 </nav>
 
 
-
-<p *ngIf='insufficientBalance' style="color: red">You have insufficient balance</p>
-<p *ngIf="joloTransactionStatus === 'SUCCESS'" style="color: green">Your transaction is successful</p>
-<p *ngIf="joloTransactionStatus === 'FAILURE'" style="color: red">Your transaction is not successful, please contact
-  administrator for further enquiry.</p>
-<p *ngIf='!billDue && utilityTransactionValidated' style="color: red">{{utilityTransactionErrorMessage}}.</p>
-
+<div class="alert alert-danger alert-dismissible" *ngIf='insufficientBalance'>
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>You have insufficient balance!</strong> {{message}}
+</div>
+<div class="alert alert-danger alert-dismissible" *ngIf="joloTransactionStatus === 'FAILURE'">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>Your transaction is not successful, please contact
+    administrator for further enquiry.</strong> {{message}}
+</div>
+<div class="alert alert-danger alert-dismissible" *ngIf='!billDue && utilityTransactionValidated'>
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>{{utilityTransactionErrorMessage}}.</strong> {{message}}
+</div>
+<div class="alert alert-danger alert-dismissible" *ngIf='validationFailed'>
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>issue with validation, correct your form input.</strong> {{message}}
+</div>
+<div class="alert alert-success alert-dismissible" *ngIf="joloTransactionStatus === 'SUCCESS'">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>Your transaction is successful</strong>
+</div>
 <div class="row">
   <div class="col-8">
     <div *ngIf="rechargeMode === 'PREPAID' || rechargeMode === 'DTH'">
@@ -106,8 +120,8 @@
                 </option>
               </ng-container>
             </select>
-            <span class="error" *ngIf="formSubmitted && utilityRechargeForm.operatorName.errors" style="color: red">need
-              attention</span>
+            <!-- <span class="error" *ngIf="formSubmitted && utilityRechargeForm.operatorName.errors" style="color: red">need
+              attention</span> -->
           </div>
         </div>
         <!--Electricity-->
@@ -132,14 +146,14 @@
             <input type="text" class="form-control" formControlName="consumerNumber" />
           </div>
         </div>
-        <span class="error" *ngIf="formSubmitted && utilityRechargeForm.consumerNumber.errors" style="color: red">need
-          attention</span>
+        <!-- <span class="error" *ngIf="formSubmitted && utilityRechargeForm.consumerNumber.errors" style="color: red">need
+          attention</span> -->
         <div class="row">
           <div class="col-10">
             <span>Customer Number</span>
             <input type="text" class="form-control" formControlName="mobileNumber" />
-            <span class="error" *ngIf="formSubmitted && utilityRechargeForm.mobileNumber.errors" style="color: red">need
-              attention</span>
+            <!-- <span class="error" *ngIf="formSubmitted && utilityRechargeForm.mobileNumber.errors" style="color: red">need
+              attention</span> -->
           </div>
         </div>
         <div class="row">
