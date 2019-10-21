@@ -76,20 +76,26 @@ export class LoginComponent implements OnInit {
 
 
   public login($event): void {
+    this.isLogin = true;
+    this.islog = true;
     const username = document.getElementById('userid');
     const password = document.getElementById('password');
     if (username['value'] === undefined || password['value'] === undefined) {
     } else {
+      this.isLogin = true;
       this.islog = true;
       this.loadingScreenService.startLoading();
       this.auth.login(username['value'], password['value'])
         .subscribe((res: any) => {
+          this.isLogin = true;
+          this.islog = true;
           // this.userIdle.startWatching();
           // this.autoLogout.reset();
           this.loadingScreenService.stopLoading();
           if (res.isLoginSuccess === true) {
             this.isLoginSuccess = true;
-
+            this.isLogin = true;
+            this.islog = true;
             this.storage.set('access_token', res.access_token);
             this.storage.set('is_login', true);
             this.data.changeMessage('login-done');

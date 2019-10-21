@@ -15,23 +15,29 @@
     <br> -->
 
     <!-- Interests -->
-    <div class="w3-card w3-round w3-white w3-hide-small animated slideInUp">
-      <app-rank-achiever-list></app-rank-achiever-list>
+    <div *ngIf="isSuperAdmin" class="w3-card w3-round w3-white w3-hide-small animated slideInUp">
+      <app-rank-achiever-list></app-rank-achiever-list><br>
+    </div>
+
+
+    <div *ngIf="isSuperAdmin" class="w3-card w3-round w3-white w3-hide-small animated slideInUp">
+      <app-permission></app-permission><br>
+    </div>
+
+
+    <div *ngIf="isSuperAdmin" class="w3-card w3-round animated slideInUp">
+      <app-tds-charge></app-tds-charge><br>
+    </div>
+
+    <div class="w3-card w3-round animated slideInUp w3-card w3-round w3-white">
+      <app-wallet-balance-report></app-wallet-balance-report>
+
     </div>
     <br>
+    <div class="w3-card w3-round animated slideInUp w3-card w3-round w3-white">
+      <app-recharge-transaction-report></app-recharge-transaction-report>
 
-    <div class="w3-card w3-round w3-white w3-hide-small animated slideInUp">
-      <app-permission></app-permission>
     </div>
-    <br>
-
-
-    <div class="w3-card w3-round animated slideInUp">
-      <app-tds-charge></app-tds-charge>
-    </div>
-    <br>
-
-
     <!-- Alert Box -->
     <app-notification></app-notification>
 
@@ -94,13 +100,13 @@
           <app-add-api></app-add-api>
         </div>
       </div>
-      <div class="w3-half w3-margin-bottom animated slideInUp">
-        <div *ngIf="isSuperAdmin" class="w3-card w3-round w3-white">
+      <div *ngIf="isSuperAdmin" class="w3-half w3-margin-bottom animated slideInUp">
+        <div class="w3-card w3-round w3-white">
           <app-commission-setting></app-commission-setting>
         </div>
       </div>
     </div>
-    <div class="w3-row-padding animated slideInUp">
+    <!-- <div class="w3-row-padding animated slideInUp">
       <div class="w3-half w3-margin-bottom animated slideInUp">
         <div *ngIf="!isEmployee" class="w3-card w3-round w3-white">
           <app-recharge-transaction-report></app-recharge-transaction-report>
@@ -111,7 +117,7 @@
           <app-wallet-balance-report></app-wallet-balance-report>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="w3-row-padding animated slideInUp">
       <div class="w3-half w3-margin-bottom animated slideInUp">
         <div class="w3-card w3-round w3-white">
