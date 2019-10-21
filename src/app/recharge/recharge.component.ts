@@ -43,7 +43,7 @@ export class RechargeComponent implements OnInit {
     this.prepaidRechargeForm = this.formBuilder.group(
       {
         operatorName: ['', Validators.required],
-        mobileNumber: ['', Validators.required],
+        mobileNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
         rechargeAmount: ['', [Validators.required, Validators.min(10)]],
       }
     );
@@ -53,7 +53,7 @@ export class RechargeComponent implements OnInit {
         consumerNumber: ['', Validators.required],
         rechargeAmount: ['', [Validators.required, Validators.min(10)]],
         customerName: ['', Validators.required],
-        mobileNumber: ['', Validators.required]
+        mobileNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]]
       }
     );
   }
@@ -185,6 +185,11 @@ export class RechargeComponent implements OnInit {
   }
 
   validateTransaction(): void {
+    if (!this.common.validateMobileNumberInputString(this.fUtilityRecharge.mobileNumber.value.toString())) {
+      alert('Invalid form data');
+      this.fUtilityRecharge.mobileNumber.setErrors({'incorrect': true});
+      return;
+    }
     this.loadingScreenService.startLoading();
         this.common.validateUtilityService(this.rechargeMode,
           this.fUtilityRecharge.operatorName.value.toString(),
@@ -223,6 +228,7 @@ export class RechargeComponent implements OnInit {
   changeView(mode: string): void {
     this.rechargeMode = mode;
     this.changeRechargeType();
+    this.joloTransactionStatus = '';
   }
   validateAmount(): void {
   }

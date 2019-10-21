@@ -434,4 +434,12 @@ export class CommonService {
     const mainURL = this.apiUrlService.getFullURL('VALIDATE_UTILITY_SERVICE', urlStringObject);
     return this.baseService.post(mainURL, {}, true);
   }
+
+  public validateMobileNumberInputString(data: string): boolean {
+    if (!isNaN(+data)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
