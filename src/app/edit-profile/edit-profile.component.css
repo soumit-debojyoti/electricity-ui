@@ -1,0 +1,21 @@
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
+
+  .btn {
+    margin-left: 16px;
+    color: white;
+    background-color: #28a745;
+  }
+
+.card-footer {
+    background-color:#1a2138;
+}
+
+i {
+    color: white;
+}
+.card-header {
+    background-color: #1a2138;
+    color: white;
+}

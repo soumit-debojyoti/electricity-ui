@@ -1,0 +1,180 @@
+<div *ngIf="error" class="alert alert-danger">{{error}}</div>
+<p>User Details: </p>
+<div class="alert alert-success alert-dismissible" *ngIf='updateSuccessful && submitted'>
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> {{message}}
+</div>
+<div class="alert alert-danger alert-dismissible" *ngIf='!updateSuccessful && submitted'>
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Danger!</strong> {{message}}
+</div>
+<form [formGroup]="registerForm" class="container-fluid col-sm-12">
+    <!-- Personal Info-->
+    <div class="card" *ngIf='pagePersonalInfo'>
+        <div class="card-header row col-sm-12">
+            <label>Personal Info</label>
+        </div>
+        <div class="card-body col-sm-12">
+                <div class="row">            
+                        <div class="form-group" class="col-6">
+                                <label for="firstName">First Name</label>
+                                <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+                                <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                                    <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                                </div>
+                        </div>
+                        <div class="form-group" class="col-6">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+                            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                                <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="form-group" class="col-6">
+                                <label for="username">Username</label>
+                                <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                    <div *ngIf="f.username.errors.required">Username is required</div>
+                                </div>
+                        </div>
+                        <div class="form-group" class="col-6">
+                                <label for="password">Password</label>
+                                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                    <div *ngIf="f.password.errors.required">Password is required</div>
+                                    <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" class="col-6">
+                                <label for="email">Email</label>
+                                <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                <div *ngIf="f.email.errors.required">Email is required</div>
+                                    <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                                </div>
+                        </div>
+                        <div class="form-group" class="col-6">
+                                <label for="mobile">Mobile</label>
+                                <input type="text" formControlName="mobile" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" />
+                                <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+                                <div *ngIf="f.mobile.errors.required">Mobile number is required</div>
+                                    <div *ngIf="f.mobile.errors.minlength || f.mobile.errors.maxlength">Mobile number must be a valid 10 digit mobile number</div>
+                                </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="form-group" class="col-12">
+                                <label for="gender">Gender: &nbsp;&nbsp;</label>
+                                <mat-radio-group formControlName="gender" 
+                                [ngClass]="{ 'is-invalid': submitted && f.gender.errors }" >
+                                    <mat-radio-button value="0">Male</mat-radio-button>
+                                    <mat-radio-button value="1">Female</mat-radio-button>
+                                </mat-radio-group>
+                                <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                                    <div *ngIf="f.gender.errors.required">Gender is required</div>
+                                </div>
+                        </div>
+                        <!-- <div class="form-group" class="col-4">
+                                <label>DOB: &nbsp;&nbsp;</label>
+                                <app-custom-date-picker formControlName="dob"
+                                [date] = 'customCalendarSelectedStartDate'
+                                (selectedDate)='getSelectedStartDate($event)'></app-custom-date-picker>                
+                                <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+                                    <div *ngIf="f.dob.errors.required">DOB is required</div>
+                                </div>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="form-group" class="col-12">
+                            <label for="picker">DOB: &nbsp;&nbsp;</label>
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker" placeholder="Choose a date" [value] = 'selectedDOB' (dateChange)='changeDate($event)' [max]="maxDOB">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <br/>
+        </div>
+        
+    </div>
+
+    <!-- Address Info-->
+    <div class="card" *ngIf='pageAddressInfo'>
+            <div class="card-header row col-sm-12">
+                <label>Address Info</label>
+            </div>
+            <div class="card-body col-sm-12">
+                    <div class="row">
+                            <div class="form-group" class="col-6">
+                                    <label for="Address">Address</label>
+                                    <textarea formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }" class="form-control" rows="3" id="Address"></textarea>
+                                    <!-- <input type="text" formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }" /> -->
+                                    <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                                        <div *ngIf="f.address.errors.required">Address can't be left blank</div>
+                                    </div>
+                            </div>
+                            <div class="form-group" class="col-6">
+                                <label for="postOffice">Post Office</label>
+                                <input type="text" formControlName="po" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.po.errors }" />
+                                <div *ngIf="submitted && f.po.errors" class="invalid-feedback">
+                                    <div *ngIf="f.po.errors.required">Post office can't be left blank</div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                            <div class="form-group" class="col-6">
+                                    <label for="policeStation">Police Station</label>
+                                    <input type="text" formControlName="ps" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.ps.errors }" />
+                                    <div *ngIf="submitted && f.ps.errors" class="invalid-feedback">
+                                        <div *ngIf="f.ps.errors.required">Police station can't be left blank</div>
+                                    </div>
+                            </div>
+                            <div class="form-group" class="col-6">
+                                <label for="city">City</label>
+                                <input type="text" formControlName="city" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.city.errors }" />
+                                <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                                    <div *ngIf="f.city.errors.required">City can't be left blank</div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                            <div class="form-group" class="col-6">
+                                    <label for="district">District</label>
+                                    <input type="text" formControlName="district" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.district.errors }" />
+                                    <div *ngIf="submitted && f.district.errors" class="invalid-feedback">
+                                        <div *ngIf="f.district.errors.required">district can't be left blank</div>
+                                    </div>
+                            </div>
+                            <div class="form-group" class="col-6">
+                                <label for="pincode">Pincode</label>
+                                <input type="number" formControlName="pincode" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.pincode.errors }" />
+                                <div *ngIf="submitted && f.pincode.errors" class="invalid-feedback">
+                                    <div *ngIf="f.pincode.errors.required">Pincode can't be left blank</div>
+                                </div>
+                            </div>
+                    </div>
+            </div>
+            
+    </div>
+    <div class="form-group card-footer col-sm-12">
+        <div class="row">
+                <i class='fas fa-angle-left' style='font-size:16px;margin-left: 16px'
+                (click)='changePage("Personal")'
+                *ngIf='!pagePersonalInfo && pageAddressInfo'><label>previous</label></i> <!-- Left: personal info-->
+                <i class='fas fa-angle-right' style='font-size:16px;margin-left: 16px'
+                (click)='changePage("Address")' *ngIf='pagePersonalInfo'><label>next</label></i> <!-- Right: address info-->
+        </div>
+        <div class="row float-right">
+            <button class="btn btn-primary float-right" (click)='onSubmit()'>Update</button>
+            <button class="btn btn-primary float-right" style="margin-right: 15px" (click)='resetForm()'>Reset</button>
+        </div>       
+        
+    </div>
+</form>

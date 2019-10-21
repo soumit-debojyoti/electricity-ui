@@ -140,7 +140,6 @@ export class LoginComponent implements OnInit {
           this.errorMessage = 'Username or password are invalid....';
           console.log('We got error', error.message);
           console.log('Error type', error.stack);
-
         });
     }
 

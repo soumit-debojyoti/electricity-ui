@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Headers, RequestOptions } from '@angular/http';
-import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -10,6 +9,7 @@ import { Router } from '@angular/router';
 import { BaseService } from '../base.service';
 import { ApiUrlService } from '../api.url.service';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { RegisterUserModel } from 'src/app/models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -280,6 +280,34 @@ export class UserService {
     const urlStringObject = {};
     const mainURL = this.apiUrlService.getFullURL('FETCH_RANK_ACHIEVER', urlStringObject);
     return this.baseService.get(mainURL, {}, params);
+  }
+
+  public getAllUsersDetails(): Observable<Array<RegisterUserModel>> {
+    // var url: string = `user/users/${user_name}`;
+    const params = new HttpParams();
+    const urlStringObject = {};
+    const mainURL = this.apiUrlService.getFullURL('FETCH_ALL_USER_DETAILS', urlStringObject);
+    return this.baseService.get(mainURL, {}, params);
+  }
+
+  public getUserDetails(userID: number): Observable<RegisterUserModel> {
+    // var url: string = `user/users/${user_name}`;
+    const params = new HttpParams();
+    const urlStringObject = {
+      userID: userID
+    };
+    const mainURL = this.apiUrlService.getFullURL('FETCH_USER_DETAILS', urlStringObject);
+    return this.baseService.get(mainURL, {}, params);
+  }
+
+  public updateUserDetails(userID: number, user: RegisterUserModel): Observable<boolean> {
+    // var url: string = `user/users/${user_name}`;
+    const params = new HttpParams();
+    const urlStringObject = {
+      userID: userID
+    };
+    const mainURL = this.apiUrlService.getFullURL('UPDATE_USER_DETAILS', urlStringObject);
+    return this.baseService.post(mainURL, user, true);
   }
 
 }

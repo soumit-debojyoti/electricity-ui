@@ -31,6 +31,7 @@ export class RechargeComponent implements OnInit {
   public prepaidRechargeForm: FormGroup;
   public utilityRechargeForm: FormGroup;
   public formSubmitted = false;
+  public validationFailed = false;
   constructor(private common: CommonService, private alertService: AlertService,
     private loadingScreenService: LoadingScreenService, private formBuilder: FormBuilder,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private userService: UserService) { }
@@ -43,7 +44,7 @@ export class RechargeComponent implements OnInit {
     this.prepaidRechargeForm = this.formBuilder.group(
       {
         operatorName: ['', Validators.required],
-        mobileNumber: ['', Validators.required],
+        mobileNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
         rechargeAmount: ['', [Validators.required, Validators.min(10)]],
       }
     );
@@ -53,7 +54,7 @@ export class RechargeComponent implements OnInit {
         consumerNumber: ['', Validators.required],
         rechargeAmount: ['', [Validators.required, Validators.min(10)]],
         customerName: ['', Validators.required],
-        mobileNumber: ['', Validators.required]
+        mobileNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]]
       }
     );
   }
@@ -185,6 +186,11 @@ export class RechargeComponent implements OnInit {
   }
 
   validateTransaction(): void {
+    if (!this.common.validateMobileNumberInputString(this.fUtilityRecharge.mobileNumber.value.toString())) {
+      alert('Invalid form data');
+      this.fUtilityRecharge.mobileNumber.setErrors({'incorrect': true});
+      return;
+    }
     this.loadingScreenService.startLoading();
         this.common.validateUtilityService(this.rechargeMode,
           this.fUtilityRecharge.operatorName.value.toString(),
@@ -197,11 +203,13 @@ export class RechargeComponent implements OnInit {
             this.fUtilityRecharge.rechargeAmount.setValue(innerResponse.dueamount);
             this.fUtilityRecharge.customerName.setValue(innerResponse.customername);
             this.validationReferenceID = innerResponse.reference_id;
+            this.validationFailed = false;
           } else if (innerResponse.status === 'FAILED') {
             this.billDue = false;
             this.utilityTransactionErrorMessage = innerResponse.error;
             this.utilityRechargeForm.reset();
             this.utilityTransactionValidated = false;
+            this.validationFailed = true;
           }
           this.loadingScreenService.stopLoading();
         }, (err) => {
@@ -223,6 +231,8 @@ export class RechargeComponent implements OnInit {
   changeView(mode: string): void {
     this.rechargeMode = mode;
     this.changeRechargeType();
+    this.joloTransactionStatus = '';
+    this.validationFailed = false;
   }
   validateAmount(): void {
   }

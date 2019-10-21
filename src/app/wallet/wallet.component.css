@@ -52,7 +52,7 @@ pointer-events: none;
 .mat-header-cell {
     /* font-weight: bold; */
     font-size: 12px;
-    background-color: black;
+    background-color:#1a2138;
     color: white;
     font-family: sans-serif;
 }
@@ -69,4 +69,8 @@ pointer-events: none;
 
 .hide {
     display: none;
+}
+.btn {
+    background-color: #28a745;
+    color: #fff;
 }

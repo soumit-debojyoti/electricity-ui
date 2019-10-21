@@ -1,0 +1,85 @@
+
+<div class="card">
+    <div class="card-header">User details: </div>
+    <mat-table class="card-body" [dataSource]="dataSourceForUsersDetails" matSort>
+        <!-- Transaction ID Column -->
+        <ng-container matColumnDef="transactionID" style="width: 5%">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.transactionID}} </mat-cell>
+        </ng-container>
+    
+        <!-- User ID Column -->
+        <!-- <ng-container matColumnDef="userID">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> User ID </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.userID}} </mat-cell>
+        </ng-container> -->
+    
+        <!-- First Name Column -->
+        <ng-container matColumnDef="fisrtName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> First Name </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.firstName}} </mat-cell>
+        </ng-container>
+    
+        <!-- Last Name Column -->
+        <ng-container matColumnDef="lastName">
+          <mat-header-cell *matHeaderCellDef> Last Name </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.lastName}} </mat-cell>
+        </ng-container>
+
+        <!-- User Name Column -->
+        <ng-container matColumnDef="username">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> User Name </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.username}} </mat-cell>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.email}} </mat-cell>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="mobile">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Mobile </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.mobile}} </mat-cell>
+        </ng-container>
+        <!-- Action Type Column -->
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
+          <mat-cell *matCellDef="let row"> <button class="btn btn-primary" type="submit" (click)='editUserRowData(row)'
+            data-toggle="modal" data-target='#editModal'><i class="fas fa-edit"></i></button> </mat-cell>
+            
+      </ng-container>
+        <ng-container matColumnDef="noData">
+            <!-- <mat-header-cell *matHeaderCellDef > Action </mat-header-cell> -->
+            <mat-footer-cell *matFooterCellDef="let row" [ngClass]="{'hide': users.length !== 0}"> No Data ... </mat-footer-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;">
+        </mat-row>
+        <mat-footer-row *matFooterRowDef="['noData']"></mat-footer-row>
+      </mat-table>      
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
+
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModal"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit user info</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body col-sm-12">
+            <app-edit-profile [user]='selectedUser' (userEdited)='handleEditUserOutput($event)'></app-edit-profile>
+        </div>
+        <!-- mOdal body end-->
+        <div class="modal-footer">
+          <p>User details modified, is supposed to be verified.</p>
+        </div>
+      </div>
+    </div>
+  </div>

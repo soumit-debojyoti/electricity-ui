@@ -25,6 +25,7 @@ import { SharedModule } from './shared-module';
 // import { AutoLogoutService } from './services/auto-logout-service';
 import { StoreModule } from '@ngrx/store';
 import { createReducer } from './store/reducers/message.reducer';
+
 // import { StoreService } from './store/store.service';
 // import { UserIdleModule } from 'angular-user-idle';
 

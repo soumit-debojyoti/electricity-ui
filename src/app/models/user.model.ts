@@ -28,6 +28,26 @@ export interface TransferAmountModel {
     return_message: string;
 }
 
+export class RegisterUserModel {
+    username: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    fatherName: string;
+    dob: string;
+    mobile: string;
+    pan_card: string;
+    aadhar_card: string;
+    address: string;
+    po: string;
+    ps: string;
+    district: string;
+    city: string;
+    state: string;
+    pincode: string;
+    gender: number; // 0 for male : 1 for female
+    password: string;
+}
 export interface MobileValidationResponse {
     isValid: boolean;
     user_id: number;
