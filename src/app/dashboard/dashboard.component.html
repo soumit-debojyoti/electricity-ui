@@ -1,7 +1,18 @@
-<div>
-  <app-news-slider></app-news-slider>
+<div class="w3-row marque-position">
+  <div class="w3-col m10 pr-17">
+    <app-news-slider></app-news-slider>
+  </div>
+  <!-- <div class="w3-col m2">
+
+  </div> -->
+  <div class="w3-col m2">
+    <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4 api-balance-position">
+      <app-balance></app-balance>
+    </div>
+  </div>
+
 </div>
-<div class="w3-row">
+<div class="w3-row main-position">
   <!-- Left Column -->
   <div class="w3-col m3">
     <!-- Profile -->
@@ -18,12 +29,12 @@
     <div *ngIf="isSuperAdmin" class="w3-card w3-round w3-white w3-hide-small animated slideInUp">
       <app-rank-achiever-list></app-rank-achiever-list><br>
     </div>
-
+    <br>
 
     <div *ngIf="isSuperAdmin" class="w3-card w3-round w3-white w3-hide-small animated slideInUp">
       <app-permission></app-permission><br>
     </div>
-
+    <br>
 
     <div *ngIf="isSuperAdmin" class="w3-card w3-round animated slideInUp">
       <app-tds-charge></app-tds-charge><br>
@@ -37,7 +48,7 @@
     <div class="w3-card w3-round animated slideInUp w3-card w3-round w3-white">
       <app-recharge-transaction-report></app-recharge-transaction-report>
 
-    </div>
+    </div><br>
     <!-- Alert Box -->
     <app-notification></app-notification>
 

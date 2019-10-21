@@ -14,12 +14,12 @@ export class EditProfileComponent implements OnInit {
   user: RegisterUserModel;
   @Input('user')
   set userValue(value: RegisterUserModel) {
-      this.user = value;
-      this.userDetails = JSON.parse(JSON.stringify(this.user));
-      if (this.userDetails.username !== undefined) {
-        this.customCalendarSelectedStartDate = new Date(this.userDetails.dob);
-        this.setValue();
-      }
+    this.user = value;
+    this.userDetails = JSON.parse(JSON.stringify(this.user));
+    if (this.userDetails.username !== undefined) {
+      this.customCalendarSelectedStartDate = new Date(this.userDetails.dob);
+      this.setValue();
+    }
   }
   @Output() userEdited = new EventEmitter<boolean>();
   registerForm: FormGroup;
@@ -41,7 +41,7 @@ export class EditProfileComponent implements OnInit {
     this.pagePersonalInfo = true;
     this.pageAddressInfo = false;
     this.userDetails = new RegisterUserModel();
-    if ( this.registerForm === undefined) {
+    if (this.registerForm === undefined) {
       this.createFormValidation();
     }
     this.message = '';
@@ -63,7 +63,7 @@ export class EditProfileComponent implements OnInit {
       district: ['', Validators.required],
       city: ['', Validators.required],
       pincode: ['', Validators.required],
-  });
+    });
   }
   get f() { return this.registerForm.controls; }
 
@@ -75,12 +75,11 @@ export class EditProfileComponent implements OnInit {
     }
     this.loadingScreenService.startLoading();
     this.getControlValue();
-    debugger;
     this.userService.updateUserDetails(this.storage.get('user_id'), this.userDetails).subscribe(
       (response: boolean) => {
         this.loadingScreenService.stopLoading();
         response ? this.message = 'user details updated successfully.' :
-        this.message = 'something went wrong, please try later.';
+          this.message = 'something went wrong, please try later.';
         this.updateSuccessful = response;
         this.userEdited.emit(response);
       }, (err) => {
@@ -94,16 +93,16 @@ export class EditProfileComponent implements OnInit {
   changePage(page: string): void {
     switch (page) {
       case 'Personal': this.pagePersonalInfo = true;
-      this.pageAddressInfo = false;
-      break;
+        this.pageAddressInfo = false;
+        break;
       case 'Address': this.pagePersonalInfo = false;
-      this.pageAddressInfo = true;
-      break;
+        this.pageAddressInfo = true;
+        break;
     }
   }
   /** Setting the default value of form */
   public setValue(): void {
-    if ( this.registerForm === undefined) {
+    if (this.registerForm === undefined) {
       this.createFormValidation();
     }
     this.f.firstName.setValue(this.userDetails.firstName);
@@ -148,7 +147,6 @@ export class EditProfileComponent implements OnInit {
   }
 
   changeDate(date: any): void {
-    debugger;
     this.selectedDOB = date.value;
   }
 }

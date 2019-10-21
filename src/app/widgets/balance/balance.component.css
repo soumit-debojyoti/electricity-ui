@@ -1,0 +1,11 @@
+.low_balance{
+    color:red;
+}
+
+.high_balance{
+    color:blue;
+}
+
+.bold{
+    font-weight: bold;
+}

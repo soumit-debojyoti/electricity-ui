@@ -9,12 +9,13 @@
     <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme pointer"></i> {{role | titlecase}}</p>
     <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme pointer"></i> {{city}}, {{state_name}}</p>
     <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme pointer"></i> {{dob}}</p>
-    <p class="pl-40">Account Balance&nbsp;&nbsp;<span
+    <!-- <p class="pl-40">Account Balance&nbsp;&nbsp;<span
         [ngClass]="{'low_balance': balance <= 100, 'high_balance':balance > 100 }"><span>&#8377;</span><strong>{{balance}}</strong></span>
-    </p>
+    </p> -->
+    <hr>
     <div class="w3-card-footer">
       <p><i class="fa fa-user fa-fw w3-margin-right w3-text-theme pointer"></i> <a class="text"
-          [routerLink]="['/profile']" title="Profile">Profile</a></p>
+          [routerLink]="['/profile']" title="Profile">Edit Profile</a></p>
 
     </div>
   </div>
