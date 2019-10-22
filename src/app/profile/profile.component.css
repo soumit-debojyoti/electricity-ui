@@ -13,3 +13,8 @@
 ul .active {
     border-bottom: 2px solid white;
 }
+
+.btn {
+    color: white;
+    background-color: #28a745;
+  }

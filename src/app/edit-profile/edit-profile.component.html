@@ -1,5 +1,4 @@
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-<p>User Details: </p>
 <div class="alert alert-success alert-dismissible" *ngIf='updateSuccessful && submitted'>
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     <strong>Success!</strong> {{message}}
@@ -10,8 +9,8 @@
 </div>
 <form [formGroup]="registerForm" class="container-fluid col-sm-12">
     <!-- Personal Info-->
-    <div class="card" *ngIf='pagePersonalInfo'>
-        <div class="card-header row col-sm-12">
+    <div class="card container-fluid" *ngIf='pagePersonalInfo'>
+        <div class="card-header container-fluid row col-sm-12">
             <label>Personal Info</label>
         </div>
         <div class="card-body col-sm-12">
@@ -106,8 +105,8 @@
     </div>
 
     <!-- Address Info-->
-    <div class="card" *ngIf='pageAddressInfo'>
-            <div class="card-header row col-sm-12">
+    <div class="card container-fluid" *ngIf='pageAddressInfo'>
+            <div class="card-header container-fluid row col-sm-12">
                 <label>Address Info</label>
             </div>
             <div class="card-body col-sm-12">
