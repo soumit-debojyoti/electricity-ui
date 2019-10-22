@@ -43,7 +43,7 @@ export class RegisterUserModel {
     ps: string;
     district: string;
     city: string;
-    state: string;
+    state: number;
     pincode: string;
     gender: number; // 0 for male : 1 for female
     password: string;

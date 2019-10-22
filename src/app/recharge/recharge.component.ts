@@ -171,12 +171,17 @@ export class RechargeComponent implements OnInit {
                           }
                           break;
     }
+    this.loadingScreenService.startLoading();
     this.userService.getWalletBalance(userID).subscribe((response: any) => {
+      this.loadingScreenService.stopLoading();
       if (+response.walletBalance >= this.rechargeAmount) {
         this.recharge();
       } else {
         this.insufficientBalance = true;
       }
+    }, (err) => {
+      this.loadingScreenService.stopLoading();
+      console.log('Error occured while checking wallet balance!', err);
     });
   }
 

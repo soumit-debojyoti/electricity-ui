@@ -187,3 +187,9 @@ input[type="button"]:hover, button:hover {
   input[type="button"]:active, button:active {
       transform:  scale(.99);
     }
+.modal {
+  z-index: 999;
+}
+.modal-backdrop {
+  z-index: 998;
+}
