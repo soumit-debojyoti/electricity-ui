@@ -9,10 +9,12 @@ import { LoadingScreenService } from '../../services/loading-screen/loading-scre
 })
 export class NewsSliderComponent implements OnInit {
   public feeds: Array<NewsFeed>;
+  public finalfeeds: string;
   constructor(private commonService: CommonService, private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
     this.feeds = [];
+    this.finalfeeds = '';
     this.fetchAllNews();
   }
 
@@ -21,6 +23,9 @@ export class NewsSliderComponent implements OnInit {
     this.commonService.fetchNews().subscribe(
       (response) => {
         this.feeds = response;
+        this.feeds.forEach((item: NewsFeed) => {
+          this.finalfeeds = this.finalfeeds + item.content + '  ';
+        });
         this.loadingScreenService.stopLoading();
       }, (err) => {
         console.log('Error occured in news slider', err);

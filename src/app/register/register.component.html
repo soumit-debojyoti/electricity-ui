@@ -132,14 +132,25 @@
       </div>
       <div class="row">
         <div class="col-md-2 float-right"><label>Mobile Number</label></div>
-        <div class="col-md-10 float-left">
+        <div class="col-md-8 float-left">
           <div class="form-group">
 
             <input type="text" formControlName="mobile" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" />
             <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
               <div *ngIf="f.mobile.errors.required">Mobile is required</div>
+              <div *ngIf="f.mobile.errors.minlength">Mobile must be at least 10 characters</div>
             </div>
+            <!-- <div *ngIf="f.mobile.errors && isfirst && ismobileexist" class="invalid-feedback">
+              <div *ngIf="f.mobile.errors.requiredTrue">Mobile is duplicate</div>
+            </div> -->
+          </div>
+        </div>
+        <div class="col-md-2 float-left">
+          <div class="form-group">
+            <i *ngIf="isfirst && !ismobileexist" class="fa fa-check-circle" style="font-size:24px;color:green"></i>
+            <i *ngIf="isfirst && ismobileexist" class="fa fa-close" style="font-size:24px;color:red"
+              title="Mobile number exist."></i>
           </div>
         </div>
       </div>

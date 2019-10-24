@@ -18,7 +18,6 @@ export class EditProfileComponent implements OnInit {
     this.userDetails = JSON.parse(JSON.stringify(this.user));
     if (this.userDetails.username !== undefined) {
       this.customCalendarSelectedStartDate = new Date(this.userDetails.dob);
-      debugger;
       this.setValue();
     }
   }

@@ -53,6 +53,11 @@ export interface MobileValidationResponse {
     user_id: number;
 }
 
+export interface MobileUniqueValidationResponse {
+    has_present: boolean;
+    message: string;
+}
+
 export interface AccountValidationResponse {
     isValid: boolean;
     message: string;

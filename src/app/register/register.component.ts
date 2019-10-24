@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { RegisterUserResponse } from '../models/registeruser.model';
 import { AlertService } from '../services/common.service/alert.service';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
+import { MobileUniqueValidationResponse } from '../models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +21,9 @@ import { LoadingScreenService } from '../services/loading-screen/loading-screen.
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
+  isfirst: boolean;
   submitted = false;
+  ismobileexist: boolean;
   public introducer_code: string;
   public is_employee_value: string;
   public isEmployee: boolean;
@@ -47,6 +50,8 @@ export class RegisterComponent implements OnInit {
     private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
+    this.isfirst = false;
+    this.ismobileexist = false;
     this.isKYCLater = false;
     this.clearUploadVariables();
     this.genders = [
@@ -67,6 +72,7 @@ export class RegisterComponent implements OnInit {
     this.getAddressProof();
     this.getIdProof();
     this.getStates();
+    this.formControlValueChanged();
   }
 
   public changeKYC(isKYC: any) {
@@ -79,6 +85,11 @@ export class RegisterComponent implements OnInit {
   public onSubmit() {
     this.submitted = true;
     if (this.registerForm.invalid) {
+      return;
+    } else if (this.ismobileexist) {
+      this.alertService.confirmationMessage('',
+        `Mobile number exist.`,
+        'error', true, false);
       return;
     }
 
@@ -139,12 +150,30 @@ export class RegisterComponent implements OnInit {
   }
 
   public dateChange() {
-    // const date = this.registerForm.controls['dob'].value;
     const fname = this.registerForm.controls['firstName'].value.toLowerCase().substring(0, 3);
     const lname = this.registerForm.controls['lastName'].value.toLowerCase().substring(0, 3);
     this.user_name = this.useridFormation();
     this.registerForm.controls['username'].setValue(this.user_name); // = this.user_name;
   }
+
+  public formControlValueChanged() {
+    this.registerForm.get('mobile').valueChanges
+      .subscribe(
+        (mobile: string) => {
+          console.log(mobile);
+          if (mobile.length === 10) {
+            this.validateUniqueMobile(mobile);
+          }
+
+
+        });
+  }
+
+  // public mobileChange() {
+  //   const mobile = this.registerForm.controls['mobile'].value.toLowerCase();
+  //   this.validateUniqueMobile(mobile);
+  //   return false;
+  // }
 
   public onIdProofChanged(event: any) {
     if (event.target.value !== '0') {
@@ -305,7 +334,7 @@ export class RegisterComponent implements OnInit {
         fathername: ['', Validators.required],
         gender: ['0'],
         dob: ['', Validators.required],
-        mobile: [''],
+        mobile: ['', [Validators.required, Validators.minLength(10)]],
         email: [''],
         pancard: ['', Validators.required],
         aadharcard: ['', Validators.required],
@@ -344,7 +373,7 @@ export class RegisterComponent implements OnInit {
         fathername: ['', Validators.required],
         gender: ['0'],
         dob: ['', Validators.required],
-        mobile: [''],
+        mobile: ['', [Validators.required, Validators.minLength(10)]],
         email: [''],
         pancard: ['', Validators.required],
         aadharcard: ['', Validators.required],
@@ -383,6 +412,26 @@ export class RegisterComponent implements OnInit {
             this.addWalletTransaction(event.amount_wallet_for_registration, event.user_id,
               'Amount added to open a wallet with initial amount.', 'debit');
           }
+        }
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
+  private validateUniqueMobile(mobile: string): void {
+    this.userService.validateUniqueMobile(mobile)
+      .subscribe((event: MobileUniqueValidationResponse) => {
+        this.loadingScreenService.stopLoading();
+        const phoneControl = this.registerForm.get('mobile');
+        if (event.has_present) {
+          this.isfirst = true;
+          this.ismobileexist = true;
+          phoneControl.setValidators([Validators.requiredTrue]);
+        } else {
+          this.isfirst = true;
+          this.ismobileexist = false;
+          phoneControl.clearValidators();
+
         }
       }, () => {
         this.loadingScreenService.stopLoading();

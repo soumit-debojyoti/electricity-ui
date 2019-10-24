@@ -20,6 +20,7 @@ export class ApiUrlService extends BaseURLService {
       GET_KYC: `user/getkycdetail/{userId}`,
       SEARCH_USERS: `user/searchusers/{name}`,
       VALIDATE_MOBILE: `user/validatemobile/{mobile}`,
+      VALIDATE_UNIQUE_MOBILE: `user/validateuniquemobile/{mobile}`,
       VALIDATE_ACCOUNT: `user/validateaccount/{userid}`,
       VALIDATE_TOKEN: `user/validatetoken/{token}`,
       WALLET_BALANCE: `user/walletbalance/user/{userId}`,
@@ -72,7 +73,7 @@ export class ApiUrlService extends BaseURLService {
       BANK_TRANSACTION: `common/bank/transaction`,
       RECHARGE_SERVICE: `RechargeAPI/api/recharge/{rechargetype}`,
       VALIDATE_UTILITY_SERVICE:
-      `RechargeAPI/api/recharge/validate/{rechargetype}/operator/{operatorName}/consumer/{consumer_number}/mobile/{customer_mobile}`,
+        `RechargeAPI/api/recharge/validate/{rechargetype}/operator/{operatorName}/consumer/{consumer_number}/mobile/{customer_mobile}`,
       FETCH_ALL_USER_DETAILS: `User/alluserinfo`,
       FETCH_USER_DETAILS: `User/alluserinfo/user/{userID}`,
       UPDATE_USER_DETAILS: `User/details/user/{userID}`,

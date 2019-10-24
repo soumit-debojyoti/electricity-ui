@@ -16,10 +16,13 @@
     width: 350px;
     position: relative;
     left: -35px;
-    top: -25px;
+    top: -11px;
     text-align: right;
     font-weight: bold;
     font-size: 11px;
+}
+.font-size-20{
+        font-size: 20px;
 }
 
 .marque-position{
@@ -31,7 +34,7 @@
     position: relative;
     top: -48px;
     left: -12px;
-     box-shadow: 0 0 8px 8px white inset;
+     box-shadow: 0 0 8px 8px #f6f6f6 inset;
 }
 
 .mobileshow { 

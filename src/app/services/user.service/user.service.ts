@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { BaseService } from '../base.service';
 import { ApiUrlService } from '../api.url.service';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
-import { RegisterUserModel } from 'src/app/models/user.model';
+import { RegisterUserModel, MobileUniqueValidationResponse } from 'src/app/models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -263,6 +263,15 @@ export class UserService {
     };
     const mainURL = this.apiUrlService.getFullURL('VALIDATE_MOBILE', urlStringObject);
     return this.baseService.get(mainURL, {}, params);
+  }
+
+  public validateUniqueMobile(mobile: string): Observable<MobileUniqueValidationResponse> {
+    const params = new HttpParams();
+    const urlStringObject = {
+      mobile: mobile
+    };
+    const mainURL = this.apiUrlService.getFullURL('VALIDATE_UNIQUE_MOBILE', urlStringObject);
+    return this.baseService.get(mainURL, {}, params, true);
   }
 
   public validateAccount(userid: number): Observable<any> {

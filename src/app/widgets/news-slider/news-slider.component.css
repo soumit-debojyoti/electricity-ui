@@ -5,34 +5,8 @@
 .tcontainer{
     width: 100%;
     overflow: hidden;
-    height: 14px;
+    height: 26px;
     position: relative;
-    top: -16px;
-}
-.ticker-wrap {
-    width: 50%;
-    padding-left: 100%;
-}
-.ticker-move {
-    display: inline-block;
-    white-space: nowrap;
-    padding-right: 100%;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    animation-name: ticker;
-    animation-duration: 20s;
-}
-.ticker-move:hover {
-    animation-play-state: paused;
-}
-.ticker-item {
-    display: inline-block;
-    padding: 20px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color:rgb(26, 21, 21);
-    font-weight: bold;
-}
-.position{
-    position: relative;
-    top: -23px;
+    top: -22px;
+    font-size: 18px;
 }
