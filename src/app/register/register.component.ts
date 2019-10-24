@@ -282,7 +282,7 @@ export class RegisterComponent implements OnInit {
 
   private useridFormation(): string {
     const x = new Date();
-    const y = x.getFullYear().toString();
+    const y = x.getFullYear().toString().substr(-2);
     let m = (x.getMonth() + 1).toString();
     let d = x.getDate().toString();
     (d.length === 1) ? (d = '0' + d) : (d = d);

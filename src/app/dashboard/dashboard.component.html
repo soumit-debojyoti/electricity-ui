@@ -1,10 +1,37 @@
 <div class="w3-row marque-position">
   <div class="w3-col m10 pr-17">
+    <!-- Logo -->
+    <a href="#" class="w3-bar-item w3-button logo-position" routerLink="/dashboard"><img src="assets/logo/logo.jpg"
+        class="logo" style="width: 135px;height: 76px;" alt="Avatar"></a>
+  </div>
+  <div class="w3-col m2">
+    <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4 api-balance-position">
+      <!-- Logout -->
+      <a class="w3-bar-item w3-button  w3-right w3-hover-white font-large w3-theme-d2 position mobileshow"
+        title="Logout" (click)="logout()"><i class="fa fa-sign-out pointer"></i></a>
+      <a *ngIf="isLogin" class="w3-bar-item w3-button w3-hide-small float-right w3-hover-white header-item"
+        title="Login" (click)="logout()"><i class="fa fa-sign-out"> Logout</i></a>
+
+
+    </div>
+    <div class="address">
+      <table>
+        <tr>
+          <td>Customer Support :</td>
+          <td>+91-8100101025(10am to 7pm)</td>
+        </tr>
+        <tr>
+          <td>Support E-mail :</td>
+          <td>support@telecharge.biz(24x7)</td>
+        </tr>
+      </table>
+
+    </div>
+
+  </div>
+  <div class="w3-col m10 pr-17">
     <app-news-slider></app-news-slider>
   </div>
-  <!-- <div class="w3-col m2">
-
-  </div> -->
   <div class="w3-col m2">
     <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4 api-balance-position">
       <app-balance></app-balance>
@@ -27,31 +54,25 @@
 
     <!-- Interests -->
     <div *ngIf="isSuperAdmin" class="w3-card w3-round w3-white w3-hide-small animated slideInUp">
-      <app-rank-achiever-list></app-rank-achiever-list><br>
+      <app-rank-achiever-list></app-rank-achiever-list>
     </div>
     <br>
-
     <div *ngIf="isSuperAdmin" class="w3-card w3-round w3-white w3-hide-small animated slideInUp">
       <app-permission></app-permission><br>
     </div>
-    <br>
-
     <div *ngIf="isSuperAdmin" class="w3-card w3-round animated slideInUp">
       <app-tds-charge></app-tds-charge><br>
     </div>
-
     <div class="w3-card w3-round animated slideInUp w3-card w3-round w3-white">
       <app-wallet-balance-report></app-wallet-balance-report>
-
     </div>
     <br>
     <div class="w3-card w3-round animated slideInUp w3-card w3-round w3-white">
       <app-recharge-transaction-report></app-recharge-transaction-report>
-
-    </div><br>
+    </div>
+    <br>
     <!-- Alert Box -->
     <app-notification></app-notification>
-
     <!-- End Left Column -->
   </div>
 

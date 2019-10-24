@@ -5,6 +5,9 @@ import { User } from '../models/user.model';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { ProfileService } from '../widgets/profile/profile.service';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
+import { Router } from '@angular/router';
+import { CommonService } from '../services/common.service/common.service';
+import { AuthService } from '../services/auth.service/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,6 +15,7 @@ import { LoadingScreenService } from '../services/loading-screen/loading-screen.
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  public isLogin: boolean;
   public isEmployee: boolean;
   public isAdmin: boolean;
   public isSuperAdmin: boolean;
@@ -27,13 +31,17 @@ export class DashboardComponent implements OnInit {
   public role: string;
   public name: string;
   public photo: string;
+  public withdrawalnotificationcount: number;
+  public addwalletnotificationcount: number;
   public selectedComponetForActionArea: string;
   constructor(private profileService: ProfileService,
     private data: DataService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
-    private loadingScreenService: LoadingScreenService) {
+    private loadingScreenService: LoadingScreenService, private router: Router, private common: CommonService,
+    private auth: AuthService) {
   }
 
   ngOnInit() {
+    this.isLogin = false;
     this.isEmployee = false;
     this.isAdmin = false;
     this.isSuperAdmin = false;
@@ -43,6 +51,39 @@ export class DashboardComponent implements OnInit {
     // this.data.currentMessage.subscribe(message => {
 
     // });
+    this.isLogin = false;
+    this.data.currentMessage.subscribe(message => {
+      if (message === 'login-done') {
+        const is_login = this.storage.get('is_login');
+        this.isLogin = is_login;
+      } else if (message === 'default message') {
+        this.logout();
+      }
+    });
+    this.isLogin = false;
+    this.withdrawalnotificationcount = 0;
+    this.addwalletnotificationcount = 0;
+    this.loadingScreenService.startLoading();
+    this.data.currentMessage.subscribe(message => {
+      this.loadingScreenService.stopLoading();
+      if (this.storage === undefined) {
+        this.isLogin = false;
+      } else if (typeof (this.storage.get('login_user')) === 'string') {
+        this.isLogin = true;
+        // this.getWithdrawalNotification(this.storage.get('user_id'));
+        // this.getAddDeductWalletNotification(this.storage.get('user_id'));
+      } else {
+        this.isLogin = false;
+      }
+    }, () => {
+      this.loadingScreenService.stopLoading();
+    });
+  }
+
+  logout() {
+    this.isLogin = false;
+    this.storage.set('is_login', false);
+    this.auth.logout();
   }
 
   private GetUserRoleInformaion(): void {

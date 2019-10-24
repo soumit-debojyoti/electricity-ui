@@ -12,8 +12,32 @@
     top: -22px;
 
 }
+.address{
+    width: 350px;
+    position: relative;
+    left: -35px;
+    top: -25px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 11px;
+}
 
 .marque-position{
         position: relative;
-    top: 20px;
+    top: 18px;
+}
+
+.logo-position{
+    position: relative;
+    top: -48px;
+    left: -12px;
+     box-shadow: 0 0 8px 8px white inset;
+}
+
+.mobileshow { 
+display:none; 
+}
+@media screen and (max-width: 500px) {
+.mobileshow { 
+display:block; }
 }

@@ -58,8 +58,8 @@ body {
 }
 
 .body-grad{
-  background: #adc8e3;
-  background: linear-gradient(to right, #bab9b1, #e5eef3);
+  background: #ffffff;
+  background: linear-gradient(to right, #ffffff, #c8c9ca);
 }
 /* body {
   background: #007bff;
