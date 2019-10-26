@@ -16,4 +16,8 @@
     text-align: right;
     font-weight: bold;
     font-size: 11px;
+}.card-header {
+    font-weight: bold;
+    font-size: 20px;
+    font-family: sans-serif;
 }

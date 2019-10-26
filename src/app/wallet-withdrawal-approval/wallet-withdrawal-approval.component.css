@@ -18,7 +18,11 @@
     font-weight: bold;
 }
 
-
+.card-header {
+    font-weight: bold;
+    font-size: 20px;
+    font-family: sans-serif;
+}
 
 .logo-position{
     position: relative;
