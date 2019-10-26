@@ -21,6 +21,7 @@ export class ApiUrlService extends BaseURLService {
       SEARCH_USERS: `user/searchusers/{name}`,
       VALIDATE_MOBILE: `user/validatemobile/{mobile}`,
       VALIDATE_UNIQUE_MOBILE: `user/validateuniquemobile/{mobile}`,
+      GET_TODAY_USER_JOINED: `user/gettodayuserjoincount`,
       VALIDATE_ACCOUNT: `user/validateaccount/{userid}`,
       VALIDATE_TOKEN: `user/validatetoken/{token}`,
       WALLET_BALANCE: `user/walletbalance/user/{userId}`,

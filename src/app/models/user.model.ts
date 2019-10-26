@@ -58,6 +58,11 @@ export interface MobileUniqueValidationResponse {
     message: string;
 }
 
+export interface TodayUserJoinCountResponse {
+    isValid: boolean;
+    count: number;
+}
+
 export interface AccountValidationResponse {
     isValid: boolean;
     message: string;

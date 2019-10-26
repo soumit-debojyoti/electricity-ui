@@ -74,3 +74,17 @@ pointer-events: none;
     background-color: #28a745;
     color: #fff;
 }
+
+.logo-position{
+    position: relative;
+    top: -30px;
+    left: -12px;
+}
+.address{
+    position: relative;
+    top: -11px;
+    right: 2px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 11px;
+}

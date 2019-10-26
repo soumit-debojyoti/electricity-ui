@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { BaseService } from '../base.service';
 import { ApiUrlService } from '../api.url.service';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
-import { RegisterUserModel, MobileUniqueValidationResponse } from 'src/app/models/user.model';
+import { RegisterUserModel, MobileUniqueValidationResponse, TodayUserJoinCountResponse } from 'src/app/models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -271,6 +271,14 @@ export class UserService {
       mobile: mobile
     };
     const mainURL = this.apiUrlService.getFullURL('VALIDATE_UNIQUE_MOBILE', urlStringObject);
+    return this.baseService.get(mainURL, {}, params, true);
+  }
+
+  public GetTodayUserJoinCount(): Observable<TodayUserJoinCountResponse> {
+    const params = new HttpParams();
+    const urlStringObject = {
+    };
+    const mainURL = this.apiUrlService.getFullURL('GET_TODAY_USER_JOINED', urlStringObject);
     return this.baseService.get(mainURL, {}, params, true);
   }
 

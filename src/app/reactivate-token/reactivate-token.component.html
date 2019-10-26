@@ -1,116 +1,141 @@
-<div class="card">
-    <div class="card-header">
-            <a class="navbar-brand fa fa-home" style="font-size:48px;color: black;" [routerLink]="['/dashboard']"></a>
-            <span>Unused Token Information</span> 
-    </div>
-    <div class="card-body">
-    <div class="d-flex flex-row-reverse pb-2">
-        <input #searchToken type="text" placeholder="Search token" [(ngModel)]="token" />
-    </div>
-
-    <table class="table table-hover table-striped table-bordered">
-        <thead>
-            <tr class="grid-header">
-                <th>TOKEN</th>
-                <th>CREATED ON</th>
-                <th>HAS EXPIRED</th>
-                <th>SURRENDER</th>
-            </tr>
-        </thead>
-        <ng-container *ngIf="genericTokenList.length>0">
-            <tbody>
-                <tr *ngFor='let genericToken of genericTokenList | filterText:token'>
-                    <td class="hand" data-toggle="modal" data-target="#myModal"
-                        (click)="getSpecificTokenInformation(genericToken.token)">{{genericToken.token}}</td>
-                    <td>{{genericToken.created_date | date: 'dd-MMM-yyyy'}}</td>
-                    <td>{{(genericToken.is_expired)?'YES':'NO'}}</td>
-                    <td><button type="button" class="btn btn-primary" data-dismiss="modal"
-                            (click)="surrender(genericToken.token)">
-                            SURRENDER
-                        </button></td>
-                </tr>
-            </tbody>
-        </ng-container>
-        <ng-container *ngIf="genericTokenList.length==0">
-            <tbody>
-                <tr>
-                    <td colspan="4">
-                        <span>No records to display.</span>
-                    </td>
-                </tr>
-            </tbody>
-        </ng-container>
-    </table>
-</div>
-</div>
-
-
-<!-- The Modal -->
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog modal-lg  modal-dialog-centered">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Token Information</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <table class="table table-hover table-striped table-bordered">
-                    <thead>
-                        <tr class="grid-header">
-                            <th>TOKEN</th>
-                            <th>CREATED ON</th>
-                            <th>WHEN TO EXPIRE</th>
-                            <th>CREATOR</th>
-                            <th>HAS EXPIRED</th>
-                            <th>REACTIVTE</th>
-                        </tr>
-                    </thead>
-                    <ng-container *ngIf="specificToken">
-                        <tbody>
-                            <tr>
-                                <td (click)="copyMessageToClipboard(specificToken.token)">
-                                    <div class="pointer font-weight-bold font-underline" data-toggle="tooltip"
-                                        data-placement="top" title="Copy token to clipboard...">
-                                        <mark><u>{{specificToken.token}}</u></mark>
-                                    </div>
-                                </td>
-                                <td>{{specificToken.created_date | date: 'dd-MMM-yyyy'}}</td>
-                                <td>{{specificToken.expiry_date | date: 'dd-MMM-yyyy'}}</td>
-                                <td>{{specificToken.token_generator}}</td>
-                                <td>{{(specificToken.is_expired)?'YES':'NO'}}</td>
-                                <td data-dismiss="modal" *ngIf="specificToken.is_expired"><button type="button"
-                                        data-dismiss="modal" class="btn btn-primary"
-                                        (click)="reactivate(specificToken.token)">
-                                        REACTIVATE
-                                    </button></td>
-                                <td *ngIf="!specificToken.is_expired"><button type="button" class="btn btn-primary"
-                                        data-dismiss="modal" (click)="deactivate(specificToken.token)">
-                                        DEACTIVATE
-                                    </button></td>
-                            </tr>
-                        </tbody>
-                    </ng-container>
-                    <ng-container *ngIf="!specificToken">
-                        <tbody>
-                            <tr>
-                                <td colspan="5">
-                                    <span>No records to display.</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </ng-container>
+<div class="w3-row marque-position">
+    <div class="row">
+        <div class="col-6">
+            <a href="#" class="w3-bar-item w3-button logo-position" routerLink="/dashboard"><img
+                    src="assets/logo/Logo.png" class="logo" style="width: 160px;height: 90px;" alt="Avatar"></a>
+        </div>
+        <div class="col-6">
+            <div class="address float-right">
+                <table>
+                    <tr>
+                        <td>Customer Support :</td>
+                        <td>+91-8100101025(10am to 7pm)</td>
+                    </tr>
+                    <tr>
+                        <td>Support E-mail :</td>
+                        <td>support@telecharge.biz(24x7)</td>
+                    </tr>
                 </table>
             </div>
+        </div>
+    </div>
 
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+    <div class="card">
+        <div class="card-header">
+            <a class="navbar-brand fa fa-home" style="font-size:48px;color: black;" [routerLink]="['/dashboard']"></a>
+            <span>Unused Token Information</span>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-row-reverse pb-2">
+                <input #searchToken type="text" placeholder="Search token" [(ngModel)]="token" />
             </div>
 
+            <table class="table table-hover table-striped table-bordered">
+                <thead>
+                    <tr class="grid-header">
+                        <th>TOKEN</th>
+                        <th>CREATED ON</th>
+                        <th>HAS EXPIRED</th>
+                        <th>SURRENDER</th>
+                    </tr>
+                </thead>
+                <ng-container *ngIf="genericTokenList.length>0">
+                    <tbody>
+                        <tr *ngFor='let genericToken of genericTokenList | filterText:token'>
+                            <td class="hand" data-toggle="modal" data-target="#myModal"
+                                (click)="getSpecificTokenInformation(genericToken.token)">{{genericToken.token}}</td>
+                            <td>{{genericToken.created_date | date: 'dd-MMM-yyyy'}}</td>
+                            <td>{{(genericToken.is_expired)?'YES':'NO'}}</td>
+                            <td><button type="button" class="btn btn-primary" data-dismiss="modal"
+                                    (click)="surrender(genericToken.token)">
+                                    SURRENDER
+                                </button></td>
+                        </tr>
+                    </tbody>
+                </ng-container>
+                <ng-container *ngIf="genericTokenList.length==0">
+                    <tbody>
+                        <tr>
+                            <td colspan="4">
+                                <span>No records to display.</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-container>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-lg  modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Token Information</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <table class="table table-hover table-striped table-bordered">
+                        <thead>
+                            <tr class="grid-header">
+                                <th>TOKEN</th>
+                                <th>CREATED ON</th>
+                                <th>WHEN TO EXPIRE</th>
+                                <th>CREATOR</th>
+                                <th>HAS EXPIRED</th>
+                                <th>REACTIVTE</th>
+                            </tr>
+                        </thead>
+                        <ng-container *ngIf="specificToken">
+                            <tbody>
+                                <tr>
+                                    <td (click)="copyMessageToClipboard(specificToken.token)">
+                                        <div class="pointer font-weight-bold font-underline" data-toggle="tooltip"
+                                            data-placement="top" title="Copy token to clipboard...">
+                                            <mark><u>{{specificToken.token}}</u></mark>
+                                        </div>
+                                    </td>
+                                    <td>{{specificToken.created_date | date: 'dd-MMM-yyyy'}}</td>
+                                    <td>{{specificToken.expiry_date | date: 'dd-MMM-yyyy'}}</td>
+                                    <td>{{specificToken.token_generator}}</td>
+                                    <td>{{(specificToken.is_expired)?'YES':'NO'}}</td>
+                                    <td data-dismiss="modal" *ngIf="specificToken.is_expired"><button type="button"
+                                            data-dismiss="modal" class="btn btn-primary"
+                                            (click)="reactivate(specificToken.token)">
+                                            REACTIVATE
+                                        </button></td>
+                                    <td *ngIf="!specificToken.is_expired"><button type="button" class="btn btn-primary"
+                                            data-dismiss="modal" (click)="deactivate(specificToken.token)">
+                                            DEACTIVATE
+                                        </button></td>
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                        <ng-container *ngIf="!specificToken">
+                            <tbody>
+                                <tr>
+                                    <td colspan="5">
+                                        <span>No records to display.</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </table>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

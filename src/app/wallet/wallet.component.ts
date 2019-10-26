@@ -12,7 +12,7 @@ import { WalletTransaction, RechargeTransaction, Complaint, BankDetails, BankTra
 import { ProfileService } from '../widgets/profile/profile.service';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
@@ -67,19 +67,19 @@ export class WalletComponent implements OnInit {
   customCalendarSelectedStartDate: Date;
   customCalendarSelectedEndDate: Date;
   addWalletBalanceForm = new FormGroup({
-    transactionID : new FormControl('', Validators.required),
+    transactionID: new FormControl('', Validators.required),
     amount: new FormControl('', Validators.required),
     comment: new FormControl('', Validators.required),
     accountNumber: new FormControl('', Validators.required)
   });
   dataSourceForRechargeTransaction: MatTableDataSource<RechargeTransaction>;
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
   constructor(private datePipe: DatePipe, private common: CommonService, private userService: UserService,
     private route: ActivatedRoute, private router: Router,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService,
     private loadingScreenService: LoadingScreenService, private profileService: ProfileService) { }
-    get f() { return this.addWalletBalanceForm.controls; }
+  get f() { return this.addWalletBalanceForm.controls; }
   ngOnInit() {
     this.endDate = new Date();
     this.ticketCreated = false;
@@ -104,9 +104,9 @@ export class WalletComponent implements OnInit {
     this.selectedTransactionRowdata = new RechargeTransaction();
     this.selectedUserID = this.userId;
     this.bankTransaction = new BankTransaction();
-    this.ticketPriorityList = [{ priority: 3 , text: 'High'},
-    { priority: 2 , text: 'Medium'},
-    { priority: 1 , text: 'Low'}];
+    this.ticketPriorityList = [{ priority: 3, text: 'High' },
+    { priority: 2, text: 'Medium' },
+    { priority: 1, text: 'Low' }];
     this.companyBankAccounts = [];
     /** fetching all user list for admin deduct balance*/
     this.userService.getAllUsers().subscribe((response: Array<UserLog>) => {
@@ -128,7 +128,7 @@ export class WalletComponent implements OnInit {
         this.initializeOption();
         this.isAddBalanceRequest = true;
         this.header = 'Wallet Add!';
-        this.common.fetchBankDetails().subscribe( (response: Array<BankDetails>) => {
+        this.common.fetchBankDetails().subscribe((response: Array<BankDetails>) => {
           this.companyBankAccounts = response;
         });
       }
@@ -172,13 +172,19 @@ export class WalletComponent implements OnInit {
           this.isSuperAdmin = true;
           this.fetchAllRechargeTransaction();
           this.rechargeTransactionDisplayedColumns =
-          ['transactionID', 'transactionDate',
-          'transactionMode', 'transactionAmount', 'transactionStatus', 'transactionMessage', 'action'];
+            ['transactionID', 'transactionDate',
+              'transactionMode', 'transactionAmount',
+              'transactionStatus', 'transactionMessage',
+              'transactionMessage1', 'transactionMessage2',
+              'transactionMessage3', 'transactionMessage4',
+              'transactionMessage5', 'transactionMessage6',
+              'transactionMessage7', 'transactionMessage8',
+              'transactionMessage9', 'action'];
         } else {
           this.fetchUserRechargeTransaction(this.userId);
           this.rechargeTransactionDisplayedColumns =
-          ['transactionID', 'transactionDate',
-          'transactionMode', 'transactionAmount', 'transactionStatus', 'action'];
+            ['transactionID', 'transactionDate',
+              'transactionMode', 'transactionAmount', 'transactionStatus', 'action'];
         }
       }
     }, () => {
@@ -189,12 +195,12 @@ export class WalletComponent implements OnInit {
     this.loadingScreenService.startLoading();
     this.profileService.GetUser(this.user_name).subscribe(
       (response: any) => {
-        if ( response !== null) {
+        if (response !== null) {
           this.selectedUser = response;
           this.name = this.selectedUser.first_name + ' ' + this.selectedUser.last_name;
         }
         this.loadingScreenService.stopLoading();
-      } , (err) => {
+      }, (err) => {
         console.log(err);
         this.loadingScreenService.stopLoading();
       }
@@ -358,7 +364,7 @@ export class WalletComponent implements OnInit {
   }
   // #region Balance request
   public balanceRequest(): void {
-    if ( !this.addWalletBalanceForm.valid) {
+    if (!this.addWalletBalanceForm.valid) {
       alert('The form is invalid!');
       this.addWalletBalanceForm.reset();
       return;
@@ -432,18 +438,18 @@ export class WalletComponent implements OnInit {
             this.alertService.confirmationMessage('',
               `${requestType} request has been successfully placed. Please wait for the super admin to confirm the same.`,
               'success', true, false);
-              this.common.fetchRecentTransactionID().subscribe( (response: number) => {
-                this.bankTransaction.received = false;
-                this.bankTransaction.verified = false;
-                this.bankTransaction.userID = userId;
-                this.bankTransaction.amount = amount;
-                this.bankTransaction.walletTransactionID = response;
-                this.common.addBankTransaction(this.bankTransaction).subscribe((responseT: boolean) => {
-                  console.log('bank transaction status: ', responseT);
-                }, (err) => {
-                  console.log('bank transaction - error occured', err);
-                });
+            this.common.fetchRecentTransactionID().subscribe((response: number) => {
+              this.bankTransaction.received = false;
+              this.bankTransaction.verified = false;
+              this.bankTransaction.userID = userId;
+              this.bankTransaction.amount = amount;
+              this.bankTransaction.walletTransactionID = response;
+              this.common.addBankTransaction(this.bankTransaction).subscribe((responseT: boolean) => {
+                console.log('bank transaction status: ', responseT);
+              }, (err) => {
+                console.log('bank transaction - error occured', err);
               });
+            });
             this.router.navigate(['/dashboard']);
           }
         }
@@ -489,31 +495,31 @@ export class WalletComponent implements OnInit {
   public fetchAllRechargeTransaction(): void {
     this.loadingScreenService.startLoading();
     this.common.fetchRechargeTransactionHistory(this.endDate.toDateString()
-    , this.startDate.toDateString()).subscribe( (response: any) => {
-      this.loadingScreenService.stopLoading();
-      this.transactions = response;
-      this.dataSourceForRechargeTransaction = new MatTableDataSource(this.transactions);
-      this.dataSourceForRechargeTransaction.paginator = this.paginator;
-      this.dataSourceForRechargeTransaction.sort = this.sort;
-    }, (err) => {
-      this.loadingScreenService.stopLoading();
-      console.log(err);
-    });
+      , this.startDate.toDateString()).subscribe((response: any) => {
+        this.loadingScreenService.stopLoading();
+        this.transactions = response;
+        this.dataSourceForRechargeTransaction = new MatTableDataSource(this.transactions);
+        this.dataSourceForRechargeTransaction.paginator = this.paginator;
+        this.dataSourceForRechargeTransaction.sort = this.sort;
+      }, (err) => {
+        this.loadingScreenService.stopLoading();
+        console.log(err);
+      });
   }
   public fetchUserRechargeTransaction(userID: number): void {
     this.loadingScreenService.startLoading();
     this.common.fetchUserRechargeTransactionHistory(userID,
       this.endDate.toDateString()
-    , this.startDate.toDateString()).subscribe( (response: any) => {
-      this.loadingScreenService.stopLoading();
-      this.transactions = response;
-      this.dataSourceForRechargeTransaction = new MatTableDataSource(this.transactions);
-      this.dataSourceForRechargeTransaction.paginator = this.paginator;
-      this.dataSourceForRechargeTransaction.sort = this.sort;
-    }, (err) => {
-      this.loadingScreenService.stopLoading();
-      console.log(err);
-    });
+      , this.startDate.toDateString()).subscribe((response: any) => {
+        this.loadingScreenService.stopLoading();
+        this.transactions = response;
+        this.dataSourceForRechargeTransaction = new MatTableDataSource(this.transactions);
+        this.dataSourceForRechargeTransaction.paginator = this.paginator;
+        this.dataSourceForRechargeTransaction.sort = this.sort;
+      }, (err) => {
+        this.loadingScreenService.stopLoading();
+        console.log(err);
+      });
   }
 
   raiseComplaint(): void {
@@ -530,7 +536,7 @@ export class WalletComponent implements OnInit {
     c.userContactNumber = this.selectedUser.mobile_number;
     c.cPriority = +this.ticketPriorityText;
     this.loadingScreenService.startLoading();
-    this.common.addComplaint(c).subscribe( (response: boolean) => {
+    this.common.addComplaint(c).subscribe((response: boolean) => {
       this.loadingScreenService.stopLoading();
       this.ticketCreated = response;
       this.ticketPriorityText = '3';
@@ -544,7 +550,7 @@ export class WalletComponent implements OnInit {
     this.name = this.selectedUser.first_name + ' ' + this.selectedUser.last_name;
     this.selectedTransactionRowdata = rowData;
     this.selectedTransactionRowdata.transactionDateText =
-    this.datePipe.transform(this.selectedTransactionRowdata.transactionDate, 'dd-MM-yyyy');
+      this.datePipe.transform(this.selectedTransactionRowdata.transactionDate, 'dd-MM-yyyy');
   }
 
   changePriority(priority: any): void {

@@ -1,55 +1,80 @@
-<div class="container">
-  <h1>
-    Wallet Withdrawal Approval
-  </h1>
-  <table class="table table-hover table-striped table-bordered">
-    <thead>
-      <tr class="grid-header">
-        <th>FIRST NAME</th>
-        <th>LAST NAME</th>
-        <th>COMMENT</th>
-        <th>AMOUNT</th>
-        <th>CREATED ON</th>
-        <th>APPROVE</th>
-        <th>REJECT</th>
-        <th>COMMENT BY ADMIN</th>
-      </tr>
-    </thead>
-    <ng-container *ngIf="detail_messages.length>0">
-      <tbody>
-        <tr *ngFor='let detail_message of detail_messages'>
-          <td>{{detail_message.firstname}}</td>
-          <td>{{detail_message.lastname}}</td>
-          <td>{{detail_message.comment}}</td>
-          <td><span>&#8377;</span>{{detail_message.wallet_balance}}</td>
-          <td>{{detail_message.createdon | date: 'MMM/dd/yyyy'}}</td>
-          <td>
-            <mat-slide-toggle #approve [checked]="detail_message.approved" (change)="onChange(detail_message)">
-            </mat-slide-toggle>
-          </td>
-          <td>
-            <mat-slide-toggle #reject [checked]="detail_message.rejected" (change)="onChangeReject(detail_message)">
-            </mat-slide-toggle>
-          </td>
-          <td><textarea rows="1" cols="24" #admincomment [disabled]="IsDisabled(detail_message)"
-              [(ngModel)]="detail_message.admin_comment" title="Comment...." placeholder="Comment...."></textarea></td>
-        </tr>
-      </tbody>
-    </ng-container>
-    <ng-container *ngIf="detail_messages.length==0">
-      <tbody>
-        <tr>
-          <td colspan="8">
-            <span>No records to display.</span>
-          </td>
-        </tr>
-      </tbody>
-    </ng-container>
-  </table>
-
+<div class="w3-row marque-position">
   <div class="row">
-    <div class="col-sm-12">
-      <input type="submit" class="btn btn-primary float-right" (click)="submit()">
+    <div class="col-6">
+      <a href="#" class="w3-bar-item w3-button logo-position" routerLink="/dashboard"><img src="assets/logo/Logo.png"
+          class="logo" style="width: 160px;height: 90px;" alt="Avatar"></a>
+    </div>
+    <div class="col-6">
+      <div class="address float-right">
+        <table>
+          <tr>
+            <td>Customer Support :</td>
+            <td>+91-8100101025(10am to 7pm)</td>
+          </tr>
+          <tr>
+            <td>Support E-mail :</td>
+            <td>support@telecharge.biz(24x7)</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <h1>
+      Wallet Withdrawal Approval
+    </h1>
+    <table class="table table-hover table-striped table-bordered">
+      <thead>
+        <tr class="grid-header">
+          <th>FIRST NAME</th>
+          <th>LAST NAME</th>
+          <th>COMMENT</th>
+          <th>AMOUNT</th>
+          <th>CREATED ON</th>
+          <th>APPROVE</th>
+          <th>REJECT</th>
+          <th>COMMENT BY ADMIN</th>
+        </tr>
+      </thead>
+      <ng-container *ngIf="detail_messages.length>0">
+        <tbody>
+          <tr *ngFor='let detail_message of detail_messages'>
+            <td>{{detail_message.firstname}}</td>
+            <td>{{detail_message.lastname}}</td>
+            <td>{{detail_message.comment}}</td>
+            <td><span>&#8377;</span>{{detail_message.wallet_balance}}</td>
+            <td>{{detail_message.createdon | date: 'MMM/dd/yyyy'}}</td>
+            <td>
+              <mat-slide-toggle #approve [checked]="detail_message.approved" (change)="onChange(detail_message)">
+              </mat-slide-toggle>
+            </td>
+            <td>
+              <mat-slide-toggle #reject [checked]="detail_message.rejected" (change)="onChangeReject(detail_message)">
+              </mat-slide-toggle>
+            </td>
+            <td><textarea rows="1" cols="24" #admincomment [disabled]="IsDisabled(detail_message)"
+                [(ngModel)]="detail_message.admin_comment" title="Comment...." placeholder="Comment...."></textarea>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+      <ng-container *ngIf="detail_messages.length==0">
+        <tbody>
+          <tr>
+            <td colspan="8">
+              <span>No records to display.</span>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+    </table>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <input type="submit" class="btn btn-primary float-right" (click)="submit()">
+      </div>
     </div>
   </div>
 </div>

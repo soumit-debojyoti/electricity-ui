@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
 import { RegisterUserResponse } from '../models/registeruser.model';
 import { AlertService } from '../services/common.service/alert.service';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
-import { MobileUniqueValidationResponse } from '../models/user.model';
+import { MobileUniqueValidationResponse, TodayUserJoinCountResponse } from '../models/user.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -24,6 +25,7 @@ export class RegisterComponent implements OnInit {
   isfirst: boolean;
   submitted = false;
   ismobileexist: boolean;
+  public mobExist: boolean;
   public introducer_code: string;
   public is_employee_value: string;
   public isEmployee: boolean;
@@ -152,8 +154,27 @@ export class RegisterComponent implements OnInit {
   public dateChange() {
     const fname = this.registerForm.controls['firstName'].value.toLowerCase().substring(0, 3);
     const lname = this.registerForm.controls['lastName'].value.toLowerCase().substring(0, 3);
-    this.user_name = this.useridFormation();
-    this.registerForm.controls['username'].setValue(this.user_name); // = this.user_name;
+    this.useridFormation()
+      .subscribe((res: TodayUserJoinCountResponse) => {
+        this.loadingScreenService.stopLoading();
+        if (res.isValid) {
+          const x = new Date();
+          const y = x.getFullYear().toString().substr(-2);
+          let m = (x.getMonth() + 1).toString();
+          let d = x.getDate().toString();
+          (d.length === 1) ? (d = '0' + d) : (d = d);
+          (m.length === 1) ? (m = '0' + m) : (m = m);
+          const yyyymmdd = y + m + d;
+          this.user_name = yyyymmdd + '' + (res.count + 1);
+
+        } else {
+          this.loadingScreenService.stopLoading();
+          this.user_name = '';
+        }
+        this.registerForm.controls['username'].setValue(this.user_name); // = this.user_name;
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
   }
 
   public formControlValueChanged() {
@@ -162,7 +183,7 @@ export class RegisterComponent implements OnInit {
         (mobile: string) => {
           console.log(mobile);
           if (mobile.length === 10) {
-            this.validateUniqueMobile(mobile);
+            // this.validateUniqueMobilePrivate(mobile);
           }
 
 
@@ -309,15 +330,8 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  private useridFormation(): string {
-    const x = new Date();
-    const y = x.getFullYear().toString().substr(-2);
-    let m = (x.getMonth() + 1).toString();
-    let d = x.getDate().toString();
-    (d.length === 1) ? (d = '0' + d) : (d = d);
-    (m.length === 1) ? (m = '0' + m) : (m = m);
-    const yyyymmdd = y + m + d;
-    return yyyymmdd + '' + Math.floor(Math.random() * (999999 - 100000)) + 100000;
+  private useridFormation(): Observable<any> {
+    return this.userService.GetTodayUserJoinCount();
   }
 
   private initiateRegitrationForm() {
@@ -334,7 +348,7 @@ export class RegisterComponent implements OnInit {
         fathername: ['', Validators.required],
         gender: ['0'],
         dob: ['', Validators.required],
-        mobile: ['', [Validators.required, Validators.minLength(10)]],
+        mobile: ['', [Validators.required, Validators.minLength(10), this.mobileexistvalidator]],
         email: [''],
         pancard: ['', Validators.required],
         aadharcard: ['', Validators.required],
@@ -373,7 +387,7 @@ export class RegisterComponent implements OnInit {
         fathername: ['', Validators.required],
         gender: ['0'],
         dob: ['', Validators.required],
-        mobile: ['', [Validators.required, Validators.minLength(10)]],
+        mobile: ['', [Validators.required, Validators.minLength(10), this.mobileexistvalidator]],
         email: [''],
         pancard: ['', Validators.required],
         aadharcard: ['', Validators.required],
@@ -418,24 +432,42 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  private validateUniqueMobile(mobile: string): void {
-    this.userService.validateUniqueMobile(mobile)
-      .subscribe((event: MobileUniqueValidationResponse) => {
-        this.loadingScreenService.stopLoading();
-        const phoneControl = this.registerForm.get('mobile');
-        if (event.has_present) {
-          this.isfirst = true;
-          this.ismobileexist = true;
-          phoneControl.setValidators([Validators.requiredTrue]);
-        } else {
-          this.isfirst = true;
-          this.ismobileexist = false;
-          phoneControl.clearValidators();
+  public mobileexistvalidator(control: FormControl): boolean {
+    if (control.value !== '') {
+      if (control.value.length === 10) {
+        this.userService.validateUniqueMobile(control.value)
+          .subscribe((event: MobileUniqueValidationResponse) => {
+            this.loadingScreenService.stopLoading();
+            const phoneControl = this.registerForm.get('mobile');
+            if (event.has_present) {
+              this.isfirst = true;
+              this.ismobileexist = true;
+              this.mobExist = !this.ismobileexist;
+              return this.mobExist;
+            } else {
+              this.isfirst = true;
+              this.ismobileexist = false;
+              phoneControl.clearValidators();
+              this.mobExist = !this.ismobileexist;
+              return this.mobExist;
 
-        }
-      }, () => {
-        this.loadingScreenService.stopLoading();
-      });
+            }
+          }, () => {
+            this.loadingScreenService.stopLoading();
+          });
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+
+    return null;
+  }
+
+  public validateUniqueMobilePrivate(mobile: any): Observable<any> {
+    return this.userService.validateUniqueMobile(mobile);
+
   }
 
   private addWalletTransaction(amount: number, userId: number, message: string, transactionMode: string): void {

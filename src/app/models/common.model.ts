@@ -65,6 +65,15 @@ export class RechargeTransaction {
     transactionAmount: number;
     transactionStatus: string;
     transactionMessage: string;
+    transactionMessage1: string;
+    transactionMessage2: string;
+    transactionMessage3: string;
+    transactionMessage4: string;
+    transactionMessage5: string;
+    transactionMessage6: string;
+    transactionMessage7: string;
+    transactionMessage8: string;
+    transactionMessage9: string;
     transactionDateText: string;
 }
 
