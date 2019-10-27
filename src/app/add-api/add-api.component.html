@@ -9,8 +9,14 @@
   </div>
 </nav>
 
-<div class="container bg-success" *ngIf="apiAddedSuccessfully" style="color: green"> API Added Successfully</div>
-<div class="container bg-success" *ngIf="apiUpdatedSuccessfully" style="color: green"> API Updated Successfully</div>
+<div class="alert alert-success alert-dismissible" *ngIf="apiUpdatedSuccessfully">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>API Updated Successfully</strong>
+</div>
+<div class="alert alert-success alert-dismissible" *ngIf="apiAddedSuccessfully">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>API Added Successfully</strong>
+</div>
 <!-- Section API Add-->
 <div class="card" *ngIf='add'>
     <form #fA="ngForm">

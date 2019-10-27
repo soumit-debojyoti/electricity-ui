@@ -46,9 +46,10 @@ export class AddApiComponent implements OnInit {
 
   AddAPI(): void {
     console.log('Add API submit button clicked');
+    this.loadingScreenService.startLoading();
     this.commonService.saveRechargeAPI(this.rechargeType, this.operatorName, this.apiValue).subscribe(
       (response: boolean) => {
-        console.log( response );
+        this.loadingScreenService.stopLoading();
         this.apiAddedSuccessfully = response;
         if (response) {
           if ( this.confirmation.toLowerCase() === 'yes') {
@@ -66,6 +67,7 @@ export class AddApiComponent implements OnInit {
         }
       }, (err) => {
         console.log(err);
+        this.loadingScreenService.stopLoading();
       }
     );
   }
