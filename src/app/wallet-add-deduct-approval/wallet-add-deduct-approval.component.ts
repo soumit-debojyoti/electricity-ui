@@ -90,7 +90,10 @@ export class WalletAddDeductApprovalComponent implements OnInit {
       return true;
     }
   }
-
+  public logout() {
+    this.storage.set('is_login', false);
+    this.auth.logout();
+  }
   private Approve(): void {
     const data: AddDeductWalletModel[] = [];
     this.detail_messages.forEach((item: AddDeductWalletModel) => {

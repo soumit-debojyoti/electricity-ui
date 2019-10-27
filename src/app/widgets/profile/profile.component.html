@@ -3,11 +3,11 @@
     <h4 class="w3-center pointer profile-name">{{full_name}}</h4>
     <p class="w3-center pointer">
       <img *ngIf="sex=='Male'" [src]="photo"
-        onerror="this.onerror=null;this.src='http://nagsoumit-001-site1.itempurl.com/wwwroot/photo/he.png';"
+        onerror="this.onerror=null;this.src='http://nagsoumit-001-site1.itempurl.com/api/wwwroot/photo/he.png';"
         class="w3-circle" style="height:106px;width:106px" alt="Avatar">
 
       <img *ngIf="sex!='Male'" [src]="photo"
-        onerror="this.onerror=null;this.src='http://nagsoumit-001-site1.itempurl.com/wwwroot/photo/she.png';"
+        onerror="this.onerror=null;this.src='http://nagsoumit-001-site1.itempurl.com/api/wwwroot/photo/she.png';"
         class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
     <hr>
     <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme pointer"></i> {{role | titlecase}}</p>

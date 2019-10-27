@@ -8,6 +8,7 @@ import { LoadingScreenService } from '../services/loading-screen/loading-screen.
 import { TokenDetailsGeneric, TokenDetailsSpecific } from '../models/token.model';
 import { AlertService } from '../services/common.service/alert.service';
 import { ClipboardService } from 'ngx-clipboard';
+import { AuthService } from '../services/auth.service/auth.service';
 
 @Component({
   selector: 'app-reactivate-token',
@@ -22,7 +23,8 @@ export class ReactivateTokenComponent implements OnInit {
   constructor(private userService: UserService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService,
     private router: Router, private data: DataService,
-    private loadingScreenService: LoadingScreenService, private clipboardService: ClipboardService) { }
+    private loadingScreenService: LoadingScreenService, private clipboardService: ClipboardService,
+    private auth: AuthService) { }
 
   ngOnInit() {
     this.token = '';
@@ -71,7 +73,10 @@ export class ReactivateTokenComponent implements OnInit {
         this.loadingScreenService.stopLoading();
       });
   }
-
+  public logout() {
+    this.storage.set('is_login', false);
+    this.auth.logout();
+  }
   public getSpecificTokenInformation(token: string): void {
     this.getUnusedTokenSpecificInformation(token);
   }
