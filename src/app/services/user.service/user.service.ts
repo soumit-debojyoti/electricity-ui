@@ -136,9 +136,11 @@ export class UserService {
       }));
   }
 
-  public getUnusedTokenGenericInformation(): Observable<any> {
+  public getUnusedTokenGenericInformation(referedUser: number): Observable<any> {
     const params = new HttpParams();
-    const urlStringObject = {};
+    const urlStringObject = {
+      referedUser: referedUser
+    };
     const mainURL = this.apiUrlService.getFullURL('GET_UNUSED_TOKEN_GENERIC', urlStringObject);
     return this.baseService.get(mainURL, {}, params)
       .pipe(map(response => {

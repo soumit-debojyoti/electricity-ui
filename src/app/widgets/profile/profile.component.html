@@ -3,15 +3,18 @@
     <h4 class="w3-center pointer profile-name">{{full_name}}</h4>
     <p class="w3-center pointer">
       <img *ngIf="sex=='Male'" [src]="photo"
-        onerror="this.onerror=null;this.src='http://nagsoumit-001-site1.itempurl.com/api/wwwroot/photo/he.png';"
-        class="w3-circle" style="height:106px;width:106px" alt="Avatar">
+        onerror="this.onerror=null;this.src='http://nagsoumit-001-site1.itempurl.com/global/he.png';" class="w3-circle"
+        style="height:106px;width:106px" alt="Avatar">
 
       <img *ngIf="sex!='Male'" [src]="photo"
-        onerror="this.onerror=null;this.src='http://nagsoumit-001-site1.itempurl.com/api/wwwroot/photo/she.png';"
-        class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+        onerror="this.onerror=null;this.src='http://nagsoumit-001-site1.itempurl.com/global/she.png';" class="w3-circle"
+        style="height:106px;width:106px" alt="Avatar"></p>
     <hr>
-    <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme pointer"></i> {{role | titlecase}}</p>
-    <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme pointer"></i> {{city}}, {{state_name}}</p>
+    <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme pointer"></i>Name: {{first_name | titlecase}}
+      {{last_name | titlecase}}</p>
+    <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme pointer"></i>Rank: {{userRank}}</p>
+    <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme pointer"></i>Mobile: {{mobile}}</p>
+    <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme pointer"></i>Email: {{email}}</p>
     <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme pointer"></i> {{dob}}</p>
     <!-- <p class="pl-40">Account Balance&nbsp;&nbsp;<span
         [ngClass]="{'low_balance': balance <= 100, 'high_balance':balance > 100 }"><span>&#8377;</span><strong>{{balance}}</strong></span>

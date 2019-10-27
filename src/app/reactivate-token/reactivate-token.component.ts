@@ -31,7 +31,7 @@ export class ReactivateTokenComponent implements OnInit {
     this.genericTokenList = [];
     if (this.storage.get('user_id') !== undefined) {
       this.user_id = this.storage.get('user_id');
-      this.getUnusedTokenGenericInformation();
+      this.getUnusedTokenGenericInformation(this.user_id);
     }
   }
 
@@ -42,7 +42,8 @@ export class ReactivateTokenComponent implements OnInit {
         this.alertService.confirmationMessage('',
           response.message,
           'success', true, false);
-        this.getUnusedTokenGenericInformation();
+        this.user_id = this.storage.get('user_id');
+        this.getUnusedTokenGenericInformation(this.user_id);
       }, () => {
         this.loadingScreenService.stopLoading();
       });
@@ -55,7 +56,8 @@ export class ReactivateTokenComponent implements OnInit {
         this.alertService.confirmationMessage('',
           response.message,
           'success', true, false);
-        this.getUnusedTokenGenericInformation();
+        this.user_id = this.storage.get('user_id');
+        this.getUnusedTokenGenericInformation(this.user_id);
       }, () => {
         this.loadingScreenService.stopLoading();
       });
@@ -68,7 +70,8 @@ export class ReactivateTokenComponent implements OnInit {
         this.alertService.confirmationMessage('',
           response.message,
           'success', true, false);
-        this.getUnusedTokenGenericInformation();
+        this.user_id = this.storage.get('user_id');
+        this.getUnusedTokenGenericInformation(this.user_id);
       }, () => {
         this.loadingScreenService.stopLoading();
       });
@@ -87,9 +90,9 @@ export class ReactivateTokenComponent implements OnInit {
   }
 
 
-  private getUnusedTokenGenericInformation(): void {
+  private getUnusedTokenGenericInformation(user_id: number): void {
     this.loadingScreenService.startLoading();
-    this.userService.getUnusedTokenGenericInformation()
+    this.userService.getUnusedTokenGenericInformation(user_id)
       .subscribe((response: Array<TokenDetailsGeneric>) => {
         this.loadingScreenService.stopLoading();
         this.genericTokenList = response;

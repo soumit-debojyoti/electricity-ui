@@ -47,7 +47,7 @@ export class ApiUrlService extends BaseURLService {
       GET_CONFIGURATION: `common/configuration`,
       SET_CONFIGURATION: `common/configuration`,
       GET_USER_RANK: `user/{userID}/userrank`,
-      GET_UNUSED_TOKEN_GENERIC: `user/unusedtokendetails`,
+      GET_UNUSED_TOKEN_GENERIC: `user/unusedtokendetails/{referedUser}`,
       GET_UNUSED_TOKEN_SPECIFIC: `user/unusedtokendetails/{token}`,
       REACTIVATE_TOKEN: `user/reactivatetoken/{token}`,
       DEACTIVATE_TOKEN: `user/deactivatetoken/{token}`,
