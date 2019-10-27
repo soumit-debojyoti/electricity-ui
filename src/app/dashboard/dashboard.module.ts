@@ -38,6 +38,8 @@ import { WalletWithdrawalApprovalComponent } from '../widgets/wallet-withdrawal-
 import { RechargeModule } from '../recharge/recharge.module';
 import { BalanceTransferComponent } from '../widgets/balance-transfer/balance-transfer.component';
 import { BalanceComponent } from '../widgets/balance/balance.component';
+import { BalanceRequestComponent } from '../widgets/balance-request/balance-request.component';
+import { MyPayoutReportComponent } from '../widgets/my-payout-report/my-payout-report.component';
 
 @NgModule({
     declarations: [
@@ -71,7 +73,9 @@ import { BalanceComponent } from '../widgets/balance/balance.component';
         WalletAddApprovalComponent,
         WalletWithdrawalApprovalComponent,
         BalanceTransferComponent,
-        BalanceComponent
+        BalanceComponent,
+        BalanceRequestComponent,
+        MyPayoutReportComponent
     ],
     imports: [
         CommonModule,

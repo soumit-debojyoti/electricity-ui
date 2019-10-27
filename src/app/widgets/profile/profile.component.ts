@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Directive, Inject } from '@angular/core';
 import { ProfileService } from './profile.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { User } from 'src/app/models/user.model';

@@ -5,3 +5,9 @@
   text-decoration: none;
    pointer-events: none;
 }
+
+.icon-position{
+    position: relative;
+    top: 9px;
+    float: right;
+}

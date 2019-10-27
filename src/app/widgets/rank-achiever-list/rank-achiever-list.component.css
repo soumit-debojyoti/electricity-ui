@@ -25,3 +25,8 @@ a
     display:block;
     text-decoration:none;
 }
+.icon-position{
+    position: relative;
+    top: 9px;
+    float: right;
+}
