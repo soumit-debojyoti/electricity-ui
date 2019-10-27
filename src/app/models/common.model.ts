@@ -121,3 +121,12 @@ export class UtilityRecharge {
     validationReferenceID: string;
     operatorName: string;
 }
+
+export class PostpaidRecharge {
+    amount: string;
+    orderNumber: string;
+    customerMobileNumber: string;
+    customerName: string;
+    operatorName: string;
+    rechargeMobileNumber: string;
+}

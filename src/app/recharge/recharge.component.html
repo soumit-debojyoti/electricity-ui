@@ -75,11 +75,21 @@
         </div>
         <div class="row">
           <div class="col-10">
-            <span>Mobile Number</span>
-            <input type="text" class="form-control" formControlName="mobileNumber" />
-            <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.mobileNumber.errors" style="color: red">need
-              attention</span>
+            <div *ngIf="rechargeMode === 'PREPAID'">
+                <span>Mobile Number</span>
+                <input type="text" class="form-control" formControlName="mobileNumber" />
+                <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.mobileNumber.errors" style="color: red">need
+                  attention</span>
+            </div>
+            <div *ngIf="rechargeMode === 'DTH'">
+                <span>Service Number</span>
+                <input type="text" class="form-control" formControlName="dthServiceNumber" />
+                <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.dthServiceNumber.errors" style="color: red">need
+                  attention</span>
+            </div>
           </div>
+
+          
           <div class="col-6">
               <span>Recharge Amount</span>
               <input type="number" class="form-control" formControlName="rechargeAmount" (change)= 'validateAmount()' placeholder="Recharge Amount"/>
@@ -164,21 +174,30 @@
         </div>
         <div *ngIf='billDue && utilityTransactionValidated'>
           <div class="row">
-            <div class="col-10">
+            <div class="col-5">
               <div>Bill Amount</div>
-              <input type="number" class="form-control" formControlName="rechargeAmount" disabled />
+              <input type="number" class="form-control" formControlName="rechargeAmount" />
+            </div>
+            <div class="col-5">
+                <div>Bill Due Date</div>
+                <input type="text" class="form-control" formControlName="dueDate" />
             </div>
           </div>
           <div class="row">
-            <div class="col-10">
+            <div class="col-5">
               <div>Customer Name</div>
-              <input type="text" class="form-control" formControlName="customerName" disabled />
+              <input type="text" class="form-control" formControlName="customerName" />
+            </div>
+            <div class="col-5">
+                <div>Invoice Number</div>
+                <input type="text" class="form-control" formControlName="invoiceNumber" />
             </div>
           </div>
 
         </div>
         <div class="col-10" style="padding-top: 10px" *ngIf='billDue && utilityTransactionValidated'>
           <button (click)='checkAndDeductBalance()' class="btn btn-primary float-left">Recharge</button>
+          <button (click)='resetUtilityControl()' style="margin-left: 15px; background-color: black;" class="btn btn-primary float-left">Reset</button>
         </div>
 
         <!-- <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
@@ -186,5 +205,42 @@
             </div> -->
       </form>
     </div>
+  </div>
+
+  <div class="col-8">
+    <div *ngIf="rechargeMode === 'POSTPAID'">     
+      <!-- Form Start --> 
+      <form [formGroup]="postpaidRechargeForm">
+      <div class="col-xs-10 col-10 col-md-8">
+          <div>Operator Name</div>
+          <select class="form-control" id="rechargeTypePostpaid" formControlName="operatorName">
+              <!-- <option [value]="-1">Select Recharge Option</option> -->
+              <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
+                <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}</option>
+              </ng-container>
+          </select>
+        </div>
+        <div class="col-xs-10 col-10 col-md-8">
+          <div>Mobile Number</div>
+          <input type="number" class="col-xs-10 col-10 col-md-8" formControlName="mobileNumber"/>
+        </div>
+        <div class="col-xs-10 col-10 col-md-8">
+          <div>Recharge Amount</div>
+          <input type="number" class="col-xs-10 col-10 col-md-8" formControlName="rechargeAmount"/>
+        </div>
+        <div class="col-xs-10 col-10 col-md-8">
+          <div>Customer Mobile</div>
+          <input type="text" class="col-xs-10 col-10 col-md-8" formControlName = 'customerMobile'/>
+        </div>
+        <div class="col-xs-10 col-10 col-md-8">
+          <div>Customer Name</div>
+          <input type="text" class="col-xs-10 col-10 col-md-8" formControlName = 'customerName'/>
+        </div>
+        <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
+          <button (click) = 'checkAndDeductBalance()' class="btn btn-primary float-left">Recharge</button>
+        </div>
+      </form>
+        <!-- Form End-->
+  </div>
   </div>
 </div>

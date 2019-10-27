@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { CommonService } from '../services/common.service/common.service';
 import { AlertService } from '../services/common.service/alert.service';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
-import { RechargeAPI, PrepaidRecharge, UtilityRecharge } from '../models/common.model';
+import { RechargeAPI, PrepaidRecharge, UtilityRecharge, PostpaidRecharge } from '../models/common.model';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { UserService } from '../services/user.service/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -30,6 +30,7 @@ export class RechargeComponent implements OnInit {
   public rechargeObject: any;
   public prepaidRechargeForm: FormGroup;
   public utilityRechargeForm: FormGroup;
+  public postpaidRechargeForm: FormGroup;
   public formSubmitted = false;
   public validationFailed = false;
   constructor(private common: CommonService, private alertService: AlertService,
@@ -44,6 +45,7 @@ export class RechargeComponent implements OnInit {
     this.prepaidRechargeForm = this.formBuilder.group(
       {
         operatorName: ['', Validators.required],
+        dthServiceNumber: ['', Validators.required],
         mobileNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
         rechargeAmount: ['', [Validators.required, Validators.min(10)]],
       }
@@ -54,7 +56,18 @@ export class RechargeComponent implements OnInit {
         consumerNumber: ['', Validators.required],
         rechargeAmount: ['', [Validators.required, Validators.min(10)]],
         customerName: ['', Validators.required],
-        mobileNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]]
+        mobileNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
+        invoiceNumber: ['', Validators.required],
+        dueDate: ['', Validators.required],
+      }
+    );
+    this.postpaidRechargeForm = this.formBuilder.group(
+      {
+        operatorName: ['', Validators.required],
+        mobileNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
+        rechargeAmount: ['', [Validators.required, Validators.min(10)]],
+        customerName: ['', Validators.required],
+        customerMobile: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]]
       }
     );
   }
@@ -69,6 +82,7 @@ export class RechargeComponent implements OnInit {
       this.loadingScreenService.stopLoading();
       this.prepaidRechargeForm.controls.operatorName.setValue(this.apiInfoList[0].operatorName);
       this.utilityRechargeForm.controls.operatorName.setValue(this.apiInfoList[0].operatorName);
+      this.postpaidRechargeForm.controls.operatorName.setValue(this.apiInfoList[0].operatorName);
     }, (err) => {
       this.loadingScreenService.stopLoading();
       console.log(err);
@@ -78,6 +92,7 @@ export class RechargeComponent implements OnInit {
   }
   get fPrepaidRecharge() { return this.prepaidRechargeForm.controls; }
   get fUtilityRecharge() { return this.utilityRechargeForm.controls; }
+  get fPostpaidRecharge() { return this.postpaidRechargeForm.controls; }
   recharge(): void {
     let transactionMessage = '';
     const userID = this.storage.get('user_id');
@@ -86,23 +101,25 @@ export class RechargeComponent implements OnInit {
     this.common.insertTransaction(this.rechargeMode, userID, this.rechargeAmount.toString()).subscribe(
       (response: number) => {
         switch (this.rechargeMode) {
+          case 'DTH':
+              this.rechargeObject = new PrepaidRecharge();
+              this.rechargeObject.mobileNumber = this.fPrepaidRecharge.dthServiceNumber.value.toString();
+              this.rechargeObject.amount = this.fPrepaidRecharge.rechargeAmount.value.toString();
+              this.rechargeObject.orderNumber = response.toString();
+              this.rechargeObject.operatorName = this.fPrepaidRecharge.operatorName.value;
+              transactionMessage = `DTH TRANSACTION - ${this.rechargeObject.mobileNumber}`;
+              break;
           case 'PREPAID':
             this.rechargeObject = new PrepaidRecharge();
             this.rechargeObject.mobileNumber = this.fPrepaidRecharge.mobileNumber.value.toString();
             this.rechargeObject.amount = this.fPrepaidRecharge.rechargeAmount.value.toString();
             this.rechargeObject.orderNumber = response.toString();
             this.rechargeObject.operatorName = this.fPrepaidRecharge.operatorName.value;
-            transactionMessage = `PREPAID TRANSACTION - ${this.mobileNumber}`;
+            transactionMessage = `PREPAID TRANSACTION - ${this.rechargeObject.mobileNumber}`;
             break;
           case 'WATER':
           case 'GAS':
           case 'ELECTRICITY':
-            // rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#consumer_number#', this.consumerNumber.toString());
-            // rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#amount#', this.rechargeAmount.toString());
-            // rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#order#', response.toString());
-            // rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#customer_mobile#', this.customerMobile.toString());
-            // rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#customer_name#', this.customerName.toString());
-            // rechargeAPI.apiValue = rechargeAPI.apiValue.replace('#reference_id#', this.validationReferenceID.toString());
             transactionMessage = `UTILITY TRANSACTION - ${this.fUtilityRecharge.consumerNumber.value.toString()}`;
             this.rechargeObject = new UtilityRecharge();
             this.rechargeObject.consumerNumber = this.fUtilityRecharge.consumerNumber.value.toString();
@@ -112,6 +129,16 @@ export class RechargeComponent implements OnInit {
             this.rechargeObject.customerName = this.fUtilityRecharge.customerName.value.toString();
             this.rechargeObject.validationReferenceID = this.validationReferenceID.toString();
             this.rechargeObject.operatorName = this.fUtilityRecharge.operatorName.value.toString();
+            break;
+          case 'POSTPAID':
+            this.rechargeObject = new PostpaidRecharge();
+            this.rechargeObject.operatorName = this.fPostpaidRecharge.operatorName.value.toString();
+            this.rechargeObject.rechargeMobileNumber = this.fPostpaidRecharge.mobileNumber.value.toString();
+            this.rechargeObject.amount = this.fPostpaidRecharge.rechargeAmount.value.toString();
+            this.rechargeObject.customerMobileNumber = this.fPostpaidRecharge.customerMobile.value.toString();
+            this.rechargeObject.customerName = this.fPostpaidRecharge.customerName.value.toString();
+            this.rechargeObject.orderNumber = response.toString();
+            transactionMessage = `POSTPAID TRANSACTION - ${this.rechargeObject.rechargeMobileNumber.value.toString()}`;
             break;
         }
 
@@ -125,7 +152,10 @@ export class RechargeComponent implements OnInit {
               transactionMessage).subscribe((balance: any) => {
                 console.log('Balance Deducted', balance);
               });
+              this.common.payoutCommission(userID,
+                this.rechargeMode, this.rechargeObject.operatorName, this.rechargeObject.amount);
           }
+          this.resetInputValue();
           this.common.updateTransaction(response.toString(),
             this.joloTransactionStatus, innerResponse.error.toString()).subscribe((transactionUpdate: any) => {
               console.log('Update Transaction Status Called', transactionUpdate);
@@ -155,8 +185,15 @@ export class RechargeComponent implements OnInit {
     this.formSubmitted = true;
     const userID = this.storage.get('user_id');
     switch ( this.rechargeMode) {
-      case 'DTH':
-      case 'PREPAID': this.rechargeAmount = this.fPrepaidRecharge.rechargeAmount.value;
+      case 'DTH': this.prepaidRechargeForm.controls.mobileNumber.setValue(1234567890);
+      this.rechargeAmount = this.fPrepaidRecharge.rechargeAmount.value;
+                      if ( this.prepaidRechargeForm.status === 'INVALID') {
+                        alert('Invalid form can not be submitted');
+                        return;
+                      }
+                      break;
+      case 'PREPAID': this.prepaidRechargeForm.controls.dthServiceNumber.setValue(1234567890);
+      this.rechargeAmount = this.fPrepaidRecharge.rechargeAmount.value;
                       if ( this.prepaidRechargeForm.status === 'INVALID') {
                         alert('Invalid form can not be submitted');
                         return;
@@ -170,6 +207,12 @@ export class RechargeComponent implements OnInit {
                             return;
                           }
                           break;
+      case 'POSTPAID': this.rechargeAmount = this.fPostpaidRecharge.rechargeAmount.value;
+      if ( this.postpaidRechargeForm.status === 'INVALID') {
+        alert('Invalid form can not be submitted');
+        return;
+      }
+      break;
     }
     this.loadingScreenService.startLoading();
     this.userService.getWalletBalance(userID).subscribe((response: any) => {
@@ -178,16 +221,20 @@ export class RechargeComponent implements OnInit {
         this.recharge();
       } else {
         this.insufficientBalance = true;
+        this.resetInputValue();
       }
     }, (err) => {
       this.loadingScreenService.stopLoading();
       console.log('Error occured while checking wallet balance!', err);
+      this.resetInputValue();
     });
   }
 
   resetInputValue(): void {
     this.utilityRechargeForm.reset();
     this.prepaidRechargeForm.reset();
+    this.postpaidRechargeForm.reset();
+    this.utilityTransactionValidated = false;
   }
 
   validateTransaction(): void {
@@ -207,8 +254,11 @@ export class RechargeComponent implements OnInit {
             this.rechargeAmount = innerResponse.dueamount;
             this.fUtilityRecharge.rechargeAmount.setValue(innerResponse.dueamount);
             this.fUtilityRecharge.customerName.setValue(innerResponse.customername);
+            this.fUtilityRecharge.invoiceNumber.setValue(innerResponse.billnumber);
+            this.fUtilityRecharge.dueDate.setValue(innerResponse.duedate);
             this.validationReferenceID = innerResponse.reference_id;
             this.validationFailed = false;
+            this.disableControls();
           } else if (innerResponse.status === 'FAILED') {
             this.billDue = false;
             this.utilityTransactionErrorMessage = innerResponse.error;
@@ -238,7 +288,31 @@ export class RechargeComponent implements OnInit {
     this.changeRechargeType();
     this.joloTransactionStatus = '';
     this.validationFailed = false;
+    this.resetInputValue();
   }
   validateAmount(): void {
+  }
+
+  disableControls(): void {
+    this.fUtilityRecharge.rechargeAmount.disable();
+    this.fUtilityRecharge.customerName.disable();
+    this.fUtilityRecharge.invoiceNumber.disable();
+    this.fUtilityRecharge.dueDate.disable();
+    this.fUtilityRecharge.operatorName.disable();
+    this.fUtilityRecharge.consumerNumber.disable();
+    this.fUtilityRecharge.mobileNumber.disable();
+  }
+  enableControls(): void {
+    this.fUtilityRecharge.rechargeAmount.enable();
+    this.fUtilityRecharge.customerName.enable();
+    this.fUtilityRecharge.invoiceNumber.enable();
+    this.fUtilityRecharge.dueDate.enable();
+    this.fUtilityRecharge.operatorName.enable();
+    this.fUtilityRecharge.consumerNumber.enable();
+    this.fUtilityRecharge.mobileNumber.enable();
+  }
+  resetUtilityControl(): void {
+    this.enableControls();
+    this.changeView(this.rechargeMode);
   }
 }
