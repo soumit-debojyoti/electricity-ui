@@ -13,6 +13,7 @@ import { ProfileService } from '../widgets/profile/profile.service';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+import { AuthService } from '../services/auth.service/auth.service';
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
@@ -78,7 +79,7 @@ export class WalletComponent implements OnInit {
   constructor(private datePipe: DatePipe, private common: CommonService, private userService: UserService,
     private route: ActivatedRoute, private router: Router,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private alertService: AlertService,
-    private loadingScreenService: LoadingScreenService, private profileService: ProfileService) { }
+    private loadingScreenService: LoadingScreenService, private profileService: ProfileService, private auth: AuthService) { }
   get f() { return this.addWalletBalanceForm.controls; }
   ngOnInit() {
     this.endDate = new Date();
@@ -249,7 +250,10 @@ export class WalletComponent implements OnInit {
     }
   }
 
-
+  public logout() {
+    this.storage.set('is_login', false);
+    this.auth.logout();
+  }
 
   public fetchUserTransaction(): void {
     if (this.isSuperAdmin) {

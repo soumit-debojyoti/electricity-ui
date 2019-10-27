@@ -17,6 +17,7 @@ import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { AddressProof } from '../models/addressproof.model';
 import { IdProof } from '../models/idproof.model';
+import { AuthService } from '../services/auth.service/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -71,14 +72,22 @@ export class ProfileComponent implements OnInit {
   adminMode: boolean;
   infoMode: boolean;
   kycMode: boolean;
+  public isAdmin: boolean;
+  public isSuperAdmin: boolean;
+  public isUser: boolean;
+
+
   constructor(private common: CommonService, private profileService: ProfileService, private formBuilder: FormBuilder,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService, private userService: UserService,
-    private loadingScreenService: LoadingScreenService, private router: Router) {
+    private loadingScreenService: LoadingScreenService, private router: Router, private auth: AuthService) {
     this.name = '';
     this.full_name = '';
   }
 
   ngOnInit() {
+    this.isAdmin = false;
+    this.isSuperAdmin = false;
+    this.isUser = false;
     this.user_id = this.storage.get('user_id');
     this.clearUploadVariables();
     this.initiateRegitrationForm();
@@ -88,6 +97,7 @@ export class ProfileComponent implements OnInit {
     this.kycMode = true;
     this.userDetails = new RegisterUserModel();
     this.getUser();
+    this.GetUserRoleInformaion();
   }
 
 
@@ -113,6 +123,36 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  private GetUserRoleInformaion(): void {
+    this.name = this.storage.get('login_user');
+    this.loadingScreenService.startLoading();
+    this.profileService.GetUser(this.name)
+      .subscribe((response: User) => {
+        this.loadingScreenService.stopLoading();
+        this.role = response.role_name;
+        if (this.role === 'employee') {
+          this.isEmployee = true;
+        } else {
+          if (this.role === 'super admin') {
+            this.isSuperAdmin = true;
+          } else if (this.role === 'admin') {
+            this.isAdmin = true;
+          } else if (this.role === 'user') {
+            this.isUser = true;
+          } else {
+            this.isSuperAdmin = false;
+            this.isEmployee = false;
+            this.isAdmin = false;
+            this.isUser = false;
+          }
+        }
+        this.storage.set('username', response.first_name + ' ' + response.last_name);
+        this.storage.set('mobileno', response.mobile_number);
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
+  }
+
   public onAddressProofChanged(event: any) {
     if (event.target.value !== '0') {
       this.selectedAddressProof = this.addressProofs.find(n => n.address_proof_id === event.target.value);
@@ -121,6 +161,11 @@ export class ProfileComponent implements OnInit {
       this.registerForm.controls['uploaddocumentaddress'].disable();
       this.addressProofUploadpath = '';
     }
+  }
+
+  public logout() {
+    this.storage.set('is_login', false);
+    this.auth.logout();
   }
 
   public uploadIdProof(files) {
@@ -282,7 +327,7 @@ export class ProfileComponent implements OnInit {
       bankdetails: [''],
     });
     forkJoin(this.userService.getKYC(this.user_id), this.common.getIdProof(),
-    this.common.getAddressProof())
+      this.common.getAddressProof())
       .subscribe(([responsekyc, responseIdProof, responseAddressProof]) => {
         this.idProofs = responseIdProof;
         this.addressProofs = responseAddressProof;
@@ -318,14 +363,14 @@ export class ProfileComponent implements OnInit {
       case 'Basic Info': this.infoMode = true; this.adminMode = false; this.kycMode = false;
         break;
       case 'Admin View': this.infoMode = false; this.adminMode = true; this.kycMode = false;
-      break;
+        break;
       case 'KYC': this.kycMode = true; this.infoMode = false; this.adminMode = false;
     }
   }
 
   getUser(): void {
     this.loadingScreenService.startLoading();
-    this.userService.getUserDetails(this.user_id).subscribe( (response: RegisterUserModel) => {
+    this.userService.getUserDetails(this.user_id).subscribe((response: RegisterUserModel) => {
       this.loadingScreenService.stopLoading();
       this.userDetails = response;
     }, (err) => {

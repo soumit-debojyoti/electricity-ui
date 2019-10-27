@@ -140,7 +140,6 @@
             <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
               <div *ngIf="f.mobile.errors.required">Mobile is required</div>
               <div *ngIf="f.mobile.errors.minlength">Mobile must be at least 10 characters</div>
-              <div *ngIf="f.mobile.errors.mobExist">Mobile should be unique.</div>
             </div>
             <!-- <div *ngIf="f.mobile.errors && isfirst && ismobileexist" class="invalid-feedback">
               <div *ngIf="f.mobile.errors.requiredTrue">Mobile is duplicate</div>

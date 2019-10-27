@@ -20,9 +20,9 @@
     <div class="col-sm-6 hand details pointer" (click)="details()"><u>details....</u></div>
   </div>
 </div> -->
-<div class="w3-container">
+<div class="w3-container pointer" [routerLink]="['/rank-achiever-list']">
   <p></p>
-  <p><i class="fa fa-users w3-xxlarge pointer" [routerLink]="['/rank-achiever-list']"></i>
+  <p><i class="fa fa-users w3-xxlarge pointer"></i>
     <span class="icon-position">Rank : {{userRank}}</span></p>
 </div>
 <!-- <div class="card">

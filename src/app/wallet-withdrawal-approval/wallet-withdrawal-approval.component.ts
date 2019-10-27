@@ -103,6 +103,10 @@ export class WalletWithdrawalApprovalComponent implements OnInit {
     // });
 
   }
+  public logout() {
+    this.storage.set('is_login', false);
+    this.auth.logout();
+  }
 
   public IsDisabled(item: WithdrawalWallet): boolean {
     if (item.approved) {

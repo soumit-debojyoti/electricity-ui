@@ -6,6 +6,7 @@ import { UserService } from '../services/user.service/user.service';
 import { SiblingModel, ChildModel, ParentModel, RankAchieverModel, OwnModel } from '../models/rank-chiever.model';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 import { RankAchiever } from '../models/common.model';
+import { AuthService } from '../services/auth.service/auth.service';
 
 @Component({
   selector: 'app-rank-achiever-list',
@@ -22,7 +23,8 @@ export class RankAchieverListComponent implements OnInit {
   public viewMode: string = 'self';
   public role_id = 0;
   constructor(private userService: UserService,
-    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router, private data: DataService,
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router,
+    private data: DataService, private auth: AuthService,
     private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit() {
@@ -53,7 +55,10 @@ export class RankAchieverListComponent implements OnInit {
       console.log(this.rankAchievers);
     });
   }
-
+  public logout() {
+    this.storage.set('is_login', false);
+    this.auth.logout();
+  }
   public changeView(value: string) {
     this.viewMode = value;
     console.log('change view called', this.viewMode);

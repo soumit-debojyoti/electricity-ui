@@ -18,3 +18,32 @@ ul .active {
     color: white;
     background-color: #28a745;
   }
+
+  
+  .logo-position{
+    position: relative;
+    top: -30px;
+    left: -12px;
+}
+.address{
+    position: relative;
+    top: 20px;
+    right: -81px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 11px;
+}
+.api-balance-position{
+    position: relative;
+    top: -23px;
+}
+.font-size-20{
+        font-size: 20px;
+}
+.mobileshow { 
+display:none; 
+}
+@media screen and (max-width: 500px) {
+.mobileshow { 
+display:block; }
+}
