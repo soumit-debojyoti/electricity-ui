@@ -442,4 +442,16 @@ export class CommonService {
       return false;
     }
   }
+
+  public payoutCommission(userID: number,
+    rechargeOption: string, operatorname: string, transactionAmount: number): Observable<boolean> {
+      const urlStringObject = {
+        userID: userID,
+        rechargetype: rechargeOption,
+        operatorName: operatorname,
+        transactionAmount: transactionAmount
+      };
+      const mainURL = this.apiUrlService.getFullURL('PAYOUT_COMMISSION', urlStringObject);
+      return this.baseService.post(mainURL, {}, true);
+    }
 }

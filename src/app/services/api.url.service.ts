@@ -78,6 +78,8 @@ export class ApiUrlService extends BaseURLService {
       FETCH_ALL_USER_DETAILS: `User/alluserinfo`,
       FETCH_USER_DETAILS: `User/alluserinfo/user/{userID}`,
       UPDATE_USER_DETAILS: `User/details/user/{userID}`,
+      PAYOUT_COMMISSION:
+      `User/commission/payout/user/{userID}/rechargetype/{rechargeType}/operatorname/{operatorName}/amount/{transactionAmount}`,
     };
   }
 
