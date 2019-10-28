@@ -6,6 +6,7 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { AlertService } from '../../services/common.service/alert.service';
 import { DataService } from 'src/app/services/data.service/data.service';
 import { FormControl } from '@angular/forms';
+import { TalkBackService } from 'src/app/services/user.service/talk-back.service';
 
 @Component({
   selector: 'app-amount-transfer',
@@ -20,7 +21,7 @@ export class AmountTransferComponent implements OnInit {
 
 
   constructor(private userService: UserService, private loadingScreenService: LoadingScreenService, private alertService: AlertService,
-    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService) { }
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService, private data: DataService, private talkService: TalkBackService) { }
 
   ngOnInit() {
     this.userId = 0;
@@ -81,7 +82,6 @@ export class AmountTransferComponent implements OnInit {
 
 
   public submit(user: any, mobile: any, amount: any, comment: any) {
-    debugger;
     if (user.value === '' && mobile.value === '') {
       if (mobile.value === '') {
         this.alertService.confirmationMessage('', 'Mobile is mandatory.', 'warning', true, false);
@@ -173,6 +173,7 @@ export class AmountTransferComponent implements OnInit {
         //   this.sendMoney(user, mobile, amount, comment);
         // }
         this.sendMoney(user, mobile, amount, comment);
+        this.talkService.newTokenGenerated.next(true);
       });
   }
 }
