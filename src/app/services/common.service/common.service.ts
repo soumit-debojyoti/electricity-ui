@@ -13,7 +13,7 @@ import { ApiUrlService } from '../api.url.service';
 import { ConfigurationModel } from '../../models/configuration.model';
 import {
   RechargeAPI, NewsFeed, IntroducerBonus, BankDetails,
-  RechargeTransaction, Complaint, BankTransaction
+  RechargeTransaction, Complaint, BankTransaction, CommissionSetting
 } from 'src/app/models/common.model';
 
 @Injectable({
@@ -246,11 +246,13 @@ export class CommonService {
     return this.baseService.get(mainURL, {}, true);
   }
 
-  public insertTransaction(rechargeMode: string, userId: number, rechargeAmount: string): Observable<number> {
+  public insertTransaction(rechargeMode: string, userId: number,
+    rechargeAmount: string, serviceNumber: string): Observable<number> {
     const urlStringObject = {
       userID: userId,
       rechargeMode: rechargeMode,
-      rechargeAmount: rechargeAmount
+      rechargeAmount: rechargeAmount,
+      serviceNumber: serviceNumber
     };
     const mainURL = this.apiUrlService.getFullURL('INSERT_TRANSACTION', urlStringObject);
     return this.baseService.post(mainURL, {}, true);
@@ -447,11 +449,16 @@ export class CommonService {
     rechargeOption: string, operatorname: string, transactionAmount: number): Observable<boolean> {
       const urlStringObject = {
         userID: userID,
-        rechargetype: rechargeOption,
+        rechargeType: rechargeOption,
         operatorName: operatorname,
         transactionAmount: transactionAmount
       };
       const mainURL = this.apiUrlService.getFullURL('PAYOUT_COMMISSION', urlStringObject);
       return this.baseService.post(mainURL, {}, true);
     }
+
+  public addCommissionSetting(cs: CommissionSetting): Observable<boolean> {
+      const mainURL = this.apiUrlService.getFullURL('COMMISSION_SETTING', {});
+      return this.baseService.post(mainURL, cs, true);
+  }
 }

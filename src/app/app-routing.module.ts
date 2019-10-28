@@ -78,6 +78,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'commission-setting',
+    loadChildren: './commission-setting/commission-setting.module#CommissionSettingModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: '',
     loadChildren: './login/login.module#LoginModule',
     pathMatch: 'full'

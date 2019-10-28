@@ -33,6 +33,7 @@ export class RechargeComponent implements OnInit {
   public postpaidRechargeForm: FormGroup;
   public formSubmitted = false;
   public validationFailed = false;
+  public serviceNumber = '';
   constructor(private common: CommonService, private alertService: AlertService,
     private loadingScreenService: LoadingScreenService, private formBuilder: FormBuilder,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService, private userService: UserService) { }
@@ -98,7 +99,7 @@ export class RechargeComponent implements OnInit {
     const userID = this.storage.get('user_id');
     this.loadingScreenService.startLoading();
     // const rechargeAmount = this.fPrepaidRecharge.rechargeAmount.value;
-    this.common.insertTransaction(this.rechargeMode, userID, this.rechargeAmount.toString()).subscribe(
+    this.common.insertTransaction(this.rechargeMode, userID, this.rechargeAmount.toString(), this.serviceNumber).subscribe(
       (response: number) => {
         switch (this.rechargeMode) {
           case 'DTH':
@@ -164,12 +165,18 @@ export class RechargeComponent implements OnInit {
           this.resetInputValue();
           this.formSubmitted = false;
           this.utilityTransactionValidated = false;
+          if (this.rechargeMode === 'WATER' || this.rechargeMode === 'GAS' || this.rechargeMode === 'ELECTRICITY') {
+            this.resetUtilityControl();
+          }
         }, (err) => {
           console.log('error has occured in recharge page -', err);
           this.loadingScreenService.stopLoading();
           this.resetInputValue();
           this.formSubmitted = false;
           this.utilityTransactionValidated = false;
+          if (this.rechargeMode === 'WATER' || this.rechargeMode === 'GAS' || this.rechargeMode === 'ELECTRICITY') {
+            this.resetUtilityControl();
+          }
         });
       }, (err) => {
         console.log(err);
@@ -177,6 +184,9 @@ export class RechargeComponent implements OnInit {
         this.resetInputValue();
         this.formSubmitted = false;
         this.utilityTransactionValidated = false;
+        if (this.rechargeMode === 'WATER' || this.rechargeMode === 'GAS' || this.rechargeMode === 'ELECTRICITY') {
+          this.resetUtilityControl();
+        }
       }
     );
   }
@@ -191,6 +201,7 @@ export class RechargeComponent implements OnInit {
                         alert('Invalid form can not be submitted');
                         return;
                       }
+                      this.serviceNumber = this.fPrepaidRecharge.dthServiceNumber.value;
                       break;
       case 'PREPAID': this.prepaidRechargeForm.controls.dthServiceNumber.setValue(1234567890);
       this.rechargeAmount = this.fPrepaidRecharge.rechargeAmount.value;
@@ -198,6 +209,7 @@ export class RechargeComponent implements OnInit {
                         alert('Invalid form can not be submitted');
                         return;
                       }
+                      this.serviceNumber = this.fPrepaidRecharge.mobileNumber.value;
                       break;
       case 'WATER':
       case 'GAS':
@@ -206,12 +218,14 @@ export class RechargeComponent implements OnInit {
                             alert('Invalid form can not be submitted');
                             return;
                           }
-                          break;
+                          this.serviceNumber = this.fUtilityRecharge.consumerNumber.value;
+                          break; 
       case 'POSTPAID': this.rechargeAmount = this.fPostpaidRecharge.rechargeAmount.value;
       if ( this.postpaidRechargeForm.status === 'INVALID') {
         alert('Invalid form can not be submitted');
         return;
       }
+      this.serviceNumber = this.fPostpaidRecharge.mobileNumber.value;
       break;
     }
     this.loadingScreenService.startLoading();
@@ -289,6 +303,9 @@ export class RechargeComponent implements OnInit {
     this.joloTransactionStatus = '';
     this.validationFailed = false;
     this.resetInputValue();
+    if (this.rechargeMode === 'WATER' || this.rechargeMode === 'GAS' || this.rechargeMode === 'ELECTRICITY') {
+      this.resetUtilityControl();
+    }
   }
   validateAmount(): void {
   }
@@ -313,6 +330,6 @@ export class RechargeComponent implements OnInit {
   }
   resetUtilityControl(): void {
     this.enableControls();
-    this.changeView(this.rechargeMode);
+    // this.changeView(this.rechargeMode);
   }
 }

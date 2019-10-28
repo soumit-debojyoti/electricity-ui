@@ -1,24 +1,102 @@
-<form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand fa fa-home" style="font-size:48px" [routerLink]="['/dashboard']"></a>
+</nav>
+
+<div class="alert alert-success alert-dismissible" *ngIf="addedSuccessfully && submitted">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Your transaction is successful</strong>
+</div>
+<div class="alert alert-danger alert-dismissible" *ngIf='!addedSuccessfully && submitted'>
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>issue with adding, correct your form input.</strong> {{message}}
+</div>
+<div class="card-header">
+    <label>Commission Setting</label>
+</div>
+<form [formGroup]="dynamicForm">
     <div class="card m-3">
         <div class="card-body">
             <div class="form-row">
-                <div class="form-group">
-                    <label>Recharge Type</label>
-                    <select formControlName="numberOfTickets" class="form-control" (change)="onChangeTickets($event)" [ngClass]="{ 'is-invalid': submitted && f.numberOfTickets.errors }">
-                        <option value=""></option>
-                        <option *ngFor="let i of ['PREPAID', 'DTH', 'ELECTRICITY', 'LANDLINE', 'POSTPAID']">{{i}}</option>
+                <div class="form-group col-6">
+                    <label>Recharge Type:</label>
+                    <select formControlName="rechargeType" class="form-control" (change)='changeRechargeType()' [ngClass]="{ 'is-invalid': submitted && f.rechargeType.errors }">                        
+                        <option *ngFor="let i of ['PREPAID', 'DTH', 'ELECTRICITY', 'LANDLINE', 'POSTPAID']" [value]="i" >{{i}}</option>
                     </select>
-                    <div *ngIf="submitted && f.numberOfTickets.errors" class="invalid-feedback">
-                        <div *ngIf="f.numberOfTickets.errors.required">Number of tickets is required</div>
+                    <div *ngIf="submitted && f.rechargeType.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && f.rechargeType.errors.required">need attention</div>
                     </div>
                 </div>
+                <div class="form-group col-6" *ngIf='apiInfoList.length > 0'>
+                    <label>Operator Name:</label>
+                    <select formControlName="operatorName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.operatorName.errors }">                        
+                        <option *ngFor="let k of apiInfoList" [value]="k.operatorName">{{k.operatorName}}</option>
+                    </select>
+                    <div *ngIf="submitted && f.operatorName.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && f.operatorName.errors.required">need attention</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <!-- Header -->
+                <div class="form-group col-4">
+                    <label>Commission Type:</label>
+                    <select formControlName="commissionType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.commissionType.errors }">                        
+                        <option *ngFor="let j of commissionType" [value]="j" >{{j}}</option>
+                    </select>
+                    <div *ngIf="submitted && f.commissionType.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && f.commissionType.errors.required">need attention</div>
+                    </div>
+                </div>
+                <div class="form-group col-4">
+                    <label>Payment Type:</label>
+                    <select formControlName="paymentType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.paymentType.errors }">                        
+                        <option *ngFor="let g of paymentType" [value]="g" >{{g}}</option>
+                    </select>
+                    <div *ngIf="submitted && f.paymentType.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && f.paymentType.errors.required">need attention</div>
+                    </div>
+                </div>
+                <div class="form-group col-4">
+                    <label>Value:</label>
+                    <input type="number" formControlName="amount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amount.errors }">
+                    <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && f.amount.errors.required">need attention</div>
+                    </div>
+                </div>
+                <!-- <div class="form-group col-4">
+                    <label>Payment Type:</label>
+                    <select formControlName="paymentType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.paymentType.errors }">                        
+                        <option *ngFor="let g of paymentType" [value]="g" >{{g}}</option>
+                    </select>
+                    <div *ngIf="submitted && f.paymentType.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && f.paymentType.errors.required">need attention</div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="form-row">
+                    <div class="form-group col-6">
+                            <label>Level commission type:</label>
+                            <select formControlName="levelPayoutType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.levelPayoutType.errors }">                        
+                                <option *ngFor="let o of paymentType" [value]="o" >{{o}}</option>
+                            </select>
+                            <div *ngIf="submitted && f.levelPayoutType.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && f.levelPayoutType.errors.required">need attention</div>
+                            </div>
+                    </div>
+                    <div class="form-group col-6">
+                            <label>Value:</label>
+                            <input type="number" formControlName="levelPayoutAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.levelPayoutAmount.errors }">
+                            <div *ngIf="submitted && f.levelPayoutAmount.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && f.levelPayoutAmount.errors.required">need attention</div>
+                            </div>
+                        </div>
             </div>
         </div>
         
         <div class="card-footer text-center">
-            <button class="btn btn-primary mr-1">Buy Tickets</button>
+            <button class="btn btn-primary mr-1" (click)='addCommission()'>Add</button>
             <button class="btn btn-secondary mr-1" type="reset" (click)="onReset()">Reset</button>
-            <button class="btn btn-secondary" type="button" (click)="onClear()">Clear</button>
+            <!-- <button class="btn btn-secondary" type="button" (click)="onClear()">Clear</button> -->
         </div>
     </div>
 </form>

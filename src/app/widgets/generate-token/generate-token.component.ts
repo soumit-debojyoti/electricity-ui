@@ -6,6 +6,7 @@ import { LoadingScreenService } from 'src/app/services/loading-screen/loading-sc
 import { DataService } from 'src/app/services/data.service/data.service';
 import { UserLog } from 'src/app/models/wallet-balance-report.model';
 import { UserService } from 'src/app/services/user.service/user.service';
+import { TalkBackService } from 'src/app/services/user.service/talk-back.service';
 @Component({
   selector: 'app-generate-token',
   templateUrl: './generate-token.component.html',
@@ -18,7 +19,7 @@ export class GenerateTokenComponent implements OnInit {
   constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private generateTokenService: GenerateTokenService, private alertService: AlertService,
     private loadingScreenService: LoadingScreenService, private data: DataService,
-    private userService: UserService) { }
+    private userService: UserService, private talkService: TalkBackService) { }
 
   ngOnInit() {
     this.name = this.storage.get('login_user');
@@ -68,6 +69,16 @@ export class GenerateTokenComponent implements OnInit {
     this.alertService.confirmationMessage('Token', `Your token is ${token}`,
       'success', true, false, 'Ok', '', '');
     this.data.changeMessage('token-generate');
+    this.loadingScreenService.startLoading();
+    this.userService.getWalletBalance(this.storage.get('user_id'))
+      .subscribe(responseBalance => {
+        this.loadingScreenService.stopLoading();
+        this.userService.setLocalWalletBalance(responseBalance.walletBalance);
+        this.talkService.newTokenGenerated.next(true);
+        // this.balance = responseBalance.walletBalance;
+      }, (err) => {
+        console.log('Error occured while generating token', err);
+      });
   }
 
   private changeUser(user_name: string): void {

@@ -54,7 +54,8 @@ export class ApiUrlService extends BaseURLService {
       SURRENDER_TOKEN: `user/surrendertoken/{token}`,
       RECHARGE_API: `RechargeAPI/api`,
       RECHARGE_API_FETCH: `RechargeAPI/api/{rechargeMode}`,
-      INSERT_TRANSACTION: `RechargeAPI/api/recharge/{userID}/rechargemode/{rechargeMode}/amount/{rechargeAmount}`,
+      INSERT_TRANSACTION:
+      `RechargeAPI/api/recharge/{userID}/rechargemode/{rechargeMode}/amount/{rechargeAmount}/servicenumber/{serviceNumber}`,
       UPDATE_TRANSACTION: `RechargeAPI/api/transaction/{orderID}/status/{transactionStatus}/message/{errorMessage}`,
       DEDUCT_WALLET_BALANCE_TRANSACTION: `RechargeAPI/api/transaction/user/{userID}/wallet/amount/{amount}/message/{message}`,
       FETCH_RECHARGE_API_VALIDATION: `RechargeAPI/api/validation/rechargemode/{rechargeMode}/operator/{operatorName}`,
@@ -80,6 +81,7 @@ export class ApiUrlService extends BaseURLService {
       UPDATE_USER_DETAILS: `User/details/user/{userID}`,
       PAYOUT_COMMISSION:
       `User/commission/payout/user/{userID}/rechargetype/{rechargeType}/operatorname/{operatorName}/amount/{transactionAmount}`,
+      COMMISSION_SETTING: `User/commission`,
     };
   }
 

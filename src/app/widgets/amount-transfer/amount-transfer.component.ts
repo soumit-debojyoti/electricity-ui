@@ -81,6 +81,7 @@ export class AmountTransferComponent implements OnInit {
 
 
   public submit(user: any, mobile: any, amount: any, comment: any) {
+    debugger;
     if (user.value === '' && mobile.value === '') {
       if (mobile.value === '') {
         this.alertService.confirmationMessage('', 'Mobile is mandatory.', 'warning', true, false);
@@ -165,11 +166,13 @@ export class AmountTransferComponent implements OnInit {
   private validateBankAccount(user: any, mobile: any, amount: any, comment: any): void {
     this.userService.validateAccount(this.senderUserId)
       .subscribe((response: AccountValidationResponse) => {
-        if (!response.isValid) {
-          this.alertService.confirmationMessage('', response.message + 'So you can not send money to this account.', 'error', true, false);
-        } else {
-          this.sendMoney(user, mobile, amount, comment);
-        }
+        // if (!response.isValid) {
+        //   this.alertService.confirmationMessage('',
+        // response.message + 'So you can not send money to this account.', 'error', true, false);
+        // } else {
+        //   this.sendMoney(user, mobile, amount, comment);
+        // }
+        this.sendMoney(user, mobile, amount, comment);
       });
   }
 }

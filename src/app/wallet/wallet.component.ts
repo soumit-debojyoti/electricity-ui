@@ -173,18 +173,13 @@ export class WalletComponent implements OnInit {
           this.isSuperAdmin = true;
           this.fetchAllRechargeTransaction();
           this.rechargeTransactionDisplayedColumns =
-            ['transactionID', 'transactionDate',
+            ['transactionID', 'transactionDate', 'serviceNumber',
               'transactionMode', 'transactionAmount',
-              'transactionStatus', 'transactionMessage',
-              'transactionMessage1', 'transactionMessage2',
-              'transactionMessage3', 'transactionMessage4',
-              'transactionMessage5', 'transactionMessage6',
-              'transactionMessage7', 'transactionMessage8',
-              'transactionMessage9', 'action'];
+              'transactionStatus', 'transactionMessage', 'action'];
         } else {
           this.fetchUserRechargeTransaction(this.userId);
           this.rechargeTransactionDisplayedColumns =
-            ['transactionID', 'transactionDate',
+            ['transactionID', 'transactionDate', 'serviceNumber',
               'transactionMode', 'transactionAmount', 'transactionStatus', 'action'];
         }
       }

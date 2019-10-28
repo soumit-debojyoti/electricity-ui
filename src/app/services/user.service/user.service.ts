@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import 'rxjs/add/operator/catch';
@@ -15,7 +15,13 @@ import { RegisterUserModel, MobileUniqueValidationResponse, TodayUserJoinCountRe
   providedIn: 'root'
 })
 export class UserService {
-
+  private walletBalance: number;
+  public getLocalWalletBalance(): number {
+    return this.walletBalance;
+  }
+  public setLocalWalletBalance(data: number): void {
+    this.walletBalance = data;
+  }
   constructor(private router: Router,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private http: HttpClient,

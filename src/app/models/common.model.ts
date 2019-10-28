@@ -65,15 +65,7 @@ export class RechargeTransaction {
     transactionAmount: number;
     transactionStatus: string;
     transactionMessage: string;
-    transactionMessage1: string;
-    transactionMessage2: string;
-    transactionMessage3: string;
-    transactionMessage4: string;
-    transactionMessage5: string;
-    transactionMessage6: string;
-    transactionMessage7: string;
-    transactionMessage8: string;
-    transactionMessage9: string;
+    serviceNumber: string;
     transactionDateText: string;
 }
 
@@ -130,3 +122,17 @@ export class PostpaidRecharge {
     operatorName: string;
     rechargeMobileNumber: string;
 }
+
+export class CommissionSetting {
+    rechargeType: string;
+    operatorName: string;
+    commissionType: string; // 0: service || 1: commission
+    calculationType: string; // 0: percentage || 1: amount
+    value: number;
+    levelPayoutType: string; // 0: percentage || 1: amount
+    levelPayoutValue: number;
+}
+
+// export class CommissionSettingValue {
+
+// }

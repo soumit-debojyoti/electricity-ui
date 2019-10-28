@@ -40,7 +40,6 @@ import { BalanceTransferComponent } from '../widgets/balance-transfer/balance-tr
 import { BalanceComponent } from '../widgets/balance/balance.component';
 import { BalanceRequestComponent } from '../widgets/balance-request/balance-request.component';
 import { MyPayoutReportComponent } from '../widgets/my-payout-report/my-payout-report.component';
-
 @NgModule({
     declarations: [
         DashboardComponent,
@@ -85,7 +84,6 @@ import { MyPayoutReportComponent } from '../widgets/my-payout-report/my-payout-r
         DemoMaterialModule,
         SharedModule,
         RechargeModule
-
         // BrowserAnimationsModule,
         // MatButtonModule, MatCardModule, MatMenuModule, MatToolbarModule,
         // MatIconModule, MatSidenavModule, MatListModule
