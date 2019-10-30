@@ -75,6 +75,7 @@ export class RegisterComponent implements OnInit {
     this.getIdProof();
     this.getStates();
     this.formControlValueChanged();
+    this.useridFormation();
   }
 
   public changeKYC(isKYC: any) {
@@ -172,27 +173,7 @@ export class RegisterComponent implements OnInit {
   public dateChange() {
     const fname = this.registerForm.controls['firstName'].value.toLowerCase().substring(0, 3);
     const lname = this.registerForm.controls['lastName'].value.toLowerCase().substring(0, 3);
-    this.useridFormation()
-      .subscribe((res: TodayUserJoinCountResponse) => {
-        this.loadingScreenService.stopLoading();
-        if (res.isValid) {
-          const x = new Date();
-          const y = x.getFullYear().toString().substr(-2);
-          let m = (x.getMonth() + 1).toString();
-          let d = x.getDate().toString();
-          (d.length === 1) ? (d = '0' + d) : (d = d);
-          (m.length === 1) ? (m = '0' + m) : (m = m);
-          const yyyymmdd = y + m + d;
-          this.user_name = yyyymmdd + '' + (res.count + 1);
 
-        } else {
-          this.loadingScreenService.stopLoading();
-          this.user_name = '';
-        }
-        this.registerForm.controls['username'].setValue(this.user_name); // = this.user_name;
-      }, () => {
-        this.loadingScreenService.stopLoading();
-      });
   }
 
   public formControlValueChanged() {
@@ -348,8 +329,22 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  private useridFormation(): Observable<any> {
-    return this.userService.GetTodayUserJoinCount();
+  private useridFormation(): void {
+    this.userService.GetTodayUserJoinCount()
+      .subscribe((res: TodayUserJoinCountResponse) => {
+        this.loadingScreenService.stopLoading();
+        const x = new Date();
+        const y = x.getFullYear().toString().substr(-2);
+        let m = (x.getMonth() + 1).toString();
+        let d = x.getDate().toString();
+        (d.length === 1) ? (d = '0' + d) : (d = d);
+        (m.length === 1) ? (m = '0' + m) : (m = m);
+        const yyyymmdd = y + m + d;
+        this.user_name = yyyymmdd + '' + (res.count + 1);
+        this.registerForm.controls['username'].setValue(this.user_name); // = this.user_name;
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
   }
 
   private initiateRegitrationForm() {

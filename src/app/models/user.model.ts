@@ -59,7 +59,6 @@ export interface MobileUniqueValidationResponse {
 }
 
 export interface TodayUserJoinCountResponse {
-    isValid: boolean;
     count: number;
 }
 
