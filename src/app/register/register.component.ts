@@ -75,7 +75,7 @@ export class RegisterComponent implements OnInit {
     this.getIdProof();
     this.getStates();
     this.formControlValueChanged();
-    this.useridFormation();
+
   }
 
   public changeKYC(isKYC: any) {
@@ -90,82 +90,9 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
+    this.useridFormation();
 
 
-    this.userService.validateUniqueMobile(this.registerForm.get('mobile').value)
-      .subscribe((event: MobileUniqueValidationResponse) => {
-        this.loadingScreenService.stopLoading();
-        const phoneControl = this.registerForm.get('mobile');
-        if (event.has_present) {
-          this.isfirst = true;
-          this.ismobileexist = true;
-          this.mobExist = !this.ismobileexist;
-          this.alertService.confirmationMessage('',
-            `Mobile number exist.`,
-            'error', true, false);
-          return;
-        } else {
-          this.isfirst = true;
-          this.ismobileexist = false;
-          this.mobExist = !this.ismobileexist;
-          const formDataregister: FormData = new FormData();
-          if (!this.isEmployee) {
-            formDataregister.append('introcode', this.registerForm.get('introcode').value);
-            formDataregister.append('introname', this.registerForm.get('introname').value);
-          }
-          formDataregister.append('isEmployee', this.isEmployee ? 'true' : 'false');
-
-          formDataregister.append('username', this.registerForm.get('username').value);
-          formDataregister.append('password', this.registerForm.get('password').value);
-          formDataregister.append('firstName', this.registerForm.get('firstName').value);
-          formDataregister.append('middleName', this.registerForm.get('middleName').value);
-          formDataregister.append('lastName', this.registerForm.get('lastName').value);
-          formDataregister.append('fathername', this.registerForm.get('fathername').value);
-          formDataregister.append('gender', this.registerForm.get('gender').value);
-          formDataregister.append('dob', this.registerForm.get('dob').value);
-          formDataregister.append('mobile', this.registerForm.get('mobile').value);
-          formDataregister.append('email', this.registerForm.get('email').value);
-          formDataregister.append('pancard', this.registerForm.get('pancard').value);
-          formDataregister.append('aadharcard', this.registerForm.get('aadharcard').value);
-          formDataregister.append('address', this.registerForm.get('address').value);
-          formDataregister.append('po', this.registerForm.get('po').value);
-          formDataregister.append('ps', this.registerForm.get('ps').value);
-          formDataregister.append('district', this.registerForm.get('district').value);
-          formDataregister.append('city', this.registerForm.get('city').value);
-          formDataregister.append('state', this.registerForm.get('state').value);
-          formDataregister.append('pincode', this.registerForm.get('pincode').value);
-          formDataregister.append('bankname', this.registerForm.get('bankname').value);
-          formDataregister.append('accholdername', this.registerForm.get('accholdername').value);
-          formDataregister.append('accnumber', this.registerForm.get('accnumber').value);
-          formDataregister.append('ifsc', this.registerForm.get('ifsc').value);
-          formDataregister.append('branch', this.registerForm.get('branch').value);
-          formDataregister.append('photo', this.photoUploadPath);
-          formDataregister.append('isKYCLater', this.isKYCLater.toString());
-          if (!this.isKYCLater) {
-            formDataregister.append('idprooftype', this.registerForm.get('idproof').value);
-            formDataregister.append('idproof', this.idProofUploadpath);
-            formDataregister.append('addressprooftype', this.registerForm.get('addressproof').value);
-            formDataregister.append('addressproof', this.addressProofUploadpath);
-
-            formDataregister.append('bankdetails', this.registerForm.get('bankdetails').value);
-          }
-          formDataregister.append('payonline', this.registerForm.get('payonline').value);
-          this.loadingScreenService.startLoading();
-          this.userService.registerUser(formDataregister)
-            .subscribe((response: RegisterUserResponse) => {
-              this.loadingScreenService.stopLoading();
-              if (response.message === 'Registered.') {
-                this.addWallet(response);
-              }
-            }, () => {
-              this.loadingScreenService.stopLoading();
-            });
-
-        }
-      }, () => {
-        this.loadingScreenService.stopLoading();
-      });
-    // stop here if form is invalid
 
 
   }
@@ -341,7 +268,81 @@ export class RegisterComponent implements OnInit {
         (m.length === 1) ? (m = '0' + m) : (m = m);
         const yyyymmdd = y + m + d;
         this.user_name = yyyymmdd + '' + (res.count + 1);
-        this.registerForm.controls['username'].setValue(this.user_name); // = this.user_name;
+        // this.registerForm.controls['username'].setValue(this.user_name); // = this.user_name;
+        this.userService.validateUniqueMobile(this.registerForm.get('mobile').value)
+          .subscribe((event: MobileUniqueValidationResponse) => {
+            this.loadingScreenService.stopLoading();
+            const phoneControl = this.registerForm.get('mobile');
+            if (event.has_present) {
+              this.isfirst = true;
+              this.ismobileexist = true;
+              this.mobExist = !this.ismobileexist;
+              this.alertService.confirmationMessage('',
+                `Mobile number exist.`,
+                'error', true, false);
+              return;
+            } else {
+              this.isfirst = true;
+              this.ismobileexist = false;
+              this.mobExist = !this.ismobileexist;
+              const formDataregister: FormData = new FormData();
+              if (!this.isEmployee) {
+                formDataregister.append('introcode', this.registerForm.get('introcode').value);
+                formDataregister.append('introname', this.registerForm.get('introname').value);
+              }
+              formDataregister.append('isEmployee', this.isEmployee ? 'true' : 'false');
+
+              formDataregister.append('username', this.user_name);
+              formDataregister.append('password', this.registerForm.get('password').value);
+              formDataregister.append('firstName', this.registerForm.get('firstName').value);
+              formDataregister.append('middleName', this.registerForm.get('middleName').value);
+              formDataregister.append('lastName', this.registerForm.get('lastName').value);
+              formDataregister.append('fathername', this.registerForm.get('fathername').value);
+              formDataregister.append('gender', this.registerForm.get('gender').value);
+              formDataregister.append('dob', this.registerForm.get('dob').value);
+              formDataregister.append('mobile', this.registerForm.get('mobile').value);
+              formDataregister.append('email', this.registerForm.get('email').value);
+              formDataregister.append('pancard', this.registerForm.get('pancard').value);
+              formDataregister.append('aadharcard', this.registerForm.get('aadharcard').value);
+              formDataregister.append('address', this.registerForm.get('address').value);
+              formDataregister.append('po', this.registerForm.get('po').value);
+              formDataregister.append('ps', this.registerForm.get('ps').value);
+              formDataregister.append('district', this.registerForm.get('district').value);
+              formDataregister.append('city', this.registerForm.get('city').value);
+              formDataregister.append('state', this.registerForm.get('state').value);
+              formDataregister.append('pincode', this.registerForm.get('pincode').value);
+              formDataregister.append('bankname', this.registerForm.get('bankname').value);
+              formDataregister.append('accholdername', this.registerForm.get('accholdername').value);
+              formDataregister.append('accnumber', this.registerForm.get('accnumber').value);
+              formDataregister.append('ifsc', this.registerForm.get('ifsc').value);
+              formDataregister.append('branch', this.registerForm.get('branch').value);
+              formDataregister.append('photo', this.photoUploadPath);
+              formDataregister.append('isKYCLater', this.isKYCLater.toString());
+              if (!this.isKYCLater) {
+                formDataregister.append('idprooftype', this.registerForm.get('idproof').value);
+                formDataregister.append('idproof', this.idProofUploadpath);
+                formDataregister.append('addressprooftype', this.registerForm.get('addressproof').value);
+                formDataregister.append('addressproof', this.addressProofUploadpath);
+
+                formDataregister.append('bankdetails', this.registerForm.get('bankdetails').value);
+              }
+              formDataregister.append('payonline', this.registerForm.get('payonline').value);
+              this.loadingScreenService.startLoading();
+              this.userService.registerUser(formDataregister)
+                .subscribe((response: RegisterUserResponse) => {
+                  this.loadingScreenService.stopLoading();
+                  if (response.message === 'Registered.') {
+                    this.addWallet(response);
+                  }
+                }, () => {
+                  this.loadingScreenService.stopLoading();
+                });
+
+            }
+          }, () => {
+            this.loadingScreenService.stopLoading();
+          });
+        // stop here if form is invalid
       }, () => {
         this.loadingScreenService.stopLoading();
       });
@@ -352,7 +353,7 @@ export class RegisterComponent implements OnInit {
       this.registerForm = this.formBuilder.group({
         // introcode: new FormControl({ value: this.introducer_code, disabled: true }, Validators.required),
         // introname: new FormControl({ value: this.introducer_name, disabled: true }, Validators.required),
-        username: new FormControl({ value: this.user_name, disabled: true }, Validators.required),
+        // username: new FormControl({ value: this.user_name, disabled: true }, Validators.required),
         password: ['', [Validators.required, Validators.minLength(6)]],
         cpassword: ['', [Validators.required, Validators.minLength(6)]],
         firstName: ['', Validators.required],
@@ -392,7 +393,7 @@ export class RegisterComponent implements OnInit {
       this.registerForm = this.formBuilder.group({
         introcode: new FormControl({ value: this.introducer_code, disabled: true }, Validators.required),
         introname: new FormControl({ value: this.introducer_name, disabled: true }, Validators.required),
-        username: new FormControl({ value: this.user_name, disabled: true }, Validators.required),
+        // username: new FormControl({ value: this.user_name, disabled: true }, Validators.required),
         password: ['', [Validators.required, Validators.minLength(6)]],
         cpassword: ['', [Validators.required, Validators.minLength(6)]],
         firstName: ['', Validators.required],
@@ -494,7 +495,8 @@ export class RegisterComponent implements OnInit {
           if (event.message === 'success') {
             this.alertService.confirmationMessage('',
               `Registration SUCCESS!!. Please click ok to go to login page.
-              Please note that you will able to login with your username and password.`,
+              Please note that you will able to login with your username and password. 
+              Your newly generated user name is ${this.user_name}`,
               'success', true, false);
             this.router.navigate(['/login']);
           }

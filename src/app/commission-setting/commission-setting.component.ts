@@ -18,7 +18,7 @@ export class CommissionSettingComponent implements OnInit {
   public addedSuccessfully = false;
   constructor(private formBuilder: FormBuilder, private common: CommonService,
     private loadingScreenService: LoadingScreenService) {
-    }
+  }
 
   ngOnInit() {
     this.apiInfoList = new Array<RechargeAPI>();
@@ -30,9 +30,9 @@ export class CommissionSettingComponent implements OnInit {
       amount: ['', Validators.required],
       levelPayoutType: ['', Validators.required],
       levelPayoutAmount: ['', Validators.required]
-  });
-  this.commissionType = ['Service Charge', 'Commission'];
-  this.paymentType = ['Percentage', 'Amount'];
+    });
+    this.commissionType = ['Service Charge', 'Commission'];
+    this.paymentType = ['Percentage', 'Amount'];
   }
   changeRechargeType(): void {
     this.loadingScreenService.startLoading();
@@ -55,7 +55,6 @@ export class CommissionSettingComponent implements OnInit {
       alert('Invalid form can not be submitted!!');
       return;
     }
-    debugger;
     var cs = new CommissionSetting();
     cs.rechargeType = this.dynamicForm.controls.rechargeType.value;
     cs.operatorName = this.dynamicForm.controls.operatorName.value;
@@ -67,12 +66,12 @@ export class CommissionSettingComponent implements OnInit {
     this.loadingScreenService.startLoading();
     this.common.addCommissionSetting(
       cs
-    ).subscribe( (response: boolean) => {
-        this.loadingScreenService.stopLoading();
-        this.addedSuccessfully = response;
-        if ( response) {
-          this.dynamicForm.reset();
-        }
+    ).subscribe((response: boolean) => {
+      this.loadingScreenService.stopLoading();
+      this.addedSuccessfully = response;
+      if (response) {
+        this.dynamicForm.reset();
+      }
     }, (err) => {
       console.log('Error occured while adding commission details', err);
       this.loadingScreenService.stopLoading();
