@@ -128,7 +128,7 @@ export class AddApiComponent implements OnInit {
     ( (response: boolean) => {
       if ( response && this.validationApiValue) {
         this.commonService.updateRechargeAPIValidation(
-          this.rechargeType, this.operatorName, this.apiValue
+          this.rechargeType, this.operatorName, this.validationApiValue
         ).subscribe((innerResponse: boolean) => {
             this.apiUpdatedSuccessfully = innerResponse;
         }, (err) => {
