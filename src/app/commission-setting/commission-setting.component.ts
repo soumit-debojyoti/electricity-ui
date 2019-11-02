@@ -16,6 +16,8 @@ export class CommissionSettingComponent implements OnInit {
   public commissionType: Array<string>;
   public paymentType: Array<string>;
   public addedSuccessfully = false;
+  public addedCommissions: Array<CommissionSetting>;
+  servicesColumn: string[];
   constructor(private formBuilder: FormBuilder, private common: CommonService,
     private loadingScreenService: LoadingScreenService) {
   }
@@ -33,6 +35,12 @@ export class CommissionSettingComponent implements OnInit {
     });
     this.commissionType = ['Service Charge', 'Commission'];
     this.paymentType = ['Percentage', 'Amount'];
+    this.servicesColumn =
+            ['rechargeType', 'operatorName', 'commissionType',
+              'calculationType', 'value',
+              'levelPayoutType', 'levelPayoutValue'];
+    this.addedCommissions = new Array<CommissionSetting>();
+    this.getAllCommissionsAdded();
   }
   changeRechargeType(): void {
     this.loadingScreenService.startLoading();
@@ -80,5 +88,17 @@ export class CommissionSettingComponent implements OnInit {
 
   onReset(): void {
     this.dynamicForm.reset();
+  }
+
+  getAllCommissionsAdded(): void {
+    this.loadingScreenService.startLoading();
+    this.common.fetchCommissionSetting().subscribe(
+      (response: Array<CommissionSetting>) => {
+        this.addedCommissions = response;
+        this.loadingScreenService.stopLoading();
+    }, (err) => {
+      console.log('error occured while fetching all commissions added', err);
+      this.loadingScreenService.stopLoading();
+    });
   }
 }

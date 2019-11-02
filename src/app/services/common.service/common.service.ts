@@ -461,4 +461,8 @@ export class CommonService {
       const mainURL = this.apiUrlService.getFullURL('COMMISSION_SETTING', {});
       return this.baseService.post(mainURL, cs, true);
   }
+  public fetchCommissionSetting(): Observable<Array<CommissionSetting>> {
+    const mainURL = this.apiUrlService.getFullURL('COMMISSION_SETTING', {});
+    return this.baseService.get(mainURL, {}, true);
+}
 }

@@ -131,6 +131,9 @@ export class CommissionSetting {
     value: number;
     levelPayoutType: string; // 0: percentage || 1: amount
     levelPayoutValue: number;
+    t_ID: number;
+    l_ID: number;
+    cS_ID: number;
 }
 
 // export class CommissionSettingValue {

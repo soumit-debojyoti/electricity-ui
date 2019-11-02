@@ -100,3 +100,73 @@
         </div>
     </div>
 </form>
+<div class="card">
+    <div class="card-header">
+        <span>Added service</span>
+    </div>
+    <div class="card-body">
+            <mat-table class="card-body" [dataSource]="addedCommissions" matSort>
+                    <!-- Transaction ID Column -->
+                    <ng-container matColumnDef="rechargeType" style="width: 5%">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> Recharge Type </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.rechargeType}} </mat-cell>
+                    </ng-container>
+          
+                    <!-- Transaction Date Column -->
+                    <ng-container matColumnDef="operatorName">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> Operator Name </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.operatorName}} </mat-cell>
+                    </ng-container>
+          
+                    <!-- Transaction Service Number Column -->
+                    <ng-container matColumnDef="commissionType">
+                      <mat-header-cell *matHeaderCellDef> Commission Type </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.commissionType}} </mat-cell>
+                    </ng-container>
+          
+                    <!-- Transaction Type Column -->
+                    <ng-container matColumnDef="calculationType">
+                      <mat-header-cell *matHeaderCellDef> Calculation Type </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.calculationType}} </mat-cell>
+                    </ng-container>
+          
+                    <!-- Transaction Type Column -->
+                    <ng-container matColumnDef="value">
+                      <mat-header-cell *matHeaderCellDef>Value </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.value}} </mat-cell>
+                    </ng-container>
+          
+          
+          
+                    <!-- Transaction Type Column -->
+                    <ng-container matColumnDef="levelPayoutType">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> Level Payout type </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.levelPayoutType}} </mat-cell>
+                    </ng-container>
+          
+                    <!-- Transaction Type Column -->
+                    <ng-container matColumnDef="levelPayoutValue">
+                      <mat-header-cell *matHeaderCellDef> Value </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.levelPayoutValue}} </mat-cell>
+                    </ng-container>          
+                    <!-- Transaction Type Column -->
+                    <!-- <ng-container matColumnDef="action">
+                      <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> <button class="btn btn-primary" type="submit"
+                          (click)='editTransactionRowData(row)' data-toggle="modal" data-target='#complainModal'>Complain</button>
+                      </mat-cell>
+                    </ng-container> -->
+                    <ng-container matColumnDef="noData">
+                      <!-- <mat-header-cell *matHeaderCellDef > Action </mat-header-cell> -->
+                      <mat-footer-cell *matFooterCellDef="let row" [ngClass]="{'hide': addedCommissions.length !== 0}"> No Data ...
+                      </mat-footer-cell>
+                    </ng-container>
+          
+                    <mat-header-row *matHeaderRowDef="servicesColumn"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: servicesColumn;">
+                    </mat-row>
+                    <mat-footer-row *matFooterRowDef="['noData']"></mat-footer-row>
+                  </mat-table>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+</div>
