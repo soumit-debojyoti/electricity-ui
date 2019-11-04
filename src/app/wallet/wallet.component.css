@@ -13,10 +13,10 @@
     line-height: 33px;
 }
 .debit{
-color:green;font-weight: bold;
+color:red;font-weight: bold;
 }
 .credit{
-color:red;font-weight: bold;
+color:green;font-weight: bold;
 }
 
 button.calendar, button.calendar:active {

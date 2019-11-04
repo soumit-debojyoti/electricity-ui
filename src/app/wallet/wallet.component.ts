@@ -14,6 +14,9 @@ import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { AuthService } from '../services/auth.service/auth.service';
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
@@ -82,6 +85,7 @@ export class WalletComponent implements OnInit {
     private loadingScreenService: LoadingScreenService, private profileService: ProfileService, private auth: AuthService) { }
   get f() { return this.addWalletBalanceForm.controls; }
   ngOnInit() {
+
     this.endDate = new Date();
     this.ticketCreated = false;
     this.transactions = [];
@@ -202,6 +206,24 @@ export class WalletComponent implements OnInit {
       }
     );
   }
+
+  public printPdf() {
+    const data = document.getElementById('contentToConvert');
+    html2canvas(data).then(canvas => {
+      // Few necessary setting options
+      const imgWidth = 208;
+      const pageHeight = 295;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      const heightLeft = imgHeight;
+
+      const contentDataURL = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+      const position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.save('Wallet Transaction History.pdf'); // Generated PDF
+    });
+  }
+
   private getWalletBalanceReport(userId: number, startDate: string, endDate: string): void {
     this.loadingScreenService.startLoading();
     this.userService.getWalletBalanceReport(userId, startDate, endDate)
@@ -212,6 +234,9 @@ export class WalletComponent implements OnInit {
             this.users = response.user_logs;
           }
 
+          response.wallet_logs.map(item => {
+            item.created_on = new Date(item.created_on);
+          });
           this.wallettransactions = response.wallet_logs;
           if (this.initialLoad || this.userChange) {
             // this.datelogs = response.date_logs;
@@ -476,7 +501,11 @@ export class WalletComponent implements OnInit {
     this.common.fetchAllTransaction(this.userId, this.startDate.toDateString()
       , this.endDate.toDateString()).subscribe((response) => {
         this.loadingScreenService.stopLoading();
+        response.map(item => {
+          item.transactionTime = new Date(item.transactionTime);
+        });
         this.allTransaction = response;
+
       }, (err) => {
         console.log(err);
         this.loadingScreenService.stopLoading();
@@ -496,7 +525,9 @@ export class WalletComponent implements OnInit {
     this.common.fetchRechargeTransactionHistory(this.endDate.toDateString()
       , this.startDate.toDateString()).subscribe((response: any) => {
         this.loadingScreenService.stopLoading();
-        this.transactions = response;
+        if (response != null) {
+          this.transactions = response;
+        }
         this.dataSourceForRechargeTransaction = new MatTableDataSource(this.transactions);
         this.dataSourceForRechargeTransaction.paginator = this.paginator;
         this.dataSourceForRechargeTransaction.sort = this.sort;
@@ -511,7 +542,9 @@ export class WalletComponent implements OnInit {
       this.endDate.toDateString()
       , this.startDate.toDateString()).subscribe((response: any) => {
         this.loadingScreenService.stopLoading();
-        this.transactions = response;
+        if (response != null) {
+          this.transactions = response;
+        }
         this.dataSourceForRechargeTransaction = new MatTableDataSource(this.transactions);
         this.dataSourceForRechargeTransaction.paginator = this.paginator;
         this.dataSourceForRechargeTransaction.sort = this.sort;
