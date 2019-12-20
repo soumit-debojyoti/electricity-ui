@@ -8,7 +8,7 @@ import { AlertService } from '../services/common.service/alert.service';
 import { UserService } from '../services/user.service/user.service';
 import { WalletReportResponse, UserLog, WalletLog, DateLog } from '../models/wallet-balance-report.model';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
-import { WalletTransaction, RechargeTransaction, Complaint, BankDetails, BankTransaction } from '../models/common.model';
+import { WalletTransaction, RechargeTransaction, Complaint, BankDetails, BankTransaction, TransactionResponse } from '../models/common.model';
 import { ProfileService } from '../widgets/profile/profile.service';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -56,6 +56,7 @@ export class WalletComponent implements OnInit {
   public transactions: Array<RechargeTransaction>;
   public selectedUserID: number;
   public selectedTransactionRowdata: RechargeTransaction;
+  public transactionResponseJSON: TransactionResponse;
   public ticketPriorityText: string = 'Low';
   public ticketPriorityList: Array<any>;
   public userComplaintComment: string;
@@ -83,6 +84,7 @@ export class WalletComponent implements OnInit {
   get f() { return this.addWalletBalanceForm.controls; }
   ngOnInit() {
     this.endDate = new Date();
+    this.transactionResponseJSON = new TransactionResponse();
     this.ticketCreated = false;
     this.transactions = [];
     this.startDate = new Date();
@@ -497,6 +499,7 @@ export class WalletComponent implements OnInit {
       , this.startDate.toDateString()).subscribe((response: any) => {
         this.loadingScreenService.stopLoading();
         this.transactions = response;
+        console.log('transaction data', this.transactions);
         this.dataSourceForRechargeTransaction = new MatTableDataSource(this.transactions);
         this.dataSourceForRechargeTransaction.paginator = this.paginator;
         this.dataSourceForRechargeTransaction.sort = this.sort;
@@ -551,7 +554,12 @@ export class WalletComponent implements OnInit {
     this.selectedTransactionRowdata.transactionDateText =
       this.datePipe.transform(this.selectedTransactionRowdata.transactionDate, 'dd-MM-yyyy');
   }
-
+  viewDetailsTransaction(rowData: any): void {
+    if (rowData.apiResponse !== '') {
+      this.transactionResponseJSON = JSON.parse(rowData.apiResponse);
+    }
+    console.log('api response', this.transactionResponseJSON);
+  }
   changePriority(priority: any): void {
     this.ticketPriorityText = priority;
   }

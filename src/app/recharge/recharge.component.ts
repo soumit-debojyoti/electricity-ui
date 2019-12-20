@@ -98,9 +98,11 @@ export class RechargeComponent implements OnInit {
     let transactionMessage = '';
     const userID = this.storage.get('user_id');
     this.loadingScreenService.startLoading();
+    debugger;
     // const rechargeAmount = this.fPrepaidRecharge.rechargeAmount.value;
     this.common.insertTransaction(this.rechargeMode, userID, this.rechargeAmount.toString(), this.serviceNumber).subscribe(
       (response: number) => {
+        debugger;
         switch (this.rechargeMode) {
           case 'DTH':
               this.rechargeObject = new PrepaidRecharge();
@@ -142,8 +144,8 @@ export class RechargeComponent implements OnInit {
             transactionMessage = `POSTPAID TRANSACTION - ${this.rechargeObject.rechargeMobileNumber.value.toString()}`;
             break;
         }
-
         this.common.rechargeService(this.rechargeMode, this.rechargeObject).subscribe((innerResponse: any) => {
+          debugger;
           if (innerResponse.status === 'FAILED') {
             this.joloTransactionStatus = 'FAILURE';
           }

@@ -67,6 +67,26 @@ export class RechargeTransaction {
     transactionMessage: string;
     serviceNumber: string;
     transactionDateText: string;
+    apiResponse: string;
+}
+
+export class TransactionResponse {
+    txid: string;
+    operator: string;
+    service: string;
+    amount: string;
+    orderid: string;
+    operatorid: string;
+    time: string;
+    constructor() {
+        this.txid = 'Invalid - No Response';
+        this.operator = 'Invalid - No Response';
+        this.service = 'Invalid - No Response';
+        this.amount = 'Invalid - No Response';
+        this.orderid = 'Invalid - No Response';
+        this.operatorid = 'Invalid - No Response';
+        this.time = 'Invalid - No Response';
+    }
 }
 
 export class Complaint {

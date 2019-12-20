@@ -445,14 +445,15 @@
           <!-- Transaction Type Column -->
           <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-            <mat-cell *matCellDef="let row"> <button class="btn btn-primary" type="submit"
-                (click)='editTransactionRowData(row)' data-toggle="modal" data-target='#complainModal'>Complain</button>
+            <mat-cell *matCellDef="let row"> 
+              <!-- <button class="btn-custom" type="submit"
+                (click)='editTransactionRowData(row)' data-toggle="modal" data-target='#complainModal'>Complain</button> -->
+                <!-- <button class="btn-custom" type="submit"
+                (click)='viewDetailsTransaction(row)' data-toggle="modal" data-target='#detailsModal'>Details</button> -->
+                <i class='fas fa-thumbs-down margin-custom' style='font-size:24px' (click)='editTransactionRowData(row)' data-toggle="modal" data-target='#complainModal' ></i>
+                <i class="fa fa-eye margin-custom" style="font-size:24px" (click)='viewDetailsTransaction(row)' data-toggle="modal" data-target='#detailsModal' ></i>
             </mat-cell>
           </ng-container>
-
-
-
-
 
           <ng-container matColumnDef="noData">
             <!-- <mat-header-cell *matHeaderCellDef > Action </mat-header-cell> -->
@@ -472,7 +473,7 @@
   </div>
   <!-- End Recharge Transaction Report-->
 
-  <!-- Complaint Pop up-->
+  <!-- Complaint Pop up -->
   <div class="modal fade" id="complainModal" tabindex="-1" role="dialog" aria-labelledby="complainModal"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -550,6 +551,68 @@
       </div>
     </div>
   </div>
-
-  <!-- End -->
+  <!-- End Complaint Pop up -->
+  <!-- Details Modal pop up-->
+  <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModal"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailsModalLabel">Service details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #f="ngForm">
+          <p>Hello Details</p>
+          <div class="row">
+            <div class="col">
+              <label> TransactionID: </label> <br />
+              <input [value]='transactionResponseJSON.txid' class="form-control" type="text" disabled>
+            </div>
+            <div class="col">
+              <label> Operator: </label> <br />
+              <input [value]='transactionResponseJSON.operator' class="form-control" type="text"
+                disabled>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label> Service Number: </label> <br />
+              <input [value]='transactionResponseJSON.service' class="form-control" type="text" disabled>
+            </div>
+            <div class="col">
+              <label> Transaction Amount: </label> <br />
+              <input [value]='transactionResponseJSON.amount' class="form-control" type="text" disabled>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label> OrderID: </label> <br />
+              <input [value]='transactionResponseJSON.orderid' class="form-control" type="text" disabled>
+            </div>
+            <div class="col">
+              <label> OperatorID: </label> <br />
+              <input [value]='transactionResponseJSON.operatorid' class="form-control" type="text" disabled>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label> Transaction Time: </label> <br />
+              <input [value]='transactionResponseJSON.time' class="form-control" type="text" disabled>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- mOdal body end-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          >Print</button>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- End Details Modal pop up-->
 </div>
