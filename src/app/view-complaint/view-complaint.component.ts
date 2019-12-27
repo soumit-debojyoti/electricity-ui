@@ -21,6 +21,10 @@ export class ViewComplaintComponent implements OnInit {
   public complaintSubmitted = false;
   public complaintStatusList: Array<any> = [];
   public loggedInUserRoleID: number;
+  public adminSearchText: string = '';
+  public userComplaintsUnFiltered: Array<Complaint>;
+  public adminComplaintsUnFiltered: Array<Complaint>;
+  public searchText: string = '';
   selectedComplaint: Complaint;
   constructor(private datePipe: DatePipe, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private common: CommonService
     , private loadingScreenService: LoadingScreenService, private formBuilder: FormBuilder
@@ -46,10 +50,25 @@ export class ViewComplaintComponent implements OnInit {
     });
     this.loggedInUserRoleID = +this.storage.get('role_id');
   }
+  public filterAdminView(): void {
+  this.adminComplaints = this.adminComplaints.filter(x => x.cid === +this.adminSearchText);
+  }
+  public resetAdminView(): void {
+    this.adminComplaints = JSON.parse(JSON.stringify(this.adminComplaintsUnFiltered));
+    this.adminSearchText = '';
+  }
+  public filterUserView(): void {
+    this.userComplaints = this.userComplaints.filter(x => x.cid === +this.searchText);
+    }
+    public resetUserView(): void {
+      this.userComplaints = JSON.parse(JSON.stringify(this.userComplaintsUnFiltered));
+      this.searchText = '';
+    }
   public fetchUserComplaints(userID: number): void {
     this.loadingScreenService.startLoading();
     this.common.fetchUserComplaints(userID).subscribe((response: Array<Complaint>) => {
       this.userComplaints = response;
+      this.userComplaintsUnFiltered = response;
       this.loadingScreenService.stopLoading();
     }, (err) => {
       this.loadingScreenService.stopLoading();
@@ -61,6 +80,7 @@ export class ViewComplaintComponent implements OnInit {
     this.loadingScreenService.startLoading();
     this.common.fetchAdminComplaints().subscribe((response: Array<Complaint>) => {
       this.adminComplaints = response;
+      this.adminComplaintsUnFiltered = response;
       this.loadingScreenService.stopLoading();
     }, (err) => {
       this.loadingScreenService.stopLoading();

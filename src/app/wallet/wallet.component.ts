@@ -16,6 +16,7 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { AuthService } from '../services/auth.service/auth.service';
 import * as jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { ConfigurationModel } from '../models/configuration.model';
 
 @Component({
   selector: 'app-wallet',
@@ -60,9 +61,9 @@ export class WalletComponent implements OnInit {
   public selectedUserID: number;
   public selectedTransactionRowdata: RechargeTransaction;
   public transactionResponseJSON: TransactionResponse;
-  public ticketPriorityText: string = 'Low';
+  public ticketPriorityText: string = '1';
   public ticketPriorityList: Array<any>;
-  public userComplaintComment: string;
+  public userComplaintComment: string = '';
   public userComplaintContactNumber: number;
   public ticketCreated: boolean;
   public companyBankAccounts: Array<BankDetails>;
@@ -559,25 +560,32 @@ export class WalletComponent implements OnInit {
   raiseComplaint(): void {
     console.log('Raise Complaint called');
     // Open popup and raise complain
+    debugger;
     const c = new Complaint();
-    c.tID = this.selectedTransactionRowdata.transactionID;
+    c.tid = this.selectedTransactionRowdata.transactionID;
     c.cStatus = 1;
-    c.assignedTo = 1;
     c.raisedBy = this.userId;
     c.resolvedBy = 0;
     c.resolverComment = 'Your ticket has been acknowledged, our team will start working on it very soon.';
     c.userComment = this.userComplaintComment;
     c.userContactNumber = this.selectedUser.mobile_number;
     c.cPriority = +this.ticketPriorityText;
-    this.loadingScreenService.startLoading();
-    this.common.addComplaint(c).subscribe((response: boolean) => {
-      this.loadingScreenService.stopLoading();
-      this.ticketCreated = response;
-      this.ticketPriorityText = '3';
-      this.userComplaintComment = '';
+    this.common.getConfiguration()
+      .subscribe((configuration: ConfigurationModel) => {
+        this.loadingScreenService.stopLoading();
+        c.assignedTo = configuration.firstLevelAssignee;
+        this.loadingScreenService.startLoading();
+        this.common.addComplaint(c).subscribe((response: boolean) => {
+        this.loadingScreenService.stopLoading();
+        this.ticketCreated = response;
+        this.ticketPriorityText = '3';
+        this.userComplaintComment = '';
     }, (err) => {
       this.loadingScreenService.stopLoading();
     });
+      }, () => {
+        this.loadingScreenService.stopLoading();
+      });
   }
 
   editTransactionRowData(rowData: any): void {

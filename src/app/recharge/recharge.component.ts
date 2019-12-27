@@ -195,6 +195,7 @@ export class RechargeComponent implements OnInit {
 
   checkAndDeductBalance(): void {
     this.formSubmitted = true;
+    debugger;
     const userID = this.storage.get('user_id');
     switch ( this.rechargeMode) {
       case 'DTH': this.prepaidRechargeForm.controls.mobileNumber.setValue(1234567890);

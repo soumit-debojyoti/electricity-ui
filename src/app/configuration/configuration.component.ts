@@ -20,6 +20,7 @@ export class ConfigurationComponent implements OnInit {
   public first_registration_wallet_balance: number;
   public wallet_approver_role: number;
   public kyc_submission_days: number;
+  public firstLevelAssignee: number;
   public config: ConfigurationModel;
   // Added for Bonus Information
   public viewBonusInfoForm: FormGroup;
@@ -79,6 +80,7 @@ export class ConfigurationComponent implements OnInit {
         this.first_registration_wallet_balance = configuration.first_registration_wallet_balance;
         this.wallet_approver_role = configuration.wallet_approver_role;
         this.kyc_submission_days = configuration.kyc_submission_days;
+        this.firstLevelAssignee = configuration.firstLevelAssignee;
       }, () => {
         this.loadingScreenService.stopLoading();
       });
@@ -92,7 +94,9 @@ export class ConfigurationComponent implements OnInit {
       point_unit_price: +this.point_unit_price,
       first_registration_wallet_balance: +this.first_registration_wallet_balance,
       wallet_approver_role: +this.wallet_approver_role,
-      kyc_submission_days: +this.kyc_submission_days
+      kyc_submission_days: +this.kyc_submission_days,
+      firstLevelAssignee: +this.firstLevelAssignee
+
     };
     this.loadingScreenService.startLoading();
     this.common.setConfiguration(this.config)

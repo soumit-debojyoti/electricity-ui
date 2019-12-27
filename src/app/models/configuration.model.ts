@@ -6,4 +6,5 @@ export interface ConfigurationModel {
     first_registration_wallet_balance: number;
     wallet_approver_role: number;
     kyc_submission_days: number;
+    firstLevelAssignee: number;
 }

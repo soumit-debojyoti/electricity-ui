@@ -90,8 +90,8 @@ export class TransactionResponse {
 }
 
 export class Complaint {
-    cID: number;
-    tID: number;
+    cid: number;
+    tid: number;
     cPriority: number;
     raisedBy: number;
     userContactNumber: string;

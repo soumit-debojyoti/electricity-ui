@@ -1,13 +1,13 @@
 <div class="w3-row marque-position">
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-6">
       <a href="#" class="w3-bar-item w3-button logo-position" routerLink="/dashboard"><img src="assets/logo/Logo.png"
           class="logo" style="width: 160px;height: 90px;" alt="Avatar"></a>
     </div>
     <div class="col-6">
-      <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4 api-balance-position">
+      <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4 api-balance-position"> -->
         <!-- Logout -->
-        <a class="w3-bar-item w3-button  w3-right w3-hover-white font-large w3-theme-d2 position mobileshow"
+        <!-- <a class="w3-bar-item w3-button  w3-right w3-hover-white font-large w3-theme-d2 position mobileshow"
           title="Logout" (click)="logout()"><i class="fa fa-sign-out pointer"></i></a>
         <a class="float-right header-item pointer font-large header-item font-size-20" title="Logout"
           (click)="logout()"><i class="fa fa-sign-out"> Logout</i></a>
@@ -25,7 +25,7 @@
         </table>
       </div>
     </div>
-  </div>
+  </div> -->
 
 
 
@@ -53,6 +53,11 @@
   <div class="card" *ngIf='userView'>
     <div class="card-header">
       <label for="complaints">View complaints</label>
+      <div class="search-container col-md-4">
+        <input type="text" placeholder="Search by complaint number" name="search" [(ngModel)]='searchText'>
+        <button type="submit" (click) = 'filterUserView()'><i class="fa fa-search"></i></button>
+        <button type="submit" (click) = 'resetUserView()'><i class="fa fa-times" aria-hidden="true"></i></button>
+    </div>
     </div>
     <div class="card-body">
       <table class="table">
@@ -90,8 +95,14 @@
   <!-- Admin View User Complaints-->
   <div class="card" *ngIf='adminView && loggedInUserRoleID === 4'>
     <div class="card-header">
-      <label for="complaints">View complaints - Admin View</label>
+      <label for="complaints" class="col-md-3">View complaints - Admin View</label>
+      <div class="search-container col-md-4">
+          <input type="text" placeholder="Search by complaint number" name="search" [(ngModel)]='adminSearchText'>
+          <button type="submit" (click) = 'filterAdminView()'><i class="fa fa-search"></i></button>
+          <button type="submit" (click) = 'resetAdminView()'><i class="fa fa-times" aria-hidden="true"></i></button>
+      </div>
     </div>
+
     <div class="card-body">
       <table class="table">
         <thead class="thead-dark">
