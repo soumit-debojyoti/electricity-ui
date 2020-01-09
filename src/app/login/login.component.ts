@@ -105,7 +105,7 @@ export class LoginComponent implements OnInit {
                 Swal.fire({
                   title: 'KYC Check!!',
                   html: res.message,
-                  timer: 5000,
+                  timer: 500000,
                   onBeforeOpen: () => {
                     Swal.showLoading();
                     timerInterval = setInterval(() => {

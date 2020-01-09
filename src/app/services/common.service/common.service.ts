@@ -223,7 +223,7 @@ export class CommonService {
     const urlStringObject = {
     };
     const mainURL = this.apiUrlService.getFullURL('SET_CONFIGURATION', urlStringObject);
-    return this.baseService.put(mainURL, configuration, true)
+    return this.baseService.post(mainURL, configuration, true)
       .pipe(map((response: any) => {
         return response;
       }));
@@ -329,8 +329,8 @@ export class CommonService {
   }
 
   public updateNews(newsFeed: NewsFeed): Observable<boolean> {
-    const mainURL = this.apiUrlService.getFullURL('NEWS_FEED');
-    return this.baseService.put(mainURL, newsFeed, true);
+    const mainURL = this.apiUrlService.getFullURL('NEWS_FEED_UPDATE');
+    return this.baseService.post(mainURL, newsFeed, true);
   }
   public fetchLevelInfo(): Observable<Array<IntroducerBonus>> {
     const mainURL = this.apiUrlService.getFullURL('LEVEL_BONUS_INFO');
@@ -338,8 +338,8 @@ export class CommonService {
   }
 
   public updateLevelInfo(levelBonusInfo: IntroducerBonus): Observable<boolean> {
-    const mainURL = this.apiUrlService.getFullURL('LEVEL_BONUS_INFO');
-    return this.baseService.put(mainURL, levelBonusInfo, true);
+    const mainURL = this.apiUrlService.getFullURL('LEVEL_BONUS_INFO_UPDATE');
+    return this.baseService.post(mainURL, levelBonusInfo, true);
   }
 
   public updateRechargeAPIValidation(rechargeOption: string, operatorName: string, apiValue: string): Observable<any> {
@@ -347,8 +347,8 @@ export class CommonService {
     rechargeApiObject.apiValue = apiValue;
     rechargeApiObject.rechargeMode = rechargeOption;
     rechargeApiObject.operatorName = operatorName;
-    const mainURL = this.apiUrlService.getFullURL('RECHARGE_API_VALIDATION');
-    return this.baseService.put(mainURL, rechargeApiObject, true);
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_API_VALIDATION_UPDATE');
+    return this.baseService.post(mainURL, rechargeApiObject, true);
   }
 
   public updateRechargeAPI(rechargeOption: string, operatorname: string, apiValue: string): Observable<any> {
@@ -356,8 +356,8 @@ export class CommonService {
     rechargeApiObject.apiValue = apiValue;
     rechargeApiObject.rechargeMode = rechargeOption;
     rechargeApiObject.operatorName = operatorname;
-    const mainURL = this.apiUrlService.getFullURL('RECHARGE_API');
-    return this.baseService.put(mainURL, rechargeApiObject, true);
+    const mainURL = this.apiUrlService.getFullURL('RECHARGE_API_UPDATE');
+    return this.baseService.post(mainURL, rechargeApiObject, true);
   }
 
   public addBankDetails(bankDetails: BankDetails): Observable<boolean> {
@@ -413,7 +413,7 @@ export class CommonService {
 
   public updateUserComplaint(complaint: Complaint): Observable<boolean> {
     const mainURL = this.apiUrlService.getFullURL('COMPLAINT_UPDATE');
-    return this.baseService.put(mainURL, complaint, true);
+    return this.baseService.post(mainURL, complaint, true);
   }
 
   public fetchRecentTransactionID(): Observable<number> {

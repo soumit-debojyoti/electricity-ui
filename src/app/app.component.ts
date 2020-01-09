@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ConnectionService } from 'ng-connection-service';
-import { environment } from '../environments/environment';
 // import { AutoLogoutService } from './services/auto-logout-service';
 
 @Component({
@@ -9,7 +8,7 @@ import { environment } from '../environments/environment';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'innovation-proj';
+  title = 'telecharge';
   public statusOnline: boolean;
   constructor(private connectionService: ConnectionService) {
   }
