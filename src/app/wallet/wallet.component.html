@@ -1,5 +1,5 @@
-<div class="w3-row marque-position">
-  <div class="row">
+<div class="container">
+  <div class="row" *ngIf="!isAddBalanceRequest">
     <div class="col-6">
       <a href="#" class="w3-bar-item w3-button logo-position" routerLink="/dashboard"><img src="assets/logo/Logo.png"
           class="logo" style="width: 160px;height: 90px;" alt="Avatar"></a>
@@ -26,7 +26,6 @@
       </div>
     </div>
   </div>
-  <br/><br/>
   <div class="row" *ngIf="isWithdrawalWallet">
     <div class="card-header">
       <a class="navbar-brand fa fa-home" style="font-size:48px;color: black;" [routerLink]="['/dashboard']"></a>
@@ -51,7 +50,7 @@
     </div>
   </div>
   <!-- Wallet deduction Admin-->
-  <div class="card" *ngIf="isDeductWallet">
+  <div class="row" *ngIf="isDeductWallet">
     <div class="card-header">
       <a class="navbar-brand fa fa-home" style="font-size:48px;color: black;" [routerLink]="['/dashboard']"></a>
       <span>{{header}}</span>
@@ -104,59 +103,64 @@
   </div>
   <!-- End Wallet deduction Admin -->
   <!-- Add Wallet Balance-->
-  <div class="card" *ngIf="isAddBalanceRequest">
-    <div class="card-header">
-      <a class="navbar-brand fa fa-home" style="font-size:48px;color: black;" [routerLink]="['/dashboard']"></a>
+  <div class="w3-container w3-padding" *ngIf="isAddBalanceRequest">
+    <!-- <div class="card-header">
       <span>{{header}}</span>
+    </div> -->
+    <div class="row">
+      <p><strong class="ml-4">{{header}}</strong></p>
     </div>
-    <div class="card-body">
-      <form [formGroup]="addWalletBalanceForm">
-        <div class="row">
-          <div class="col-sm-12">
-            <span class="text">How much amount you need?</span>
+    <div class="row">
+        <div class="card-body">
+            <form [formGroup]="addWalletBalanceForm">
+              <div class="row">
+                <div class="col-sm-3">
+                  <span class="text">How much amount you need?</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-3 mb-4">
+                  <input class="form-control" type="number" name="amount" formControlName="amount" min="0" title="Rs...." placeholder="Rs....">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <span class="text">Comment</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6 mb-4">
+                  <textarea class="form-control" rows="4" cols="70" title="Comment...." placeholder="Comment...." name="comment"
+                    formControlName="comment"></textarea><br>
+                </div>
+              </div>
+              <div class="row" *ngIf="role_id === 1">
+                <div class="col-sm-3">
+                  <span class="text">Bank account</span>
+                  <select class="form-control text" id="user" name="bankAccount" formControlName="accountNumber">
+                    <option [value]="-1">Select Account</option>
+                    <ng-container *ngIf="companyBankAccounts && companyBankAccounts.length>0">
+                      <option *ngFor="let ba of companyBankAccounts" [value]="ba.accountNumber">{{ba.accountNumber}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+                <div class="col-sm-3">
+                  <span class="text">Transaction ID</span>
+                  <br />
+                  <input class="form-control" type="text" name="transactionID" formControlName="transactionID">
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-sm-12">
+                  <input type="submit" class="btn btn-primary float-left" (click)="balanceRequest()">
+                  <!-- <input type="submit" class="btn btn-primary float-left"> -->
+                </div>
+              </div>
+            </form>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-6">
-            <input class="form-control" type="number" name="amount" formControlName="amount" min="0" title="Rs...." placeholder="Rs....">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <span class="text">Comment</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-6">
-            <textarea class="form-control" rows="4" cols="100" title="Comment...." placeholder="Comment...." name="comment"
-              formControlName="comment"></textarea><br>
-          </div>
-        </div>
-        <div class="row" *ngIf="role_id === 1">
-          <div class="col-sm-3">
-            <span class="text">Bank account</span>
-            <select class="form-control text" id="user" name="bankAccount" formControlName="accountNumber">
-              <option [value]="-1">Select Account</option>
-              <ng-container *ngIf="companyBankAccounts && companyBankAccounts.length>0">
-                <option *ngFor="let ba of companyBankAccounts" [value]="ba.accountNumber">{{ba.accountNumber}}</option>
-              </ng-container>
-            </select>
-          </div>
-          <div class="col-sm-3">
-            <span class="text">Transaction ID</span>
-            <br />
-            <input class="form-control" type="text" name="transactionID" formControlName="transactionID">
-          </div>
-        </div>
-        <br />
-        <div class="row">
-          <div class="col-sm-12">
-            <input type="submit" class="btn btn-primary float-left" (click)="balanceRequest()">
-            <!-- <input type="submit" class="btn btn-primary float-left"> -->
-          </div>
-        </div>
-      </form>
     </div>
+    
   </div>
   <!-- End Add Wallet Balance-->
   <!-- Wallet Balance request-->

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { CommonService } from '../services/common.service/common.service';
@@ -24,6 +24,12 @@ import { ConfigurationModel } from '../models/configuration.model';
   styleUrls: ['./wallet.component.css']
 })
 export class WalletComponent implements OnInit {
+  walletTypeInput: string;
+  @Input('wallet-type')
+  set walletTypeInputValue(value: string) {
+    debugger;
+    this.walletTypeInput = value;
+  }
   public descendants: boolean;
   public first: boolean;
   public read: any;
@@ -127,7 +133,11 @@ export class WalletComponent implements OnInit {
     this.loadingScreenService.startLoading();
     this.route.paramMap.subscribe(params => {
       this.loadingScreenService.stopLoading();
+      debugger;
       this.walletType = params.get('type');
+      if (this.walletType === null) {
+        this.walletType = this.walletTypeInput;
+      }
       // #region withdrawal
       if (this.walletType === 'withdrawal') {
         this.initializeOption();

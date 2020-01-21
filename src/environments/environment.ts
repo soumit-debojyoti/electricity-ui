@@ -4,8 +4,10 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:53019/',
-  apiUrl: 'http://localhost:53019/api/',
+  // baseUrl: 'http://localhost:53019/',
+  // apiUrl: 'http://localhost:53019/api/',
+  baseUrl: 'http://api.telecharge.biz/', // 'http://localhost:53019/',
+  apiUrl: 'http://api.telecharge.biz/api/', // 'http://localhost:53019/api/',
 };
 
 /*

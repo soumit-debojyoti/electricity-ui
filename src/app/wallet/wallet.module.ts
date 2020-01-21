@@ -18,6 +18,7 @@ import { CommonControlsModule } from '../common-controls/common-controls.module'
         BsDatepickerModule.forRoot(),
         DatepickerModule.forRoot()
     ],
+    exports: [WalletComponent],
     providers: [DatePipe]
 })
 export class WalletModule { }

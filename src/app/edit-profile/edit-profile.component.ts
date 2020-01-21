@@ -14,7 +14,6 @@ export class EditProfileComponent implements OnInit {
   user: RegisterUserModel;
   @Input('user')
   set userValue(value: RegisterUserModel) {
-    debugger;
     this.user = value;
     this.userDetails = JSON.parse(JSON.stringify(this.user));
     this.submitted = false;
