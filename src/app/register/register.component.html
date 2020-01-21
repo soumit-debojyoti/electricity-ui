@@ -156,7 +156,7 @@
           <div class="col-md-8 float-left">
             <div class="form-group">
 
-              <input type="text" formControlName="mobile" class="form-control"
+              <input type="text" formControlName="mobile" class="form-control" pattern="^\d{10}$"
                 [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" />
               <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
                 <div *ngIf="f.mobile.errors.required">Mobile is required</div>
@@ -195,6 +195,7 @@
             <div class="form-group">
               <input type="text" formControlName="pancard" pattern="^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$"
                 class="form-control" [ngClass]="{ 'is-invalid': submitted && f.pancard.errors }" />
+                <small class="form-text text-muted">Pan card number :  AAAPL1234C</small>
               <div *ngIf="submitted && f.pancard.errors" class="invalid-feedback">
                 <div *ngIf="f.pancard.errors.required">Pancard is required</div>
                 <div *ngIf="f.pancard.errors.pattern">Pancard not valid</div>
@@ -209,6 +210,7 @@
 
               <input type="text" formControlName="aadharcard" pattern="^\d{4}\s\d{4}\s\d{4}$" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.aadharcard.errors }" />
+                <small class="form-text text-muted">Aadhar card number :  1234 2356 7894</small>
               <div *ngIf="submitted && f.aadharcard.errors" class="invalid-feedback">
                 <div *ngIf="f.aadharcard.errors.required">Aadharcard is required</div>
                 <div *ngIf="f.aadharcard.errors.pattern">Aadhar must be a valid number</div>

@@ -11,6 +11,8 @@ import { LoadingScreenService } from '../services/loading-screen/loading-screen.
 import { SweetAlertType } from 'sweetalert2';
 import Swal from 'sweetalert2';
 import { DataService } from '../services/data.service/data.service';
+import { CommonService } from '../services/common.service/common.service';
+import { PageAccessInfo } from '../models/common.model';
 // import { AutoLogoutService } from '../services/auto-logout-service';
 
 @Component({
@@ -30,7 +32,7 @@ export class LoginComponent implements OnInit {
   public introducer_code: string;
   constructor(private auth: AuthService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private router: Router, private alertService: AlertService, private data: DataService,
-    private loadingScreenService: LoadingScreenService) { }
+    private loadingScreenService: LoadingScreenService, private common: CommonService) { }
 
   ngOnInit() {
     this.isLogin = true;
@@ -40,21 +42,6 @@ export class LoginComponent implements OnInit {
     this.isLoginSuccess = true;
     this.isRegisterSuccess = true;
     this.auth.logout();
-
-
-
-    // this.userIdle.startWatching();
-
-    // Start watching when user idle is starting.
-    // this.userIdle.onTimerStart().subscribe(count => console.log(count));
-
-    // Start watch when time is up.
-    // this.userIdle.onTimeout().subscribe(() => {
-    //   console.log('Time is up!');
-    //   this.storage.set('is_login', false);
-    //   this.auth.logout();
-    //   this.router.navigate(['login']);
-    // });
   }
 
   public isRegister(): void {
@@ -89,8 +76,6 @@ export class LoginComponent implements OnInit {
         .subscribe((res: any) => {
           this.isLogin = true;
           this.islog = true;
-          // this.userIdle.startWatching();
-          // this.autoLogout.reset();
           this.loadingScreenService.stopLoading();
           if (res.isLoginSuccess === true) {
             this.isLoginSuccess = true;
@@ -101,28 +86,28 @@ export class LoginComponent implements OnInit {
             this.data.changeMessage('login-done');
             if (res.message !== '') {
               if (res.isLoginSuccess) {
-                let timerInterval;
-                Swal.fire({
-                  title: 'KYC Check!!',
-                  html: res.message,
-                  timer: 500000,
-                  onBeforeOpen: () => {
-                    Swal.showLoading();
-                    timerInterval = setInterval(() => {
-                      // Swal.getContent().querySelector('strong')['textContent'] = Swal.getTimerLeft().toString();
-                    }, 100);
-                  },
-                  onClose: () => {
-                    clearInterval(timerInterval);
-                  }
-                }).then((result) => {
-                  if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.timer
-                  ) {
-                    console.log('I was closed by the timer');
-                  }
-                });
+                // let timerInterval;
+                // Swal.fire({
+                //   title: 'KYC Check!!',
+                //   html: res.message,
+                //   timer: 5000,
+                //   onBeforeOpen: () => {
+                //     Swal.showLoading();
+                //     timerInterval = setInterval(() => {
+                //       // Swal.getContent().querySelector('strong')['textContent'] = Swal.getTimerLeft().toString();
+                //     }, 100);
+                //   },
+                //   onClose: () => {
+                //     clearInterval(timerInterval);
+                //   }
+                // }).then((result) => {
+                //   if (
+                //     /* Read more about handling dismissals below */
+                //     result.dismiss === Swal.DismissReason.timer
+                //   ) {
+                //     console.log('I was closed by the timer');
+                //   }
+                // });
               } else {
                 this.alertService.confirmationMessage('', res.message, 'success', true, false);
               }

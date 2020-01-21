@@ -142,6 +142,16 @@ export class PostpaidRecharge {
     operatorName: string;
     rechargeMobileNumber: string;
 }
+export class LandlineRecharge {
+    amount: string;
+    orderNumber: string;
+    customerMobileNumber: string;
+    customerName: string;
+    operatorName: string;
+    rechargeMobileNumber: string;
+    accountNumber: string;
+    stdCode: string;
+}
 
 export class CommissionSetting {
     rechargeType: string;
@@ -159,3 +169,7 @@ export class CommissionSetting {
 // export class CommissionSettingValue {
 
 // }
+export class PageAccessInfo {
+    page: string;
+    roleId: number;
+} 

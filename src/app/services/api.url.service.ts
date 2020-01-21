@@ -9,6 +9,7 @@ export class ApiUrlService extends BaseURLService {
   constructor() {
     super();
     this.serviceURL = {
+      PAGE_ACCESS: `common/pageaccess`,
       PAGE_PERMISSION: `common/pagepermission/role/{roleId}`,
       REGISTER_USER: `User/registeruser`,
       FILE_UPLOAD: `common/upload/{fileType}`,
@@ -26,6 +27,8 @@ export class ApiUrlService extends BaseURLService {
       VALIDATE_TOKEN: `user/validatetoken/{token}`,
       WALLET_BALANCE: `user/walletbalance/user/{userId}`,
       WALLET_BALANCE_REPORT: `user/walletbalancereport/user/{userId}/start/{startDate}/end/{endDate}`,
+      WALLET_BALANCE_REPORT_UPDATED: `user/walletbalancereport/updated/user/{userId}/start/{startDate}/end/{endDate}`,
+      WALLET_BALANCE_REPORT_ALL_UPDATED: `user/walletbalancereport/updated/consolidated/user/{userId}/start/{startDate}/end/{endDate}`,
       WALLET_BALANCE_TRANSFER: `user/balancetransfer/sender/{senderId}/receiver/{receiverId}/amount/{amount}/comment/{comment}`,
       ADDRESSPROOF_DATA: `common/addressproofs`,
       IDPROOF_DATA: `common/idproofs`,
@@ -87,6 +90,7 @@ export class ApiUrlService extends BaseURLService {
       PAYOUT_COMMISSION:
       `User/commission/payout/user/{userID}/rechargetype/{rechargeType}/operatorname/{operatorName}/amount/{transactionAmount}`,
       COMMISSION_SETTING: `User/commission`,
+      REMOVE_COMMISSION_SETTING: `User/commission/remove`,
     };
   }
 

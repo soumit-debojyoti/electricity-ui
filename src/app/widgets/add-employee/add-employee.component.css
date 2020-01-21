@@ -1,1 +1,7 @@
 .c1 {cursor: pointer; cursor: hand;}
+
+
+.widget-text {
+    font-family: cursive;
+    font-weight: 700;
+}

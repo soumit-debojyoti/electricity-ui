@@ -1,3 +1,5 @@
-<h5 class="pl-40 bold py-4">Wallet Balance&nbsp;:&nbsp;<span
+<h5 class="pl-40 py-4 widget-text">Wallet Balance&nbsp;:&nbsp;<span
                 [ngClass]="{'low_balance': balance <= 100, 'high_balance':balance > 100 }"><span>&#8377;</span><strong>{{balance}}</strong></span>
+
+                &nbsp;&nbsp;<i class="fa fa-refresh w3-small" (click) = 'refreshBalance()'></i>
 </h5>

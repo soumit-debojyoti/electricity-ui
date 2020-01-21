@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-prod": "ng build --prod --aot=true --source-map=false  --build-optimizer=true --vendor-chunk=false --extract-css=true  --output-hashing=bundles --optimization=true --named-chunks=false"
+    "build-prod": "ng build --prod --aot=true --source-map=false  --build-optimizer=true --vendor-chunk=false --extract-css=true  --output-hashing=bundles --optimization=true --named-chunks=false",
+    "build-dev": "ng build --prod --aot=true --source-map=false  --build-optimizer=false"
   },
   "private": true,
   "dependencies": {

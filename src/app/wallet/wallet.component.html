@@ -26,8 +26,8 @@
       </div>
     </div>
   </div>
-
-  <div class="card" *ngIf="isWithdrawalWallet">
+  <br/><br/>
+  <div class="row" *ngIf="isWithdrawalWallet">
     <div class="card-header">
       <a class="navbar-brand fa fa-home" style="font-size:48px;color: black;" [routerLink]="['/dashboard']"></a>
       <span>{{header}}</span>
@@ -117,8 +117,8 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-12">
-            <input type="number" name="amount" formControlName="amount" min="0" title="Rs...." placeholder="Rs....">
+          <div class="col-sm-6">
+            <input class="form-control" type="number" name="amount" formControlName="amount" min="0" title="Rs...." placeholder="Rs....">
           </div>
         </div>
         <div class="row">
@@ -127,13 +127,13 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-12">
-            <textarea rows="4" cols="136" title="Comment...." placeholder="Comment...." name="comment"
+          <div class="col-sm-6">
+            <textarea class="form-control" rows="4" cols="100" title="Comment...." placeholder="Comment...." name="comment"
               formControlName="comment"></textarea><br>
           </div>
         </div>
-        <div class="row">
-          <div class="col-sm-6">
+        <div class="row" *ngIf="role_id === 1">
+          <div class="col-sm-3">
             <span class="text">Bank account</span>
             <select class="form-control text" id="user" name="bankAccount" formControlName="accountNumber">
               <option [value]="-1">Select Account</option>
@@ -142,10 +142,10 @@
               </ng-container>
             </select>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-3">
             <span class="text">Transaction ID</span>
             <br />
-            <input type="text" name="transactionID" formControlName="transactionID">
+            <input class="form-control" type="text" name="transactionID" formControlName="transactionID">
           </div>
         </div>
         <br />
@@ -161,21 +161,23 @@
   <!-- End Add Wallet Balance-->
   <!-- Wallet Balance request-->
   <div class="card" *ngIf="isBalanceRequestReport">
-    <div class="card-header">
-      <a class="navbar-brand fa fa-home" style="font-size:48px;color: black;" [routerLink]="['/dashboard']"></a>
-      <span>{{header}}</span>
+    <div class="card-header" style="background: black">
+      <!-- <a class="navbar-brand fa fa-home" style="font-size:48px;color: black;" [routerLink]="['/dashboard']"></a> -->
+      <span class="col-sm-6" style="color: white">{{header}}</span>
+      <div class="col-sm-6" class="container-fluid" style="text-align: right">
+          <p *ngIf="role_id === 4" style="color: white; font-size: 12px;">
+              <input type="radio" [value]="self" name="viewMode" (change)="changeView('self')" [checked]='true' style="color: white"> Specific View
+              <input type="radio" [value]="admin" name="viewMode" (change)="changeView('admin')" style="color: white"> Consolidate View
+          </p>
+        </div>
     </div>
     <div class="card-body">
-      <p *ngIf="role_id === 4" class="container">
-        <input type="radio" [value]="self" name="viewMode" (change)="changeView('self')" [checked]='true'> Specific View
-        <input type="radio" [value]="admin" name="viewMode" (change)="changeView('admin')"> Consolidate View
-      </p>
       <!-- Admin view -->
       <div *ngIf="viewMode==='admin'">
-        <div *ngIf="isSuperAdmin">
+        <div>
           <div class="row">
-            <div class="col-xs-10 col-10 col-md-8">
-              <span>Users</span>
+            <div class="col-sm-3" *ngIf="isSuperAdmin">
+              <span class="text-bold">Users</span>
               <select class="form-control" id="user" #user [(ngModel)]="userId"
                 (change)="changeUser($event, user.value)">
                 <option [value]="-1">Select User</option>
@@ -184,67 +186,55 @@
                 </ng-container>
               </select>
             </div>
-          </div>
-        </div>
-        <div>
-          <div class="row">
-            <div class="col">
-              <span>Start Date</span>
-              <div class="input-group">
-                <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
-                  bsDatepicker [(bsValue)]="startDate">
-                <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
-                    (click)="dpstartDate.toggle()"></button>
-                </div>
-              </div>
+            <div class="col-sm-3">
+                <span class="text-bold">Start Date : </span>
+                <app-custom-date-picker [date]='customCalendarSelectedStartDate'
+                  (selectedDate)='getSelectedStartDate($event)'></app-custom-date-picker>
             </div>
-            <div class="col">
-              <span>End Date</span>
-              <div class="input-group">
-                <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
-                  [(bsValue)]="endDate">
-                <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
-                    (click)="dpendDate.toggle()"></button>
-                </div>
-              </div>
+            <div class="col-sm-3">
+              <span class="text-bold">End Date : </span>
+              <app-custom-date-picker [date]='customCalendarSelectedEndDate' (selectedDate)='getSelectedEndDate($event)'>
+              </app-custom-date-picker>
             </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <button style="width: 20%" class="btn btn-primary float-right form-control"
-                (click)="search()">Report</button>
-
+            <div class="col-sm-2">
+                <button class="btn btn-primary float-right form-control"
+                  (click)="search()">Report</button>
+            </div>
+            <div class="col-sm-1">
+                <div class="fa fa-print fa-3x" (click)="printPdf('contentWalletTransactionReportAdmin','walletstatement')"></div>
             </div>
           </div>
         </div>
-        <div class="m-t-20" style="overflow:auto; height: 400px;">
+        <div #contentWalletTransactionReportAdmin class="m-t-20" style="overflow:auto;">
+          <p class="text-bold">Wallet transaction report for the period {{startDate | date: 'dd/MMM/yyyy'}} 
+            to {{endDate | date: 'dd/MMM/yyyy'}}.</p>
           <table class="table table-hover table-striped table-bordered">
             <thead>
               <tr class="grid-header">
-                <th>User Name</th>
+                <th>User ID</th>
                 <th>Amount</th>
                 <th>Message</th>
                 <th>Transaction Type</th>
                 <th>Transaction Date</th>
               </tr>
             </thead>
-            <ng-container *ngIf="wallettransactions && wallettransactions.length>0">
+            <ng-container *ngIf="allTransactionUpdated && allTransactionUpdated.length>0">
               <tbody>
-                <tr *ngFor="let wallettransaction of wallettransactions">
-                  <td>{{userName}}</td>
-                  <td><span>&#8377;</span>{{wallettransaction.transaction_amount}}</td>
-                  <td>{{wallettransaction.message}}</td>
+                <tr *ngFor="let ConsolidatedTransaction of allTransactionUpdated">
+                  <td>{{ConsolidatedTransaction.transaction_initiated_user}}</td>
+                  <td><span>&#8377;</span>{{ConsolidatedTransaction.transaction_amount}}</td>
+                  <td>{{ConsolidatedTransaction.message}}</td>
                   <td class=""
-                    [ngClass]="{'debit': wallettransaction.transaction_mode.trim()=='debit', 'credit':wallettransaction.transaction_mode.trim()=='credit' }">
+                    [ngClass]="{'debit': ConsolidatedTransaction.transaction_mode.trim()=='debit', 'credit':ConsolidatedTransaction.transaction_mode.trim()=='credit' }">
                     <i class="em"
-                      [ngClass]="{'em-astonished': wallettransaction.transaction_mode.trim()=='debit', 'em-anguished':wallettransaction.transaction_mode.trim()=='credit' }"></i>
-                    &nbsp;{{wallettransaction.transaction_mode| uppercase}}
+                      [ngClass]="{'em-astonished': ConsolidatedTransaction.transaction_mode.trim()=='debit', 'em-anguished':ConsolidatedTransaction.transaction_mode.trim()=='credit' }"></i>
+                    &nbsp;{{ConsolidatedTransaction.transaction_mode| uppercase}}
                   </td>
-                  <td>{{wallettransaction.created_on | date: 'dd/MMM/yyyy'}}</td>
+                  <td>{{ConsolidatedTransaction.created_on | date: 'dd/MMM/yyyy'}}</td>
                 </tr>
               </tbody>
             </ng-container>
-            <ng-container *ngIf="wallettransactions && wallettransactions.length==0">
+            <ng-container *ngIf="allTransactionUpdated && allTransactionUpdated.length==0">
               <tbody>
                 <tr>
                   <td colspan="5">
@@ -256,81 +246,68 @@
           </table>
         </div>
       </div>
-      <div>
-        <!--Self View-->
-        <div *ngIf="viewMode==='self'" class="container">
-          <div class="row">
-            <div class="col">
-              <span>Start Date</span>
-              <div class="input-group">
-                <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
-                  bsDatepicker [(bsValue)]="startDate">
-                <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
-                    (click)="dpstartDate.toggle()"></button>
-                </div>
-              </div>
+      <!--Self View-->
+      <div *ngIf="viewMode==='self'">
+        <div class="row">
+            <div class="col-sm-4">
+                <span class="text-bold">Start Date : </span>
+                <app-custom-date-picker [date]='customCalendarSelectedStartDate'
+                  (selectedDate)='getSelectedStartDate($event)'></app-custom-date-picker>
             </div>
-            <div class="col">
-              <span>End Date</span>
-              <div class="input-group">
-                <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
-                  [(bsValue)]="endDate">
-                <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
-                    (click)="dpendDate.toggle()"></button>
-                </div>
-              </div>
+            <div class="col-sm-4">
+              <span class="text-bold">End Date : </span>
+              <app-custom-date-picker [date]='customCalendarSelectedEndDate' (selectedDate)='getSelectedEndDate($event)'>
+              </app-custom-date-picker>
             </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <button class="btn btn-primary float-right form-control" style="width: 20%"
-                (click)="search()">Report</button>
+            <div class="col-sm-2">
+                <button class="btn btn-primary float-right form-control"
+                  (click)="search()">Report</button>
             </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <div class="fa fa-print fa-3x float-right" (click)="printPdf()"></div>
+            <div class="col-sm-1">
+                <div class="fa fa-print fa-3x" (click)="printPdf('contentWalletTransactionReportSelf', 'wallettransaction')"></div>
             </div>
-          </div>
-          <div id="contentToConvert" class="row" style="overflow:auto; height: 400px;">
-            <div class="m-t-20 col">
-              <table class="table table-hover table-striped table-bordered">
-                <thead>
-                  <tr class="grid-header">
-                    <th>User Name</th>
-                    <th>Amount</th>
-                    <th>Message</th>
-                    <th>Transaction Type</th>
-                    <th>Transaction Date</th>
+        </div>
+        <div #contentWalletTransactionReportSelf
+         id="contentToConvert" class="row" style="overflow:auto;">
+          <div class="m-t-20 col">
+              <p class="text-bold">Wallet transaction report for the period {{startDate | date: 'dd/MMM/yyyy'}} 
+                  to {{endDate | date: 'dd/MMM/yyyy'}}.</p>
+            <table class="table table-hover table-striped table-bordered">
+              <thead>
+                <tr class="grid-header">
+                  <th>User ID</th>
+                  <th>Amount</th>
+                  <th>Message</th>
+                  <th>Transaction Type</th>
+                  <th>Transaction Date</th>
+                </tr>
+              </thead>
+              <ng-container *ngIf="wallettransactions && wallettransactions.length>0">
+                <tbody>
+                  <tr *ngFor="let wallettransaction of wallettransactions">
+                    <td>{{wallettransaction.transaction_initiated_user}}</td>
+                    <td><span>&#8377;</span>{{wallettransaction.transaction_amount}}</td>
+                    <td>{{wallettransaction.message}}</td>
+                    <td 
+                      [ngClass]="{'debit': wallettransaction.transaction_mode ==='debit', 'credit':wallettransaction.transaction_mode ==='credit' }">
+                      <i class="far"
+                        [ngClass]="{' fa-frown-open': wallettransaction.transaction_mode ==='debit', ' fa-grin-alt':wallettransaction.transaction_mode ==='credit' }"></i>
+                      &nbsp;{{wallettransaction.transaction_mode | uppercase}}
+                    </td>
+                    <td>{{wallettransaction.created_on | date: 'dd-MMM-yyyy'}}</td>
                   </tr>
-                </thead>
-                <ng-container *ngIf="allTransaction && allTransaction.length>0">
-                  <tbody>
-                    <tr *ngFor="let wallettransaction of allTransaction">
-                      <td>{{wallettransaction.userName}}</td>
-                      <td><span>&#8377;</span>{{wallettransaction.transactionAmount}}</td>
-                      <td>{{wallettransaction.transactionMessage}}</td>
-                      <td class=""
-                        [ngClass]="{'debit': wallettransaction.transactionMode.trim()=='debit', 'credit':wallettransaction.transactionMode.trim()=='credit' }">
-                        <i class="far"
-                          [ngClass]="{' fa-frown-open': wallettransaction.transactionMode.trim()=='debit', ' fa-grin-alt':wallettransaction.transactionMode.trim()=='credit' }"></i>
-                        &nbsp;{{wallettransaction.transactionMode| uppercase}}
-                      </td>
-                      <td>{{wallettransaction.transactionTime | date: 'dd-MMM-yyyy'}}</td>
-                    </tr>
-                  </tbody>
-                </ng-container>
-                <ng-container *ngIf="allTransaction && allTransaction.length==0">
-                  <tbody>
-                    <tr>
-                      <td colspan="5">
-                        <span>No records to display.</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </ng-container>
-              </table>
-            </div>
+                </tbody>
+              </ng-container>
+              <ng-container *ngIf="wallettransactions && wallettransactions.length==0">
+                <tbody>
+                  <tr>
+                    <td colspan="5">
+                      <span>No records to display.</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-container>
+            </table>
           </div>
         </div>
       </div>
@@ -340,17 +317,17 @@
   <!-- End Wallet Balance request-->
   <!-- Recharge Transaction Report-->
   <div class="card" [hidden]="!isRechargetransactionReport">
-    <div class="card-header">
-      <a class="navbar-brand fa fa-home" style="font-size:48px;color: black;" [routerLink]="['/dashboard']"></a>
-      <span>{{header}}</span>
+    <div class="card-header" style="background: black">
+      <!-- <a class="navbar-brand fa fa-home" style="font-size:48px;color: white;" [routerLink]="['/dashboard']"></a> -->
+      <span style="color: white">{{header}}</span>
     </div>
     <div class="card-body">
       <div class="row">
         <label *ngIf='ticketCreated' style="color: green">Your ticket has been successfully placed.</label>
       </div>
-      <div *ngIf="isSuperAdmin">
+      <div>
         <div class="row">
-          <div class="col-sm-4">
+          <div class="col-sm-3" *ngIf="isSuperAdmin">
             <span class="text-bold">Users : </span>
             <select class="form-control" id="user" #user [(ngModel)]="selectedUserID"
               (change)="changeUser($event, user.value)">
@@ -360,31 +337,34 @@
               </ng-container>
             </select>
           </div>
+          <div class="col-sm-3">
+              <span class="text-bold">Start Date : </span>
+              <app-custom-date-picker [date]='customCalendarSelectedStartDate'
+                (selectedDate)='getSelectedStartDate($event)'></app-custom-date-picker>
+            </div>
+            <div class="col-sm-3">
+              <span class="text-bold">End Date : </span>
+              <app-custom-date-picker [date]='customCalendarSelectedEndDate' (selectedDate)='getSelectedEndDate($event)'>
+              </app-custom-date-picker>
+            </div>
+            <div class="col-sm-1">
+              <div class="input-group">
+                <br />
+                <button class="btn btn-primary float-right form-control" style="margin-bottom: 10px"
+                  (click)="fetchUserTransaction()">Report</button>
+              </div>
+            </div>
         </div>
       </div>
       <div>
-        <div class="row" style="margin-top: 10px">
+        <!-- <div class="row" style="margin-top: 10px">
           <div class="col">
             <span class="text-bold">Start Date : </span>
-            <!-- <div class="input-group">
-            <input type="text" class="form-control disable" #dpstartDate="bsDatepicker" [maxDate]="maxStartDate"
-              bsDatepicker [(bsValue)]="startDate" aria-describedby="startDateCalendar">
-            <button id="startDateCalendar" class="btn btn-outline-secondary calendar input-group-append" type="button"
-              (click)="dpstartDate.toggle()">
-            </button>
-          </div> -->
             <app-custom-date-picker [date]='customCalendarSelectedStartDate'
               (selectedDate)='getSelectedStartDate($event)'></app-custom-date-picker>
           </div>
           <div class="col">
             <span class="text-bold">End Date : </span>
-            <!-- <div class="input-group">
-            <input type="text" class="form-control disable" #dpendDate="bsDatepicker" [maxDate]="today" bsDatepicker
-              [(bsValue)]="endDate">
-            <div class="input-group-append"><button class="btn btn-outline-secondary calendar" type="button"
-                (click)="dpendDate.toggle()"></button>
-            </div>
-          </div> -->
             <app-custom-date-picker [date]='customCalendarSelectedEndDate' (selectedDate)='getSelectedEndDate($event)'>
             </app-custom-date-picker>
           </div>
@@ -395,10 +375,10 @@
                 (click)="fetchUserTransaction()">Report</button>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="card">
-        <div class="card-header">Recharge Transaction</div>
+        <!-- <div class="card-header">Recharge Transaction</div> -->
         <mat-table class="card-body" [dataSource]="dataSourceForRechargeTransaction" matSort>
           <!-- Transaction ID Column -->
           <ng-container matColumnDef="transactionID" style="width: 5%">
@@ -564,57 +544,71 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="detailsModalLabel">Service details</h5>
+        <h5 class="modal-title" id="detailsModalLabel">Transaction details</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form #f="ngForm">
-          <p>Hello Details</p>
+      <div #contentBillPrint class="modal-body">
+        <form #f="ngForm" class="border border-secondary">
+          <p>Your transaction is successfully processed. Please find the details below -</p>
           <div class="row">
             <div class="col">
-              <label> TransactionID: </label> <br />
-              <input [value]='transactionResponseJSON.txid' class="form-control" type="text" disabled>
-            </div>
-            <div class="col">
-              <label> Operator: </label> <br />
-              <input [value]='transactionResponseJSON.operator' class="form-control" type="text"
-                disabled>
+              <label> TransactionID: </label>
+              <!-- <input [value]='transactionResponseJSON.txid' class="form-control" type="text" disabled> -->
+              <p>{{transactionResponseJSON.txid}}</p>
             </div>
           </div>
           <div class="row">
-            <div class="col">
-              <label> Service Number: </label> <br />
-              <input [value]='transactionResponseJSON.service' class="form-control" type="text" disabled>
-            </div>
-            <div class="col">
-              <label> Transaction Amount: </label> <br />
-              <input [value]='transactionResponseJSON.amount' class="form-control" type="text" disabled>
-            </div>
+              <div class="col">
+                  <label> Operator: </label>
+                  <!-- <input [value]='transactionResponseJSON.operator' class="form-control" type="text"
+                    disabled> -->
+                    <p>{{transactionResponseJSON.operator}}</p>
+                </div>
           </div>
           <div class="row">
             <div class="col">
-              <label> OrderID: </label> <br />
-              <input [value]='transactionResponseJSON.orderid' class="form-control" type="text" disabled>
-            </div>
-            <div class="col">
-              <label> OperatorID: </label> <br />
-              <input [value]='transactionResponseJSON.operatorid' class="form-control" type="text" disabled>
+              <label> Service Number: </label>
+              <!-- <input [value]='transactionResponseJSON.service' class="form-control" type="text" disabled> -->
+              <label>{{transactionResponseJSON.service}}</label>
             </div>
           </div>
           <div class="row">
+              <div class="col">
+                  <label> Transaction Amount: </label>
+                  <!-- <input [value]='transactionResponseJSON.amount' class="form-control" type="text" disabled> -->
+                  <p>{{transactionResponseJSON.amount}}</p>
+                </div>
+          </div>
+          <div class="row">
             <div class="col">
-              <label> Transaction Time: </label> <br />
-              <input [value]='transactionResponseJSON.time' class="form-control" type="text" disabled>
+              <label> Telecharge OrderID: </label>
+              <!-- <input [value]='transactionResponseJSON.orderid' class="form-control" type="text" disabled> -->
+              <p>{{transactionResponseJSON.orderid}}</p>
+            </div>            
+          </div>
+          <div class="row">
+              <div class="col">
+                  <label> Operator ID: </label>
+                  <!-- <input [value]='transactionResponseJSON.operatorid' class="form-control" type="text" disabled> -->
+                  <p>{{transactionResponseJSON.operatorid}}</p>
+                </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label> Transaction Time: </label>
+              <!-- <input [value]='transactionResponseJSON.time' class="form-control" type="text" disabled> -->
+              <p>{{transactionResponseJSON.time}}</p>
             </div>
           </div>
         </form>
+        <strong>Authorized and verified by Telecharge transaction team.</strong>
       </div>
       <!-- mOdal body end-->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal"
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click) = "printRechargeSummary(transactionResponseJSON.txid)"
           >Print</button>
       </div>
     </div>

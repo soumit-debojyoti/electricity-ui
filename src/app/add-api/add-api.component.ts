@@ -28,7 +28,7 @@ export class AddApiComponent implements OnInit {
   public update: boolean;
   public apiUpdatedSuccessfully: boolean = false;
   constructor(private commonService: CommonService, private loadingScreenService: LoadingScreenService) {
-    this.rechargeTypes = ['PREPAID', 'DTH', 'POSTPAID', 'ELECTRICITY', 'GAS', 'WATER'];
+    this.rechargeTypes = ['PREPAID', 'DTH', 'POSTPAID', 'ELECTRICITY', 'GAS', 'WATER', 'LANDLINE'];
     this.confirmationTypes = ['Yes', 'No'];
   }
 

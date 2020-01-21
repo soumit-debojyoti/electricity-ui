@@ -91,10 +91,6 @@ export class RegisterComponent implements OnInit {
       return;
     }
     this.useridFormation();
-
-
-
-
   }
 
   public dateChange() {
@@ -260,6 +256,7 @@ export class RegisterComponent implements OnInit {
     this.userService.GetTodayUserJoinCount()
       .subscribe((res: TodayUserJoinCountResponse) => {
         this.loadingScreenService.stopLoading();
+        debugger;
         const x = new Date();
         const y = x.getFullYear().toString().substr(-2);
         let m = (x.getMonth() + 1).toString();
@@ -440,7 +437,7 @@ export class RegisterComponent implements OnInit {
         if (event !== undefined) {
           if (event.message === 'success' && register.message === 'Registered.') {
             this.addWalletTransaction(event.amount_wallet_for_registration, event.user_id,
-              'Amount added to open a wallet with initial amount.', 'debit');
+              'Amount added to open a wallet with initial amount.', 'credit');
           }
         }
       }, () => {

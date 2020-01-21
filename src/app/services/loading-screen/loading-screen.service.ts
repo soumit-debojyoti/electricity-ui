@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
-// import { AutoLogoutService } from '../auto-logout-service';
-
 @Injectable({
   providedIn: 'root'
 })

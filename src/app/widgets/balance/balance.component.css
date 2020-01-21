@@ -9,3 +9,13 @@
 .bold{
     font-weight: bold;
 }
+
+i {
+    cursor: pointer;
+}
+
+
+.widget-text {
+    font-family: cursive;
+    font-weight: 700;
+}

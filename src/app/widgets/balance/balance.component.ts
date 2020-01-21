@@ -25,18 +25,24 @@ export class BalanceComponent implements OnInit, OnDestroy  {
 
   ngOnInit() {
     this.user_id = this.storage.get('user_id');
-    this.loadingScreenService.startLoading();
+    this.fetchBalance();
+  }
+  ngOnDestroy() {
+}
+fetchBalance(): void {
+  this.loadingScreenService.startLoading();
     this.userService.getWalletBalance(this.user_id)
       .subscribe(responseBalance => {
         this.loadingScreenService.stopLoading();
         this.userService.setLocalWalletBalance(responseBalance.walletBalance);
         // this.balance = responseBalance.walletBalance;
         this.balance = this.userService.getLocalWalletBalance();
+      }, (err) => {
+        this.loadingScreenService.stopLoading();
+        console.log(err);
       });
-  }
-  ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    // this.talkService.newTokenGenerated.unsubscribe();
 }
-
+    refreshBalance(): void {
+      this.fetchBalance();
+    }
 }

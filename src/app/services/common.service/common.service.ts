@@ -13,7 +13,7 @@ import { ApiUrlService } from '../api.url.service';
 import { ConfigurationModel } from '../../models/configuration.model';
 import {
   RechargeAPI, NewsFeed, IntroducerBonus, BankDetails,
-  RechargeTransaction, Complaint, BankTransaction, CommissionSetting
+  RechargeTransaction, Complaint, BankTransaction, CommissionSetting, PageAccessInfo
 } from 'src/app/models/common.model';
 
 @Injectable({
@@ -465,4 +465,17 @@ export class CommonService {
     const mainURL = this.apiUrlService.getFullURL('COMMISSION_SETTING', {});
     return this.baseService.get(mainURL, {}, true);
 }
+public fetchPageAccess(): Observable<Array<PageAccessInfo>> {
+  const mainURL = this.apiUrlService.getFullURL('PAGE_ACCESS');
+  const params = new HttpParams();
+  return this.baseService.get(mainURL, {}, params)
+    .pipe(map((response: Array<PageAccessInfo>) => {
+      return response;
+    }));
+}
+public removeCommissionSetting(cs: CommissionSetting): Observable<boolean> {
+  const mainURL = this.apiUrlService.getFullURL('REMOVE_COMMISSION_SETTING', {});
+  return this.baseService.post(mainURL, cs, true);
+}
+
 }

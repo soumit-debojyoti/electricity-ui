@@ -10,6 +10,7 @@ import { BaseService } from '../base.service';
 import { ApiUrlService } from '../api.url.service';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { RegisterUserModel, MobileUniqueValidationResponse, TodayUserJoinCountResponse } from 'src/app/models/user.model';
+import { WalletLog, WalletReportResponse } from 'src/app/models/wallet-balance-report.model';
 
 @Injectable({
   providedIn: 'root'
@@ -129,6 +130,36 @@ export class UserService {
         return response;
       }));
   }
+
+  public getWalletBalanceReportByUser(userId: number, startDate: Date, endDate: Date): Observable<Array<WalletLog>> {
+
+    const urlStringObject = {
+      userId: userId,
+      startDate: startDate.toDateString(),
+      endDate: endDate.toDateString()
+    };
+    const params = new HttpParams();
+    const mainURL = this.apiUrlService.getFullURL('WALLET_BALANCE_REPORT_UPDATED', urlStringObject);
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  public getAllWalletTransactionReport(startDate: Date, endDate: Date): Observable<WalletReportResponse> {
+
+    const urlStringObject = {
+      startDate: startDate.toDateString(),
+      endDate: endDate.toDateString()
+    };
+    const params = new HttpParams();
+    const mainURL = this.apiUrlService.getFullURL('WALLET_BALANCE_REPORT_ALL_UPDATED', urlStringObject);
+    return this.baseService.get(mainURL, {}, params)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
 
   public getRankAchieverList(user_id: number): Observable<any> {
     const params = new HttpParams();

@@ -1,5 +1,11 @@
 .icon-position{
     position: relative;
-    top: 9px;
     float: right;
+    top: 5px;
+}
+
+
+.widget-text {
+    font-family: cursive;
+    font-weight: 700;
 }

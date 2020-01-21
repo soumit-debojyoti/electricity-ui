@@ -14,8 +14,10 @@ export class EditProfileComponent implements OnInit {
   user: RegisterUserModel;
   @Input('user')
   set userValue(value: RegisterUserModel) {
+    debugger;
     this.user = value;
     this.userDetails = JSON.parse(JSON.stringify(this.user));
+    this.submitted = false;
     if (this.userDetails.username !== undefined) {
       this.customCalendarSelectedStartDate = new Date(this.userDetails.dob);
       this.setValue();
@@ -35,7 +37,9 @@ export class EditProfileComponent implements OnInit {
   selectedDOB: Date;
   constructor(private formBuilder: FormBuilder,
     private userService: UserService, private loadingScreenService: LoadingScreenService,
-    @Inject(LOCAL_STORAGE) private storage: WebStorageService) { }
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
+      this.userDetails = new RegisterUserModel();
+    }
 
   ngOnInit() {
     this.pagePersonalInfo = true;
@@ -67,7 +71,7 @@ export class EditProfileComponent implements OnInit {
   }
   get f() { return this.registerForm.controls; }
 
-  onSubmit() {
+  onSubmit(userID: string) {
     this.submitted = true;
     if (this.registerForm.invalid) {
       alert('The form is invalid');
@@ -75,7 +79,8 @@ export class EditProfileComponent implements OnInit {
     }
     this.loadingScreenService.startLoading();
     this.getControlValue();
-    this.userService.updateUserDetails(this.storage.get('user_id'), this.userDetails).subscribe(
+    // this.updateUserProfileForAdmin();
+    this.userService.updateUserDetails(+userID, this.userDetails).subscribe(
       (response: boolean) => {
         this.loadingScreenService.stopLoading();
         response ? this.message = 'user details updated successfully.' :
@@ -148,5 +153,24 @@ export class EditProfileComponent implements OnInit {
 
   changeDate(date: any): void {
     this.selectedDOB = date.value;
+  }
+
+  updateUserProfileForAdmin(): void {
+    this.loadingScreenService.startLoading();
+    console.log(this.user);
+    this.userService.getSearchUsers(this.userDetails.username).subscribe(
+      userInfo => {
+        console.log(userInfo);
+        this.loadingScreenService.stopLoading();
+        if (userInfo[0].user_id === 0) {
+          this.onSubmit(this.storage.get('user_id'));
+        } else {
+          this.onSubmit(userInfo[0].user_id);
+        }
+      }, (err) => {
+        console.log('error occured while fetching user details', err);
+        this.loadingScreenService.stopLoading();
+      }
+    );
   }
 }

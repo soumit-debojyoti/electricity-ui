@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   public role: string;
   public name: string;
   public photo: string;
+  public loggedInUserRoleID: number;
   public withdrawalnotificationcount: number;
   public addwalletnotificationcount: number;
   public selectedComponetForActionArea: string;
@@ -47,10 +48,8 @@ export class DashboardComponent implements OnInit {
     this.isSuperAdmin = false;
     this.isUser = false;
     this.GetUserRoleInformaion();
+    this.loggedInUserRoleID = this.storage.get('role_id');
     this.selectedComponetForActionArea = 'RECHARGE';
-    // this.data.currentMessage.subscribe(message => {
-
-    // });
     this.isLogin = false;
     this.data.currentMessage.subscribe(message => {
       if (message === 'login-done') {
@@ -120,4 +119,12 @@ export class DashboardComponent implements OnInit {
     this.selectedComponetForActionArea = name;
   }
 
+  getPageAccessInfo(): void {
+    this.loadingScreenService.startLoading();
+    this.common.fetchPageAccess().subscribe( response => {
+    this.loadingScreenService.stopLoading();
+    }, (err) => {
+      this.loadingScreenService.stopLoading();
+    });
+  }
 }

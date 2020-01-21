@@ -1,172 +1,212 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand fa fa-home" style="font-size:48px" [routerLink]="['/dashboard']"></a>
-</nav>
 
-<div class="alert alert-success alert-dismissible" *ngIf="addedSuccessfully && submitted">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Your transaction is successful</strong>
-</div>
-<div class="alert alert-danger alert-dismissible" *ngIf='!addedSuccessfully && submitted'>
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>issue with adding, correct your form input.</strong> {{message}}
-</div>
-<div class="card-header">
-    <label>Commission Setting</label>
-</div>
-<form [formGroup]="dynamicForm">
-    <div class="card m-3">
-        <div class="card-body">
-            <div class="form-row">
-                <div class="form-group col-6">
-                    <label>Recharge Type:</label>
-                    <select formControlName="rechargeType" class="form-control" (change)='changeRechargeType()' [ngClass]="{ 'is-invalid': submitted && f.rechargeType.errors }">                        
-                        <option *ngFor="let i of ['PREPAID', 'DTH', 'ELECTRICITY', 'LANDLINE', 'POSTPAID']" [value]="i" >{{i}}</option>
-                    </select>
-                    <div *ngIf="submitted && f.rechargeType.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.rechargeType.errors.required">need attention</div>
-                    </div>
+<div class="container-fluid">
+        <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand fa fa-home" style="font-size:48px" [routerLink]="['/dashboard']"></a>
+        </nav> -->
+        <div class="row">
+                <div class="col-6">
+                  <a href="#" class="w3-bar-item w3-button logo-position" routerLink="/dashboard"><img src="assets/logo/Logo.png"
+                      class="logo" style="width: 160px;height: 90px;" alt="Avatar"></a>
                 </div>
-                <div class="form-group col-6" *ngIf='apiInfoList.length > 0'>
-                    <label>Operator Name:</label>
-                    <select formControlName="operatorName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.operatorName.errors }">                        
-                        <option *ngFor="let k of apiInfoList" [value]="k.operatorName">{{k.operatorName}}</option>
-                    </select>
-                    <div *ngIf="submitted && f.operatorName.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.operatorName.errors.required">need attention</div>
-                    </div>
+                <div class="col-6">
+                  <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4 api-balance-position">
+                    <!-- Logout -->
+                    <!-- <a class="w3-bar-item w3-button  w3-right w3-hover-white font-large w3-theme-d2 position mobileshow"
+                      title="Logout" (click)="logout()"><i class="fa fa-sign-out pointer"></i></a> -->
+                    <a class="float-right header-item pointer font-large header-item font-size-20 mr-3" title="Logout"
+                      (click)="logout()"><i class="fa fa-sign-out"> Logout</i></a>
+                  </div>
+                  <div class="address float-right mr-5">
+                    <table>
+                      <tr>
+                        <td>Customer Support :</td>
+                        <td>+91-8100101025(10am to 7pm)</td>
+                      </tr>
+                      <tr>
+                        <td>Support E-mail :</td>
+                        <td>support@telecharge.biz(24x7)</td>
+                      </tr>
+                    </table>
+                  </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <!-- Header -->
-                <div class="form-group col-4">
-                    <label>Commission Type:</label>
-                    <select formControlName="commissionType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.commissionType.errors }">                        
-                        <option *ngFor="let j of commissionType" [value]="j" >{{j}}</option>
-                    </select>
-                    <div *ngIf="submitted && f.commissionType.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.commissionType.errors.required">need attention</div>
-                    </div>
-                </div>
-                <div class="form-group col-4">
-                    <label>Payment Type:</label>
-                    <select formControlName="paymentType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.paymentType.errors }">                        
-                        <option *ngFor="let g of paymentType" [value]="g" >{{g}}</option>
-                    </select>
-                    <div *ngIf="submitted && f.paymentType.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.paymentType.errors.required">need attention</div>
-                    </div>
-                </div>
-                <div class="form-group col-4">
-                    <label>Value:</label>
-                    <input type="number" formControlName="amount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amount.errors }">
-                    <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.amount.errors.required">need attention</div>
-                    </div>
-                </div>
-                <!-- <div class="form-group col-4">
-                    <label>Payment Type:</label>
-                    <select formControlName="paymentType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.paymentType.errors }">                        
-                        <option *ngFor="let g of paymentType" [value]="g" >{{g}}</option>
-                    </select>
-                    <div *ngIf="submitted && f.paymentType.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.paymentType.errors.required">need attention</div>
-                    </div>
-                </div> -->
-            </div>
-            <div class="form-row">
-                    <div class="form-group col-6">
-                            <label>Level commission type:</label>
-                            <select formControlName="levelPayoutType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.levelPayoutType.errors }">                        
-                                <option *ngFor="let o of paymentType" [value]="o" >{{o}}</option>
+              </div>
+        <br/><br/>
+        <div class="alert alert-success alert-dismissible" *ngIf="addedSuccessfully && submitted">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Your transaction is successful</strong>
+        </div>
+        <div class="alert alert-danger alert-dismissible" *ngIf='!addedSuccessfully && submitted'>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>issue with adding, correct your form input.</strong> {{message}}
+        </div>
+        <div class="alert alert-success alert-dismissible" *ngIf="removeSuccessfully && removed">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Commission removed successful</strong>
+        </div>
+        <div class="alert alert-danger alert-dismissible" *ngIf='!removeSuccessfully && removed'>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>issue while removing, correct your form input.</strong> {{message}}
+        </div>
+        <div class="card-header">
+            <label>Commission Setting</label>
+        </div>
+        <form [formGroup]="dynamicForm">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label>Recharge Type:</label>
+                            <select formControlName="rechargeType" class="form-control" (change)='changeRechargeType()' [ngClass]="{ 'is-invalid': submitted && f.rechargeType.errors }">                        
+                                <option *ngFor="let i of ['PREPAID', 'DTH', 'ELECTRICITY', 'LANDLINE', 'POSTPAID']" [value]="i" >{{i}}</option>
                             </select>
-                            <div *ngIf="submitted && f.levelPayoutType.errors" class="invalid-feedback">
-                                <div *ngIf="submitted && f.levelPayoutType.errors.required">need attention</div>
-                            </div>
-                    </div>
-                    <div class="form-group col-6">
-                            <label>Value:</label>
-                            <input type="number" formControlName="levelPayoutAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.levelPayoutAmount.errors }">
-                            <div *ngIf="submitted && f.levelPayoutAmount.errors" class="invalid-feedback">
-                                <div *ngIf="submitted && f.levelPayoutAmount.errors.required">need attention</div>
+                            <div *ngIf="submitted && f.rechargeType.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && f.rechargeType.errors.required">need attention</div>
                             </div>
                         </div>
+                        <div class="form-group col-6" *ngIf='apiInfoList.length > 0'>
+                            <label>Operator Name:</label>
+                            <select formControlName="operatorName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.operatorName.errors }">                        
+                                <option *ngFor="let k of apiInfoList" [value]="k.operatorName">{{k.operatorName}}</option>
+                            </select>
+                            <div *ngIf="submitted && f.operatorName.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && f.operatorName.errors.required">need attention</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <!-- Header -->
+                        <div class="form-group col-4">
+                            <label>Commission Type:</label>
+                            <select formControlName="commissionType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.commissionType.errors }">                        
+                                <option *ngFor="let j of commissionType" [value]="j" >{{j}}</option>
+                            </select>
+                            <div *ngIf="submitted && f.commissionType.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && f.commissionType.errors.required">need attention</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-4">
+                            <label>Payment Type:</label>
+                            <select formControlName="paymentType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.paymentType.errors }">                        
+                                <option *ngFor="let g of paymentType" [value]="g" >{{g}}</option>
+                            </select>
+                            <div *ngIf="submitted && f.paymentType.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && f.paymentType.errors.required">need attention</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-4">
+                            <label>Value:</label>
+                            <input type="number" formControlName="amount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amount.errors }">
+                            <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && f.amount.errors.required">need attention</div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group col-4">
+                            <label>Payment Type:</label>
+                            <select formControlName="paymentType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.paymentType.errors }">                        
+                                <option *ngFor="let g of paymentType" [value]="g" >{{g}}</option>
+                            </select>
+                            <div *ngIf="submitted && f.paymentType.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && f.paymentType.errors.required">need attention</div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="form-row">
+                            <div class="form-group col-6">
+                                    <label>Level commission type:</label>
+                                    <select formControlName="levelPayoutType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.levelPayoutType.errors }">                        
+                                        <option *ngFor="let o of paymentType" [value]="o" >{{o}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && f.levelPayoutType.errors" class="invalid-feedback">
+                                        <div *ngIf="submitted && f.levelPayoutType.errors.required">need attention</div>
+                                    </div>
+                            </div>
+                            <div class="form-group col-6">
+                                    <label>Value:</label>
+                                    <input type="number" formControlName="levelPayoutAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.levelPayoutAmount.errors }">
+                                    <div *ngIf="submitted && f.levelPayoutAmount.errors" class="invalid-feedback">
+                                        <div *ngIf="submitted && f.levelPayoutAmount.errors.required">need attention</div>
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer text-center">
+                    <button class="btn btn-primary mr-1 float-left" (click)='addCommission()'>Add</button>
+                    <button class="btn btn-secondary mr-1 float-left" type="reset" (click)="onReset()">Reset</button>
+                    <!-- <button class="btn btn-secondary" type="button" (click)="onClear()">Clear</button> -->
+                </div>
+            </div>
+        </form>
+        <div class="card">
+            <div class="card-header">
+                <label>Added service</label>
+            </div>
+            <div class="card-body">
+                <mat-table class="card-body" [dataSource]="dataSourceForCommissionSetting" matSort>
+                        <!-- Transaction ID Column -->
+                        <ng-container matColumnDef="rechargeType" style="width: 5%">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Recharge Type </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.rechargeType}} </mat-cell>
+                        </ng-container>
+                
+                        <!-- Transaction Date Column -->
+                        <ng-container matColumnDef="operatorName">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Operator Name </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.operatorName}} </mat-cell>
+                        </ng-container>
+                
+                        <!-- Transaction Service Number Column -->
+                        <ng-container matColumnDef="commissionType">
+                            <mat-header-cell *matHeaderCellDef> Commission Type </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.commissionType}} </mat-cell>
+                        </ng-container>
+                
+                        <!-- Transaction Type Column -->
+                        <ng-container matColumnDef="calculationType">
+                            <mat-header-cell *matHeaderCellDef> Calculation Type </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.calculationType}} </mat-cell>
+                        </ng-container>
+                
+                        <!-- Transaction Type Column -->
+                        <ng-container matColumnDef="value">
+                            <mat-header-cell *matHeaderCellDef>Value </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.value}} </mat-cell>
+                        </ng-container>
+                
+                
+                
+                        <!-- Transaction Type Column -->
+                        <ng-container matColumnDef="levelPayoutType">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Level Payout type </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.levelPayoutType}} </mat-cell>
+                        </ng-container>
+                
+                        <!-- Transaction Type Column -->
+                        <ng-container matColumnDef="levelPayoutValue">
+                            <mat-header-cell *matHeaderCellDef> Value </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.levelPayoutValue}} </mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="action">
+                            <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                <!-- <button (click)="removeCS(row)">Delete</button> -->
+                                <i class="fas fa-trash-alt" (click)="removeCS(row)"></i>
+                            </mat-cell>
+                        </ng-container> 
+                        <ng-container matColumnDef="noData">
+                            <!-- <mat-header-cell *matHeaderCellDef > Action </mat-header-cell> -->
+                            <mat-footer-cell *matFooterCellDef="let row" [ngClass]="{'hide': addedCommissions.length !== 0}"> No Data ...
+                            </mat-footer-cell>
+                        </ng-container>
+                        
+                        
+                        <mat-header-row *matHeaderRowDef="servicesColumn"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: servicesColumn;">
+                        </mat-row>
+                        <mat-footer-row *matFooterRowDef="['noData']"></mat-footer-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
             </div>
         </div>
-        
-        <div class="card-footer text-center">
-            <button class="btn btn-primary mr-1" (click)='addCommission()'>Add</button>
-            <button class="btn btn-secondary mr-1" type="reset" (click)="onReset()">Reset</button>
-            <!-- <button class="btn btn-secondary" type="button" (click)="onClear()">Clear</button> -->
-        </div>
-    </div>
-</form>
-<div class="card">
-    <div class="card-header">
-        <span>Added service</span>
-    </div>
-    <div class="card-body">
-            <mat-table class="card-body" [dataSource]="addedCommissions" matSort>
-                    <!-- Transaction ID Column -->
-                    <ng-container matColumnDef="rechargeType" style="width: 5%">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header> Recharge Type </mat-header-cell>
-                      <mat-cell *matCellDef="let row"> {{row.rechargeType}} </mat-cell>
-                    </ng-container>
-          
-                    <!-- Transaction Date Column -->
-                    <ng-container matColumnDef="operatorName">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header> Operator Name </mat-header-cell>
-                      <mat-cell *matCellDef="let row"> {{row.operatorName}} </mat-cell>
-                    </ng-container>
-          
-                    <!-- Transaction Service Number Column -->
-                    <ng-container matColumnDef="commissionType">
-                      <mat-header-cell *matHeaderCellDef> Commission Type </mat-header-cell>
-                      <mat-cell *matCellDef="let row"> {{row.commissionType}} </mat-cell>
-                    </ng-container>
-          
-                    <!-- Transaction Type Column -->
-                    <ng-container matColumnDef="calculationType">
-                      <mat-header-cell *matHeaderCellDef> Calculation Type </mat-header-cell>
-                      <mat-cell *matCellDef="let row"> {{row.calculationType}} </mat-cell>
-                    </ng-container>
-          
-                    <!-- Transaction Type Column -->
-                    <ng-container matColumnDef="value">
-                      <mat-header-cell *matHeaderCellDef>Value </mat-header-cell>
-                      <mat-cell *matCellDef="let row"> {{row.value}} </mat-cell>
-                    </ng-container>
-          
-          
-          
-                    <!-- Transaction Type Column -->
-                    <ng-container matColumnDef="levelPayoutType">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header> Level Payout type </mat-header-cell>
-                      <mat-cell *matCellDef="let row"> {{row.levelPayoutType}} </mat-cell>
-                    </ng-container>
-          
-                    <!-- Transaction Type Column -->
-                    <ng-container matColumnDef="levelPayoutValue">
-                      <mat-header-cell *matHeaderCellDef> Value </mat-header-cell>
-                      <mat-cell *matCellDef="let row"> {{row.levelPayoutValue}} </mat-cell>
-                    </ng-container>          
-                    <!-- Transaction Type Column -->
-                    <!-- <ng-container matColumnDef="action">
-                      <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-                      <mat-cell *matCellDef="let row"> <button class="btn btn-primary" type="submit"
-                          (click)='editTransactionRowData(row)' data-toggle="modal" data-target='#complainModal'>Complain</button>
-                      </mat-cell>
-                    </ng-container> -->
-                    <ng-container matColumnDef="noData">
-                      <!-- <mat-header-cell *matHeaderCellDef > Action </mat-header-cell> -->
-                      <mat-footer-cell *matFooterCellDef="let row" [ngClass]="{'hide': addedCommissions.length !== 0}"> No Data ...
-                      </mat-footer-cell>
-                    </ng-container>
-          
-                    <mat-header-row *matHeaderRowDef="servicesColumn"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: servicesColumn;">
-                    </mat-row>
-                    <mat-footer-row *matFooterRowDef="['noData']"></mat-footer-row>
-                  </mat-table>
-                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-    </div>
 </div>

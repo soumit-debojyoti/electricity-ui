@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RechargeAPI, CommissionSetting } from '../models/common.model';
 import { LoadingScreenService } from '../services/loading-screen/loading-screen.service';
 import { CommonService } from '../services/common.service/common.service';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-commission-setting',
@@ -12,12 +13,16 @@ import { CommonService } from '../services/common.service/common.service';
 export class CommissionSettingComponent implements OnInit {
   dynamicForm: FormGroup;
   submitted = false;
+  removed = false;
   public apiInfoList: Array<RechargeAPI>;
   public commissionType: Array<string>;
   public paymentType: Array<string>;
   public addedSuccessfully = false;
+  public removeSuccessfully = false;
   public addedCommissions: Array<CommissionSetting>;
   servicesColumn: string[];
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  dataSourceForCommissionSetting: MatTableDataSource<CommissionSetting>;
   constructor(private formBuilder: FormBuilder, private common: CommonService,
     private loadingScreenService: LoadingScreenService) {
   }
@@ -38,7 +43,7 @@ export class CommissionSettingComponent implements OnInit {
     this.servicesColumn =
             ['rechargeType', 'operatorName', 'commissionType',
               'calculationType', 'value',
-              'levelPayoutType', 'levelPayoutValue'];
+              'levelPayoutType', 'levelPayoutValue', 'action'];
     this.addedCommissions = new Array<CommissionSetting>();
     this.getAllCommissionsAdded();
   }
@@ -79,7 +84,10 @@ export class CommissionSettingComponent implements OnInit {
       this.addedSuccessfully = response;
       if (response) {
         this.dynamicForm.reset();
+        this.dynamicForm.markAsUntouched();
+        this.getAllCommissionsAdded();
       }
+      this.removed = !response;
     }, (err) => {
       console.log('Error occured while adding commission details', err);
       this.loadingScreenService.stopLoading();
@@ -96,9 +104,31 @@ export class CommissionSettingComponent implements OnInit {
       (response: Array<CommissionSetting>) => {
         this.addedCommissions = response;
         this.loadingScreenService.stopLoading();
+        this.dataSourceForCommissionSetting = new MatTableDataSource(response);
+        this.dataSourceForCommissionSetting.paginator = this.paginator;
     }, (err) => {
       console.log('error occured while fetching all commissions added', err);
       this.loadingScreenService.stopLoading();
     });
+  }
+  removeCS(cs: CommissionSetting): void {
+    this.removed = true;
+    this.loadingScreenService.startLoading();
+    this.common.removeCommissionSetting(cs).subscribe(response => {
+      this.removeSuccessfully = response;
+      this.loadingScreenService.stopLoading();
+      if ( response) {
+        this.getAllCommissionsAdded();
+      }
+      this.submitted = !response;
+    }, (err) => {
+      console.log(err, ' occured at commission setting while removing');
+      this.loadingScreenService.stopLoading();
+    });
+  }
+
+  public logout() {
+    //needs to implemented
+    console.log('Seperate component');
   }
 }

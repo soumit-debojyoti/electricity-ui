@@ -1,14 +1,20 @@
 <div class="w3-row marque-position">
-  <div class="w3-col m10 pr-17">
-    <!-- Logo -->
+  <div class="row form-inlie">
+    <div class="mx-sm-3">
+        <a href="#" routerLink="/dashboard"><img src="assets/logo/Logo.png"
+          class="logo" style="width: 140px;height: 60px;" alt="Avatar"></a>
+    </div>
+    <div class="mx-sm-9">
+        <a *ngIf="isLogin" class="float-right header-item pointer font-large header-item font-size-20" title="Logout"
+        (click)="logout()"><i class="fa fa-sign-out"> Logout</i></a>
+    </div>
+  </div>
+  <!-- <div class="w3-col m10 pr-17">
     <a href="#" class="w3-bar-item w3-button logo-position" routerLink="/dashboard"><img src="assets/logo/Logo.png"
         class="logo" style="width: 160px;height: 90px;" alt="Avatar"></a>
-  </div>
-  <div class="w3-col m2">
+  </div> -->
+  <!-- <div class="w3-col m2">
     <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4 api-balance-position">
-      <!-- Logout -->
-      <a class="w3-bar-item w3-button  w3-right w3-hover-white font-large w3-theme-d2 position mobileshow"
-        title="Logout" (click)="logout()"><i class="fa fa-sign-out pointer"></i></a>
       <a *ngIf="isLogin" class="float-right header-item pointer font-large header-item font-size-20" title="Logout"
         (click)="logout()"><i class="fa fa-sign-out"> Logout</i></a>
 
@@ -29,7 +35,7 @@
       <br/>
     </div>
 
-  </div>
+  </div> -->
   <div class="w3-col m10 pr-17">
     <app-news-slider></app-news-slider>
   </div>
@@ -65,11 +71,9 @@
     <div class="w3-card w3-round animated slideInUp w3-card w3-round w3-white">
       <app-my-payout-report></app-my-payout-report>
     </div><br>
-    <div class="w3-card w3-round animated slideInUp w3-card w3-round w3-white">
-      <app-recharge-transaction-report></app-recharge-transaction-report>
-    </div>
+    
     <!-- Alert Box -->
-    <app-notification></app-notification>
+    <!-- <app-notification></app-notification> -->
     <!-- End Left Column -->
   </div>
 
@@ -89,29 +93,30 @@
     <div class="w3-row-padding animated slideInUp">
       <div *ngIf="isSuperAdmin || isAdmin" class="w3-half w3-margin-bottom animated slideInUp">
         <div class="w3-card w3-round w3-white">
-          <app-api-balance></app-api-balance>
-        </div>
-      </div>
-      <div *ngIf="isSuperAdmin || isAdmin" class="w3-half w3-margin-bottom animated slideInUp">
-        <div class="w3-card w3-round w3-white">
           <app-news-update></app-news-update>
         </div>
+      </div>
+      <div *ngIf="isSuperAdmin" class="w3-half w3-margin-bottom animated slideInUp">
+          <div class="w3-card w3-round w3-white">
+            <app-commission-setting></app-commission-setting>
+          </div>
       </div>
     </div>
 
 
     <div class="w3-row-padding animated slideInUp">
-      <div class="col-4 w3-half w3-margin-bottom">
-        <div class="w3-card w3-round animated slideInUp w3-card w3-round w3-white">
+      <div class="col-6 w3-half w3-margin-bottom">
+        <div class="w3-card w3-round animated slideInUp w3-card w3-round w3-white" style="height: 70px;">
           <app-wallet-balance-report></app-wallet-balance-report>
         </div>
       </div>
-      <div class="col-4 w3-half w3-margin-bottom animated slideInUp">
+      <!-- Complaint -->
+      <div class="col-3 w3-half w3-margin-bottom animated slideInUp">
         <div class="w3-card w3-round animated slideInUp w3-card w3-round w3-white">
           <app-admin-profile></app-admin-profile>
         </div>
       </div>
-      <div class="col-4 w3-half w3-margin-bottom animated slideInUp">
+      <div class="col-3 w3-half w3-margin-bottom animated slideInUp">
         <div class="w3-card w3-round w3-white w3-hide-small animated slideInUp">
           <app-rank-achiever-list></app-rank-achiever-list>
         </div>
@@ -129,13 +134,16 @@
 
 
     <div class="w3-row-padding animated slideInUp">
-      <div *ngIf="isSuperAdmin || isAdmin" class="w3-half w3-margin-bottom animated slideInUp">
+      <div class="w3-half w3-margin-bottom animated slideInUp">
         <div class="w3-card w3-round w3-white">
           <app-recharge-widget (componentName)="getComponentSelected($event)"></app-recharge-widget>
-
         </div>
       </div>
-
+      <div class="w3-half w3-margin-bottom animated slideInUp">
+          <div class="w3-card w3-round w3-white">
+              <app-recharge-transaction-report></app-recharge-transaction-report>
+          </div>
+      </div>
     </div>
     <div class="w3-row-padding animated slideInUp">
       <div *ngIf="isSuperAdmin" class="w3-half w3-margin-bottom">
@@ -144,10 +152,10 @@
         </div>
       </div>
       <div *ngIf="isSuperAdmin || isAdmin" class="w3-half w3-margin-bottom animated slideInUp">
-        <div class="w3-card w3-round w3-white">
-          <app-commission-setting></app-commission-setting>
+          <div class="w3-card w3-round w3-white">
+            <app-api-balance></app-api-balance>
+          </div>
         </div>
-      </div>
     </div>
 
     <div class="w3-row-padding animated slideInUp">
@@ -169,59 +177,41 @@
 
   <!-- Right Column -->
   <div class="w3-col m2">
-
-
-
     <div *ngIf="isSuperAdmin || isAdmin" class="w3-card w3-round w3-white w3-center animated flipInX mb-4">
       <app-add-employee></app-add-employee>
     </div>
-
-
     <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-center animated flipInX mb-4">
       <app-generate-token></app-generate-token>
     </div>
-
     <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4">
       <app-revive-token></app-revive-token>
     </div>
-
-
     <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4">
       <app-balance-transfer (componentName)="getComponentSelected($event)"></app-balance-transfer>
     </div>
-
-
-    <div *ngIf="isSuperAdmin || isAdmin" class="w3-card w3-round w3-white w3-center animated flipInX mb-4">
+    <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4">
       <app-add-wallet-balance></app-add-wallet-balance>
     </div>
-
-
     <!-- <div *ngIf="isSuperAdmin || isAdmin"
       class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
       <app-add-wallet-balance-admin></app-add-wallet-balance-admin>
     </div> -->
-
-
     <div *ngIf="isSuperAdmin || isAdmin" class="w3-card w3-round w3-white w3-center animated flipInX mb-4">
       <app-deduct-wallet-balance></app-deduct-wallet-balance>
     </div>
-
     <!-- <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
       <app-wallet-balance-report></app-wallet-balance-report>
     </div>
-
     <div *ngIf="!isEmployee" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4">
       <app-recharge-transaction-report></app-recharge-transaction-report>
     </div> -->
-    <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4">
+    <!-- <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4">
       <app-balance-request></app-balance-request>
-    </div>
+    </div> -->
     <!-- <div *ngIf="isSuperAdmin || isAdmin" class="w3-card w3-round w3-white w3-padding-32 w3-center animated flipInX mb-4"> -->
     <div class="w3-card w3-round w3-white w3-center animated flipInX mb-4">
       <app-widthdrawal-request></app-widthdrawal-request>
     </div>
-
-
     <!-- End Right Column -->
   </div>
 
