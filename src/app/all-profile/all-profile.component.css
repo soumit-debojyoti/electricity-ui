@@ -30,3 +30,22 @@
     background-color: #28a745;
   }
 
+  p {
+      margin-left: 15px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  label {
+    margin-left: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 700; 
+  }
+
+  i {
+      margin-right: 10px;
+      margin-left: 10px;
+  }
+  select {
+    margin-left: 15px;
+  }
+

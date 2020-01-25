@@ -1,9 +1,4 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark">
-  <!-- <a class="navbar-brand fa fa-home" style="font-size:48px" [routerLink]="['/dashboard']"></a>
-  <button class="navbar-toggler fa fa-home" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button> -->
-
+<nav class="navbar navbar-expand navbar-dark bg-dark col-md-12 col-sm-12">
   <div class="collapse navbar-collapse" id="nav-content">
     <ul class="navbar-nav w-100 nav-justified">
       <!-- Home -->
@@ -78,34 +73,36 @@
   <strong>Your transaction is successful</strong>
 </div>
 <div class="row">
-  <div class="col-8">
+  <div class="col-md-8">
     <div *ngIf="rechargeMode === 'PREPAID' || rechargeMode === 'DTH'">
-      <form [formGroup]="prepaidRechargeForm" class="col-12 border-left-0 mb-5">
+      <form [formGroup]="prepaidRechargeForm" class="col-md-12 border-left-0 mb-5">
         <div class="row">
-          <div class="col-10">
-            <span>Operator Name</span>
-            <select class="form-control" id="rechargeType" formControlName="operatorName">
-              <!-- <option [value]="-1">Select Recharge Option</option> -->
-              <ng-container>
-                <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}
-                </option>
-              </ng-container>
-            </select>
-            <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.operatorName.errors" style="color: red">need
-              attention</span>
+          <div class="col-md-6">
+              <div class="form-group  mb-4">
+                  <span>Operator Name</span>
+                  <select class="form-control" id="rechargeType" formControlName="operatorName">
+                    <!-- <option [value]="-1">Select Recharge Option</option> -->
+                    <ng-container>
+                      <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}
+                      </option>
+                    </ng-container>
+                  </select>
+                  <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.operatorName.errors" style="color: red">need
+                    attention</span>
+              </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-10">
+          <div class="col-md-6 mb-4">
             <div *ngIf="rechargeMode === 'PREPAID'">
               <span>Mobile Number</span>
-              <input type="text" class="form-control" formControlName="mobileNumber" />
+              <input type="text" class="form-control" formControlName="mobileNumber" placeholder="Mobile Number"/>
               <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.mobileNumber.errors" style="color: red">need
                 attention</span>
             </div>
             <div *ngIf="rechargeMode === 'DTH'">
               <span>Service Number</span>
-              <input type="text" class="form-control" formControlName="dthServiceNumber" />
+              <input type="text" class="form-control" formControlName="dthServiceNumber" placeholder="Service Number"/>
               <span class="error" *ngIf="formSubmitted && fPrepaidRecharge.dthServiceNumber.errors"
                 style="color: red">need
                 attention</span>
@@ -113,7 +110,7 @@
           </div>
 
 
-          <div class="col-6">
+          <div class="col-md-6 mb-4">
             <span>Recharge Amount</span>
             <input type="number" class="form-control" formControlName="rechargeAmount" (change)='validateAmount()'
               placeholder="Recharge Amount" />
@@ -136,18 +133,13 @@
         </div>
       </form>
     </div>
-    <!-- <div class="card col-sm-4">
-      <div class="col-sm-4">
-        Mobile Number should be a valid number
-      </div>
-    </div> -->
   </div>
   <!-- Add Rest Part moved in note pad -->
-  <div class="col-8">
+  <div class="col-md-8">
     <div *ngIf="rechargeMode === 'ELECTRICITY' || rechargeMode === 'GAS' || rechargeMode === 'WATER'">
-      <form [formGroup]="utilityRechargeForm" class="col-12 border-left-0 mb-5">
+      <form [formGroup]="utilityRechargeForm" class="col-md-12 border-left-0 mb-5">
         <div class="row">
-          <div class="col-10">
+          <div class="col-md-6 mb-4">
             <span>Operator Name</span>
             <select class="form-control" id="rechargeType" formControlName="operatorName">
               <ng-container>
@@ -160,37 +152,30 @@
           </div>
         </div>
         <!--Electricity-->
-        <div class="row">
-          <div class="col-10" *ngIf="rechargeMode === 'ELECTRICITY'">
+        <div class="row mb-4">
+          <div class="col-md-6" *ngIf="rechargeMode === 'ELECTRICITY'">
             <span>Consumer Number</span>
             <!--Service-->
             <input type="number" class="form-control" formControlName="consumerNumber" />
           </div>
-        </div>
-        <div class="row">
-          <div class="col-10" *ngIf="rechargeMode === 'GAS'">
-            <span>Consumer Number</span>
-            <!--Service-->
-            <input type="text" class="form-control" formControlName="consumerNumber" maxlength="15" minlength="10" />
+          <div class="col-md-6" *ngIf="rechargeMode === 'WATER'">
+              <span>Consumer Number</span>
+              <!--Service-->
+              <input type="text" class="form-control" formControlName="consumerNumber" />
           </div>
-        </div>
-        <div class="row">
-          <div class="col-10" *ngIf="rechargeMode === 'WATER'">
-            <span>Consumer Number</span>
-            <!--Service-->
-            <input type="text" class="form-control" formControlName="consumerNumber" />
+          <div class="col-md-6" *ngIf="rechargeMode === 'GAS'">
+              <span>Consumer Number</span>
+              <!--Service-->
+              <input type="text" class="form-control" formControlName="consumerNumber" maxlength="15" minlength="10" />
           </div>
+          <div class="col-md-6">
+              <span>Customer Mobile Number</span>
+              <input type="text" class="form-control" formControlName="mobileNumber" />
+              <!-- <span class="error" *ngIf="formSubmitted && utilityRechargeForm.mobileNumber.errors" style="color: red">need
+                attention</span> -->
+            </div>
         </div>
-        <!-- <span class="error" *ngIf="formSubmitted && utilityRechargeForm.consumerNumber.errors" style="color: red">need
-          attention</span> -->
-        <div class="row">
-          <div class="col-10">
-            <span>Customer Number</span>
-            <input type="text" class="form-control" formControlName="mobileNumber" />
-            <!-- <span class="error" *ngIf="formSubmitted && utilityRechargeForm.mobileNumber.errors" style="color: red">need
-              attention</span> -->
-          </div>
-        </div>
+        
         <div class="row">
           <div class="col-10" style="padding-top: 10px"
             *ngIf="fUtilityRecharge.operatorName.status === 'VALID' && fUtilityRecharge.mobileNumber.status === 'VALID' && fUtilityRecharge.consumerNumber.status === 'VALID' && !utilityTransactionValidated">
@@ -198,25 +183,26 @@
           </div>
         </div>
         <div *ngIf='billDue && utilityTransactionValidated'>
-          <div class="row">
-            <div class="col-5">
-              <div>Bill Amount</div>
+          <div class="row mb-4">
+            <div class="col-md-4">
+              <span>Bill Amount</span>
               <input type="number" class="form-control" formControlName="rechargeAmount" />
             </div>
-            <div class="col-5">
-              <div>Bill Due Date</div>
+            <div class="col-md-4">
+              <span>Bill Due Date</span>
               <input type="text" class="form-control" formControlName="dueDate" />
+            </div>
+            <div class="col-md-4">
+                <span>Invoice Number</span>
+                <input type="text" class="form-control" formControlName="invoiceNumber" />
             </div>
           </div>
           <div class="row">
-            <div class="col-5">
-              <div>Customer Name</div>
+            <div class="col-md-12">
+              <span>Customer Name</span>
               <input type="text" class="form-control" formControlName="customerName" />
             </div>
-            <div class="col-5">
-              <div>Invoice Number</div>
-              <input type="text" class="form-control" formControlName="invoiceNumber" />
-            </div>
+            
           </div>
 
         </div>
@@ -225,45 +211,49 @@
           <button (click)='resetInputValue()' style="margin-left: 15px; background-color: black;"
             class="btn btn-primary float-left">Reset</button>
         </div>
-
-        <!-- <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
-                <button (click) = 'recharge()'>Recharge</button>
-            </div> -->
       </form>
     </div>
   </div>
 
-  <div class="col-8">
+  <div class="col-md-8">
     <div *ngIf="rechargeMode === 'POSTPAID'">
       <!-- Form Start -->
-      <form [formGroup]="postpaidRechargeForm">
-        <div class="col-xs-10 col-10 col-md-8">
-          <span>Operator Name</span>
-          <select class="form-control" id="rechargeTypePostpaid" formControlName="operatorName">
-            <!-- <option [value]="-1">Select Recharge Option</option> -->
-            <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
-              <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}
-              </option>
-            </ng-container>
-          </select>
+      <form [formGroup]="postpaidRechargeForm" class="col-md-12 border-left-0 mb-5">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <span>Operator Name</span>
+                <select class="form-control" id="rechargeTypePostpaid" formControlName="operatorName">
+                  <!-- <option [value]="-1">Select Recharge Option</option> -->
+                  <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
+                    <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
         </div>
-        <div class="col-xs-10 col-10 col-md-8">
-          <span>Mobile Number</span>
-          <input type="number" class="form-control col-xs-10 col-10 col-md-8" formControlName="mobileNumber" />
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <span>Mobile Number</span>
+                <input type="number" class="form-control" formControlName="mobileNumber" />
+              </div>
+              <div class="col-md-6">
+                <span>Recharge Amount</span>
+                <input type="number" class="form-control" formControlName="rechargeAmount" />
+              </div>
         </div>
-        <div class="col-xs-10 col-10 col-md-8">
-          <span>Recharge Amount</span>
-          <input type="number" class="form-control col-xs-10 col-10 col-md-8" formControlName="rechargeAmount" />
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <span>Customer Mobile</span>
+                <input type="text" class="form-control" formControlName='customerMobile' />
+              </div>
+              <div class="col-md-6">
+                <span>Customer Name</span>
+                <input type="text" class="form-control" formControlName='customerName' />
+              </div>
         </div>
-        <div class="col-xs-10 col-10 col-md-8">
-          <span>Customer Mobile</span>
-          <input type="text" class="form-control col-xs-10 col-10 col-md-8" formControlName='customerMobile' />
-        </div>
-        <div class="col-xs-10 col-10 col-md-8">
-          <span>Customer Name</span>
-          <input type="text" class="form-control col-xs-10 col-10 col-md-8" formControlName='customerName' />
-        </div>
-        <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
+        
+        <div class="col-md-6" style="padding-top: 10px">
           <button (click)='checkAndDeductBalance()' class="btn btn-primary float-left">Pay</button>
         </div>
       </form>
@@ -271,45 +261,55 @@
     </div>
   </div>
 
-  <div class="col-8">
+  <div class="col-md-8">
       <div *ngIf="rechargeMode === 'LANDLINE'">
         <!-- Form Start -->
-        <form [formGroup]="landLineRechargeForm">
-          <div class="col">
-            <span>Operator Name</span>
-            <select class="form-control" id="rechargeTypeLandline" formControlName="operatorName">
-              <!-- <option [value]="-1">Select Recharge Option</option> -->
-              <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
-                <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}
-                </option>
-              </ng-container>
-            </select>
+        <form [formGroup]="landLineRechargeForm" class="col-md-12 border-left-0 mb-5">
+          <div class="row mb-4">
+              <div class="col-md-6">
+                  <span>Operator Name</span>
+                  <select class="form-control" id="rechargeTypeLandline" formControlName="operatorName">
+                    <!-- <option [value]="-1">Select Recharge Option</option> -->
+                    <ng-container *ngIf="rechargeTypes && rechargeTypes.length>0">
+                      <option *ngFor="let apiInfo of apiInfoList" [value]="apiInfo.operatorName">{{apiInfo.operatorName}}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
           </div>
-          <div class="col">
-            <span>Landline Number</span>
-            <input type="number" class="form-control col" formControlName="landLineNumber" />
+          
+          <div class="row mb-4">
+              <div class="col-md-6">
+                  <span>Landline Number</span>
+                  <input type="number" class="form-control col" formControlName="landLineNumber" />
+                </div>
+                <div class="col-md-6">
+                  <span>Bill Amount</span>
+                  <input type="number" class="form-control col" formControlName="rechargeAmount" />
+                </div>
           </div>
-          <div class="col">
-            <span>Bill Amount</span>
-            <input type="number" class="form-control col" formControlName="rechargeAmount" />
+          <div class="row mb-4">
+              <div class="col-md-6">
+                  <span>Customer Mobile Number</span>
+                  <input type="text" class="form-control col" formControlName='customerMobile' />
+                </div>
+                <div class="col-md-6">
+                  <span>Customer Name</span>
+                  <input type="text" class="form-control col" formControlName='customerName' />
+                </div>
           </div>
-          <div class="col">
-            <span>Customer Mobile Number</span>
-            <input type="text" class="form-control col" formControlName='customerMobile' />
+          <div class="row mb-4">
+              <div class="col-md-6">
+                  <span>STD Code</span>
+                  <input type="text" class="form-control col" formControlName='stdCode' />
+                </div>
+              <div class="col-md-6">
+                  <span>Account Number</span>
+                  <input type="text" class="form-control col" formControlName='accountNumber' />
+                </div>
           </div>
-          <div class="col">
-            <span>Customer Name</span>
-            <input type="text" class="form-control col" formControlName='customerName' />
-          </div>
-          <div class="col">
-              <span>STD Code</span>
-              <input type="text" class="form-control col" formControlName='stdCode' />
-            </div>
-          <div class="col">
-              <span>Account Number</span>
-              <input type="text" class="form-control col" formControlName='accountNumber' />
-            </div>
-          <div class="col-xs-10 col-10 col-md-8" style="padding-top: 10px">
+          
+          <div class="col-md-12" style="padding-top: 10px">
             <button (click)='checkAndDeductBalance()' class="btn btn-primary float-left">Pay</button>
           </div>
         </form>

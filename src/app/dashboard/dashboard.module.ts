@@ -41,6 +41,7 @@ import { BalanceComponent } from '../widgets/balance/balance.component';
 import { BalanceRequestComponent } from '../widgets/balance-request/balance-request.component';
 import { MyPayoutReportComponent } from '../widgets/my-payout-report/my-payout-report.component';
 import { WalletModule } from '../wallet/wallet.module';
+import { CommonControlsModule } from '../common-controls/common-controls.module';
 @NgModule({
     declarations: [
         DashboardComponent,
@@ -85,7 +86,8 @@ import { WalletModule } from '../wallet/wallet.module';
         DemoMaterialModule,
         SharedModule,
         RechargeModule,
-        WalletModule
+        WalletModule,
+        CommonControlsModule
         // BrowserAnimationsModule,
         // MatButtonModule, MatCardModule, MatMenuModule, MatToolbarModule,
         // MatIconModule, MatSidenavModule, MatListModule

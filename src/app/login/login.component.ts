@@ -84,34 +84,9 @@ export class LoginComponent implements OnInit {
             this.storage.set('access_token', res.access_token);
             this.storage.set('is_login', true);
             this.data.changeMessage('login-done');
-            if (res.message !== '') {
-              if (res.isLoginSuccess) {
-                // let timerInterval;
-                // Swal.fire({
-                //   title: 'KYC Check!!',
-                //   html: res.message,
-                //   timer: 5000,
-                //   onBeforeOpen: () => {
-                //     Swal.showLoading();
-                //     timerInterval = setInterval(() => {
-                //       // Swal.getContent().querySelector('strong')['textContent'] = Swal.getTimerLeft().toString();
-                //     }, 100);
-                //   },
-                //   onClose: () => {
-                //     clearInterval(timerInterval);
-                //   }
-                // }).then((result) => {
-                //   if (
-                //     /* Read more about handling dismissals below */
-                //     result.dismiss === Swal.DismissReason.timer
-                //   ) {
-                //     console.log('I was closed by the timer');
-                //   }
-                // });
-              } else {
-                this.alertService.confirmationMessage('', res.message, 'success', true, false);
-              }
-
+            const msg: string = res.message;
+            if (msg.toLowerCase().includes('kyc pending')) {
+              alert(msg);
             }
 
             this.router.navigate(['/dashboard']);

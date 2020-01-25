@@ -91,6 +91,7 @@ export class ApiUrlService extends BaseURLService {
       `User/commission/payout/user/{userID}/rechargetype/{rechargeType}/operatorname/{operatorName}/amount/{transactionAmount}`,
       COMMISSION_SETTING: `User/commission`,
       REMOVE_COMMISSION_SETTING: `User/commission/remove`,
+      EXTEND_KYC_SUBMISSION_DATE: `User/kycsubmissiondate/for/{userName}/updateddate/{extendedDate}`,
     };
   }
 

@@ -93,7 +93,7 @@
                         <div class="form-group" class="col-12">
                             <label for="picker">DOB: &nbsp;&nbsp;</label>
                             <mat-form-field>
-                                <input matInput [matDatepicker]="picker" placeholder="Choose a date" [value] = 'selectedDOB' (dateChange)='changeDate($event)' [max]="maxDOB">
+                                <input matInput [matDatepicker]="picker" placeholder="Choose a date (MM/DD/YYYY)" [value] = 'selectedDOB' (dateChange)='changeDate($event)' [max]="maxDOB">
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
@@ -164,10 +164,10 @@
     </div>
     <div class="form-group card-footer col-sm-12">
         <div class="row">
-                <i class='fas fa-angle-left' style='font-size:16px;margin-left: 16px'
+                <i class='fas fa-angle-double-right' style='font-size:16px;margin-left: 16px'
                 (click)='changePage("Personal")'
                 *ngIf='!pagePersonalInfo && pageAddressInfo'><label>previous</label></i> <!-- Left: personal info-->
-                <i class='fas fa-angle-right' style='font-size:16px;margin-left: 16px'
+                <i class='fas fa-angle-double-left' style='font-size:16px;margin-left: 16px'
                 (click)='changePage("Address")' *ngIf='pagePersonalInfo'><label>next</label></i> <!-- Right: address info-->
         </div>
         <div class="row float-right">

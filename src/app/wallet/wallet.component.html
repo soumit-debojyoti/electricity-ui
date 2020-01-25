@@ -108,32 +108,31 @@
       <span>{{header}}</span>
     </div> -->
     <div class="row">
-      <p><strong class="ml-4">{{header}}</strong></p>
+            <p><strong class="ml-4">{{header}}</strong></p>
     </div>
+    
     <div class="row">
         <div class="card-body">
             <form [formGroup]="addWalletBalanceForm">
               <div class="row">
-                <div class="col-sm-3">
-                  <span class="text">How much amount you need?</span>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-3 mb-4">
+                <div class="col-sm-12 col-md-3">
+                  <div class="text">How much amount you need?</div>
                   <input class="form-control" type="number" name="amount" formControlName="amount" min="0" title="Rs...." placeholder="Rs....">
                 </div>
               </div>
               <div class="row">
-                <div class="col-sm-12">
-                  <span class="text">Comment</span>
-                </div>
+                  <div class="col-sm-12 col-md-3">
+                      <div class="text">Comment</div>
+                      <textarea class="form-control" rows="1" cols="80" title="Comment...." placeholder="Comment...." name="comment"
+                        formControlName="comment"></textarea>
+                  </div>
+              </div>
+              <!-- <div class="row">
+                
               </div>
               <div class="row">
-                <div class="col-sm-6 mb-4">
-                  <textarea class="form-control" rows="4" cols="70" title="Comment...." placeholder="Comment...." name="comment"
-                    formControlName="comment"></textarea><br>
-                </div>
-              </div>
+                
+              </div> -->
               <div class="row" *ngIf="role_id === 1">
                 <div class="col-sm-3">
                   <span class="text">Bank account</span>

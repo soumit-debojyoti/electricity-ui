@@ -46,8 +46,15 @@
         <!-- Action Type Column -->
         <ng-container matColumnDef="action">
           <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
-          <mat-cell *matCellDef="let row"> <button class="btn btn-primary" type="submit" (click)='editUserRowData(row)'
-            data-toggle="modal" data-target='#editModal'><i class="fas fa-edit"></i></button> </mat-cell>
+          <mat-cell *matCellDef="let row"> 
+            <i class="fas fa-edit" (click)='editUserRowData(row)'
+            data-toggle="modal" data-target='#editModal'></i>
+            <!-- <button class="btn btn-primary" type="submit" (click)='extendKYCTimeLine(row)'
+              data-toggle="modal" data-target='#extendKYC'><i class="fas fa-angle-double-right"></i></button> -->
+              <i class="fas fa-angle-double-right" (click)='extendKYCTimeLine(row)' data-toggle="modal" data-target='#extendKYC'></i>
+          </mat-cell>
+
+         
             
       </ng-container>
         <ng-container matColumnDef="noData">
@@ -79,6 +86,84 @@
         <!-- mOdal body end-->
         <div class="modal-footer">
           <p>User details modified, is supposed to be verified.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="extendKYC" tabindex="-1" role="dialog" aria-labelledby="extendKYC"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title row" id="extendKYCLabel"><label>KYC time-line details of <strong>{{selectedUser.username}}</strong></label></div>
+          <br/>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body col-sm-12">
+            <div class="row">
+                <div *ngIf='daysExtended && extensionSubmitted' class='col-sm-12 alert alert-success alert-dismissible'>
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    Days extended successfully.
+                  </div>
+                  <div *ngIf='!daysExtended && extensionSubmitted' class="col-sm-12 alert alert-danger alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    Days extention failed due some error.
+                  </div>
+            </div>
+            <div class="row">
+                <div class="col-xs">
+                  <div class="box">
+                    <label>User name:</label>
+                    <p>{{selectedUser.firstName + ' ' + this.selectedUser.lastName}}</p>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-xs">
+                <div class="box">
+                  <label>KYC Submission status:</label>
+                  <p *ngIf='selectedUser.kycID > 0' style="color: green">Submitted</p>
+                  <p *ngIf='selectedUser.kycID === 0' style="color: red">Pending</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs">
+                <div class="box">
+                  <label>Login - Status:</label>
+                  <p>{{loginStatus}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs">
+                <div class="box">
+                  <label>Last extension time:</label>
+                  <p>{{selectedUser.extendedDate | date : 'dd-MM-yyyy'}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs">
+                <div class="box">
+                  <label>Extend KYC submission time:</label>
+                  <select class="form-control" id="kycExtensionDay" [formControl]='extensionDaysControl'>
+                    <!-- <option [value]="-1">Select Recharge Option</option> -->
+                    <ng-container>
+                      <option *ngFor="let day of extensionDays" [value]="day">{{day}}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!-- modal body end-->
+        <div class="modal-footer">
+          <button class="btn btn-primary" (click)='updateKYCTimeLine()'>Update</button>
         </div>
       </div>
     </div>

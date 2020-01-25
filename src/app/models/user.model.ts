@@ -47,6 +47,8 @@ export class RegisterUserModel {
     pincode: string;
     gender: number; // 0 for male : 1 for female
     password: string;
+    extendedDate: Date;
+    kycID: number;
 }
 export interface MobileValidationResponse {
     isValid: boolean;

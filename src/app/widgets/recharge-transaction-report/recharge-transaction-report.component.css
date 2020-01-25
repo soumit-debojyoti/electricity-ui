@@ -8,3 +8,7 @@
     font-family: cursive;
     font-weight: 700;
 }
+
+.cursor-type {
+    cursor: pointer;
+}

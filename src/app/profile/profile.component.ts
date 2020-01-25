@@ -96,7 +96,6 @@ export class ProfileComponent implements OnInit {
     this.adminMode = false;
     this.kycMode = true;
     this.userDetails = new RegisterUserModel();
-    debugger;
     this.getUser();
     this.GetUserRoleInformaion();
   }
@@ -373,7 +372,6 @@ export class ProfileComponent implements OnInit {
     this.loadingScreenService.startLoading();
     this.userService.getUserDetails(this.user_id).subscribe((response: RegisterUserModel) => {
       this.loadingScreenService.stopLoading();
-      debugger;
       this.userDetails = response;
     }, (err) => {
       this.loadingScreenService.stopLoading();

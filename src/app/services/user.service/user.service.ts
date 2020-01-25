@@ -366,4 +366,13 @@ export class UserService {
     return this.baseService.post(mainURL, user, true);
   }
 
+  public extendKYCSubmissionDate(userName: string, extendedDate: any): Observable<any> {
+    const urlStringObject = {
+      userName: userName,
+      extendedDate: extendedDate.toDateString()
+    };
+    const mainURL = this.apiUrlService.getFullURL('EXTEND_KYC_SUBMISSION_DATE', urlStringObject);
+    return this.baseService.post(mainURL, {}, true);
+  }
+
 }

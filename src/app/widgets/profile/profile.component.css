@@ -18,3 +18,14 @@
      color: #23527c;
     font-weight: bold;
 }
+
+p {
+    margin-left: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 500;
+}
+
+span {
+    margin-left: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif; 
+  }
