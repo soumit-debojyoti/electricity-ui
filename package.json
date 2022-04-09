@@ -41,7 +41,7 @@
     "invariant": "^2.2.4",
     "jquery": "^3.4.1",
     "jspdf": "^1.5.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "nebular-icons": "^1.1.0",
     "ng-connection-service": "^1.0.4",
     "ngx-bootstrap": "^5.1.1",
