@@ -53,7 +53,7 @@
     "react-dom": "^16.9.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4",
+    "react-scripts": "5.0.1",
     "redux": "^4.0.0",
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.5.2",
@@ -62,7 +62,7 @@
     "zone.js": "^0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.801.1",
+    "@angular-devkit/build-angular": "~15.0.0",
     "@angular/cli": "~8.2.1",
     "@angular/compiler-cli": "~8.2.1",
     "@angular/language-service": "~8.2.1",
